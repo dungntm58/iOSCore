@@ -1,0 +1,22 @@
+use_frameworks!
+
+abstract_target 'Abstract_Example' do
+  pod 'CoreRedux', :path => '../'
+  pod 'CoreBase', :path => '../'
+  pod 'CoreList', :path => '../'
+  pod 'CoreRequest', :path => '../'
+  pod 'RxCocoa'
+  pod 'SwiftDate'
+  pod 'Toaster'
+  
+  target 'Example' do
+  end
+
+  target 'Example_Realm' do
+    pod 'CoreRealm', :path => '../'
+  end
+  
+  target 'Example_CoreData' do
+    pod 'CoreCoreData', :path => '../'
+  end
+end
