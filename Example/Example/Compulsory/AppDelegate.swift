@@ -2,22 +2,20 @@
 //  AppDelegate.swift
 //  Core-CleanSwift
 //
-//  Created by Sotatek-DungNguyen on 02/14/2019.
-//  Copyright (c) 2019 Sotatek-DungNguyen. All rights reserved.
+//  Created by Robert on 02/14/2019.
+//  Copyright (c) 2019 Robert. All rights reserved.
 //
 
 import UIKit
-import CoreBase
-//import UserNotifications
-//import CoreAPNS
+import RxCoreBase
+import UserNotifications
+import RxCoreAPNS
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    private lazy var rootScene: Lauchable & Scene = {
-        return SwitchScene()
-    }()
+    private lazy var launcher: Launchable = SwitchScene()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -26,14 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         printDBURL()
         #endif
         
-        rootScene.launch()
+        launcher.launch()
 
 //        Setup remote notifications
-//        if #available(iOS 10.0, *) {
-//            APNSConfig.registerForRemoteNotifications(application, options: [.alert, .badge, .sound], userNotificationCenterDelegate: self)
-//        } else {
-//            APNSConfig.registerForRemoteNotifications(application, settings: [.alert, .badge, .sound], categories: nil)
-//        }
+        if #available(iOS 10.0, *) {
+            APNSConfig.registerForRemoteNotifications(application, options: [.alert, .badge, .sound], userNotificationCenterDelegate: self)
+        } else {
+            APNSConfig.registerForRemoteNotifications(application, settings: [.alert, .badge, .sound], categories: nil)
+        }
         
         return true
     }
@@ -60,21 +58,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-//        let apns = DefaultAPNSData<<#type#>>(event: "", data: <#data#>)
-//        APNSWorker<DefaultAPNSData<<#type#>>().subscribe(apns)
-//    }
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+//        let apns = APNSEvent(event: "", data: 1)
+//        APNSWorker<APNSEvent<Int> >().subscribe(apns)
+    }
 
-//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-//        let apns = DefaultAPNSData<<#type#>>(event: "", data: <#data#>)
-//        APNSWorker<DefaultAPNSData<<#type#>>().subscribe(apns)
-//    }
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+//        let apns = APNSEvent(event: "", data: APNSData())
+//        APNSWorker<APNSEvent<APNSData> >().subscribe(apns)
+    }
 }
 
-//extension AppDelegate: UNUserNotificationCenterDelegate {
-//    @available(iOS 10.0, *)
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Swift.Void){
-//        let apns = DefaultAPNSData<<#type#>>(event: "", data: <#data#>)
-//        APNSWorker<DefaultAPNSData<<#type#>>().subscribe(apns)
-//    }
-//}
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Swift.Void){
+//        let apns = APNSEvent(event: "", data: APNSData())
+//        APNSWorker<APNSEvent<APNSData> >().subscribe(apns)
+    }
+}

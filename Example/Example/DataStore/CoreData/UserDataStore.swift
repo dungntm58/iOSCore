@@ -6,14 +6,15 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import CoreBase
-import CoreCoreData
+import RxCoreBase
+import RxCoreDataStore
+import RxCoreRepository
 
 class UserDataStore: CoreDataIdentifiableDataStore {
     let configuration: CoreDataConfiguration
     
-    func make(total: Int, size: Int, before: UserEntity?, after: UserEntity?) -> PaginationResponse {
-        return AppPaginationResponse(total: total, pageSize: size, after: after?.id as Any, before: before?.id as Any)
+    func make(total: Int, size: Int, previous: UserEntity?, next: UserEntity?) -> PaginationDTO {
+        AppPaginationDTO(total: total, pageSize: size, next: previous?.id as Any, previous: next?.id as Any)
     }
     
     init() {

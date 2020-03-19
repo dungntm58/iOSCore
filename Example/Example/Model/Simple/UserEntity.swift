@@ -6,8 +6,8 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import CoreBase
-import CoreRequest
+import RxCoreBase
+import RxCoreRepository
 
 struct UserEntity: Identifiable, Codable, Equatable {
     typealias IDType = String
@@ -16,7 +16,5 @@ struct UserEntity: Identifiable, Codable, Equatable {
     var email: String = ""
     var name: String = ""
     
-    var id: IDType {
-        return _id
-    }
+    var id: IDType { _id }
 }

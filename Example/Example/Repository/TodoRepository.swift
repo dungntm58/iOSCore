@@ -6,17 +6,17 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import CoreRequest
+import RxCoreRepository
 
-class TodoRepository: RemoteLocalIdentifiableSingleRepository, RemoteLocalListRepository {
+class TodoRepository: RemoteIdentifiableSingleRepository, RemoteListRepository {
     typealias T = TodoEntity
     
-    let store: TodoDataStore
+//    let store: TodoDataStore
     let singleRequest: TodoSingleRequest
     let listRequest: TodoListRequest
     
     init() {
-        store = TodoDataStore()
+//        store = TodoDataStore()
         singleRequest = TodoSingleRequest()
         listRequest = TodoListRequest()
     }

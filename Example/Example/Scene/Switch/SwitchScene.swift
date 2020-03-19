@@ -6,23 +6,20 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
-import CoreBase
+import RxCoreBase
 
-class SwitchScene: Scene, Lauchable, Viewable {
-    let viewManager: ViewManager
-    let managedContext: ManagedSceneContext
+class SwitchScene: ViewableScene, Launchable {
+    lazy var window = UIWindow(frame: UIScreen.main.bounds)
     
     init() {
-        managedContext = ManagedSceneContext()
         let vc = AppStoryboard.main.viewController(of: SuperSwitcherViewController.self)
-        viewManager = ViewManager(viewController: vc)
-        
+        vc.modalPresentationStyle = .fullScreen
+        super.init(viewManager: vc)
         vc.scene = self
     }
 
-    func perform() {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = viewController
+    override func perform() {
+        window.rootViewController = currentViewController
         window.makeKeyAndVisible()
     }
 }

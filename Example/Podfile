@@ -2,21 +2,37 @@ use_frameworks!
 
 abstract_target 'Abstract_Example' do
   pod 'CoreRedux', :path => '../'
+  pod 'CoreRedux/List', :path => '../'
   pod 'CoreBase', :path => '../'
+  pod 'CoreBase/ReduxExtension', :path => '../'
   pod 'CoreList', :path => '../'
-  pod 'CoreRequest', :path => '../'
-  pod 'RxCocoa'
+  pod 'CoreRepository', :path => '../'
+  pod 'CoreAPNS', :path => '../'
   pod 'SwiftDate'
   pod 'Toaster'
+  pod 'Valet'
   
   target 'Example' do
   end
 
   target 'Example_Realm' do
-    pod 'CoreRealm', :path => '../'
+    pod 'CoreRealmDataStore', :path => '../'
   end
   
   target 'Example_CoreData' do
-    pod 'CoreCoreData', :path => '../'
+    pod 'CoreDataStore', :path => '../'
   end
+end
+
+post_install do |installer|
+    installer.pods_project.build_configurations.each do |config|
+        config.build_settings.delete('CODE_SIGNING_ALLOWED')
+        config.build_settings.delete('CODE_SIGNING_REQUIRED')
+    end
+
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['CONFIGURATION_BUILD_DIR'] = '$PODS_CONFIGURATION_BUILD_DIR'
+        end
+    end
 end

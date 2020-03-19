@@ -8,34 +8,60 @@
 
 import RxCocoa
 import RxSwift
-import CoreBase
-import CoreList
+import RxCoreBase
+import RxCoreList
+import RxCoreRedux
 import Toaster
 
-class TodoTabBarController: UITabBarController {
+class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
     private lazy var disposeBag = DisposeBag()
     
-    weak var scene: TodoScene?
+    var scene: TodoScene?
     var newTodo: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let btnAdd = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showNewTodoAlert))
-        self.navigationItem.rightBarButtonItem = btnAdd
+        let btnLogout = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+        self.navigationItem.rightBarButtonItems = [btnAdd, btnLogout]
         self.navigationItem.hidesBackButton = true
         
         let store = self.scene?.store
         store?.state
-            .compactMap { $0.error.error }
-            .subscribe(onNext: onError)
+            .filter { !$0.isLogout }
+            .compactMap { $0.error }
+            .subscribe(onNext: {
+                [weak self] error in
+                self?.onError(error)
+            })
             .disposed(by: disposeBag)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         
-        scene?.dispatch(type: .load, payload: Payload.List.Request(page: 1, cancelRunning: false))
+        store?
+            .state
+            .filter { $0.error == nil }
+            .map { $0.isLogout }
+            .filter { $0 }
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: {
+                [weak self] _ in
+                self?.scene?.detach()
+            })
+            .disposed(by: disposeBag)
+        
+        store?
+            .state
+            .filter { $0.error == nil && !$0.isLogout }
+            .map { $0.selectedTodoIndex }
+            .filter { $0 >= 0 }
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: {
+                [weak self] _ in
+                self?.scene?.showTodoDetail()
+            })
+            .disposed(by: disposeBag)
+        
+        store?.dispatch(type: .load, payload: Payload.List.Request(page: 1, cancelRunning: false))
     }
     
     @objc func showNewTodoAlert() {
@@ -63,6 +89,10 @@ class TodoTabBarController: UITabBarController {
     
     func onError(_ error: Error) {
         Toast(text: error.localizedDescription).show()
+    }
+    
+    @objc func logout() {
+        scene?.store.dispatch(type: .logout, payload: 0)
     }
     
     func showSuccess() {

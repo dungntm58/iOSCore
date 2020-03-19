@@ -7,30 +7,46 @@
 //
 
 import UIKit
-import CoreBase
+import RxCoreBase
+import RxSwift
 
-class SignupViewController: BaseCleanViewController, SignupDisplayable {
+class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
     
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!
     
-//    weak var scene: LoginScene?
+    var scene: LoginScene?
     
-    private lazy var interactor: SignupInteractor = {
-        let presenter = SignupPresenter(view: self)
-        return SignupInteractor(presenter: presenter)
-    }()
+    lazy var disposeBag = DisposeBag()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        scene?.store.state
+            .compactMap { $0.user }
+            .subscribeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: {
+                [weak self] _ in
+                self?.scene?.switch(to: TodoScene())
+            })
+            .disposed(by: disposeBag)
+        
+        scene?.store.state
+            .compactMap { $0.error }
+            .subscribeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: {
+                [weak self] error in
+                self?.onError(error)
+            })
+            .disposed(by: disposeBag)
+    }
     
     @IBAction func onSignup(_ sender: UIButton) {
         guard let userName = lbUsername.text, let password = lbPassword.text else {
             return
         }
         
-        interactor.signup(userName: userName, password: password)
-    }
-    
-    func didSignupSuccess() {
-//        router.navigate(to: TodoScene())
+        scene?.store.dispatch(type: .register, payload: (userName, password))
     }
     
     func onError(_ error: Error) {

@@ -6,8 +6,8 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import CoreRequest
-import CoreBase
+import RxCoreRepository
+import RxCoreBase
 
 struct AuthDto: Decodable {
     let token: String

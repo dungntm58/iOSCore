@@ -7,7 +7,7 @@
 //
 
 import RxSwift
-import CoreBase
+import RxCoreRepository
 
 class UserWorker {
     let authRepository: AuthRepository
@@ -16,12 +16,12 @@ class UserWorker {
         authRepository = AuthRepository()
     }
     
-    struct RequestOption: CoreBase.RequestOption {
+    struct RequestOption: RxCoreRepository.RequestOption {
         let userName: String
         let password: String
         
         var parameters: [String : Any]? {
-            return [
+            [
                 "email": userName,
                 "password": password
             ]

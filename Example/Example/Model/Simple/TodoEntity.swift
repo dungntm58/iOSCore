@@ -7,8 +7,8 @@
 //
 
 import DifferenceKit
-import CoreRequest
-import CoreBase
+import RxCoreRepository
+import RxCoreBase
 
 struct TodoEntity: Identifiable, Decodable, Equatable {
     typealias IDType = String
@@ -31,13 +31,19 @@ struct TodoEntity: Identifiable, Decodable, Equatable {
         self.title = title
     }
     
-    var id: String {
-        return _id
-    }
+    var id: String { _id }
     
     func toLiteralDictionary() -> [String: Any] {
-        return [
+        [
             "title": title
         ]
+    }
+}
+
+extension TodoEntity: CustomStringConvertible {
+    var description: String {
+        """
+        (id: \(_id), title: \(title), completed: \(completed), createdAt: \(createdAt))
+        """
     }
 }

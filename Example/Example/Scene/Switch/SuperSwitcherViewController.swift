@@ -7,26 +7,25 @@
 //
 
 import UIKit
+import RxCoreBase
 
-class SuperSwitcherViewController: UIViewController {
+class SuperSwitcherViewController: UIViewController, SceneBindableRef, ViewManagable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    weak var scene: SwitchScene?
+    var scene: SwitchScene?
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if AppPreferences.instance.token == nil {
-            scene?.navigate(to: LoginScene())
+            scene?.switch(to: LoginScene())
         } else {
-            scene?.navigate(to: TodoScene())
+            scene?.switch(to: TodoScene())
         }
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
+    override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
 }

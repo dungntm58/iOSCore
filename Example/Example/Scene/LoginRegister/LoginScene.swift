@@ -6,22 +6,20 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
-import CoreBase
+import RxCoreBase
 
-class LoginScene: Scene, Viewable {
-    let viewManager: ViewManager
-    let managedContext: ManagedSceneContext
-    
-    init() {
-        managedContext = ManagedSceneContext()
-        viewManager = ViewManager(viewController: AppStoryboard.main.viewController(of: SuperSwitcherViewController.self))
+class LoginScene: ConnectableViewableScene<LoginStore> {
+    convenience init() {
+        let vc = AppStoryboard.main.viewController(of: LoginViewController.self)
+        vc.modalPresentationStyle = .fullScreen
+        self.init(store: LoginStore(), viewController: vc)
     }
     
-    func perform() {
-        if let navigationController = nearestViewableScene?.viewController.navigationController {
-            navigationController.pushViewController(viewController, animated: true)
+    override func perform() {
+        if let navigationController = nearestViewable?.currentViewController.navigationController {
+            navigationController.pushViewController(currentViewController, animated: true)
         } else {
-            nearestViewableScene?.viewController.present(viewController, animated: true)
+            nearestViewable?.currentViewController.present(currentViewController, animated: true)
         }
     }
 }

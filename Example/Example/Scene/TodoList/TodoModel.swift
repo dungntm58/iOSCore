@@ -7,9 +7,9 @@
 //
 
 import Alamofire
-import CoreBase
-import CoreList
-import CoreRedux
+import RxCoreRepository
+import RxCoreList
+import RxCoreRedux
 import DifferenceKit
 
 enum Todo {
@@ -17,9 +17,7 @@ enum Todo {
         struct Request: RequestOption {
             let id: String
             
-            var parameters: Parameters? {
-                return nil
-            }
+            var parameters: Parameters? { nil }
         }
     }
     
@@ -32,30 +30,48 @@ enum Todo {
         let payload: Any
     }
     
-    struct State: Statable {
-        let error: ErrorState
+    struct State: Statable, CustomStringConvertible {
+        var error: Error?
         let list: Payload.List.Response<TodoEntity>
+        let selectedTodoIndex: Int
+        let isLogout: Bool
         
         init() {
             self.list = Payload.List.Response()
-            self.error = ErrorState()
+            self.selectedTodoIndex = -1
+            self.error = nil
+            self.isLogout = false
         }
         
-        init(list: Payload.List.Response<TodoEntity>, error: ErrorState) {
+        init(list: Payload.List.Response<TodoEntity>, selectedTodoIndex: Int = -1, error: Error? = nil, isLogout: Bool = false) {
             self.list = list
+            self.selectedTodoIndex = selectedTodoIndex
             self.error = error
+            self.isLogout = isLogout
+        }
+        
+        var description: String {
+            """
+            Todo.State(
+                error: \(error.map(String.init(describing:)) ?? "nil"),
+                list: \(String(describing: list)),
+                selectedTodoIndex: \(selectedTodoIndex),
+                isLogout: \(isLogout)
+            )
+            """
         }
     }
 }
 
-extension TodoEntity: CleanViewModelItem, Differentiable {
-    var differenceIdentifier: String {
-        return id
-    }
+extension TodoEntity: ViewModelItem, Differentiable {
+    var differenceIdentifier: String { id }
     
     typealias DifferenceIdentifier = String
     
     func isContentEqual(to source: TodoEntity) -> Bool {
-        return title == source.title && completed == source.completed && owner == source.owner && createdAt == source.createdAt
+        title == source.title
+            && completed == source.completed
+            && owner == source.owner
+            && createdAt == source.createdAt
     }
 }

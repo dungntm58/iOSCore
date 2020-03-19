@@ -7,20 +7,40 @@
 //
 
 import Foundation
+//import Valet
 
 class AppPreferences {
     static let instance = AppPreferences()
+
+//    private let valet: Valet
+    private let userDefaults: UserDefaults
     
-    private init() {}
+    private init() {
+        userDefaults = UserDefaults.standard
+//        valet = Valet.valet(with: Identifier(nonEmpty: Bundle.main.bundleIdentifier!)!, accessibility: .whenUnlocked)
+//        token = valet.string(forKey: Key.authenToken.rawValue)
+    }
     
-    private static let authenToken = "AuthenToken"
+    enum Key: String {
+        case authenToken = "AuthenToken"
+    }
     
     var token: String? {
         set {
-            UserDefaults.standard.set(newValue, forKey: AppPreferences.authenToken)
+            UserDefaults.standard.set(newValue, forKey: Key.authenToken.rawValue)
         }
         get {
-            return UserDefaults.standard.string(forKey: AppPreferences.authenToken)
+            UserDefaults.standard.string(forKey: Key.authenToken.rawValue)
         }
     }
+    
+//    var token: String? {
+//        didSet {
+//            if let token = token {
+//                valet.set(string: token, forKey: Key.authenToken.rawValue)
+//            } else {
+//                valet.removeObject(forKey: Key.authenToken.rawValue)
+//            }
+//        }
+//    }
 }

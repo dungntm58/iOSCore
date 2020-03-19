@@ -7,11 +7,11 @@
 //
 
 import RxSwift
-import CoreBase
-import CoreRequest
+import RxCoreBase
+import RxCoreRepository
 import Alamofire
 
-class AuthRequest: HTTPRequest {
+class AuthRequest: HTTPRequest, Decoding {
     typealias Response = AppHTTPResponse<AuthDto>
     typealias API = AppAPI
     
@@ -22,10 +22,10 @@ class AuthRequest: HTTPRequest {
     }
     
     func login(_ options: RequestOption?) -> Observable<Response> {
-        return execute(api: .login, options: options)
+        execute(api: .login, options: options)
     }
     
     func signup(_ options: RequestOption?) -> Observable<Response> {
-        return execute(api: .signup, options: options)
+        execute(api: .signup, options: options)
     }
 }

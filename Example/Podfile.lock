@@ -1,0 +1,135 @@
+PODS:
+  - Alamofire (5.0.4)
+  - CoreAPNS (0.1.0)
+  - CoreBase (0.1.0):
+    - CoreBase/Basics (= 0.1.0)
+    - CoreBase/Scene (= 0.1.0)
+  - CoreBase/Basics (0.1.0)
+  - CoreBase/ReduxExtension (0.1.0):
+    - CoreBase/Scene
+    - CoreRedux
+  - CoreBase/Scene (0.1.0)
+  - CoreDataStore (0.1.0):
+    - CoreRepository/DataStore
+  - CoreList (0.1.0):
+    - DifferenceKit
+  - CoreRealmDataStore (0.1.0):
+    - CoreRepository/DataStore
+    - RealmSwift
+  - CoreRedux (0.1.0):
+    - CoreRedux/Basics (= 0.1.0)
+  - CoreRedux/Basics (0.1.0)
+  - CoreRedux/List (0.1.0):
+    - CoreRedux/Basics
+    - CoreRepository/Basics
+  - CoreRepository (0.1.0):
+    - CoreRepository/Basics (= 0.1.0)
+    - CoreRepository/DataStore (= 0.1.0)
+    - CoreRepository/Local (= 0.1.0)
+    - CoreRepository/Remote (= 0.1.0)
+    - CoreRepository/RemoteLocal (= 0.1.0)
+    - CoreRepository/Request (= 0.1.0)
+  - CoreRepository/Basics (0.1.0)
+  - CoreRepository/DataStore (0.1.0):
+    - CoreRepository/Basics
+  - CoreRepository/Local (0.1.0):
+    - CoreRepository/Basics
+    - CoreRepository/DataStore
+  - CoreRepository/Remote (0.1.0):
+    - CoreRepository/Basics
+    - CoreRepository/Request
+  - CoreRepository/RemoteLocal (0.1.0):
+    - CoreRepository/Local
+    - CoreRepository/Remote
+  - CoreRepository/Request (0.1.0):
+    - Alamofire
+    - CoreRepository/Basics
+  - DifferenceKit (1.1.5):
+    - DifferenceKit/Core (= 1.1.5)
+    - DifferenceKit/UIKitExtension (= 1.1.5)
+  - DifferenceKit/Core (1.1.5)
+  - DifferenceKit/UIKitExtension (1.1.5):
+    - DifferenceKit/Core
+  - Realm (4.3.2):
+    - Realm/Headers (= 4.3.2)
+  - Realm/Headers (4.3.2)
+  - RealmSwift (4.3.2):
+    - Realm (= 4.3.2)
+  - RxCocoa (5.1.0):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.0):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.0)
+  - SwiftDate (6.1.0)
+  - Toaster (2.2.0)
+  - Valet (3.2.8)
+
+DEPENDENCIES:
+  - CoreAPNS (from `../`)
+  - CoreBase (from `../`)
+  - CoreBase/ReduxExtension (from `../`)
+  - CoreDataStore (from `../`)
+  - CoreList (from `../`)
+  - CoreRealmDataStore (from `../`)
+  - CoreRedux (from `../`)
+  - CoreRedux/List (from `../`)
+  - CoreRepository (from `../`)
+  - RxCocoa
+  - RxRelay
+  - RxSwift
+  - SwiftDate
+  - Toaster
+  - Valet
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - DifferenceKit
+    - Realm
+    - RealmSwift
+    - RxCocoa
+    - RxRelay
+    - RxSwift
+    - SwiftDate
+    - Toaster
+    - Valet
+
+EXTERNAL SOURCES:
+  CoreAPNS:
+    :path: "../"
+  CoreBase:
+    :path: "../"
+  CoreDataStore:
+    :path: "../"
+  CoreList:
+    :path: "../"
+  CoreRealmDataStore:
+    :path: "../"
+  CoreRedux:
+    :path: "../"
+  CoreRepository:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Alamofire: 0fe5fd24b4298dc377a6550da7d5f1b30e286fcb
+  CoreAPNS: 9608bf547d813c39790f5bc59112c9775874e31b
+  CoreBase: 263f78ddcdfffc62de6fb1a9d6a00de974da46b6
+  CoreDataStore: 66c4f246809bfe2caa373cb9e410ed510d3c0d8f
+  CoreList: 3dff21a18d7a887aa441bb2d4da720bc4a9a8830
+  CoreRealmDataStore: adbf21855ba69f33146dba5dd8e99107bd0f0fac
+  CoreRedux: 951b3fe95b0ba9990e7dc4fb1467a49752b2b3e2
+  CoreRepository: 4bd6f48b558e39c5364263f3ee125e93211b9d73
+  DifferenceKit: 516f12e336ed65a3a0665847b5c3cb5cad4bd4ea
+  Realm: 5e92902e2875dff4bb0fd02f67bb737c3d5db2bc
+  RealmSwift: 9a360fc7bae04fc2e308a34fbd899d5faa2d6b22
+  RxCocoa: 13d2a4d7546a34b8ececae8c281e4ea1dbb94f2b
+  RxRelay: a168bd6caf712d00c676ac344e9295afc93b418e
+  RxSwift: ad5874f24bb0dbffd1e9bb8443604e3578796c7a
+  SwiftDate: fa2bb3962056bb44047b4b85a30044e5eae30b03
+  Toaster: c1a81b376edcc2470157b4d1ee1e9341d3b96455
+  Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
+
+PODFILE CHECKSUM: 829bad8c11b6f3ee79027dec0073f73a07674369
+
+COCOAPODS: 1.8.4

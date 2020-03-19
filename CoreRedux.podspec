@@ -28,11 +28,21 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.source           = { :git => 'https://github.com/dungntm58/Core', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '13.0'
   s.module_name = 'CoreRedux'
-  s.swift_version = "5.0"
+  s.swift_version = "5.1"
+  s.prefix_header_file = false
+  s.framework = "Foundation", "Combine"
 
-  s.source_files = 'Sources/Redux/**/*'
-  s.dependency 'RxSwift'
-  s.dependency 'RxRelay'
+  s.default_subspec = 'Basics'
+  
+  s.subspec 'Basics' do |ss|
+    ss.source_files = 'Sources/Redux/Basics/**/*'
+  end
+  
+  s.subspec 'List' do |ss|
+    ss.source_files = 'Sources/Redux/List/**/*'
+    ss.dependency 'CoreRepository/Basics'
+    ss.dependency 'CoreRedux/Basics'
+  end
 end

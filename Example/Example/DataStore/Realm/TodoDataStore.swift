@@ -7,17 +7,20 @@
 //
 
 import RealmSwift
-import CoreRealm
-import CoreBase
+import RxCoreRealmDataStore
+import RxCoreBase
+import RxCoreRepository
 
 class TodoDataStore: RealmIdentifiableDataStore {
     let realm: Realm
+    let updatePolicy: Realm.UpdatePolicy
     
     init() {
         self.realm = try! Realm()
+        self.updatePolicy = .all
     }
     
-    func make(total: Int, size: Int, before: TodoEntity?, after: TodoEntity?) -> PaginationResponse {
-        return AppPaginationResponse(total: total, pageSize: size, after: after?.id as Any, before: before?.id as Any)
+    func make(total: Int, size: Int, previous: TodoEntity?, next: TodoEntity?) -> PaginationDTO {
+        AppPaginationDTO(total: total, pageSize: size, next: next?.id as Any, previous: previous?.id as Any)
     }
 }

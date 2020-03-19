@@ -6,14 +6,15 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import CoreBase
+import RxCoreBase
+import RxCoreRepository
 
 class TodoDataStore: IdentifiableDataStore {
     let ttl: TimeInterval = 60
     var array: [TodoEntity]
     
-    func make(total: Int, size: Int, before: TodoEntity?, after: TodoEntity?) -> PaginationResponse {
-        return AppPaginationResponse(total: total, pageSize: size, after: after?.id as Any, before: before?.id as Any)
+    func make(total: Int, size: Int, previous: TodoEntity?, next: TodoEntity?) -> PaginationDTO {
+        AppPaginationDTO(total: total, pageSize: size, next: next?.id as Any, previous: previous?.id as Any)
     }
     
     init() {
@@ -46,19 +47,17 @@ class TodoDataStore: IdentifiableDataStore {
         return values
     }
     
-    func eraseSync() throws -> Bool {
+    func eraseSync() throws {
         array.removeAll()
-        return true
     }
     
-    func getList(options: DataStoreFetchOption) throws -> ListResponse<TodoEntity> {
-        return ListResponse(data: array)
+    func getList(options: DataStoreFetchOption) throws -> ListDTO<TodoEntity> {
+        return ListDTO(data: array)
     }
     
-    func deleteSync(_ value: TodoEntity) throws -> Bool {
+    func deleteSync(_ value: TodoEntity) throws {
         if let index = array.firstIndex(where: { $0.id == value.id }) {
             array.remove(at: index)
         }
-        return true
     }
 }

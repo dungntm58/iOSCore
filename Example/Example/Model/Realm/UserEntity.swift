@@ -6,9 +6,9 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import CoreBase
-import CoreRequest
-import CoreRealm
+import RxCoreBase
+import RxCoreRepository
+import RxCoreRealmDataStore
 import RealmSwift
 
 class UserEntity: Object, Identifiable, Decodable {
@@ -18,11 +18,7 @@ class UserEntity: Object, Identifiable, Decodable {
     @objc dynamic var email: String = ""
     @objc dynamic var name: String = ""
     
-    var id: IDType {
-        return _id
-    }
+    var id: IDType { _id }
     
-    override open class func primaryKey() -> String? {
-        return "_id"
-    }
+    override open class func primaryKey() -> String? { "_id" }
 }

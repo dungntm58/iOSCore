@@ -8,48 +8,46 @@
 
 import Alamofire
 import RxSwift
-import CoreRequest
-import CoreBase
+import RxCoreRepository
+import RxCoreBase
 
 extension HTTPRequest {
     var defaultHeaders: HTTPHeaders? {
-        return [
+        [
             "Authorization": AppPreferences.instance.token ?? ""
         ]
     }
     
     var environment: RequestEnvironment {
-        #if DEBUG
+        #if !RELEASE && !PRODUCTION
         return AppEnvironment.development
         #else
         return AppEnvironment.production
         #endif
     }
+    
+    var acceptableStatusCodes: [Int] { Array(200..<300) }
+}
+
+extension RequestAPI {
+    var acceptableStatusCodes: [Int] { [] }
 }
 
 extension RequestOption {
-    func merge(with parameters: Parameters) -> RequestOption {
-        return self
-    }
+    func merge(with parameters: Parameters) -> RequestOption { self }
 }
 
 enum AppEnvironment: RequestEnvironment {
     case development
     case production
     
-    var config: RequestConfiguration {
-        return self
-    }
+    var config: RequestConfiguration { self }
 }
 
 extension AppEnvironment: RequestConfiguration {
-    var baseUrl: String {
-        return "https://uetcc-todo-app.herokuapp.com"
-    }
+    var baseUrl: String { "https://uetcc-todo-app.herokuapp.com" }
     
-    var versions: [String] {
-        return []
-    }
+    var versions: [String] { [] }
 }
 
 enum AppAPI: RequestAPI {

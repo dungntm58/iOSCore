@@ -6,30 +6,37 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
-import CoreBase
-import CoreRedux
+import RxCoreBase
+import RxCoreRedux
 
 class TodoScene: ConnectableViewableScene<TodoStore>, Dispatchable {
     typealias Action = TodoStore.Action
     
     lazy var navigationController: UINavigationController = {
-        let vc = UINavigationController(rootViewController: viewController)
+        let vc = UINavigationController(rootViewController: currentViewController)
+        vc.modalPresentationStyle = .fullScreen
         return vc
     }()
     
-    init() {
+    convenience init() {
         let todoVC = AppStoryboard.main.viewController(of: TodoTabBarController.self)
-        super.init(store: TodoStore(), viewController: todoVC)
-        todoVC.scene = self
+        todoVC.modalPresentationStyle = .fullScreen
+        self.init(store: TodoStore(), viewController: todoVC)
     }
 
     override func perform() {
-        let visibleViewController = nearestViewableScene?.viewController
+        let visibleViewController = nearestViewable?.currentViewController
         if let navigationController = visibleViewController?.navigationController {
-            navigationController.pushViewController(viewController, animated: true)
+            navigationController.pushViewController(currentViewController, animated: true)
         }
         else {
             visibleViewController?.present(navigationController, animated: true)
         }
+    }
+    
+    func showTodoDetail() {
+        let vc = AppStoryboard.main.viewController(of: TodoDetailViewController.self)
+        vc.modalPresentationStyle = .fullScreen
+        present(vc)
     }
 }

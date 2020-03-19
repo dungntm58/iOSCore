@@ -7,36 +7,47 @@
 //
 
 import UIKit
-import CoreBase
-import CoreList
+import RxCoreBase
+import RxCoreList
+import RxCoreRedux
 import DifferenceKit
 
 class TodoListViewSource: BaseTableViewSource {
+    weak var store: TodoStore?
+    
     init(store: TodoStore?) {
-        let cell = DefaultCellModel(type: .nib(nibName: "TodoTableViewCell", bundle: nil))
+        self.store = store
+        var cell = CellModelType.nib(nibName: "TodoTableViewCell", bundle: nil).makeCell()
         cell.height = 80
-        let sectionModels: [DefaultSectionModel] = [
-            .init(cells: [ cell ])
-        ]
-        super.init(sections: sectionModels, shouldAnimateLoading: true)
+        super.init(sections: [[cell].makeSection()], shouldAnimateLoading: true)
         
-        store?.state
-            .filter { $0.error.error == nil }
+        let response = store?.state
+            .filter { $0.error == nil && !$0.isLogout }
             .map { $0.list }
             .distinctUntilChanged()
+            .share()
+        
+        response?
+            .map { $0.hasNext }
+            .distinctUntilChanged()
+            .bind(to: rx.isAnimating)
+            .disposed(by: disposeBag)
+            
+        response?
+            .filter { !$0.isLoading }
             .map {
                 response in
-                if response.currentPage == 0 {
+                if response.currentPage <= 1 {
                     return ListViewSourceModel(type: .initial, data: response.data, needsReload: true)
                 } else {
                     return ListViewSourceModel(type: .addNew(at: .end(length: response.data.count)), data: response.data, needsReload: true)
                 }
             }
-            .bind(to: modelRelay)
+            .bind(to: rx.model)
             .disposed(by: disposeBag)
     }
     
-    override func bind(value: CleanViewModelItem, to cell: UITableViewCell, at indexPath: IndexPath) {
+    override func bind(value: ViewModelItem, to cell: UITableViewCell, at indexPath: IndexPath) {
         let item = value as! TodoEntity
         let dataCell = cell as! TodoTableViewCell
         
@@ -44,11 +55,12 @@ class TodoListViewSource: BaseTableViewSource {
         dataCell.lbTitle.text = item.title
     }
     
-    override func objects(in section: SectionModel, at index: Int, onChanged type: ListModelChangeType) -> [AnyDifferentiable] {
-        if let models = models(forIdentifier: "default") {
-            return models.map { $0.toAnyDifferentiable() }
-        }
-        
-        return super.objects(in: section, at: index, onChanged: type)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        store?.dispatch(type: .selectTodo, payload: indexPath.row)
+    }
+    
+    override func reachToEnd() {
+        let currentPage = store?.currentState.list.currentPage ?? 0
+        store?.dispatch(type: .load, payload: Payload.List.Request(page: currentPage + 1, cancelRunning: false))
     }
 }

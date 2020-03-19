@@ -6,34 +6,24 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import CoreList
-import CoreRequest
-import CoreCoreData
-import CoreBase
+import RxCoreList
+import RxCoreRepository
+import RxCoreDataStore
+import RxCoreBase
 import CoreData
 
-class TodoEntity: NSObject, Decodable, ManagedObjectBox {
+class TodoEntity: NSObject, Identifiable, Decodable, ManagedObjectBox {
     let core: TodoCoreEntity
     
-    var id: String {
-        return core.id ?? ""
-    }
+    var id: String { core.id ?? "" }
     
-    var title: String {
-        return core.title ?? ""
-    }
+    var title: String { core.title ?? "" }
     
-    var completed: Bool {
-        return core.completed
-    }
+    var completed: Bool { core.completed }
     
-    var owner: String {
-        return core.owner ?? ""
-    }
+    var owner: String { core.owner ?? "" }
     
-    var createdAt: Date {
-        return core.createdAt ?? Date()
-    }
+    var createdAt: Date { core.createdAt ?? Date() }
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"
@@ -80,7 +70,5 @@ class TodoEntity: NSObject, Decodable, ManagedObjectBox {
 extension TodoEntity: CoreDataIdentifiable {
     typealias IDType = String
     
-    static func keyPathForID() -> String {
-        return #keyPath(TodoCoreEntity.id)
-    }
+    static func keyPathForID() -> String { #keyPath(TodoCoreEntity.id) }
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
-import CoreCoreData
+import RxCoreDataStore
 
 func printDBURL() {
     let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)

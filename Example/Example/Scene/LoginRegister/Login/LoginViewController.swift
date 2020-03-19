@@ -7,32 +7,46 @@
 //
 
 import UIKit
-import CoreBase
+import RxSwift
+import RxCoreBase
 
-class LoginViewController: BaseCleanViewController, LoginDisplayable {
+class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
     
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!
     
-    weak var scene: LoginScene?
+    lazy var disposeBag = DisposeBag()
     
-    private lazy var interactor: LoginInteractor = {
-        let presenter = LoginPresenter(view: self)
-        let interactor = LoginInteractor(presenter: presenter)
+    var scene: LoginScene?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        return interactor
-    }()
-
+        scene?.store.state
+            .compactMap { $0.user }
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: {
+                [weak self] _ in
+                self?.scene?.switch(to: TodoScene())
+            })
+            .disposed(by: disposeBag)
+        
+        scene?.store.state
+            .compactMap { $0.error }
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: {
+                [weak self] error in
+                self?.onError(error)
+            })
+            .disposed(by: disposeBag)
+    }
+    
     @IBAction func onLogin(_ sender: UIButton) {
         guard let userName = lbUsername.text, let password = lbPassword.text else {
             return
         }
         
-        interactor.login(userName: userName, password: password)
-    }
-    
-    func didLoginSuccess() {
-        scene?.navigate(to: TodoScene())
+        scene?.store.dispatch(type: .login, payload: (userName, password))
     }
     
     func onError(_ error: Error) {

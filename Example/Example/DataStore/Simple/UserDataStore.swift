@@ -6,13 +6,14 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import CoreBase
+import RxCoreBase
+import RxCoreRepository
 
 class UserDataStore: IdentifiableDataStore {
     let userDefaults: UserDefaults
     
-    func make(total: Int, size: Int, before: UserEntity?, after: UserEntity?) -> PaginationResponse {
-        return AppPaginationResponse(total: total, pageSize: size, after: after?.id as Any, before: before?.id as Any)
+    func make(total: Int, size: Int, previous: UserEntity?, next: UserEntity?) -> PaginationDTO {
+        AppPaginationDTO(total: total, pageSize: size, next: next?.id as Any, previous: previous?.id as Any)
     }
     
     init() {
@@ -40,16 +41,14 @@ class UserDataStore: IdentifiableDataStore {
         throw DataStoreError.unknown
     }
     
-    func eraseSync() throws -> Bool {
-        return true
+    func eraseSync() throws {
     }
     
-    func getList(options: DataStoreFetchOption) throws -> ListResponse<UserEntity> {
-        return ListResponse(data: [])
+    func getList(options: DataStoreFetchOption) throws -> ListDTO<UserEntity> {
+        ListDTO(data: [])
     }
     
-    func deleteSync(_ value: UserEntity) throws -> Bool {
+    func deleteSync(_ value: UserEntity) throws {
         userDefaults.set(nil, forKey: value.id)
-        return true
     }
 }

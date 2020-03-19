@@ -28,11 +28,12 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.source           = { :git => 'https://github.com/dungntm58/iOSCore', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '13.0'
   s.module_name = 'CoreList'
-  s.swift_version = "5.0"
-
+  s.swift_version = "5.1"
+  s.framework = "Foundation", "Combine"
+  s.ios.framework = "UIKit"
+  
   s.source_files = 'Sources/List/**/*'
   s.dependency 'DifferenceKit'
-  s.dependency 'CoreBase'
 end
