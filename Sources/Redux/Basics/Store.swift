@@ -5,17 +5,12 @@
 //  Created by Robert Nguyen on 5/15/19.
 //
 
-import RxSwift
-import RxRelay
+import Combine
 
-open class Store<Action, State>: Storable, Dispatchable where Action: Actionable, State: Statable {
-    public typealias StoreScheduler = SchedulerType
-
-    private lazy var _disposables = CompositeDisposable()
-    private lazy var _disposeBag = DisposeBag()
-    private let _state: BehaviorRelay<State>
-    private let _action: PublishRelay<Action>
-    private let _derivedAction: PublishRelay<Action>
+open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Action: Actionable, State: Statable, StoreScheduler: Scheduler {
+    private let _state: CurrentValueSubject<State, Never>
+    private let _action: PassthroughSubject<Action, Never>
+    private let _derivedAction: PassthroughSubject<Action, Never>
     private var _epics: [EpicFunction<Action, State>]
 
     private(set) public var isActive: Bool
@@ -23,31 +18,34 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
     open var reducer: ReduceFunction<Action, State>
 
     open var scheduler: StoreScheduler
+    open var schedulerOptions: StoreScheduler.SchedulerOptions?
 
     public var currentState: State { _state.value }
 
-    public var state: Observable<State> {
-        _state.asObservable().distinctUntilChanged { $0 as AnyObject === $1 as AnyObject }
+    public var state: AnyPublisher<State, Never> {
+        _state.removeDuplicates { $0 as AnyObject === $1 as AnyObject }.eraseToAnyPublisher()
     }
 
-    public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler = SerialDispatchQueueScheduler(qos: .default)) where Reducer: Reducable, Reducer.Action == Action, Reducer.State == State {
-        self._state = .init(value: initialState)
+    public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler, schedulerOptions: StoreScheduler.SchedulerOptions?) where Reducer: Reducable, Reducer.Action == Action, Reducer.State == State {
+        self._state = .init(initialState)
         self._action = .init()
         self._derivedAction = .init()
         self.reducer = reducer.reduce
         self._epics = []
         self.scheduler = scheduler
+        self.schedulerOptions = schedulerOptions
         self.isActive = false
         run()
     }
 
-    public init(reducer: @escaping ReduceFunction<Action, State>, initialState: State, scheduler: StoreScheduler = SerialDispatchQueueScheduler(qos: .default)) {
-        self._state = .init(value: initialState)
+    public init(reducer: @escaping ReduceFunction<Action, State>, initialState: State, scheduler: StoreScheduler, schedulerOptions: StoreScheduler.SchedulerOptions?) {
+        self._state = .init(initialState)
         self._action = .init()
         self._derivedAction = .init()
         self.reducer = reducer
         self._epics = []
         self.scheduler = scheduler
+        self.schedulerOptions = schedulerOptions
         self.isActive = false
         run()
     }
@@ -69,7 +67,7 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
     }
 
     public func dispatch(_ actions: [Action]) {
-        actions.forEach { _action.accept($0) }
+        actions.forEach(_action.send)
     }
 
     public func inject(_ epic: EpicFunction<Action, State>...) {
@@ -82,7 +80,7 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
 
     private func run() {
         let actionToState = _derivedAction
-            .withLatestFrom(_state) {
+            .combineLatest(_state, {
                 [reducer] action, state -> (Action, State) in
                 let newState = reducer(action, state)
                 #if !RELEASE && !PRODUCTION
@@ -91,23 +89,30 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
                 Swift.print("Next state:", String(describing: newState))
                 #endif
                 return (action, newState)
-            }
+            })
             .map { $0.1 }
-            .bind(to: _state)
-        let actionToDerivedAction = _action.bind(to: _derivedAction)
+            .sink(receiveValue: _state.send)
+        let actionToDerivedAction = _action.sink(receiveValue: _derivedAction.send)
         // Handle epics
         let actionToAction = _action
-            .observeOn(scheduler)
-            .flatMap {
-                [weak self] action -> Observable<Action> in
-                guard let `self` = self, self.isActive, !self._epics.isEmpty else { return .empty() }
-                return .merge(self._epics.map { $0(.just(action), self._derivedAction.asObservable(), self._state.asObservable()).observeOn(self.scheduler) })
-            }
-            .catchError { _ in .empty() }
-            .bind(to: _action)
-        _ = _disposables.insert(actionToDerivedAction)
-        _ = _disposables.insert(actionToAction)
-        _ = _disposables.insert(actionToState)
-        _disposables.disposed(by: _disposeBag)
+            .receive(on: scheduler, options: schedulerOptions)
+            .flatMap ({
+                [weak self] action -> AnyPublisher<Action, Never> in
+                guard let `self` = self, self.isActive, !self._epics.isEmpty else {
+                    return Empty().eraseToAnyPublisher()
+                }
+                let dispatchPublisher = Just(action).eraseToAnyPublisher()
+                let derivedActionPublisher = self._derivedAction.eraseToAnyPublisher()
+                let statePublisher = self._state.eraseToAnyPublisher()
+                var epic = self._epics[0](dispatchPublisher, derivedActionPublisher, statePublisher)
+                for (index, efunction) in self._epics.enumerated() {
+                    if index > 0 {
+                        epic = epic.merge(with: efunction(dispatchPublisher, derivedActionPublisher, statePublisher)).receive(on: self.scheduler, options: self.schedulerOptions).eraseToAnyPublisher()
+                    }
+                }
+                return epic
+            })
+            .sink(receiveValue: _action.send)
+        // TODO: Collect any cancellable objects
     }
 }

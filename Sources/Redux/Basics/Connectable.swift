@@ -5,8 +5,6 @@
 //  Created by Robert Nguyen on 5/15/19.
 //
 
-import RxSwift
-
 public protocol Connectable {
     associatedtype Store: Storable
 

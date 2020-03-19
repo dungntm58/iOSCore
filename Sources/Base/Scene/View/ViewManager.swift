@@ -5,21 +5,44 @@
 //  Created by Robert on 7/21/19.
 //
 
-import RxSwift
-import RxCocoa
-import RxCoreRedux
+import Combine
 
-final public class ViewManager: ViewManagable {
+final public class ViewManager {
     private var _currentViewController: UIViewController?
     private var rootViewController: UIViewController
     fileprivate weak var scene: Scenable?
-    let disposeBag = DisposeBag()
 
     public init(viewController: UIViewController) {
         self.rootViewController = viewController
         addHook(viewController)
     }
 
+    func bind(scene: Scenable) {
+        self.scene = scene
+        if let bindable = rootViewController as? SceneBindable {
+            bindable.bind(to: scene)
+        }
+        if let bindable = _currentViewController as? SceneBindable {
+            bindable.bind(to: scene)
+        }
+    }
+
+    func viewControllerWillAppear(_ viewController: UIViewController) {
+        self.currentViewController = viewController
+        if let scene = scene, let bindable = viewController as? SceneBindable {
+            bindable.bind(to: scene)
+        }
+    }
+
+    func viewControllerWillDisappear(_ viewController: UIViewController) {
+        self._currentViewController = nil
+        if let scene = scene, let bindable = viewController as? SceneBindable {
+            bindable.bind(to: scene)
+        }
+    }
+}
+
+extension ViewManager: ViewManagable {
     private(set) public var currentViewController: UIViewController {
         set {
             if _currentViewController != nil {
@@ -68,53 +91,23 @@ final public class ViewManager: ViewManagable {
     }
 }
 
-extension ViewManager {
+private extension ViewManager {
     func addHook(_ viewController: UIViewController) {
-        Observable
-            .combineLatest(
-                viewController.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))),
-                Observable.just(viewController)
-            ) { $1 }
-            .subscribe(onNext: self.viewControllerWillAppear(_:))
-            .disposed(by: disposeBag)
-
-        Observable
-            .combineLatest(
-                viewController.rx.methodInvoked(#selector(UIViewController.viewWillDisappear(_:))),
-                Observable.just(viewController)
-            ) { $1 }
-            .subscribe(onNext: self.viewControllerWillDisappear(_:))
-            .disposed(by: disposeBag)
-    }
-
-    func bind(scene: Scenable) {
-        self.scene = scene
-        if let bindable = rootViewController as? SceneBindable {
-            bindable.bind(to: scene)
-        }
-        if let bindable = _currentViewController as? SceneBindable {
-            bindable.bind(to: scene)
-        }
-    }
-
-    func viewControllerWillAppear(_ viewController: UIViewController) {
-        if let scene = scene, let bindable = viewController as? SceneBindable {
-            bindable.bind(to: scene)
-        }
-        self.currentViewController = viewController
-        if let bindable = viewController as? Activating {
-            bindable.activate()
-        }
-    }
-
-    func viewControllerWillDisappear(_ viewController: UIViewController) {
-        if let scene = scene, let bindable = viewController as? SceneBindable {
-            bindable.bind(to: scene)
-        }
-        self._currentViewController = nil
-        if let sceneBindable = viewController as? Activating {
-            sceneBindable.deactivate()
-        }
+//        Observable
+//            .combineLatest(
+//                viewController.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))),
+//                Observable.just(viewController)
+//            ) { $1 }
+//            .subscribe(onNext: self.viewControllerWillAppear(_:))
+//            .disposed(by: disposeBag)
+//
+//        Observable
+//            .combineLatest(
+//                viewController.rx.methodInvoked(#selector(UIViewController.viewWillDisappear(_:))),
+//                Observable.just(viewController)
+//            ) { $1 }
+//            .subscribe(onNext: self.viewControllerWillDisappear(_:))
+//            .disposed(by: disposeBag)
     }
 
     func internalDismiss(from viewController: UIViewController, animated flag: Bool = true, completion: (() -> Void)? = nil) {

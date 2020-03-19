@@ -9,14 +9,19 @@ import Combine
 
 public extension RemoteLocalListRepository {
     func getList(options: FetchOptions?) -> AnyPublisher<ListDTO<T>, Error> {
-        var remote = listRequest
+        #if !RELEASE && !PRODUCTION
+        let remote = listRequest
             .getList(options: options?.requestOptions)
             .filter { $0.results != nil }
             .map(ListDTO.init)
-        #if !RELEASE && !PRODUCTION
-//        remote = remote.do(onNext: {
-//            Swift.print("Get \($0.data.count) items of type \(T.self) from remote successfully!!!")
-//        })
+            .handleEvents(receiveOutput: {
+                Swift.print("Get \($0.data.count) items of type \(T.self) from remote successfully!!!")
+            })
+        #else
+        let remote = listRequest
+            .getList(options: options?.requestOptions)
+            .filter { $0.results != nil }
+            .map(ListDTO.init)
         #endif
         let repositoryOptions = options?.repositoryOptions ?? .default
         switch repositoryOptions {
@@ -26,26 +31,39 @@ public extension RemoteLocalListRepository {
                 return Empty().eraseToAnyPublisher()
             }
             let remoteThenDataStore = remote
-                .breakpoint(receiveOutput: {
-                    try self.store.saveSync($0.data)
-                    return true
-                })
+                .tryMap {
+                    list -> ListDTO<T> in
+                    try self.store.saveSync(list.data)
+                    return list
+                }
+                .eraseToAnyPublisher()
             return store
                 .getListAsync(options: cacheOptions)
-                .catchError { _ in remoteThenDataStore }
-                .filter { !$0.data.isEmpty }
-                .ifEmpty(switchTo: remoteThenDataStore)
+                .catch { _ in remoteThenDataStore }
+                .flatMap {
+                    list -> AnyPublisher<ListDTO<T>, Error> in
+                    if list.data.isEmpty {
+                        return remoteThenDataStore
+                    } else {
+                        return Future<ListDTO<T>, Error> {
+                            promise in
+                            promise(.success(list))
+                        }.eraseToAnyPublisher()
+                    }
+                }
+                .eraseToAnyPublisher()
         case .forceRefresh(let ignoreDataStoreFailure):
             return remote
-                .breakpoint(receiveOutput: {
-                    list in
+                .tryCompactMap({
+                    list -> ListDTO<T> in
                     if ignoreDataStoreFailure {
                         _ = try? self.store.saveSync(list.data)
                     } else {
                         try self.store.saveSync(list.data)
                     }
-                    return true
+                    return list
                 })
+                .eraseToAnyPublisher()
         case .ignoreDataStore:
             return remote.eraseToAnyPublisher()
         }
@@ -91,10 +109,13 @@ public extension RemoteLocalIdentifiableSingleRepository {
                 return remote.tryMap(store.saveSync).eraseToAnyPublisher()
             }
             return remote
-                .do(onNext: { _ = try? self.store.saveSync($0) })
+                .handleEvents(receiveOutput: {
+                    _ = try? self.store.saveSync($0)
+                })
+                .eraseToAnyPublisher()
         case .default:
             let cacheObservable = store.getAsync(id, options: options?.storeFetchOptions)
-            return .first(cacheObservable, remote)
+            return cacheObservable.catch { _ in remote}.eraseToAnyPublisher()
         case .ignoreDataStore:
             return remote.eraseToAnyPublisher()
         }
@@ -103,27 +124,33 @@ public extension RemoteLocalIdentifiableSingleRepository {
     func delete(id: T.ID, options: FetchOptions?) -> AnyPublisher<Void, Error> {
         let cacheObservable = store.deleteAsync(id, options: options?.storeFetchOptions)
         let remote = singleRequest.delete(id: id, options: options?.requestOptions)
-        return remote.zip(cacheObservable) { _, _ in () }
+        return remote.zip(cacheObservable) { _, _ in () }.eraseToAnyPublisher()
     }
 }
 
 public extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
     func refreshIfNeeded(_ list: ListDTO<T>, optionsGenerator: (T.ID) -> FetchOptions?) -> AnyPublisher<ListDTO<T>, Error> {
         if list.data.filter({ !$0.isValid }).isEmpty {
-            return .from(optional: list)
+            return Future<ListDTO<T>, Error> { $0(.success(list)) }
+                .eraseToAnyPublisher()
         }
         let pagination = list.pagination
-        let singleObservables = list.data.map {
-            item -> AnyPublisher<T, Error> in
-            if item.isValid {
-                return .from(optional: item)
-            } else {
-                return self.get(id: item.id, options: optionsGenerator(item.id))
-            }
-        }
-        return Observable.concat(singleObservables)
-            .toArray()
+        return list.data
+            .map ({
+                item -> AnyPublisher<T, Error> in
+                if item.isValid {
+                    return Future<T, Error> { $0(.success(item)) }
+                        .eraseToAnyPublisher()
+                } else {
+                    return self.get(id: item.id, options: optionsGenerator(item.id))
+                }
+            })
+            .reduce(Empty<T, Error>().eraseToAnyPublisher(), {
+                result, next in
+                result.append(next).eraseToAnyPublisher()
+            })
+            .collect()
             .map { ListDTO<T>(data: $0, pagination: pagination) }
-            .asObservable()
+            .eraseToAnyPublisher()
     }
 }

@@ -5,14 +5,14 @@
 //  Created by Robert Nguyen on 5/18/19.
 //
 
-import RxSwift
+import Combine
 
-public extension Observable where Element: Actionable {
-    func of(types: [Element.ActionType]) -> Observable<Element> {
+public extension Publisher where Output: Actionable {
+    func of(types: [Output.ActionType]) -> Publishers.Filter<Self> {
         filter { types.contains($0.type) }
     }
 
-    func of(type: Element.ActionType...) -> Observable<Element> {
+    func of(type: Output.ActionType...) -> Publishers.Filter<Self> {
         filter { type.contains($0.type) }
     }
 }

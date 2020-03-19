@@ -5,7 +5,7 @@
 //  Created by Robert Nguyen on 5/15/19.
 //
 
-import RxSwift
+import Combine
 
 public enum LifeCycle {
     case inital
@@ -55,29 +55,27 @@ public protocol Scenable: class, MaybeRetrievable {
 
 open class ManagedSceneContext {
     var previous: Scenable?
-    let disposables: CompositeDisposable
+    let cancellable: AnyCancellable
 
     weak var parent: Scenable?
     var children: [Scenable]
     var current: Scenable?
 
-    var lifeCycle: BehaviorSubject<LifeCycle>
+    var lifeCycle: CurrentValueSubject<LifeCycle, Never>
     var isPerformed: Bool
 
     deinit {
-        disposables.dispose()
-        lifeCycle.dispose()
+        cancellable.cancel()
     }
 
     public init(children: [Scenable] = []) {
         self.children = children
-        self.lifeCycle = .init(value: .inital)
-        self.disposables = .init()
+        self.lifeCycle = .init(.inital)
+        self.cancellable = .init({})
         self.isPerformed = false
     }
 
-    @discardableResult
-    public func insertDisposable(_ disposable: Disposable) -> CompositeDisposable.DisposeKey? {
-        disposables.insert(disposable)
+    public func insertCancellable(_ cancellable: Cancellable) {
+        
     }
 }

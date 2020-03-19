@@ -5,7 +5,7 @@
 //  Created by Robert on 8/10/19.
 //
 
-import RxSwift
+import Combine
 
 public extension Scenable {
     func forwardDataWhenDetach() -> Any {
@@ -42,9 +42,7 @@ public extension Scenable {
             scene.perform()
             current = scene
             scene.updateLifeCycle(.didBecomeActive)
-            managedContext.insertDisposable(
-                lifeCycle.subscribe(onNext: scene.managedContext.lifeCycle.onNext)
-            )
+            managedContext.insertCancellable(lifeCycle.sink(receiveValue: scene.managedContext.lifeCycle.send))
         }
     }
 
@@ -59,9 +57,7 @@ public extension Scenable {
         children.forEach {
             scene in
             scene.parent = self
-            managedContext.insertDisposable(
-                lifeCycle.subscribe(onNext: scene.managedContext.lifeCycle.onNext)
-            )
+            managedContext.insertCancellable(lifeCycle.sink(receiveValue: scene.managedContext.lifeCycle.send))
         }
         current = scene
         scene.perform()
@@ -156,13 +152,13 @@ public extension Scenable {
 // MARK: - Convenience
 public extension Scenable {
     /// Return an observable instance that observe life cycle of this scene.
-    var lifeCycle: Observable<LifeCycle> {
-        managedContext.lifeCycle.asObservable()
+    var lifeCycle: AnyPublisher<LifeCycle, Never> {
+        managedContext.lifeCycle.eraseToAnyPublisher()
     }
 
     /// Return the current value of life cycle
-    func getLifeCycleState() throws -> LifeCycle {
-        try managedContext.lifeCycle.value()
+    func getLifeCycleState() -> LifeCycle {
+        managedContext.lifeCycle.value
     }
 
     /// The most leaf child scene that has been performed
@@ -210,6 +206,6 @@ public extension Scenable {
 
 extension Scenable {
     func updateLifeCycle(_ value: LifeCycle) {
-        managedContext.lifeCycle.onNext(value)
+        managedContext.lifeCycle.send(value)
     }
 }

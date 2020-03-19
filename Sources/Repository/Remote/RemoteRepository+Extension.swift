@@ -13,9 +13,8 @@ public extension RemoteListRepository {
             .getList(options: options?.requestOptions)
             .map(ListDTO.init)
         #if !RELEASE && !PRODUCTION
-        return remote.breakpoint(receiveOutput: {
+        return remote.handleEvents(receiveOutput: {
             Swift.print("Get \($0.data.count) items of type \(T.self) from remote successfully!!!")
-            return true
         }).eraseToAnyPublisher()
         #else
         return remote.eraseToAnyPublisher()

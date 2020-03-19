@@ -5,7 +5,7 @@
 //  Created by Robert on 8/10/19.
 //
 
-import RxSwift
+import Combine
 
 public protocol Activating {
     func activate()
@@ -16,6 +16,6 @@ public protocol Storable: class, Activating {
     associatedtype State: Statable
 
     var currentState: State { get }
-    var state: Observable<State> { get }
+    var state: AnyPublisher<State, Never> { get }
     var isActive: Bool { get }
 }

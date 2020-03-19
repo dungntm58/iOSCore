@@ -55,12 +55,6 @@ PODS:
   - Realm/Headers (4.3.2)
   - RealmSwift (4.3.2):
     - Realm (= 4.3.2)
-  - RxCocoa (5.1.0):
-    - RxRelay (~> 5)
-    - RxSwift (~> 5)
-  - RxRelay (5.1.0):
-    - RxSwift (~> 5)
-  - RxSwift (5.1.0)
   - SwiftDate (6.1.0)
   - Toaster (2.2.0)
   - Valet (3.2.8)
@@ -75,9 +69,6 @@ DEPENDENCIES:
   - CoreRedux (from `../`)
   - CoreRedux/List (from `../`)
   - CoreRepository (from `../`)
-  - RxCocoa
-  - RxRelay
-  - RxSwift
   - SwiftDate
   - Toaster
   - Valet
@@ -88,9 +79,6 @@ SPEC REPOS:
     - DifferenceKit
     - Realm
     - RealmSwift
-    - RxCocoa
-    - RxRelay
-    - RxSwift
     - SwiftDate
     - Toaster
     - Valet
@@ -123,13 +111,10 @@ SPEC CHECKSUMS:
   DifferenceKit: 516f12e336ed65a3a0665847b5c3cb5cad4bd4ea
   Realm: 5e92902e2875dff4bb0fd02f67bb737c3d5db2bc
   RealmSwift: 9a360fc7bae04fc2e308a34fbd899d5faa2d6b22
-  RxCocoa: 13d2a4d7546a34b8ececae8c281e4ea1dbb94f2b
-  RxRelay: a168bd6caf712d00c676ac344e9295afc93b418e
-  RxSwift: ad5874f24bb0dbffd1e9bb8443604e3578796c7a
   SwiftDate: fa2bb3962056bb44047b4b85a30044e5eae30b03
   Toaster: c1a81b376edcc2470157b4d1ee1e9341d3b96455
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
-PODFILE CHECKSUM: 829bad8c11b6f3ee79027dec0073f73a07674369
+PODFILE CHECKSUM: 4d1f4399f084463d6c3edb33af9da63f34003a22
 
 COCOAPODS: 1.8.4

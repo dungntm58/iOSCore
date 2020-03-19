@@ -5,7 +5,7 @@
 //  Created by Robert Nguyen on 6/6/19.
 //
 
-import RxSwift
+import Combine
 
 public protocol Viewable {
     var viewManager: ViewManagable { get }
