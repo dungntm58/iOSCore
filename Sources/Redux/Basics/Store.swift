@@ -13,6 +13,8 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
     private let _derivedAction: PassthroughSubject<Action, Never>
     private var _epics: [EpicFunction<Action, State>]
 
+    private lazy var cancellables: Set<AnyCancellable> = .init()
+
     private(set) public var isActive: Bool
 
     open var reducer: ReduceFunction<Action, State>
@@ -24,6 +26,10 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
 
     public var state: AnyPublisher<State, Never> {
         _state.removeDuplicates { $0 as AnyObject === $1 as AnyObject }.eraseToAnyPublisher()
+    }
+
+    deinit {
+        cancellables.forEach { $0.cancel() }
     }
 
     public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler, schedulerOptions: StoreScheduler.SchedulerOptions? = nil) where Reducer: Reducable, Reducer.Action == Action, Reducer.State == State {
@@ -79,7 +85,7 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
     }
 
     private func run() {
-        let actionToState = _derivedAction
+        _derivedAction
             .combineLatest(_state, {
                 [reducer] action, state -> (Action, State) in
                 let newState = reducer(action, state)
@@ -92,9 +98,10 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
             })
             .map { $0.1 }
             .sink(receiveValue: _state.send)
-        let actionToDerivedAction = _action.sink(receiveValue: _derivedAction.send)
+            .store(in: &cancellables)
+        _action.sink(receiveValue: _derivedAction.send).store(in: &cancellables)
         // Handle epics
-        let actionToAction = _action
+        _action
             .receive(on: scheduler, options: schedulerOptions)
             .flatMap ({
                 [weak self] action -> AnyPublisher<Action, Never> in
@@ -113,6 +120,6 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
                 return epic
             })
             .sink(receiveValue: _action.send)
-        // TODO: Collect any cancellable objects
+            .store(in: &cancellables)
     }
 }

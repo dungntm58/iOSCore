@@ -9,23 +9,13 @@
 import CoreRedux
 import CoreList
 
-class TodoStore: Store<TodoReducer.Action, TodoReducer.State, RunLoop> {
+class TodoStore: Store<TodoReducer.Action, TodoReducer.State, DispatchQueue> {
     init() {
-        super.init(reducer: TodoReducer(), initialState: Todo.State(), scheduler: .main)
+        super.init(reducer: TodoReducer(), initialState: Todo.State(), scheduler: .global())
         inject(
             TodoListEpic().apply,
             TodoCreateEpic().apply,
-            {
-                dispatcher, _, _ in
-                dispatcher
-                    .of(type: .logout)
-                    .map ({
-                        _ in
-                        AppPreferences.instance.token = nil
-                        return Action(type: .logoutSuccess, payload: 0)
-                    })
-                    .eraseToAnyPublisher()
-            }
+            LogoutEpic().apply
         )
     }
 }

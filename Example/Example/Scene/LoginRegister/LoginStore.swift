@@ -9,9 +9,9 @@
 import CoreRedux
 import Combine
 
-class LoginStore: Store<LoginReducer.Action, LoginReducer.State, RunLoop> {
+class LoginStore: Store<LoginReducer.Action, LoginReducer.State, DispatchQueue> {
     init() {
-        super.init(reducer: LoginReducer(), initialState: State(), scheduler: .main)
+        super.init(reducer: LoginReducer(), initialState: State(), scheduler: .global())
         inject(
             LoginEpic().apply,
             RegisterEpic().apply

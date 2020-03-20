@@ -26,4 +26,16 @@ open class BaseTableView: UITableView {
     }
 
     open func initializeViewSource() -> DataViewSource? { nil }
+
+    @available(*, unavailable, message: "Not allow to reassign")
+    open override var dataSource: UITableViewDataSource? {
+        willSet{}
+        didSet{}
+    }
+
+    @available(*, unavailable, message: "Not allow to reassign")
+    open override var delegate: UITableViewDelegate? {
+        willSet{}
+        didSet{}
+    }
 }

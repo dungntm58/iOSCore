@@ -35,7 +35,23 @@ extension Payload.List.Request: PaginationRequestOptions {
     }
 }
 
-class TodoCreateEpic: Epic {
+struct LogoutEpic: Epic {
+    typealias Action = Todo.Action
+    typealias State = Todo.State
+    
+    func apply(dispatcher: AnyPublisher<Action, Never>, actionStream: AnyPublisher<Action, Never>, stateStream: AnyPublisher<State, Never>) -> AnyPublisher<Action, Never> {
+        dispatcher
+            .of(type: .logout)
+            .map ({
+                _ in
+                AppPreferences.instance.token = nil
+                return Action(type: .logoutSuccess, payload: 0)
+            })
+            .eraseToAnyPublisher()
+    }
+}
+
+struct TodoCreateEpic: Epic {
     typealias Action = Todo.Action
     typealias State = Todo.State
     
@@ -49,11 +65,8 @@ class TodoCreateEpic: Epic {
             .of(type: .createTodo)
             .compactMap { $0.payload as? String }
             .flatMap ({
-                [weak self] payload -> AnyPublisher<Action, Never> in
-                guard let self = self else {
-                    return Empty().eraseToAnyPublisher()
-                }
-                return self.worker.createNew(payload)
+                payload -> AnyPublisher<Action, Never> in
+                self.worker.createNew(payload)
                     .map { Payload.List.Response(data: [$0]) }
                     .map { res -> Action in res.toAction() }
                     .catch { Just($0.toAction()) }

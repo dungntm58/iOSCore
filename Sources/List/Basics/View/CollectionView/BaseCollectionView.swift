@@ -26,4 +26,16 @@ open class BaseCollectionView: UICollectionView {
     }
 
     open func initializeViewSource() -> DataViewSource? { nil }
+
+    @available(*, unavailable, message: "Not allow to reassign")
+    open override var dataSource: UICollectionViewDataSource? {
+        willSet{}
+        didSet{}
+    }
+
+    @available(*, unavailable, message: "Not allow to reassign")
+    open override var delegate: UICollectionViewDelegate? {
+        willSet{}
+        didSet{}
+    }
 }
