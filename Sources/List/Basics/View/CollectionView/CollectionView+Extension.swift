@@ -1,6 +1,6 @@
 //
 //  CollectionView+Extension.swift
-//  RxCoreList
+//  CoreList
 //
 //  Created by Robert on 8/10/19.
 //

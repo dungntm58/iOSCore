@@ -7,8 +7,8 @@
 //
 
 import DifferenceKit
-import RxCoreRepository
-import RxCoreBase
+import CoreRepository
+import CoreBase
 
 struct TodoEntity: Identifiable, Decodable, Equatable {
     typealias IDType = String

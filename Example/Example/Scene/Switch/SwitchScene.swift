@@ -6,7 +6,7 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
-import RxCoreBase
+import CoreBase
 
 class SwitchScene: ViewableScene, Launchable {
     lazy var window = UIWindow(frame: UIScreen.main.bounds)

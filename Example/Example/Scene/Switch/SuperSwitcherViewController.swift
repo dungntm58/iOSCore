@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import RxCoreBase
+import CoreBase
 
 class SuperSwitcherViewController: UIViewController, SceneBindableRef, ViewManagable {
     

@@ -1,6 +1,6 @@
 //
 //  ListAction.swift
-//  RxCoreRedux
+//  CoreRedux
 //
 //  Created by Robert Nguyen on 6/8/19.
 //

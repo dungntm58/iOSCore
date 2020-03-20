@@ -6,18 +6,18 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
-import RxCocoa
-import RxSwift
-import RxCoreBase
-import RxCoreList
-import RxCoreRedux
+import Combine
+import CoreBase
+import CoreList
+import CoreRedux
 import Toaster
 
 class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
-    private lazy var disposeBag = DisposeBag()
     
     var scene: TodoScene?
     var newTodo: String?
+    
+    lazy var cancellables: Set<AnyCancellable> = .init()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,35 +31,35 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
         store?.state
             .filter { !$0.isLogout }
             .compactMap { $0.error }
-            .subscribe(onNext: {
+            .sink(receiveValue: {
                 [weak self] error in
                 self?.onError(error)
             })
-            .disposed(by: disposeBag)
+            .store(in: &cancellables)
         
         store?
             .state
             .filter { $0.error == nil }
             .map { $0.isLogout }
             .filter { $0 }
-            .observeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: {
                 [weak self] _ in
                 self?.scene?.detach()
             })
-            .disposed(by: disposeBag)
+            .store(in: &cancellables)
         
         store?
             .state
             .filter { $0.error == nil && !$0.isLogout }
             .map { $0.selectedTodoIndex }
             .filter { $0 >= 0 }
-            .observeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: {
                 [weak self] _ in
                 self?.scene?.showTodoDetail()
             })
-            .disposed(by: disposeBag)
+            .store(in: &cancellables)
         
         store?.dispatch(type: .load, payload: Payload.List.Request(page: 1, cancelRunning: false))
     }
@@ -69,16 +69,13 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
         vc.addTextField {
             [weak self] textField in
             guard let `self` = self else { return }
-            textField
-                .rx
-                .text
-                .orEmpty
-                .distinctUntilChanged()
-                .subscribe(onNext: {
-                    [weak self] value in
-                    self?.newTodo = value
-                })
-                .disposed(by: self.disposeBag)
+//            textField
+//                .orEmpty
+//                .removeDuplicates()
+//                .sink(receiveValue: {
+//                    [weak self] value in
+//                    self?.newTodo = value
+//                })
         }
         vc.addAction(UIAlertAction(title: "OK", style: .default) {
             _ in

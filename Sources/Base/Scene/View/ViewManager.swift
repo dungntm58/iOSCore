@@ -1,6 +1,6 @@
 //
 //  ViewManager.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert on 7/21/19.
 //
@@ -98,7 +98,7 @@ private extension ViewManager {
 //                viewController.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))),
 //                Observable.just(viewController)
 //            ) { $1 }
-//            .subscribe(onNext: self.viewControllerWillAppear(_:))
+//            .sink(receiveValue: self.viewControllerWillAppear(_:))
 //            .disposed(by: disposeBag)
 //
 //        Observable
@@ -106,7 +106,7 @@ private extension ViewManager {
 //                viewController.rx.methodInvoked(#selector(UIViewController.viewWillDisappear(_:))),
 //                Observable.just(viewController)
 //            ) { $1 }
-//            .subscribe(onNext: self.viewControllerWillDisappear(_:))
+//            .sink(receiveValue: self.viewControllerWillDisappear(_:))
 //            .disposed(by: disposeBag)
     }
 

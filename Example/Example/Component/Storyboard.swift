@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import RxCoreBase
+import CoreBase
 
 enum AppStoryboard: String, Storyboard {
     case main = "Main"

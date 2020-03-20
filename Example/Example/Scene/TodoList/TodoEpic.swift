@@ -6,10 +6,10 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
-import RxCoreRepository
-import RxCoreRedux
-import RxCoreList
-import RxSwift
+import CoreRepository
+import CoreRedux
+import CoreList
+import Combine
 
 class TodoListEpic: BaseListEpic<Todo.Action, Todo.State, TodoWorker> {
     init() {
@@ -44,13 +44,21 @@ class TodoCreateEpic: Epic {
         self.worker = TodoWorker()
     }
     
-    func apply(dispatcher: Observable<Action>, actionStream: Observable<Action>, stateStream: Observable<State>) -> Observable<Action> {
+    func apply(dispatcher: AnyPublisher<Action, Never>, actionStream: AnyPublisher<Action, Never>, stateStream: AnyPublisher<State, Never>) -> AnyPublisher<Action, Never> {
         dispatcher
             .of(type: .createTodo)
             .compactMap { $0.payload as? String }
-            .flatMap(worker.createNew)
-            .map { Payload.List.Response(data: [$0]) }
-            .map { $0.toAction() }
-            .catchError { .just($0.toAction()) }
+            .flatMap ({
+                [weak self] payload -> AnyPublisher<Action, Never> in
+                guard let self = self else {
+                    return Empty().eraseToAnyPublisher()
+                }
+                return self.worker.createNew(payload)
+                    .map { Payload.List.Response(data: [$0]) }
+                    .map { res -> Action in res.toAction() }
+                    .catch { Just($0.toAction()) }
+                    .eraseToAnyPublisher()
+            })
+            .eraseToAnyPublisher()
     }
 }

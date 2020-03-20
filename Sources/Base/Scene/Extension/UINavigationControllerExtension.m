@@ -1,13 +1,13 @@
 //
 //  UINavigationControllerExtension.m
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert on 2/17/20.
 //
 
 #import <UINavigationControllerExtension.h>
 
-@implementation UINavigationController (RxCoreBase)
+@implementation UINavigationController (CoreBase)
 
 - (nullable UIViewController *)popViewControllerAnimated:(BOOL)flag completion: (void (^ __nullable)(void))completion; {
     [CATransaction begin];

@@ -6,10 +6,10 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxSwift
+import Combine
 import SwiftDate
-import RxCoreRepository
-import RxCoreRedux
+import CoreRepository
+import CoreRedux
 
 class TodoWorker: ListDataWorker {
     let todoRepository: TodoRepository
@@ -18,11 +18,11 @@ class TodoWorker: ListDataWorker {
         todoRepository = TodoRepository()
     }
     
-    func getList(options: PaginationRequestOptions?) -> Observable<ListDTO<TodoEntity>> {
+    func getList(options: PaginationRequestOptions?) -> AnyPublisher<ListDTO<TodoEntity>, Error> {
         todoRepository.getList(options: options)
     }
     
-    func createNew(_ title: String) -> Observable<TodoEntity> {
+    func createNew(_ title: String) -> AnyPublisher<TodoEntity, Error> {
         todoRepository.create(TodoEntity(title: title), options: nil)
     }
 }

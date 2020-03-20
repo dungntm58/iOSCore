@@ -6,7 +6,7 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
-import RxCoreBase
+import CoreBase
 
 class LoginScene: ConnectableViewableScene<LoginStore> {
     convenience init() {

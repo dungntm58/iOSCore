@@ -1,6 +1,6 @@
 //
 //  ViewManagable.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert on 8/28/19.
 //

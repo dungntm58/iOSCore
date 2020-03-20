@@ -1,6 +1,6 @@
 //
 //  UIView+Extension.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert Nguyen on 3/31/19.
 //

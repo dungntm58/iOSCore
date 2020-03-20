@@ -1,6 +1,6 @@
 //
 //  Router.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert Nguyen on 6/5/19.
 //

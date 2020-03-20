@@ -1,6 +1,6 @@
 //
 //  Helper.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert Nguyen on 3/23/19.
 //

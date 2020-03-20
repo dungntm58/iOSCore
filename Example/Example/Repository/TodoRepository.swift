@@ -6,7 +6,7 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxCoreRepository
+import CoreRepository
 
 class TodoRepository: RemoteIdentifiableSingleRepository, RemoteListRepository {
     typealias T = TodoEntity

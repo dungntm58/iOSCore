@@ -1,6 +1,6 @@
 //
 //  PaginationReducer.swift
-//  RxCoreRedux
+//  CoreRedux
 //
 //  Created by Robert Nguyen on 4/4/18.
 //  Copyright © 2018 Robert Nguyen. All rights reserved.

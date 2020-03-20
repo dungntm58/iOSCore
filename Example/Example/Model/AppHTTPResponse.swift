@@ -6,8 +6,8 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxCoreBase
-import RxCoreRepository
+import CoreBase
+import CoreRepository
 
 struct AppPaginationDTO: PaginationDTO, Decodable {
     let total: Int

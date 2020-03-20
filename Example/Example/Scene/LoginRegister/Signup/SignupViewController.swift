@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import RxCoreBase
-import RxSwift
+import CoreBase
+import Combine
 
 class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
     
@@ -17,28 +17,28 @@ class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
     
     var scene: LoginScene?
     
-    lazy var disposeBag = DisposeBag()
+    lazy var cancellables: Set<AnyCancellable> = .init()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         scene?.store.state
             .compactMap { $0.user }
-            .subscribeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: {
                 [weak self] _ in
                 self?.scene?.switch(to: TodoScene())
             })
-            .disposed(by: disposeBag)
+            .store(in: &cancellables)
         
         scene?.store.state
             .compactMap { $0.error }
-            .subscribeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: {
                 [weak self] error in
                 self?.onError(error)
             })
-            .disposed(by: disposeBag)
+            .store(in: &cancellables)
     }
     
     @IBAction func onSignup(_ sender: UIButton) {

@@ -1,6 +1,6 @@
 //
 //  Scenable+Extension.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert on 8/10/19.
 //

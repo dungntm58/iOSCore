@@ -1,6 +1,6 @@
 //
 //  UIWindow+Extension.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert Nguyen on 12/24/18.
 //  Copyright © 2018 Robert Nguyen. All rights reserved.

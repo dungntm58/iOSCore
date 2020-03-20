@@ -6,9 +6,9 @@
 //  Copyright © 2019 Robert Nguyen. All rights reserved.
 //
 
-import RxCoreBase
-import RxCoreRedux
-import RxSwift
+import CoreBase
+import CoreRedux
+import Combine
 
 class LoginEpic: Epic {
     typealias Action = Login.Action
@@ -20,13 +20,16 @@ class LoginEpic: Epic {
         self.worker = UserWorker()
     }
     
-    func apply(dispatcher: Observable<Action>, actionStream: Observable<Action>, stateStream: Observable<State>) -> Observable<Action> {
+    func apply(dispatcher: AnyPublisher<Action, Never>, actionStream: AnyPublisher<Action, Never>, stateStream: AnyPublisher<State, Never>) -> AnyPublisher<Action, Never> {
         dispatcher
             .of(type: .login)
             .map { $0.payload as! (String, String) }
-            .flatMap { self.worker.login(userName: $0.0, password: $0.1) }
-            .map { Action(type: .success, payload: $0) }
-            .catchError { .just($0.toAction()) }
+            .flatMap ({
+                self.worker.login(userName: $0.0, password: $0.1)
+                    .map { Action(type: .success, payload: $0) }
+                    .catch { Just($0.toAction()) }
+            })
+            .eraseToAnyPublisher()
     }
 }
 
@@ -40,12 +43,15 @@ class RegisterEpic: Epic {
         self.worker = UserWorker()
     }
     
-    func apply(dispatcher: Observable<Action>, actionStream: Observable<Action>, stateStream: Observable<State>) -> Observable<Action> {
+    func apply(dispatcher: AnyPublisher<Action, Never>, actionStream: AnyPublisher<Action, Never>, stateStream: AnyPublisher<State, Never>) -> AnyPublisher<Action, Never> {
         dispatcher
             .of(type: .register)
             .map { $0.payload as! (String, String) }
-            .flatMap { self.worker.signup(userName: $0.0, password: $0.1) }
-            .map { Action(type: .success, payload: $0) }
-            .catchError { .just($0.toAction()) }
+            .flatMap ({
+                self.worker.signup(userName: $0.0, password: $0.1)
+                    .map { Action(type: .success, payload: $0) }
+                    .catch { Just($0.toAction()) }
+            })
+            .eraseToAnyPublisher()
     }
 }

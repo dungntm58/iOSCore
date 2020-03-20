@@ -6,9 +6,9 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxSwift
-import RxCoreBase
-import RxCoreRepository
+import Combine
+import CoreBase
+import CoreRepository
 import Alamofire
 
 class TodoSingleRequest: IdentifiableSingleHTTPRequest, Decoding {
@@ -21,23 +21,23 @@ class TodoSingleRequest: IdentifiableSingleHTTPRequest, Decoding {
         self.decoder = Constant.Request.jsonDecoder
     }
     
-    func get(id: String, options: RequestOption? = nil) -> Observable<Response> {
+    func get(id: String, options: RequestOption? = nil) -> AnyPublisher<Response, Error> {
         execute(api: .getTodos(id: id), options: options)
     }
     
-    func delete(id: String, options: RequestOption? = nil) -> Observable<Response> {
+    func delete(id: String, options: RequestOption? = nil) -> AnyPublisher<Response, Error> {
         execute(api: .delete(id: id), options: options)
     }
     
-    func create(_ value: TodoEntity, options: RequestOption? = nil) -> Observable<Response> {
+    func create(_ value: TodoEntity, options: RequestOption? = nil) -> AnyPublisher<Response, Error> {
         execute(api: .createTodo, options: value.toLiteralDictionary())
     }
     
-    func update(_ value: TodoEntity, options: RequestOption? = nil) -> Observable<Response> {
+    func update(_ value: TodoEntity, options: RequestOption? = nil) -> AnyPublisher<Response, Error> {
         execute(api: .updateTodo(id: value.id), options: value.toLiteralDictionary())
     }
     
-    func delete(_ value: TodoEntity, options: RequestOption? = nil) -> Observable<Response> {
+    func delete(_ value: TodoEntity, options: RequestOption? = nil) -> AnyPublisher<Response, Error> {
         self.delete(id: value.id, options: options)
     }
     
@@ -58,7 +58,7 @@ class TodoListRequest: ListModelHTTPRequest, Decoding {
         self.decoder = Constant.Request.jsonDecoder
     }
     
-    func getList(options: RequestOption?) -> Observable<Response> {
+    func getList(options: RequestOption?) -> AnyPublisher<Response, Error> {
         execute(api: .getTodos(id: nil), options: options)
     }
 }

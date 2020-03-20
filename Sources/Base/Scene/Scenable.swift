@@ -1,6 +1,6 @@
 //
 //  Scenario.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert Nguyen on 5/15/19.
 //
@@ -55,7 +55,7 @@ public protocol Scenable: class, MaybeRetrievable {
 
 open class ManagedSceneContext {
     var previous: Scenable?
-    let cancellable: AnyCancellable
+    var cancellables: Set<AnyCancellable>
 
     weak var parent: Scenable?
     var children: [Scenable]
@@ -65,17 +65,17 @@ open class ManagedSceneContext {
     var isPerformed: Bool
 
     deinit {
-        cancellable.cancel()
+        cancellables.forEach { $0.cancel() }
     }
 
     public init(children: [Scenable] = []) {
         self.children = children
         self.lifeCycle = .init(.inital)
-        self.cancellable = .init({})
+        self.cancellables = .init()
         self.isPerformed = false
     }
 
     public func insertCancellable(_ cancellable: Cancellable) {
-        
+        cancellable.store(in: &cancellables)
     }
 }

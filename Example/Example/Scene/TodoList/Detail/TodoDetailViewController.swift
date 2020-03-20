@@ -6,7 +6,7 @@
 //  Copyright © 2019 Robert Nguyen. All rights reserved.
 //
 
-import RxCoreBase
+import CoreBase
 
 class TodoDetailViewController: UIViewController, ConnectedSceneBindableRef {
     @IBOutlet weak var lbTitle: UILabel!

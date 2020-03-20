@@ -6,9 +6,9 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxSwift
-import RxCoreBase
-import RxCoreRepository
+import Combine
+import CoreBase
+import CoreRepository
 import Alamofire
 
 class AuthRequest: HTTPRequest, Decoding {
@@ -21,11 +21,11 @@ class AuthRequest: HTTPRequest, Decoding {
         self.decoder = Constant.Request.jsonDecoder
     }
     
-    func login(_ options: RequestOption?) -> Observable<Response> {
+    func login(_ options: RequestOption?) -> AnyPublisher<Response, Error> {
         execute(api: .login, options: options)
     }
     
-    func signup(_ options: RequestOption?) -> Observable<Response> {
+    func signup(_ options: RequestOption?) -> AnyPublisher<Response, Error> {
         execute(api: .signup, options: options)
     }
 }

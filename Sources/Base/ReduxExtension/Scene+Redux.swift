@@ -1,15 +1,14 @@
 //
 //  Scene+Redux.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Dung Nguyen on 2/28/20.
 //
 
-import RxSwift
-import RxCoreRedux
+import CoreRedux
 
 public protocol ConnectedSceneRef: SceneRef where Scene: Connectable {}
-public protocol ConnectedSceneBindableRef: SceneBindableRef, ConnectedSceneRef, Activating {}
+public protocol ConnectedSceneBindableRef: SceneBindableRef, ConnectedSceneRef {}
 
 public extension Activating where Self: ConnectedSceneRef {
     func activate() {
@@ -78,8 +77,8 @@ open class ConnectableViewableScene<Store>: Scene, Connectable, Viewable where S
 
 extension Scenable where Self: Connectable {
     func config() {
-        let lifeCycleDiposable = self.lifeCycle
-            .map {
+        let lifeCycleCancellable = self.lifeCycle
+            .map ({
                 state -> Bool in
                 switch state {
                 case .didBecomeActive, .willResignActive, .willDetach:
@@ -87,12 +86,12 @@ extension Scenable where Self: Connectable {
                 default:
                     return false
                 }
-            }
-            .distinctUntilChanged()
-            .subscribe(onNext: {
+            })
+            .removeDuplicates()
+            .sink(receiveValue: {
                 [store] shouldActiveStore in
                 shouldActiveStore ? store.activate() : store.deactivate()
             })
-        _ = managedContext.insertDisposable(lifeCycleDiposable)
+        _ = managedContext.insertCancellable(lifeCycleCancellable)
     }
 }

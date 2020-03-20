@@ -1,6 +1,6 @@
 //
 //  Observable+Extension.swift
-//  RxCoreRedux
+//  CoreRedux
 //
 //  Created by Robert Nguyen on 5/18/19.
 //

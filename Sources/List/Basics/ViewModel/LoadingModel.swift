@@ -1,6 +1,6 @@
 //
 //  LoadingModel.swift
-//  RxCoreList
+//  CoreList
 //
 //  Created by Robert Nguyen on 3/21/19.
 //

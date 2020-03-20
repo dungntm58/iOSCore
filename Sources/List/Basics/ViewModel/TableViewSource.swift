@@ -1,6 +1,6 @@
 //
 //  TableViewDataSource.swift
-//  RxCoreList
+//  CoreList
 //
 //  Created by Robert Nguyen on 2/8/19.
 //  Copyright © 2019 Robert Nguyen. All rights reserved.

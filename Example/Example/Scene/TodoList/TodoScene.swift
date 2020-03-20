@@ -6,8 +6,8 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
-import RxCoreBase
-import RxCoreRedux
+import CoreBase
+import CoreRedux
 
 class TodoScene: ConnectableViewableScene<TodoStore>, Dispatchable {
     typealias Action = TodoStore.Action

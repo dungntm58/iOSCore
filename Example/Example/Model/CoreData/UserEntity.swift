@@ -6,9 +6,9 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxCoreBase
-import RxCoreRepository
-import RxCoreDataStore
+import CoreBase
+import CoreRepository
+import CoreDataStore
 import CoreData
 
 class UserEntity: Identifiable, Decodable, ManagedObjectBox {

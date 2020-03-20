@@ -6,8 +6,8 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxSwift
-import RxCoreRepository
+import Combine
+import CoreRepository
 
 class UserWorker {
     let authRepository: AuthRepository
@@ -16,7 +16,7 @@ class UserWorker {
         authRepository = AuthRepository()
     }
     
-    struct RequestOption: RxCoreRepository.RequestOption {
+    struct RequestOption: CoreRepository.RequestOption {
         let userName: String
         let password: String
         
@@ -28,12 +28,12 @@ class UserWorker {
         }
     }
     
-    func login(userName: String, password: String) -> Observable<UserEntity> {
+    func login(userName: String, password: String) -> AnyPublisher<UserEntity, Error> {
         let options = UserWorker.RequestOption(userName: userName, password: password)
         return authRepository.login(options)
     }
     
-    func signup(userName: String, password: String) -> Observable<UserEntity> {
+    func signup(userName: String, password: String) -> AnyPublisher<UserEntity, Error> {
         let options = UserWorker.RequestOption(userName: userName, password: password)
         return authRepository.signup(options)
     }

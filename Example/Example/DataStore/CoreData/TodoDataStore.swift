@@ -6,9 +6,9 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxCoreBase
-import RxCoreDataStore
-import RxCoreRepository
+import CoreBase
+import CoreDataStore
+import CoreRepository
 
 class TodoDataStore: CoreDataIdentifiableDataStore {
     let configuration: CoreDataConfiguration

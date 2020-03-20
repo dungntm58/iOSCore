@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import RxCoreBase
+import CoreBase
 import UserNotifications
-import RxCoreAPNS
+import CoreAPNS
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,11 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         launcher.launch()
 
 //        Setup remote notifications
-        if #available(iOS 10.0, *) {
-            APNSConfig.registerForRemoteNotifications(application, options: [.alert, .badge, .sound], userNotificationCenterDelegate: self)
-        } else {
-            APNSConfig.registerForRemoteNotifications(application, settings: [.alert, .badge, .sound], categories: nil)
-        }
+        APNSConfig.registerForRemoteNotifications(application, options: [.alert, .badge, .sound], userNotificationCenterDelegate: self)
         
         return true
     }

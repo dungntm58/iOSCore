@@ -6,8 +6,8 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxCoreBase
-import RxCoreRepository
+import CoreBase
+import CoreRepository
 
 class TodoDataStore: IdentifiableDataStore {
     let ttl: TimeInterval = 60

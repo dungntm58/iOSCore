@@ -10,7 +10,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UINavigationController (RxCoreBase)
+@interface UINavigationController (CoreBase)
 
 - (nullable UIViewController *)popViewControllerAnimated:(BOOL)flag completion: (void (^ __nullable)(void))completion;
 

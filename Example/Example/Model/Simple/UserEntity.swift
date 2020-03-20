@@ -6,8 +6,8 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxCoreBase
-import RxCoreRepository
+import CoreBase
+import CoreRepository
 
 struct UserEntity: Identifiable, Codable, Equatable {
     typealias IDType = String

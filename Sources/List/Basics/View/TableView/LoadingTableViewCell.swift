@@ -1,6 +1,6 @@
 //
 //  LoadingTableViewCell.swift
-//  RxCoreList
+//  CoreList
 //
 //  Created by Robert on 2/12/17.
 //  Copyright © 2017 Robert Nguyen. All rights reserved.

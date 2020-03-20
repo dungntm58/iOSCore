@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import RxCoreBase
-import RxCoreList
-import RxCoreRedux
-import RxCoreRepository
+import CoreBase
+import CoreList
+import CoreRedux
+import CoreRepository
 import DifferenceKit
 
 class TodoList2ViewSource: BaseCollectionViewSource, UICollectionViewDelegateFlowLayout {
@@ -24,27 +24,25 @@ class TodoList2ViewSource: BaseCollectionViewSource, UICollectionViewDelegateFlo
         let response = store?.state
             .filter { $0.error == nil && !$0.isLogout }
             .map { $0.list }
-            .distinctUntilChanged()
+            .removeDuplicates()
             .share()
         
-        response?
+        (response?
             .map { $0.hasNext }
-            .distinctUntilChanged()
-            .bind(to: rx.isAnimating)
-            .disposed(by: disposeBag)
+            .removeDuplicates())
+            .map(bindIsAnimating)
         
-        response?
+        (response?
             .filter { !$0.isLoading }
-            .map {
+            .map ({
                 response in
                 if response.currentPage <= 1 {
                     return ListViewSourceModel(type: .initial, data: response.data, needsReload: true)
                 } else {
                     return ListViewSourceModel(type: .addNew(at: .end(length: response.data.count)), data: response.data, needsReload: true)
                 }
-            }
-            .bind(to: rx.model)
-            .disposed(by: disposeBag)
+            }))
+            .map(bindModel)
     }
     
     override func bind(value: ViewModelItem, to cell: UICollectionViewCell, at indexPath: IndexPath) {

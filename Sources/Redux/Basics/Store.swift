@@ -1,6 +1,6 @@
 //
 //  Store.swift
-//  RxCoreRedux
+//  CoreRedux
 //
 //  Created by Robert Nguyen on 5/15/19.
 //
@@ -26,7 +26,7 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
         _state.removeDuplicates { $0 as AnyObject === $1 as AnyObject }.eraseToAnyPublisher()
     }
 
-    public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler, schedulerOptions: StoreScheduler.SchedulerOptions?) where Reducer: Reducable, Reducer.Action == Action, Reducer.State == State {
+    public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler, schedulerOptions: StoreScheduler.SchedulerOptions? = nil) where Reducer: Reducable, Reducer.Action == Action, Reducer.State == State {
         self._state = .init(initialState)
         self._action = .init()
         self._derivedAction = .init()
@@ -38,7 +38,7 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
         run()
     }
 
-    public init(reducer: @escaping ReduceFunction<Action, State>, initialState: State, scheduler: StoreScheduler, schedulerOptions: StoreScheduler.SchedulerOptions?) {
+    public init(reducer: @escaping ReduceFunction<Action, State>, initialState: State, scheduler: StoreScheduler, schedulerOptions: StoreScheduler.SchedulerOptions? = nil) {
         self._state = .init(initialState)
         self._action = .init()
         self._derivedAction = .init()

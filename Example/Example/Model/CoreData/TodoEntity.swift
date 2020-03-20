@@ -6,10 +6,10 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxCoreList
-import RxCoreRepository
-import RxCoreDataStore
-import RxCoreBase
+import CoreList
+import CoreRepository
+import CoreDataStore
+import CoreBase
 import CoreData
 
 class TodoEntity: NSObject, Identifiable, Decodable, ManagedObjectBox {

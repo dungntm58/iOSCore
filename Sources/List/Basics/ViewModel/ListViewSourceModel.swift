@@ -1,6 +1,6 @@
 //
 //  ListViewSourceModel.swift
-//  RxCoreList
+//  CoreList
 //
 //  Created by Robert Nguyen on 1/13/19.
 //  Copyright © 2019 Robert Nguyen. All rights reserved.

@@ -7,9 +7,9 @@
 //
 
 import Alamofire
-import RxCoreRepository
-import RxCoreList
-import RxCoreRedux
+import CoreRepository
+import CoreList
+import CoreRedux
 import DifferenceKit
 
 enum Todo {

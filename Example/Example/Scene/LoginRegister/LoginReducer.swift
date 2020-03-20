@@ -6,8 +6,8 @@
 //  Copyright © 2019 Robert Nguyen. All rights reserved.
 //
 
-import RxCoreRedux
-import RxSwift
+import CoreRedux
+import Combine
 
 class LoginReducer: Reducable {
     typealias State = Login.State

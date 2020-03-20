@@ -7,9 +7,9 @@
 //
 
 import Alamofire
-import RxSwift
-import RxCoreRepository
-import RxCoreBase
+import Combine
+import CoreRepository
+import CoreBase
 
 extension HTTPRequest {
     var defaultHeaders: HTTPHeaders? {

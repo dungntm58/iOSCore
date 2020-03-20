@@ -6,9 +6,9 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxSwift
-import RxCoreBase
-import RxCoreRepository
+import Combine
+import CoreBase
+import CoreRepository
 
 class AuthRepository {
     private let request: AuthRequest
@@ -19,37 +19,39 @@ class AuthRepository {
         userDataStore = UserDataStore()
     }
     
-    func login(_ options: RequestOption) -> Observable<UserEntity> {
+    func login(_ options: RequestOption) -> AnyPublisher<UserEntity, Error> {
         request
             .login(options)
-            .map {
+            .tryMap {
                 response -> AuthDto in
                 guard let data = response.result else {
                     throw Constant.Error.errorEmptyDecodable
                 }
                 return data
             }
-            .flatMap {
-                auth -> Observable<UserEntity> in
+            .flatMap ({
+                auth -> AnyPublisher<UserEntity, Error> in
                 AppPreferences.instance.token = auth.token
                 return self.userDataStore.saveAsync(auth.user)
-            }
+            })
+            .eraseToAnyPublisher()
     }
     
-    func signup(_ options: RequestOption) -> Observable<UserEntity> {
+    func signup(_ options: RequestOption) -> AnyPublisher<UserEntity, Error> {
         request
             .signup(options)
-            .map {
+            .tryMap {
                 response -> AuthDto in
                 guard let data = response.result else {
                     throw Constant.Error.errorEmptyDecodable
                 }
                 return data
             }
-            .flatMap {
-                auth -> Observable<UserEntity> in
+            .flatMap ({
+                auth -> AnyPublisher<UserEntity, Error> in
                 AppPreferences.instance.token = auth.token
                 return self.userDataStore.saveAsync(auth.user)
-            }
+            })
+            .eraseToAnyPublisher()
     }
 }

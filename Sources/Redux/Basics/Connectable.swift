@@ -1,6 +1,6 @@
 //
 //  Connectable.swift
-//  RxCoreRedux
+//  CoreRedux
 //
 //  Created by Robert Nguyen on 5/15/19.
 //

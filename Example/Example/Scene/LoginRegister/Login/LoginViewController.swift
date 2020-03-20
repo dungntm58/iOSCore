@@ -7,38 +7,42 @@
 //
 
 import UIKit
-import RxSwift
-import RxCoreBase
+import Combine
+import CoreBase
 
 class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
     
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!
     
-    lazy var disposeBag = DisposeBag()
+    lazy var cancellables: Set<AnyCancellable> = .init()
     
     var scene: LoginScene?
+    
+    deinit {
+        cancellables.forEach { $0.cancel() }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         scene?.store.state
             .compactMap { $0.user }
-            .observeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: {
                 [weak self] _ in
                 self?.scene?.switch(to: TodoScene())
             })
-            .disposed(by: disposeBag)
+            .store(in: &cancellables)
         
         scene?.store.state
             .compactMap { $0.error }
-            .observeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: {
                 [weak self] error in
                 self?.onError(error)
             })
-            .disposed(by: disposeBag)
+            .store(in: &cancellables)
     }
     
     @IBAction func onLogin(_ sender: UIButton) {

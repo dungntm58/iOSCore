@@ -6,12 +6,12 @@
 //  Copyright © 2019 Robert Nguyễn. All rights reserved.
 //
 
-import RxCoreRedux
-import RxCoreList
+import CoreRedux
+import CoreList
 
-class TodoStore: Store<TodoReducer.Action, TodoReducer.State> {
+class TodoStore: Store<TodoReducer.Action, TodoReducer.State, RunLoop> {
     init() {
-        super.init(reducer: TodoReducer(), initialState: Todo.State())
+        super.init(reducer: TodoReducer(), initialState: Todo.State(), scheduler: .main)
         inject(
             TodoListEpic().apply,
             TodoCreateEpic().apply,
@@ -19,11 +19,12 @@ class TodoStore: Store<TodoReducer.Action, TodoReducer.State> {
                 dispatcher, _, _ in
                 dispatcher
                     .of(type: .logout)
-                    .map {
+                    .map ({
                         _ in
                         AppPreferences.instance.token = nil
                         return Action(type: .logoutSuccess, payload: 0)
-                }
+                    })
+                    .eraseToAnyPublisher()
             }
         )
     }

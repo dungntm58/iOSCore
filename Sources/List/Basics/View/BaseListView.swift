@@ -1,6 +1,6 @@
 //
 //  BaseListView.swift
-//  RxCoreList
+//  CoreList
 //
 //  Created by Robert Nguyen on 11/19/16.
 //  Copyright © 2016 Robert Nguyen. All rights reserved.

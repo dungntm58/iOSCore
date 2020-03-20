@@ -1,6 +1,6 @@
 //
 //  Scene.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert on 8/15/19.
 //

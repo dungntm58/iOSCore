@@ -6,8 +6,8 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxCoreRedux
-import RxCoreList
+import CoreRedux
+import CoreList
 
 class TodoReducer: Reducable {
     typealias State = Todo.State

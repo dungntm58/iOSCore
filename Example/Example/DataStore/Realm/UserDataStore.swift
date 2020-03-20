@@ -7,9 +7,9 @@
 //
 
 import RealmSwift
-import RxCoreRealmDataStore
-import RxCoreBase
-import RxCoreRepository
+import CoreRealmDataStore
+import CoreBase
+import CoreRepository
 
 class UserDataStore: RealmIdentifiableDataStore {
     let realm: Realm

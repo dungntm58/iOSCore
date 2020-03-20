@@ -6,9 +6,9 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxCoreBase
-import RxCoreRepository
-import RxCoreRealmDataStore
+import CoreBase
+import CoreRepository
+import CoreRealmDataStore
 import RealmSwift
 
 class UserEntity: Object, Identifiable, Decodable {

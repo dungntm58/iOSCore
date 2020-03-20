@@ -14,8 +14,6 @@
 		13D608D822C323470084BBC6 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088622C323460084BBC6 /* Constant.swift */; };
 		13D608DA22C323470084BBC6 /* Constant+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088A22C323460084BBC6 /* Constant+Extension.swift */; };
 		13D608DB22C323470084BBC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088B22C323460084BBC6 /* AppDelegate.swift */; };
-		13D608DD22C323470084BBC6 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088F22C323460084BBC6 /* AppRouter.swift */; };
-		13D608DE22C323470084BBC6 /* AppInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6089022C323460084BBC6 /* AppInteractor.swift */; };
 		13D608E122C323470084BBC6 /* TodoDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6089622C323460084BBC6 /* TodoDataStore.swift */; };
 		13D608E222C323470084BBC6 /* UserDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6089722C323460084BBC6 /* UserDataStore.swift */; };
 		13D608E522C323470084BBC6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13D6089B22C323470084BBC6 /* Images.xcassets */; };
@@ -31,13 +29,7 @@
 		13D608F522C323470084BBC6 /* TodoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B222C323470084BBC6 /* TodoRepository.swift */; };
 		13D608F622C323470084BBC6 /* LoginScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B522C323470084BBC6 /* LoginScene.swift */; };
 		13D608F722C323470084BBC6 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B722C323470084BBC6 /* SignupViewController.swift */; };
-		13D608F822C323470084BBC6 /* SignupDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B822C323470084BBC6 /* SignupDisplayable.swift */; };
-		13D608F922C323470084BBC6 /* SignupInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B922C323470084BBC6 /* SignupInteractor.swift */; };
-		13D608FA22C323470084BBC6 /* SignupPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BA22C323470084BBC6 /* SignupPresenter.swift */; };
-		13D608FB22C323470084BBC6 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BC22C323470084BBC6 /* LoginInteractor.swift */; };
 		13D608FC22C323470084BBC6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BD22C323470084BBC6 /* LoginViewController.swift */; };
-		13D608FD22C323470084BBC6 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BE22C323470084BBC6 /* LoginPresenter.swift */; };
-		13D608FE22C323470084BBC6 /* LoginDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BF22C323470084BBC6 /* LoginDisplayable.swift */; };
 		13D608FF22C323470084BBC6 /* TodoEpic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608C122C323470084BBC6 /* TodoEpic.swift */; };
 		13D6090022C323470084BBC6 /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608C222C323470084BBC6 /* TodoStore.swift */; };
 		13D6090122C323470084BBC6 /* TodoListViewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608C422C323470084BBC6 /* TodoListViewSource.swift */; };
@@ -60,10 +52,6 @@
 		13D6091222C3238A0084BBC6 /* TodoWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088422C323460084BBC6 /* TodoWorker.swift */; };
 		13D6091322C3238B0084BBC6 /* UserWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088322C323460084BBC6 /* UserWorker.swift */; };
 		13D6091422C3238B0084BBC6 /* TodoWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088422C323460084BBC6 /* TodoWorker.swift */; };
-		13D6091522C323950084BBC6 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088F22C323460084BBC6 /* AppRouter.swift */; };
-		13D6091622C323950084BBC6 /* AppInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6089022C323460084BBC6 /* AppInteractor.swift */; };
-		13D6091722C323960084BBC6 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088F22C323460084BBC6 /* AppRouter.swift */; };
-		13D6091822C323960084BBC6 /* AppInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6089022C323460084BBC6 /* AppInteractor.swift */; };
 		13D6091922C3239B0084BBC6 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088622C323460084BBC6 /* Constant.swift */; };
 		13D6091A22C3239C0084BBC6 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088622C323460084BBC6 /* Constant.swift */; };
 		13D6091B22C323A00084BBC6 /* Constant+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088822C323460084BBC6 /* Constant+Extension.swift */; };
@@ -97,21 +85,9 @@
 		13D6093722C324020084BBC6 /* LoginScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B522C323470084BBC6 /* LoginScene.swift */; };
 		13D6093822C324020084BBC6 /* LoginScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B522C323470084BBC6 /* LoginScene.swift */; };
 		13D6093922C324080084BBC6 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B722C323470084BBC6 /* SignupViewController.swift */; };
-		13D6093A22C324080084BBC6 /* SignupDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B822C323470084BBC6 /* SignupDisplayable.swift */; };
-		13D6093B22C324080084BBC6 /* SignupInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B922C323470084BBC6 /* SignupInteractor.swift */; };
-		13D6093C22C324080084BBC6 /* SignupPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BA22C323470084BBC6 /* SignupPresenter.swift */; };
 		13D6093D22C324090084BBC6 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B722C323470084BBC6 /* SignupViewController.swift */; };
-		13D6093E22C324090084BBC6 /* SignupDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B822C323470084BBC6 /* SignupDisplayable.swift */; };
-		13D6093F22C324090084BBC6 /* SignupInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608B922C323470084BBC6 /* SignupInteractor.swift */; };
-		13D6094022C324090084BBC6 /* SignupPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BA22C323470084BBC6 /* SignupPresenter.swift */; };
-		13D6094122C3240D0084BBC6 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BC22C323470084BBC6 /* LoginInteractor.swift */; };
 		13D6094222C3240D0084BBC6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BD22C323470084BBC6 /* LoginViewController.swift */; };
-		13D6094322C3240D0084BBC6 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BE22C323470084BBC6 /* LoginPresenter.swift */; };
-		13D6094422C3240D0084BBC6 /* LoginDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BF22C323470084BBC6 /* LoginDisplayable.swift */; };
-		13D6094522C3240D0084BBC6 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BC22C323470084BBC6 /* LoginInteractor.swift */; };
 		13D6094622C3240D0084BBC6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BD22C323470084BBC6 /* LoginViewController.swift */; };
-		13D6094722C3240D0084BBC6 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BE22C323470084BBC6 /* LoginPresenter.swift */; };
-		13D6094822C3240D0084BBC6 /* LoginDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608BF22C323470084BBC6 /* LoginDisplayable.swift */; };
 		13D6094922C324140084BBC6 /* TodoEpic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608C122C323470084BBC6 /* TodoEpic.swift */; };
 		13D6094A22C324140084BBC6 /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608C222C323470084BBC6 /* TodoStore.swift */; };
 		13D6094B22C324140084BBC6 /* TodoEpic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608C122C323470084BBC6 /* TodoEpic.swift */; };
@@ -135,6 +111,24 @@
 		A4D702E6EB9B9B037550FE49 /* Pods_Abstract_Example_Example_CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B87E56E3672D1B8FBDB34C /* Pods_Abstract_Example_Example_CoreData.framework */; };
 		AD0D712E4B23D48A4BCD5DF6 /* Pods_Abstract_Example_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20FBE81EA30FCC2D3A4124CF /* Pods_Abstract_Example_Example.framework */; };
 		C597547545D332ABCF3EEF05 /* Pods_Abstract_Example_Example_Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52DF5F809A113A2007BFA2C2 /* Pods_Abstract_Example_Example_Realm.framework */; };
+		E10A3C4C2424874A00AF6CFA /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C4B2424874A00AF6CFA /* Storyboard.swift */; };
+		E10A3C4D2424874A00AF6CFA /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C4B2424874A00AF6CFA /* Storyboard.swift */; };
+		E10A3C4E2424874A00AF6CFA /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C4B2424874A00AF6CFA /* Storyboard.swift */; };
+		E10A3C532424879C00AF6CFA /* LoginEpic.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C4F2424879C00AF6CFA /* LoginEpic.swift */; };
+		E10A3C542424879C00AF6CFA /* LoginEpic.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C4F2424879C00AF6CFA /* LoginEpic.swift */; };
+		E10A3C552424879C00AF6CFA /* LoginEpic.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C4F2424879C00AF6CFA /* LoginEpic.swift */; };
+		E10A3C562424879C00AF6CFA /* LoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C502424879C00AF6CFA /* LoginStore.swift */; };
+		E10A3C572424879C00AF6CFA /* LoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C502424879C00AF6CFA /* LoginStore.swift */; };
+		E10A3C582424879C00AF6CFA /* LoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C502424879C00AF6CFA /* LoginStore.swift */; };
+		E10A3C592424879C00AF6CFA /* LoginReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C512424879C00AF6CFA /* LoginReducer.swift */; };
+		E10A3C5A2424879C00AF6CFA /* LoginReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C512424879C00AF6CFA /* LoginReducer.swift */; };
+		E10A3C5B2424879C00AF6CFA /* LoginReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C512424879C00AF6CFA /* LoginReducer.swift */; };
+		E10A3C5C2424879C00AF6CFA /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C522424879C00AF6CFA /* LoginModel.swift */; };
+		E10A3C5D2424879C00AF6CFA /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C522424879C00AF6CFA /* LoginModel.swift */; };
+		E10A3C5E2424879C00AF6CFA /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C522424879C00AF6CFA /* LoginModel.swift */; };
+		E10A3C6124248C9300AF6CFA /* TodoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C6024248C9300AF6CFA /* TodoDetailViewController.swift */; };
+		E10A3C6224248C9300AF6CFA /* TodoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C6024248C9300AF6CFA /* TodoDetailViewController.swift */; };
+		E10A3C6324248C9300AF6CFA /* TodoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C6024248C9300AF6CFA /* TodoDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -145,7 +139,6 @@
 		13D6085322C321DE0084BBC6 /* Example_Realm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example_Realm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13D6086922C321F30084BBC6 /* Example_CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example_CoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13D6087F22C3232F0084BBC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13D6088122C323460084BBC6 /* Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		13D6088322C323460084BBC6 /* UserWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserWorker.swift; sourceTree = "<group>"; };
 		13D6088422C323460084BBC6 /* TodoWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoWorker.swift; sourceTree = "<group>"; };
 		13D6088622C323460084BBC6 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -153,8 +146,6 @@
 		13D6088A22C323460084BBC6 /* Constant+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Constant+Extension.swift"; sourceTree = "<group>"; };
 		13D6088B22C323460084BBC6 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13D6088D22C323460084BBC6 /* Constant+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Constant+Extension.swift"; sourceTree = "<group>"; };
-		13D6088F22C323460084BBC6 /* AppRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
-		13D6089022C323460084BBC6 /* AppInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppInteractor.swift; sourceTree = "<group>"; };
 		13D6089322C323460084BBC6 /* TodoDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoDataStore.swift; sourceTree = "<group>"; };
 		13D6089422C323460084BBC6 /* UserDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDataStore.swift; sourceTree = "<group>"; };
 		13D6089622C323460084BBC6 /* TodoDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoDataStore.swift; sourceTree = "<group>"; };
@@ -180,13 +171,7 @@
 		13D608B222C323470084BBC6 /* TodoRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoRepository.swift; sourceTree = "<group>"; };
 		13D608B522C323470084BBC6 /* LoginScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginScene.swift; sourceTree = "<group>"; };
 		13D608B722C323470084BBC6 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
-		13D608B822C323470084BBC6 /* SignupDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupDisplayable.swift; sourceTree = "<group>"; };
-		13D608B922C323470084BBC6 /* SignupInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupInteractor.swift; sourceTree = "<group>"; };
-		13D608BA22C323470084BBC6 /* SignupPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupPresenter.swift; sourceTree = "<group>"; };
-		13D608BC22C323470084BBC6 /* LoginInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		13D608BD22C323470084BBC6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		13D608BE22C323470084BBC6 /* LoginPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
-		13D608BF22C323470084BBC6 /* LoginDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDisplayable.swift; sourceTree = "<group>"; };
 		13D608C122C323470084BBC6 /* TodoEpic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoEpic.swift; sourceTree = "<group>"; };
 		13D608C222C323470084BBC6 /* TodoStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoStore.swift; sourceTree = "<group>"; };
 		13D608C422C323470084BBC6 /* TodoListViewSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoListViewSource.swift; sourceTree = "<group>"; };
@@ -212,6 +197,12 @@
 		C66820BB175A25723F53535A /* Pods-Abstract_Example-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Abstract_Example-Example.debug.xcconfig"; path = "Target Support Files/Pods-Abstract_Example-Example/Pods-Abstract_Example-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		CCB54C44B4CB0B263F09122E /* Pods-Abstract_Example-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Abstract_Example-Example.release.xcconfig"; path = "Target Support Files/Pods-Abstract_Example-Example/Pods-Abstract_Example-Example.release.xcconfig"; sourceTree = "<group>"; };
 		D776E49EC861A9A151515DDE /* Pods-Abstract_Example-Example_CoreData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Abstract_Example-Example_CoreData.release.xcconfig"; path = "Target Support Files/Pods-Abstract_Example-Example_CoreData/Pods-Abstract_Example-Example_CoreData.release.xcconfig"; sourceTree = "<group>"; };
+		E10A3C4B2424874A00AF6CFA /* Storyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
+		E10A3C4F2424879C00AF6CFA /* LoginEpic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginEpic.swift; sourceTree = "<group>"; };
+		E10A3C502424879C00AF6CFA /* LoginStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginStore.swift; sourceTree = "<group>"; };
+		E10A3C512424879C00AF6CFA /* LoginReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginReducer.swift; sourceTree = "<group>"; };
+		E10A3C522424879C00AF6CFA /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		E10A3C6024248C9300AF6CFA /* TodoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoDetailViewController.swift; sourceTree = "<group>"; };
 		E6B87E56E3672D1B8FBDB34C /* Pods_Abstract_Example_Example_CoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Abstract_Example_Example_CoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -292,7 +283,6 @@
 				13D6087E22C3232F0084BBC6 /* LaunchScreen.xib */,
 				13D6084122C31FF80084BBC6 /* Main.storyboard */,
 				13D6084922C31FFA0084BBC6 /* Info.plist */,
-				13D6088122C323460084BBC6 /* Example-Bridging-Header.h */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -345,8 +335,7 @@
 		13D6088E22C323460084BBC6 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				13D6088F22C323460084BBC6 /* AppRouter.swift */,
-				13D6089022C323460084BBC6 /* AppInteractor.swift */,
+				E10A3C4B2424874A00AF6CFA /* Storyboard.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -461,6 +450,10 @@
 		13D608B422C323470084BBC6 /* LoginRegister */ = {
 			isa = PBXGroup;
 			children = (
+				E10A3C4F2424879C00AF6CFA /* LoginEpic.swift */,
+				E10A3C522424879C00AF6CFA /* LoginModel.swift */,
+				E10A3C512424879C00AF6CFA /* LoginReducer.swift */,
+				E10A3C502424879C00AF6CFA /* LoginStore.swift */,
 				13D608B522C323470084BBC6 /* LoginScene.swift */,
 				13D608B622C323470084BBC6 /* Signup */,
 				13D608BB22C323470084BBC6 /* Login */,
@@ -472,9 +465,6 @@
 			isa = PBXGroup;
 			children = (
 				13D608B722C323470084BBC6 /* SignupViewController.swift */,
-				13D608B822C323470084BBC6 /* SignupDisplayable.swift */,
-				13D608B922C323470084BBC6 /* SignupInteractor.swift */,
-				13D608BA22C323470084BBC6 /* SignupPresenter.swift */,
 			);
 			path = Signup;
 			sourceTree = "<group>";
@@ -482,10 +472,7 @@
 		13D608BB22C323470084BBC6 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				13D608BC22C323470084BBC6 /* LoginInteractor.swift */,
 				13D608BD22C323470084BBC6 /* LoginViewController.swift */,
-				13D608BE22C323470084BBC6 /* LoginPresenter.swift */,
-				13D608BF22C323470084BBC6 /* LoginDisplayable.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -493,6 +480,7 @@
 		13D608C022C323470084BBC6 /* TodoList */ = {
 			isa = PBXGroup;
 			children = (
+				E10A3C5F24248C9300AF6CFA /* Detail */,
 				13D608CD22C323470084BBC6 /* Grid */,
 				13D608C322C323470084BBC6 /* Table */,
 				13D608C122C323470084BBC6 /* TodoEpic.swift */,
@@ -546,6 +534,14 @@
 				52DF5F809A113A2007BFA2C2 /* Pods_Abstract_Example_Example_Realm.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E10A3C5F24248C9300AF6CFA /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				E10A3C6024248C9300AF6CFA /* TodoDetailViewController.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -812,7 +808,6 @@
 				13D608F422C323470084BBC6 /* AuthRepository.swift in Sources */,
 				13D608FC22C323470084BBC6 /* LoginViewController.swift in Sources */,
 				13D6090022C323470084BBC6 /* TodoStore.swift in Sources */,
-				13D608F822C323470084BBC6 /* SignupDisplayable.swift in Sources */,
 				13D6090222C323470084BBC6 /* TodoTableViewCell.swift in Sources */,
 				13D608DA22C323470084BBC6 /* Constant+Extension.swift in Sources */,
 				13D6090F22C323470084BBC6 /* SuperSwitcherViewController.swift in Sources */,
@@ -820,38 +815,37 @@
 				13D6090522C323470084BBC6 /* TodoTableView.swift in Sources */,
 				13D6090122C323470084BBC6 /* TodoListViewSource.swift in Sources */,
 				13D6090922C323470084BBC6 /* TodoModel.swift in Sources */,
+				E10A3C532424879C00AF6CFA /* LoginEpic.swift in Sources */,
 				13D608EE22C323470084BBC6 /* TodoEntity.swift in Sources */,
+				E10A3C592424879C00AF6CFA /* LoginReducer.swift in Sources */,
 				13D608E722C323470084BBC6 /* TodoRequest.swift in Sources */,
 				13D6090E22C323470084BBC6 /* TodoCollectionViewCell.swift in Sources */,
 				13D608D622C323470084BBC6 /* UserWorker.swift in Sources */,
-				13D608FE22C323470084BBC6 /* LoginDisplayable.swift in Sources */,
 				13D6090A22C323470084BBC6 /* TodoCollectionView.swift in Sources */,
+				E10A3C4C2424874A00AF6CFA /* Storyboard.swift in Sources */,
 				13D608E622C323470084BBC6 /* AuthRequest.swift in Sources */,
 				13D608E822C323470084BBC6 /* AppModelHTTPRequest.swift in Sources */,
 				13D608F022C323470084BBC6 /* AppHTTPResponse.swift in Sources */,
 				13D6090422C323470084BBC6 /* TodoListViewController.swift in Sources */,
 				13D608F622C323470084BBC6 /* LoginScene.swift in Sources */,
-				13D608FD22C323470084BBC6 /* LoginPresenter.swift in Sources */,
 				13D6090C22C323470084BBC6 /* TodoList2ViewSource.swift in Sources */,
-				13D608DD22C323470084BBC6 /* AppRouter.swift in Sources */,
 				13D608FF22C323470084BBC6 /* TodoEpic.swift in Sources */,
 				13D608D722C323470084BBC6 /* TodoWorker.swift in Sources */,
 				13D608D822C323470084BBC6 /* Constant.swift in Sources */,
-				13D608DE22C323470084BBC6 /* AppInteractor.swift in Sources */,
 				13D608F722C323470084BBC6 /* SignupViewController.swift in Sources */,
-				13D608F922C323470084BBC6 /* SignupInteractor.swift in Sources */,
-				13D608FB22C323470084BBC6 /* LoginInteractor.swift in Sources */,
+				E10A3C562424879C00AF6CFA /* LoginStore.swift in Sources */,
 				13D608F522C323470084BBC6 /* TodoRepository.swift in Sources */,
 				13D608E122C323470084BBC6 /* TodoDataStore.swift in Sources */,
+				E10A3C5C2424879C00AF6CFA /* LoginModel.swift in Sources */,
 				13D608E922C323470084BBC6 /* AppPreferences.swift in Sources */,
 				13D608EF22C323470084BBC6 /* UserEntity.swift in Sources */,
 				13D608E222C323470084BBC6 /* UserDataStore.swift in Sources */,
-				13D608FA22C323470084BBC6 /* SignupPresenter.swift in Sources */,
 				13D6090822C323470084BBC6 /* TodoTabBarController.swift in Sources */,
 				13D608F122C323470084BBC6 /* AuthDto.swift in Sources */,
 				13D6090722C323470084BBC6 /* TodoScene.swift in Sources */,
 				13D6090622C323470084BBC6 /* TodoReducer.swift in Sources */,
 				13D6090B22C323470084BBC6 /* TodoList2ViewController.swift in Sources */,
+				E10A3C6124248C9300AF6CFA /* TodoDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -859,36 +853,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E10A3C5A2424879C00AF6CFA /* LoginReducer.swift in Sources */,
 				13D6093722C324020084BBC6 /* LoginScene.swift in Sources */,
 				13D6091C22C323A40084BBC6 /* AppDelegate.swift in Sources */,
 				13D6093922C324080084BBC6 /* SignupViewController.swift in Sources */,
 				13D6095022C324170084BBC6 /* TodoModel.swift in Sources */,
 				13D6091122C3238A0084BBC6 /* UserWorker.swift in Sources */,
+				E10A3C572424879C00AF6CFA /* LoginStore.swift in Sources */,
 				13D6095622C324210084BBC6 /* SwitchScene.swift in Sources */,
 				13D6091222C3238A0084BBC6 /* TodoWorker.swift in Sources */,
-				13D6094422C3240D0084BBC6 /* LoginDisplayable.swift in Sources */,
 				13D6095522C324210084BBC6 /* SuperSwitcherViewController.swift in Sources */,
 				13D6092222C323C40084BBC6 /* UserDataStore.swift in Sources */,
 				13D6093222C323FC0084BBC6 /* TodoRequest.swift in Sources */,
 				13D6094922C324140084BBC6 /* TodoEpic.swift in Sources */,
 				13D6094A22C324140084BBC6 /* TodoStore.swift in Sources */,
 				13D6092122C323C40084BBC6 /* TodoDataStore.swift in Sources */,
-				13D6094322C3240D0084BBC6 /* LoginPresenter.swift in Sources */,
 				13D6094E22C324170084BBC6 /* TodoScene.swift in Sources */,
-				13D6093A22C324080084BBC6 /* SignupDisplayable.swift in Sources */,
+				E10A3C5D2424879C00AF6CFA /* LoginModel.swift in Sources */,
 				13D6092E22C323F80084BBC6 /* TodoRepository.swift in Sources */,
 				13D6091922C3239B0084BBC6 /* Constant.swift in Sources */,
 				13D6093122C323FC0084BBC6 /* AuthRequest.swift in Sources */,
+				E10A3C4D2424874A00AF6CFA /* Storyboard.swift in Sources */,
+				E10A3C542424879C00AF6CFA /* LoginEpic.swift in Sources */,
 				13D6093322C323FC0084BBC6 /* AppModelHTTPRequest.swift in Sources */,
 				13D6094222C3240D0084BBC6 /* LoginViewController.swift in Sources */,
 				13D6092B22C323E70084BBC6 /* TodoEntity.swift in Sources */,
-				13D6093C22C324080084BBC6 /* SignupPresenter.swift in Sources */,
-				13D6093B22C324080084BBC6 /* SignupInteractor.swift in Sources */,
-				13D6091622C323950084BBC6 /* AppInteractor.swift in Sources */,
 				13D6092C22C323E70084BBC6 /* UserEntity.swift in Sources */,
-				13D6091522C323950084BBC6 /* AppRouter.swift in Sources */,
+				E10A3C6224248C9300AF6CFA /* TodoDetailViewController.swift in Sources */,
 				13D6092722C323DD0084BBC6 /* AppHTTPResponse.swift in Sources */,
-				13D6094122C3240D0084BBC6 /* LoginInteractor.swift in Sources */,
 				13D6094F22C324170084BBC6 /* TodoTabBarController.swift in Sources */,
 				13D6094D22C324170084BBC6 /* TodoReducer.swift in Sources */,
 				13D6092D22C323F80084BBC6 /* AuthRepository.swift in Sources */,
@@ -904,24 +896,25 @@
 				13D6094622C3240D0084BBC6 /* LoginViewController.swift in Sources */,
 				13D6092922C323DD0084BBC6 /* AppHTTPResponse.swift in Sources */,
 				13D6092F22C323F80084BBC6 /* AuthRepository.swift in Sources */,
-				13D6093F22C324090084BBC6 /* SignupInteractor.swift in Sources */,
-				13D6094822C3240D0084BBC6 /* LoginDisplayable.swift in Sources */,
+				E10A3C552424879C00AF6CFA /* LoginEpic.swift in Sources */,
+				E10A3C5E2424879C00AF6CFA /* LoginModel.swift in Sources */,
+				E10A3C5B2424879C00AF6CFA /* LoginReducer.swift in Sources */,
+				E10A3C6324248C9300AF6CFA /* TodoDetailViewController.swift in Sources */,
 				13D6094C22C324140084BBC6 /* TodoStore.swift in Sources */,
 				13D6093D22C324090084BBC6 /* SignupViewController.swift in Sources */,
 				13D6095322C324180084BBC6 /* TodoTabBarController.swift in Sources */,
 				13D6092322C323D00084BBC6 /* TodoEntity.swift in Sources */,
 				13D6093622C323FD0084BBC6 /* AppModelHTTPRequest.swift in Sources */,
 				13D6093422C323FD0084BBC6 /* AuthRequest.swift in Sources */,
-				13D6093E22C324090084BBC6 /* SignupDisplayable.swift in Sources */,
 				13D6091322C3238B0084BBC6 /* UserWorker.swift in Sources */,
 				13D6095122C324170084BBC6 /* TodoReducer.swift in Sources */,
 				13D6091422C3238B0084BBC6 /* TodoWorker.swift in Sources */,
-				13D6094522C3240D0084BBC6 /* LoginInteractor.swift in Sources */,
+				E10A3C582424879C00AF6CFA /* LoginStore.swift in Sources */,
+				E10A3C4E2424874A00AF6CFA /* Storyboard.swift in Sources */,
 				13D6091A22C3239C0084BBC6 /* Constant.swift in Sources */,
 				13D6092022C323BF0084BBC6 /* UserDataStore.swift in Sources */,
 				13D6091F22C323BF0084BBC6 /* TodoDataStore.swift in Sources */,
 				13D6091B22C323A00084BBC6 /* Constant+Extension.swift in Sources */,
-				13D6094722C3240D0084BBC6 /* LoginPresenter.swift in Sources */,
 				13D6095822C324210084BBC6 /* SwitchScene.swift in Sources */,
 				13D6094B22C324140084BBC6 /* TodoEpic.swift in Sources */,
 				13D6092522C323D00084BBC6 /* UserEntity.swift in Sources */,
@@ -929,15 +922,12 @@
 				13D6093822C324020084BBC6 /* LoginScene.swift in Sources */,
 				13D6091D22C323A40084BBC6 /* AppDelegate.swift in Sources */,
 				13D6092A22C323DD0084BBC6 /* AuthDto.swift in Sources */,
-				13D6091822C323960084BBC6 /* AppInteractor.swift in Sources */,
 				13D6093022C323F80084BBC6 /* TodoRepository.swift in Sources */,
 				13D6095722C324210084BBC6 /* SuperSwitcherViewController.swift in Sources */,
-				13D6094022C324090084BBC6 /* SignupPresenter.swift in Sources */,
 				13D6092622C323D40084BBC6 /* Model.xcdatamodeld in Sources */,
 				13D6093522C323FD0084BBC6 /* TodoRequest.swift in Sources */,
 				13D6095222C324180084BBC6 /* TodoScene.swift in Sources */,
 				13D6095422C324180084BBC6 /* TodoModel.swift in Sources */,
-				13D6091722C323960084BBC6 /* AppRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1095,7 +1085,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.core.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1118,7 +1108,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.core.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

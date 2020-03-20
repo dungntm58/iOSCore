@@ -6,7 +6,7 @@
 //  Copyright © 2019 Robert Nguyen. All rights reserved.
 //
 
-import RxCoreRedux
+import CoreRedux
 
 enum Login {
     enum LoginActionType: ErrorActionType {

@@ -1,6 +1,6 @@
 //
 //  Payload.swift
-//  RxCoreRedux
+//  CoreRedux
 //
 //  Created by Robert on 8/10/19.
 //

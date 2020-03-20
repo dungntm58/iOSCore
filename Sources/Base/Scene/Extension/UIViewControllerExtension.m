@@ -1,13 +1,13 @@
 //
 //  UIViewControllerExtension.m
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert on 2/17/20.
 //
 
 #import <UIViewControllerExtension.h>
 
-@implementation UIViewController (RxCoreBase)
+@implementation UIViewController (CoreBase)
 
 - (void)dismissKeyboard {
     [self.view endEditing:YES];

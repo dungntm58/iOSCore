@@ -1,6 +1,6 @@
 //
 //  Viewable.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert Nguyen on 6/6/19.
 //

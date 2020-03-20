@@ -1,6 +1,6 @@
 //
 //  UIViewControllerExtension.h
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert on 2/17/20.
 //
@@ -10,7 +10,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIViewController (RxCoreBase)
+@interface UIViewController (CoreBase)
 
 - (void)dismissKeyboard;
 - (BOOL)canPerformSegueWithIdentifier:(nonnull NSString *)id;
