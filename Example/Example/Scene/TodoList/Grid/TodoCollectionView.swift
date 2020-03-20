@@ -13,7 +13,7 @@ import Toaster
 
 class TodoCollectionView: BaseCollectionView, Appearant {
     
-    func willAppear(_ animated: Bool) {
+    func didLoad() {
         _ = viewSource
     }
     

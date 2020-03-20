@@ -68,14 +68,15 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
         let vc = UIAlertController(title: "Todo", message: "New Todo", preferredStyle: .alert)
         vc.addTextField {
             [weak self] textField in
-            guard let `self` = self else { return }
-//            textField
-//                .orEmpty
-//                .removeDuplicates()
-//                .sink(receiveValue: {
-//                    [weak self] value in
-//                    self?.newTodo = value
-//                })
+            guard let self = self else { return }
+            textField
+                .publisher(for: \.text)
+                .removeDuplicates()
+                .sink(receiveValue: {
+                    [weak self] value in
+                    self?.newTodo = value
+                })
+                .store(in: &self.cancellables)
         }
         vc.addAction(UIAlertAction(title: "OK", style: .default) {
             _ in

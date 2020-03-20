@@ -11,7 +11,8 @@ import CoreList
 import CoreBase
 
 class TodoTableView: BaseTableView, Appearant {
-    func willAppear(_ animated: Bool) {
+    
+    func didLoad() {
         _ = viewSource
     }
     
