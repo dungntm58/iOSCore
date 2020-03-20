@@ -19,9 +19,6 @@ final public class ViewManager {
 
     func bind(scene: Scenable) {
         self.scene = scene
-        if let bindable = rootViewController as? SceneBindable {
-            bindable.bind(to: scene)
-        }
         if let bindable = _currentViewController as? SceneBindable {
             bindable.bind(to: scene)
         }
@@ -36,9 +33,6 @@ final public class ViewManager {
 
     func viewControllerWillDisappear(_ viewController: UIViewController) {
         self._currentViewController = nil
-        if let scene = scene, let bindable = viewController as? SceneBindable {
-            bindable.bind(to: scene)
-        }
     }
 }
 

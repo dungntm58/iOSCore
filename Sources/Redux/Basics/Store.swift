@@ -111,13 +111,13 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
                 let dispatchPublisher = Just(action).eraseToAnyPublisher()
                 let derivedActionPublisher = self._derivedAction.eraseToAnyPublisher()
                 let statePublisher = self._state.eraseToAnyPublisher()
-                var epic = self._epics[0](dispatchPublisher, derivedActionPublisher, statePublisher)
-                for (index, efunction) in self._epics.enumerated() {
-                    if index > 0 {
-                        epic = epic.merge(with: efunction(dispatchPublisher, derivedActionPublisher, statePublisher)).receive(on: self.scheduler, options: self.schedulerOptions).eraseToAnyPublisher()
-                    }
-                }
-                return epic
+                return Publishers.MergeMany(
+                    self._epics
+                        .map ({
+                            $0(dispatchPublisher, derivedActionPublisher, statePublisher)
+                                .receive(on: self.scheduler, options: self.schedulerOptions)
+                        })
+                ).eraseToAnyPublisher()
             })
             .sink(receiveValue: _action.send)
             .store(in: &cancellables)
