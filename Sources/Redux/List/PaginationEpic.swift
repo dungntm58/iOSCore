@@ -6,8 +6,8 @@
 //  Copyright © 2018 Robert Nguyen. All rights reserved.
 //
 
-import RxSwift
-import RxCoreRepository
+import Combine
+import CoreRepository
 
 public protocol PaginationRequestOptions: FetchOptions {}
 
@@ -19,7 +19,7 @@ public protocol PaginationRequestOptions: FetchOptions {}
 public protocol ListDataWorker {
     associatedtype T
 
-    func getList(options: PaginationRequestOptions?) -> Observable<ListDTO<T>>
+    func getList(options: PaginationRequestOptions?) -> AnyPublisher<ListDTO<T>, Error>
 }
 
 open class BaseListEpic<Action, State, Worker>: Epic where
@@ -35,28 +35,27 @@ open class BaseListEpic<Action, State, Worker>: Epic where
         self.worker = worker
     }
 
-    public func apply(dispatcher: Observable<Action>, actionStream: Observable<Action>, stateStream: Observable<State>) -> Observable<Action> {
+    public func apply(dispatcher: AnyPublisher<Action, Never>, actionStream: AnyPublisher<Action, Never>, stateStream: AnyPublisher<State, Never>) -> AnyPublisher<Action, Never> {
         dispatcher
             .of(type: .load)
             .map { $0.payload as? PayloadListRequestable }
-            .flatMap {
-                [weak self] payload -> Observable<Payload.List.Response<Worker.T>> in
-                guard let `self` = self else { return .empty() }
-                return .concat(
-                    .just(.init(isLoading: true)),
-                    self.worker
-                        .getList(options: self.toPaginationRequestOptions(from: payload))
-                        .map { .init(from: $0, payload: payload) }
-                )
-            }
-            .takeUntil(
-                actionStream
-                    .of(type: .load)
-                    .compactMap { $0.payload as? PayloadListRequestable }
-                    .filter { $0.cancelRunning }
-            )
-            .map { $0.toAction() }
-            .catchError { .just($0.toAction()) }
+            .flatMap ({
+                payload -> AnyPublisher<Action, Never> in
+                Future<Payload.List.Response<Worker.T>, Error> { $0(.success(.init(isLoading: true))) }
+                    .append(
+                        self.worker
+                            .getList(options: self.toPaginationRequestOptions(from: payload))
+                            .map { .init(from: $0, payload: payload) }
+                            .eraseToAnyPublisher())
+                    .prefix(untilOutputFrom: actionStream
+                        .of(type: .load)
+                        .compactMap { $0.payload as? PayloadListRequestable }
+                        .filter { $0.cancelRunning })
+                    .map { $0.toAction() }
+                    .catch { Just($0.toAction()).eraseToAnyPublisher() }
+                    .eraseToAnyPublisher()
+            })
+            .eraseToAnyPublisher()
     }
 
     open func toPaginationRequestOptions(from payload: PayloadListRequestable?) -> PaginationRequestOptions? {

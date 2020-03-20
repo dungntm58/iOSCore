@@ -7,10 +7,10 @@
 //
 
 import DifferenceKit
+import Combine
 
 open class BaseCollectionViewSource: BaseListViewSource, LoadingAnimatableViewSource, BindableCollectionViewDataSource {
     private(set) public weak var collectionView: UICollectionView?
-    open lazy var disposeBag = DisposeBag()
 
     private lazy var loadingCell = getLoadingCellModel()
 
@@ -42,13 +42,8 @@ open class BaseCollectionViewSource: BaseListViewSource, LoadingAnimatableViewSo
             collectionView.register(cell: $0)
         }
 
-        collectionView.rx
-            .setDataSource(self)
-            .disposed(by: disposeBag)
-
-        collectionView.rx
-            .setDelegate(self)
-            .disposed(by: disposeBag)
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
 
     open func bind(value: ViewModelItem, to cell: UICollectionViewCell, at indexPath: IndexPath) {}

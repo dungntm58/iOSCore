@@ -6,8 +6,6 @@
 //  Copyright © 2018 Robert Nguyen. All rights reserved.
 //
 
-import RxSwift
-
 open class BaseListReducer<T, Action>: Reducable where Action: Actionable, Action.ActionType: ListActionType, T: Equatable {
     public typealias State = Payload.List.Response<T>
 

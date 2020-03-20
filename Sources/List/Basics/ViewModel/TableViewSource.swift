@@ -7,12 +7,10 @@
 //
 
 import DifferenceKit
-import RxSwift
-import RxCocoa
+import Combine
 
 open class BaseTableViewSource: BaseListViewSource, LoadingAnimatableViewSource, BindableTableViewDataSource {
     private(set) public weak var tableView: UITableView?
-    open lazy var disposeBag = DisposeBag()
 
     private lazy var loadingMoreSection = produceLoadingSection()
 
@@ -46,12 +44,8 @@ open class BaseTableViewSource: BaseListViewSource, LoadingAnimatableViewSource,
             tableView.register(cell: $0)
         }
 
-        tableView.rx
-            .setDataSource(self)
-            .disposed(by: disposeBag)
-        tableView.rx
-            .setDelegate(self)
-            .disposed(by: disposeBag)
+        tableView.dataSource = self
+        tableView.delegate = self
     }
 
     open func bind(value: ViewModelItem, to cell: UITableViewCell, at indexPath: IndexPath) {}

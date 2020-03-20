@@ -7,6 +7,7 @@
 //
 
 import DifferenceKit
+import Combine
 
 extension Int: Differentiable {}
 extension ContentIdentifiable where Self: ContentEquatable {
@@ -17,6 +18,7 @@ public typealias DataSection = ArraySection<Int, AnyDifferentiable>
 
 open class BaseListViewSource: NSObject, ListViewSource {
     private var listModels: [String: [ViewModelItem]]
+    open var cancellables = Set<AnyCancellable>()
 
     final var originalDifferenceSections: [DataSection]
     final var differenceSections: [DataSection]
@@ -28,6 +30,10 @@ open class BaseListViewSource: NSObject, ListViewSource {
     final public lazy var templateCells: [CellModel] = { produceCells() }()
 
     open var shouldAnimateLoading: Bool
+    
+    deinit {
+        cancellables.forEach { $0.cancel() }
+    }
 
     /// Calling this intialization will cause app crashes
     public init(sections: [SectionModel], shouldAnimateLoading: Bool = true) {
@@ -125,27 +131,46 @@ private extension BaseListViewSource {
     }
 }
 
-extension Reactive where Base: BaseListViewSource {
-    public var isAnimating: Binder<Bool> {
-        Binder(base) {
-            target, isAnimating in
-            target.isAnimating = isAnimating
-            target.componentReloadData()
-        }
+extension BaseListViewSource {
+    public func bindIsAnimating<P>(with publisher: P) where P: Publisher, P.Output == Bool, P.Failure == Never {
+        publisher
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: {
+                [weak self] isAnimating in
+                guard let self = self else { return }
+                self.isAnimating = isAnimating
+                self.componentReloadData()
+            })
+            .store(in: &cancellables)
     }
 
-    public var model: Binder<ListViewSourceModel> {
-        Binder(base, scheduler: CurrentThreadScheduler.instance) {
-            target, change in
-            target.updateModel(change)
-            guard change.needsReload else { return }
-            let changeType = change.type
-            let numberOfSections = target.numberOfDataSections(onChanged: changeType)
-            let originalDifferenceSections = (0..<numberOfSections).map { DataSection(model: $0, elements: target.computeDifferentiableObjects(forSection: $0, onChanged: changeType)) }
-            DispatchQueue.main.async {
-                target.originalDifferenceSections = originalDifferenceSections
-                target.componentReloadData()
-            }
-        }
+    public func bindModel<P>(with publisher: P) where P: Publisher, P.Output == ListViewSourceModel, P.Failure == Never {
+        publisher
+            .handleEvents(receiveOutput: {
+                [weak self] change in
+                guard let self = self else { return }
+                self.updateModel(change)
+            })
+            .flatMap ({
+                [weak self] change -> AnyPublisher<[DataSection], Never> in
+                guard let self = self, change.needsReload else { return Empty().eraseToAnyPublisher() }
+                let changeType = change.type
+                let numberOfSections = self.numberOfDataSections(onChanged: changeType)
+                return Just(
+                    (0..<numberOfSections).map {
+                        DataSection(model: $0,
+                                    elements: self.computeDifferentiableObjects(forSection: $0, onChanged: changeType)
+                        )
+                    }
+                ).eraseToAnyPublisher()
+            })
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: {
+                [weak self] dataSection in
+                guard let self = self else { return }
+                self.originalDifferenceSections = dataSection
+                self.componentReloadData()
+            })
+            .store(in: &cancellables)
     }
 }

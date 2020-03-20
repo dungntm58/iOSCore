@@ -5,7 +5,7 @@
 //  Created by Robert on 8/10/19.
 //
 
-import RxCoreRepository
+import CoreRepository
 
 public enum Payload {
     public enum List {
