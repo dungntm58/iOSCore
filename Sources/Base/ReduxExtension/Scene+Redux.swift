@@ -30,26 +30,6 @@ open class ConnectableScene<Store>: Scene, Connectable where Store: Storable {
     }
 }
 
-open class ViewableScene: Scene, Viewable {
-    public var viewManager: ViewManagable
-
-    public init(managedContext: ManagedSceneContext = .init(), viewManager: ViewManagable) {
-        self.viewManager = viewManager
-        super.init(managedContext: managedContext)
-    }
-
-    public init(managedContext: ManagedSceneContext = ManagedSceneContext(), viewController: UIViewController) {
-        let viewManager = ViewManager(viewController: viewController)
-        self.viewManager = viewManager
-        super.init(managedContext: managedContext)
-        viewManager.bind(scene: self)
-    }
-
-    open override func onDetach() {
-        viewManager.dismiss(animated: true, completion: nil)
-    }
-}
-
 open class ConnectableViewableScene<Store>: Scene, Connectable, Viewable where Store: Storable {
     public let store: Store
     public let viewManager: ViewManagable
