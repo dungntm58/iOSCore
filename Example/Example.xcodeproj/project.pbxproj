@@ -129,6 +129,8 @@
 		E10A3C6124248C9300AF6CFA /* TodoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C6024248C9300AF6CFA /* TodoDetailViewController.swift */; };
 		E10A3C6224248C9300AF6CFA /* TodoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C6024248C9300AF6CFA /* TodoDetailViewController.swift */; };
 		E10A3C6324248C9300AF6CFA /* TodoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C6024248C9300AF6CFA /* TodoDetailViewController.swift */; };
+		E1189323242D084A00EC1230 /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608A022C323470084BBC6 /* AppPreferences.swift */; };
+		E1189324242D084B00EC1230 /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608A022C323470084BBC6 /* AppPreferences.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -875,6 +877,7 @@
 				13D6093122C323FC0084BBC6 /* AuthRequest.swift in Sources */,
 				E10A3C4D2424874A00AF6CFA /* Storyboard.swift in Sources */,
 				E10A3C542424879C00AF6CFA /* LoginEpic.swift in Sources */,
+				E1189323242D084A00EC1230 /* AppPreferences.swift in Sources */,
 				13D6093322C323FC0084BBC6 /* AppModelHTTPRequest.swift in Sources */,
 				13D6094222C3240D0084BBC6 /* LoginViewController.swift in Sources */,
 				13D6092B22C323E70084BBC6 /* TodoEntity.swift in Sources */,
@@ -911,6 +914,7 @@
 				13D6091422C3238B0084BBC6 /* TodoWorker.swift in Sources */,
 				E10A3C582424879C00AF6CFA /* LoginStore.swift in Sources */,
 				E10A3C4E2424874A00AF6CFA /* Storyboard.swift in Sources */,
+				E1189324242D084B00EC1230 /* AppPreferences.swift in Sources */,
 				13D6091A22C3239C0084BBC6 /* Constant.swift in Sources */,
 				13D6092022C323BF0084BBC6 /* UserDataStore.swift in Sources */,
 				13D6091F22C323BF0084BBC6 /* TodoDataStore.swift in Sources */,

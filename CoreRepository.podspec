@@ -30,7 +30,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
 
   s.ios.deployment_target = '13.0'
   s.module_name = 'CoreRepository'
-  s.swift_version = "5.1"
+  s.swift_version = "5.2"
   s.framework = "Foundation", "Combine"
 
   s.default_subspecs = 'Basics', 'DataStore', 'Request', 'Remote', 'Local', 'RemoteLocal'

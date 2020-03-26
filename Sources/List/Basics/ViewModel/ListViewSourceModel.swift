@@ -80,10 +80,10 @@ open class BaseListViewSource: NSObject, ListViewSource {
 
 private extension BaseListViewSource {
     func produceCells() -> [CellModel] {
-        let allCells = templateSections.flatMap { $0.cells }
-        let uniqueCells = Dictionary(grouping: allCells, by: { $0.reuseIdentifier })
-            .map { $0.value }
-            .compactMap { $0.first }
+        let allCells = templateSections.flatMap(\.cells)
+        let uniqueCells = Dictionary(grouping: allCells, by: \.reuseIdentifier)
+            .map(\.value)
+            .compactMap(\.first)
         #if !RELEASE && !PRODUCTION
         if allCells.count != uniqueCells.count {
             Swift.print("More than two different cells have the same reuse identifier, the first found one has been selected")

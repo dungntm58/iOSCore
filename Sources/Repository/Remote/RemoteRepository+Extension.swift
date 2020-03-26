@@ -26,14 +26,14 @@ public extension RemoteSingleRepository {
     func create(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
         singleRequest
             .create(value, options: options?.requestOptions)
-            .compactMap { $0.result }
+            .compactMap(\.result)
             .eraseToAnyPublisher()
     }
 
     func update(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
         singleRequest
             .update(value, options: options?.requestOptions)
-            .compactMap { $0.result }
+            .compactMap(\.result)
             .eraseToAnyPublisher()
     }
 
@@ -49,7 +49,7 @@ public extension RemoteIdentifiableSingleRepository {
     func get(id: T.ID, options: FetchOptions?) -> AnyPublisher<T, Error> {
         singleRequest
             .get(id: id, options: options?.requestOptions)
-            .compactMap { $0.result }
+            .compactMap(\.result)
             .eraseToAnyPublisher()
     }
 

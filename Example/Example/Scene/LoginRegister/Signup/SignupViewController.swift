@@ -23,7 +23,7 @@ class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
         super.viewDidLoad()
         
         scene?.store.state
-            .compactMap { $0.user }
+            .compactMap(\.user)
             .receive(on: RunLoop.main)
             .sink(receiveValue: {
                 [weak self] _ in
@@ -32,7 +32,7 @@ class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
             .store(in: &cancellables)
         
         scene?.store.state
-            .compactMap { $0.error }
+            .compactMap(\.error)
             .receive(on: RunLoop.main)
             .sink(receiveValue: {
                 [weak self] error in

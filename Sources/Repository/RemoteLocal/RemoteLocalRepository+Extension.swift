@@ -74,7 +74,7 @@ public extension RemoteLocalSingleRepository {
     func create(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
         singleRequest
             .create(value, options: options?.requestOptions)
-            .compactMap { $0.result }
+            .compactMap(\.result)
             .tryMap(store.saveSync)
             .eraseToAnyPublisher()
     }
@@ -82,7 +82,7 @@ public extension RemoteLocalSingleRepository {
     func update(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
         singleRequest
             .update(value, options: options?.requestOptions)
-            .compactMap { $0.result }
+            .compactMap(\.result)
             .tryMap(store.saveSync)
             .eraseToAnyPublisher()
     }
@@ -100,7 +100,7 @@ public extension RemoteLocalIdentifiableSingleRepository {
     func get(id: T.ID, options: FetchOptions?) -> AnyPublisher<T, Error> {
         let remote = singleRequest
             .get(id: id, options: options?.requestOptions)
-            .compactMap { $0.result }
+            .compactMap(\.result)
 
         let repositoryOptions = options?.repositoryOptions ?? .default
         switch repositoryOptions {

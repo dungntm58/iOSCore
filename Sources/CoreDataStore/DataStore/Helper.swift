@@ -308,7 +308,7 @@ struct Helper {
         let timestamp = Date().timeIntervalSince1970 - ttl
         metaFetchRequest.predicate = NSPredicate(format: "%K = %@ AND %K < %f", #keyPath(MetaObjectEntity.objectClassName), String(describing: type), #keyPath(MetaObjectEntity.localUpdatedTimestamp), timestamp)
         let result = try metaManagedContext.fetch(metaFetchRequest)
-        return result.compactMap { $0.entityObjectID }
+        return result.compactMap(\.entityObjectID)
     }
 }
 

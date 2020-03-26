@@ -96,7 +96,7 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
                 #endif
                 return (action, newState)
             })
-            .map { $0.1 }
+            .map(\.1)
             .sink(receiveValue: _state.send)
             .store(in: &cancellables)
         _action.sink(receiveValue: _derivedAction.send).store(in: &cancellables)

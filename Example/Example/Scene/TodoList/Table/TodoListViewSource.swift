@@ -23,12 +23,12 @@ class TodoListViewSource: BaseTableViewSource {
         
         let response = store?.state
             .filter { $0.error == nil && !$0.isLogout }
-            .map { $0.list }
+            .map(\.list)
             .removeDuplicates()
             .share()
         
         (response?
-            .map { $0.hasNext }
+            .map(\.hasNext)
             .removeDuplicates())
             .map(bindIsAnimating)
             
