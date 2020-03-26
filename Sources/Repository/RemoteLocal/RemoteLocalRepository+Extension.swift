@@ -134,8 +134,7 @@ public extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
             return Future<ListDTO<T>, Error> { $0(.success(list)) }
                 .eraseToAnyPublisher()
         }
-        let pagination = list.pagination
-        return list.data
+        let singlePublishers = list.data
             .map ({
                 item -> AnyPublisher<T, Error> in
                 if item.isValid {
@@ -145,12 +144,18 @@ public extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
                     return self.get(id: item.id, options: optionsGenerator(item.id))
                 }
             })
-            .reduce(Empty<T, Error>().eraseToAnyPublisher(), {
-                result, next in
-                result.append(next).eraseToAnyPublisher()
-            })
-            .collect()
-            .map { ListDTO<T>(data: $0, pagination: pagination) }
-            .eraseToAnyPublisher()
+        let mergePublishers = Publishers.MergeMany(singlePublishers).collect()
+        return Publishers.Zip3(
+            Future<PaginationDTO?, Error> { $0(.success(list.pagination)) },
+            Future<[T.ID], Error> { $0(.success(list.data.map(\.id))) },
+            mergePublishers
+        ).map {
+            pagination, ids, arr in
+            ListDTO<T>(
+                data: ids.compactMap { id in arr.first(where: { $0.id == id }) },
+                pagination: pagination
+            )
+        }
+        .eraseToAnyPublisher()
     }
 }
