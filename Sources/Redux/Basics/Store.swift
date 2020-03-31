@@ -25,7 +25,7 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
     public var currentState: State { _state.value }
 
     public var state: AnyPublisher<State, Never> {
-        _state.removeDuplicates { $0 as AnyObject === $1 as AnyObject }.eraseToAnyPublisher()
+        _state.removeDuplicates().eraseToAnyPublisher()
     }
 
     deinit {

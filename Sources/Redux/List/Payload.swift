@@ -9,7 +9,7 @@ import CoreRepository
 
 public enum Payload {
     public enum List {
-        public struct Response<T>: Statable, Equatable where T: Equatable {
+        public struct Response<T>: Statable where T: Equatable {
             public let data: [T]
             public let pagination: PaginationDTO?
             public let currentPage: Int

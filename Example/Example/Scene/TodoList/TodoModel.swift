@@ -31,6 +31,15 @@ enum Todo {
     }
     
     struct State: Statable, CustomStringConvertible {
+        static func == (lhs: Todo.State, rhs: Todo.State) -> Bool {
+            if lhs.error == nil && rhs.error == nil {
+                return lhs.isLogout == rhs.isLogout
+                    && lhs.list == rhs.list
+                    && lhs.selectedTodoIndex == rhs.selectedTodoIndex
+            }
+            return false
+        }
+        
         var error: Error?
         let list: Payload.List.Response<TodoEntity>
         let selectedTodoIndex: Int
