@@ -21,28 +21,42 @@ Pod::Spec.new do |s|
 iOS project code-base inspired by modern architectures: Redux, RIBs
                        DESC
 
-  s.homepage         = 'https://github.com/dungntm58/Core'
+  s.homepage         = 'https://github.com/dungntm58/iOSCore'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   # s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'dungntm58' => 'minhdung.uet.work@gmail.com' }
-  s.source           = { :git => 'https://github.com/dungntm58/Core', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/dungntm58/iOSCore', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '13.0'
+  s.platform = :ios
   s.module_name = 'CoreRedux'
   s.swift_version = "5.2"
   s.prefix_header_file = false
-  s.framework = "Foundation", "Combine"
-
-  s.default_subspec = 'Basics'
+  s.framework = "Foundation"
   
-  s.subspec 'Basics' do |ss|
-    ss.source_files = 'Sources/Redux/Basics/**/*'
+  s.subspec 'BasicsCombine' do |ss|
+    ss.source_files = 'Sources/Redux/Shared/Basics/**/*', 'Sources/Redux/Combine/Basics/**/*'
+    ss.ios.deployment_target = '13.0'
+    ss.framework = 'Combine'
   end
   
-  s.subspec 'List' do |ss|
-    ss.source_files = 'Sources/Redux/List/**/*'
-    ss.dependency 'CoreRepository/Basics'
-    ss.dependency 'CoreRedux/Basics'
+  s.subspec 'ListCombine' do |ss|
+    ss.source_files = 'Sources/Redux/Shared/List/**/*', 'Sources/Redux/Combine/List/**/*'
+    ss.ios.deployment_target = '13.0'
+    ss.framework = 'Combine'
+    ss.dependency 'CoreRepository/BasicsCombine'
+    ss.dependency 'CoreRedux/BasicsCombine'
+  end
+
+  s.subspec 'BasicsRx' do |ss|
+    ss.source_files = 'Sources/Redux/Shared/Basics/**/*', 'Sources/Redux/Rx/Basics/**/*'
+    ss.ios.deployment_target = '10.0'
+  end
+  
+  s.subspec 'ListRx' do |ss|
+    ss.source_files = 'Sources/Redux/Shared/List/**/*', 'Sources/Redux/Rx/List/**/*'
+    ss.ios.deployment_target = '10.0'
+    ss.dependency 'CoreRepository/BasicsRx'
+    ss.dependency 'CoreRedux/BasicsRx'
   end
 end

@@ -28,12 +28,26 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.source           = { :git => 'https://github.com/dungntm58/iOSCore', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '13.0'
+  s.platform = :ios
+  s.ios.deployment_target = '9.0'
   s.module_name = 'CoreRealmDataStore'
   s.swift_version = "5.2"
   s.prefix_header_file = false
 
-  s.source_files = 'Sources/RealmDataStore/**/*'
-  s.dependency 'RealmSwift'
-  s.dependency 'CoreRepository/DataStore'
+  s.default_subspecs = 'Rx'
+
+  s.subspec 'Rx' do |ss|
+    ss.source_files = 'Sources/RealmDataStore/**/*'
+    ss.ios.deployment_target = '10.0'
+    ss.dependency 'RealmSwift'
+    ss.dependency 'CoreRepository/DataStoreRx'
+  end
+  
+  s.subspec 'Combine' do |ss|
+    ss.source_files = 'Sources/RealmDataStore/**/*'
+    ss.ios.deployment_target = '13.0'
+    ss.framework = 'Combine'
+    ss.dependency 'RealmSwift'
+    ss.dependency 'CoreRepository/DataStoreCombine'
+  end
 end

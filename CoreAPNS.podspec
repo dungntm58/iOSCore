@@ -28,10 +28,24 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.source           = { :git => 'https://github.com/dungntm58/iOSCore', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '13.0'
+  s.platform = :ios
   s.module_name = 'CoreAPNS'
   s.swift_version = "5.2"
-  s.framework = "Foundation", "Combine"
+  s.framework = "Foundation"
+
+  s.default_subspecs = 'Rx'
+
+  s.subspec 'Rx' do |ss|
+    ss.source_files = 'Sources/APNS/Shared/**/*', 'Sources/APNS/Rx/**/*'
+    ss.ios.deployment_target = '10.0'
+    ss.dependency 'RxSwift'
+    ss.dependency 'RxRelay'
+  end
   
-  s.source_files = 'Sources/APNS/**/*'
+  s.subspec 'Combine' do |ss|
+    ss.source_files = 'Sources/APNS/Shared/**/*', 'Sources/APNS/Combine/**/*'
+    ss.ios.deployment_target = '13.0'
+    ss.framework = 'Combine'
+  end
+  
 end

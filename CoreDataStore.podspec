@@ -28,13 +28,26 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.source           = { :git => 'https://github.com/dungntm58/iOSCore', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '13.0'
+  s.platform = :ios
   s.module_name = 'CoreDataStore'
   s.swift_version = "5.2"
   s.prefix_header_file = false
   s.framework = "CoreData"
 
-  s.source_files = 'Sources/CoreDataStore/**/*.{h,m,mm,swift,xcdatamodeld}'
-  s.resources = 'Sources/CoreDataStore/Model/MetaModel.xcdatamodeld'
-  s.dependency 'CoreRepository/DataStore'
+  s.default_subspecs = 'Rx'
+
+  s.subspec 'Rx' do |ss|
+    ss.source_files = 'Sources/CoreDataStore/**/*.{h,m,mm,swift,xcdatamodeld}'
+    ss.resources = 'Sources/CoreDataStore/Model/MetaModel.xcdatamodeld'
+    ss.ios.deployment_target = '10.0'
+    ss.dependency 'CoreRepository/DataStoreRx'
+  end
+  
+  s.subspec 'Combine' do |ss|
+    ss.source_files = 'Sources/CoreDataStore/**/*.{h,m,mm,swift,xcdatamodeld}'
+    ss.resources = 'Sources/CoreDataStore/Model/MetaModel.xcdatamodeld'
+    ss.ios.deployment_target = '13.0'
+    ss.framework = 'Combine'
+    ss.dependency 'CoreRepository/DataStoreCombine'
+  end
 end

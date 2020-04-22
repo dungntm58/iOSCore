@@ -28,27 +28,46 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.source           = { :git => 'https://github.com/dungntm58/iOSCore', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '13.0'
+  s.platform = :ios
   s.module_name = 'CoreBase'
   s.swift_version = "5.2"
   s.prefix_header_file = false
-  s.framework = "Foundation", "Combine"
+  s.framework = "Foundation"
   s.ios.framework = "UIKit"
 
-  s.default_subspecs = 'Basics', 'Scene'
+  s.default_subspecs = 'Basics', 'SceneRx'
   
   s.subspec 'Basics' do |ss|
-    ss.source_files = 'Sources/Base/Basics/**/*'
+    ss.source_files = 'Sources/Base/Shared/Basics/**/*'
+    ss.ios.deployment_target = '10.0'
   end
   
-  s.subspec 'Scene' do |ss|
-    ss.source_files = 'Sources/Base/Scene/**/*.{h,m,mm,swift}'
+  s.subspec 'SceneCombine' do |ss|
+    ss.source_files = 'Sources/Base/Shared/Scene/**/*.{h,m,mm,swift}', 'Sources/Base/Combine/Scene/**/*'
     ss.private_header_files = 'Sources/Base/Scene/**/*+Internal.h'
+    ss.ios.deployment_target = '13.0'
+    ss.framework = 'Combine'
   end
   
-  s.subspec 'ReduxExtension' do |ss|
-    ss.source_files = 'Sources/Base/ReduxExtension/**/*.{h,m,mm,swift}'
-    ss.dependency 'CoreBase/Scene'
+  s.subspec 'ReduxCombineExtension' do |ss|
+    ss.source_files = 'Sources/Base/Shared/ReduxExtension/**/*.{h,m,mm,swift}', 'Sources/Base/Combine/ReduxExtension/**/*'
+    ss.ios.deployment_target = '13.0'
+    ss.framework = 'Combine'
+    ss.dependency 'CoreBase/SceneCombine'
+    ss.dependency 'CoreRedux'
+  end
+  
+  s.subspec 'SceneRx' do |ss|
+    ss.source_files = 'Sources/Base/Shared/Scene/**/*.{h,m,mm,swift}', 'Sources/Base/Rx/Scene/**/*'
+    ss.private_header_files = 'Sources/Base/Scene/**/*+Internal.h'
+    ss.dependency 'RxSwift'
+    ss.dependency 'RxRelay'
+    ss.dependency 'RxCocoa'
+  end
+  
+  s.subspec 'ReduxRxExtension' do |ss|
+    ss.source_files = 'Sources/Base/Shared/ReduxExtension/**/*.{h,m,mm,swift}', 'Sources/Base/Rx/ReduxExtension/**/*'
+    ss.dependency 'CoreBase/SceneRx'
     ss.dependency 'CoreRedux'
   end
 end
