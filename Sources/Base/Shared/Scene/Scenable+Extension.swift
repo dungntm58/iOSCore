@@ -21,6 +21,49 @@ public extension Scenable {
         updateLifeCycle(.didResignActive)
     }
 
+    func attach(child scene: Scenable) {
+        if children.contains(where: { scene as AnyObject === $0 as AnyObject }) {
+            #if !RELEASE && !PRODUCTION
+            Swift.print("This scene has been already attached")
+            #endif
+            if let retrieve = scene.retrieve {
+                scene.updateLifeCycle(.willBecomeActive)
+                retrieve(Optional<Any>.none as Any)
+                current = scene
+                scene.updateLifeCycle(.didBecomeActive)
+            } else {
+                current = scene
+            }
+        } else {
+            children.append(scene)
+            scene.updateLifeCycle(.willBecomeActive)
+            prepare(for: scene)
+            scene.parent = self
+            scene.perform()
+            current = scene
+            scene.updateLifeCycle(.didBecomeActive)
+            bindLifeCycle(to: scene)
+        }
+    }
+
+    func set(children: [Scenable], performAtIndex index: Int?) {
+        guard let index = index else {
+            return self.children = children
+        }
+
+        let scene = children[index]
+        prepare(for: scene)
+        self.children = children
+        children.forEach {
+            scene in
+            scene.parent = self
+            bindLifeCycle(to: scene)
+        }
+        current = scene
+        scene.perform()
+        scene.updateLifeCycle(.didBecomeActive)
+    }
+
     func detach() {
         #if !RELEASE && !PRODUCTION
         Swift.print("Detach scene", type(of: self))

@@ -29,7 +29,7 @@ open class ManagedSceneContext {
         self.isPerformed = false
     }
 
-    public func insertCancellable(_ cancellable: Cancellable) {
+    public func collect(_ cancellable: Cancellable) {
         cancellable.store(in: &cancellables)
     }
 }

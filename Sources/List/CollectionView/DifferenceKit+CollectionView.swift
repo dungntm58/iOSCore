@@ -1,6 +1,6 @@
 //
 //  DifferenceKit+CollectionView.swift
-//  RxCoreList
+//  CoreList
 //
 //  Created by Dung Nguyen on 4/6/20.
 //

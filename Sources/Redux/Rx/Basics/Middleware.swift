@@ -1,6 +1,6 @@
 //
 //  Middleware.swift
-//  RxCoreRedux
+//  CoreRedux
 //
 //  Created by Robert Nguyen on 5/16/19.
 //

@@ -1,6 +1,6 @@
 //
 //  BaseViewController.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert on 1/10/17.
 //  Copyright © 2017 Robert Nguyen. All rights reserved.

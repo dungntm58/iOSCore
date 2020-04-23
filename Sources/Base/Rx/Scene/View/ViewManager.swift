@@ -1,6 +1,6 @@
 //
 //  ViewManager.swift
-//  RxCoreBase
+//  CoreBase
 //
 //  Created by Robert on 7/21/19.
 //

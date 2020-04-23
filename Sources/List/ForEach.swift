@@ -1,6 +1,6 @@
 //
 //  TupleContent.swift
-//  RxCoreList
+//  CoreList
 //
 //  Created by Robert on 4/4/20.
 //

@@ -1,6 +1,6 @@
 //
 //  FunctionBuilder.swift
-//  RxCoreList
+//  CoreList
 //
 //  Created by Dung Nguyen on 4/7/20.
 //

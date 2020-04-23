@@ -1,6 +1,6 @@
 //
 //  LoadingCollectionViewCell.swift
-//  RxCoreList
+//  CoreList
 //
 //  Created by Robert on 3/27/17.
 //  Copyright © 2017 Robert Nguyen. All rights reserved.

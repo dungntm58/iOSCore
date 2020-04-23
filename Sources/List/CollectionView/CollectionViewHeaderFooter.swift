@@ -1,6 +1,6 @@
 //
 //  CollectionViewHeaderFooter.swift
-//  RxCoreList
+//  CoreList
 //
 //  Created by Robert on 4/5/20.
 //

@@ -1,6 +1,6 @@
 //
 //  LoadingAnimatable.swift
-//  RxCoreList
+//  CoreList
 //
 //  Created by Robert Nguyen on 3/31/19.
 //

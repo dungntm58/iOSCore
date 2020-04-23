@@ -24,6 +24,6 @@ extension Scenable where Self: Connectable {
                 [store] shouldActiveStore in
                 shouldActiveStore ? store.activate() : store.deactivate()
             })
-        _ = managedContext.insertCancellable(lifeCycleCancellable)
+        _ = managedContext.collect(lifeCycleCancellable)
     }
 }

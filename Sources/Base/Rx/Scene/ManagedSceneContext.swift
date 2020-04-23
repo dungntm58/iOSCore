@@ -31,7 +31,7 @@ open class ManagedSceneContext {
     }
 
     @discardableResult
-    public func insertDisposable(_ disposable: Disposable) -> CompositeDisposable.DisposeKey? {
+    public func collect(_ disposable: Disposable) -> CompositeDisposable.DisposeKey? {
         disposables.insert(disposable)
     }
 }
