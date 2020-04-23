@@ -54,7 +54,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
     ss.dependency 'CoreBase/SceneCombine'
-    ss.dependency 'CoreRedux'
+    ss.dependency 'CoreRedux/BasicsCombine'
   end
   
   s.subspec 'SceneRx' do |ss|
@@ -68,6 +68,6 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.subspec 'ReduxRxExtension' do |ss|
     ss.source_files = 'Sources/Base/Shared/ReduxExtension/**/*.{h,m,mm,swift}', 'Sources/Base/Rx/ReduxExtension/**/*'
     ss.dependency 'CoreBase/SceneRx'
-    ss.dependency 'CoreRedux'
+    ss.dependency 'CoreRedux/BasicsRx'
   end
 end

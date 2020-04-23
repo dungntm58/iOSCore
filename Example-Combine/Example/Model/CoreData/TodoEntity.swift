@@ -12,7 +12,7 @@ import CoreDataStore
 import CoreBase
 import CoreData
 
-class TodoEntity: NSObject, Identifiable, Decodable, ManagedObjectBox {
+class TodoEntity: NSObject, Decodable, ManagedObjectBox {
     let core: TodoCoreEntity
     
     var id: String { core.id ?? "" }
@@ -68,7 +68,7 @@ class TodoEntity: NSObject, Identifiable, Decodable, ManagedObjectBox {
 }
 
 extension TodoEntity: CoreDataIdentifiable {
-    typealias IDType = String
+    typealias ID = String
     
     static func keyPathForID() -> String { #keyPath(TodoCoreEntity.id) }
 }

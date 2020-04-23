@@ -61,7 +61,7 @@ public extension Scenable {
 
     /// Return the current value of life cycle
     func getLifeCycleState() -> LifeCycle {
-        managedContext.lifeCycle.value()
+        managedContext.lifeCycle.value
     }
 }
 

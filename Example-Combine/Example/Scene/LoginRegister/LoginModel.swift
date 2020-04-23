@@ -28,7 +28,7 @@ enum Login {
     struct State: Statable {
         static func == (lhs: Login.State, rhs: Login.State) -> Bool {
             if lhs.error == nil && rhs.error == nil {
-                return lhs.user == rhs.user
+                return lhs.user?.id == rhs.user?.id
             }
             return false
         }

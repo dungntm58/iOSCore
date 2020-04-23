@@ -34,6 +34,8 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.prefix_header_file = false
   s.framework = "Foundation"
   
+  s.default_subspecs = 'BasicsRx'
+  
   s.subspec 'BasicsCombine' do |ss|
     ss.source_files = 'Sources/Redux/Shared/Basics/**/*', 'Sources/Redux/Combine/Basics/**/*'
     ss.ios.deployment_target = '13.0'
