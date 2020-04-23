@@ -24,7 +24,7 @@ class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
         
         scene?.store.state
             .compactMap(\.user)
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
                 [weak self] _ in
                 self?.scene?.switch(to: TodoScene())
@@ -33,7 +33,7 @@ class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
         
         scene?.store.state
             .compactMap(\.error)
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
                 [weak self] error in
                 self?.onError(error)

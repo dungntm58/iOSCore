@@ -48,7 +48,7 @@ class TodoListViewController: BaseViewController {
                 response
                     .filter { !$0.isLoading }
             )
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
                 [weak self] isAnimating, response in
                 guard let self = self else { return }

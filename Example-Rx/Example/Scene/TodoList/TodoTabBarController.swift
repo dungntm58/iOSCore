@@ -28,10 +28,10 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
         self.navigationItem.hidesBackButton = true
         
         let store = self.scene?.store
-        #if swift(>=5.2)
         store?.state
             .filter { !$0.isLogout }
             .compactMap(\.error)
+            .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 [weak self] error in
                 self?.onError(error)
@@ -61,40 +61,6 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
                 self?.scene?.showTodoDetail()
             })
             .disposed(by: disposeBag)
-        #else
-        store?.state
-            .filter { !$0.isLogout }
-            .compactMap { $0.error }
-            .subscribe(onNext: {
-                [weak self] error in
-                self?.onError(error)
-            })
-            .disposed(by: disposeBag)
-        
-        store?
-            .state
-            .filter { $0.error == nil }
-            .map { $0.isLogout }
-            .filter { $0 }
-            .observeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
-                [weak self] _ in
-                self?.scene?.detach()
-            })
-            .disposed(by: disposeBag)
-        
-        store?
-            .state
-            .filter { $0.error == nil && !$0.isLogout }
-            .map { $0.selectedTodoIndex }
-            .filter { $0 >= 0 }
-            .observeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
-                [weak self] _ in
-                self?.scene?.showTodoDetail()
-            })
-            .disposed(by: disposeBag)
-        #endif
         
         store?.dispatch(type: .load, payload: Payload.List.Request(page: 1, cancelRunning: false))
     }

@@ -166,11 +166,11 @@
 
 /* Begin PBXFileReference section */
 		0A82D63348030A7F4581B7BE /* Pods-Abstract_Example-Example_Realm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Abstract_Example-Example_Realm.release.xcconfig"; path = "Target Support Files/Pods-Abstract_Example-Example_Realm/Pods-Abstract_Example-Example_Realm.release.xcconfig"; sourceTree = "<group>"; };
-		13D6083A22C31FF80084BBC6 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13D6083A22C31FF80084BBC6 /* Example_Rx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example_Rx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13D6084222C31FF80084BBC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		13D6084922C31FFA0084BBC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		13D6085322C321DE0084BBC6 /* Example_Realm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example_Realm.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13D6086922C321F30084BBC6 /* Example_CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example_CoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13D6085322C321DE0084BBC6 /* Example_Rx_Realm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example_Rx_Realm.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13D6086922C321F30084BBC6 /* Example_Rx_CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example_Rx_CoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13D6087F22C3232F0084BBC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13D6088322C323460084BBC6 /* UserWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserWorker.swift; sourceTree = "<group>"; };
 		13D6088422C323460084BBC6 /* TodoWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoWorker.swift; sourceTree = "<group>"; };
@@ -315,9 +315,9 @@
 		13D6083B22C31FF80084BBC6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13D6083A22C31FF80084BBC6 /* Example.app */,
-				13D6085322C321DE0084BBC6 /* Example_Realm.app */,
-				13D6086922C321F30084BBC6 /* Example_CoreData.app */,
+				13D6083A22C31FF80084BBC6 /* Example_Rx.app */,
+				13D6085322C321DE0084BBC6 /* Example_Rx_Realm.app */,
+				13D6086922C321F30084BBC6 /* Example_Rx_CoreData.app */,
 				E11888632336A33500CADC67 /* ExampleTests.xctest */,
 				E11888712336A57C00CADC67 /* Example_RealmTests.xctest */,
 			);
@@ -636,7 +636,7 @@
 			);
 			name = Example;
 			productName = Example;
-			productReference = 13D6083A22C31FF80084BBC6 /* Example.app */;
+			productReference = 13D6083A22C31FF80084BBC6 /* Example_Rx.app */;
 			productType = "com.apple.product-type.application";
 		};
 		13D6085222C321DE0084BBC6 /* Example_Realm */ = {
@@ -655,7 +655,7 @@
 			);
 			name = Example_Realm;
 			productName = Example_Realm;
-			productReference = 13D6085322C321DE0084BBC6 /* Example_Realm.app */;
+			productReference = 13D6085322C321DE0084BBC6 /* Example_Rx_Realm.app */;
 			productType = "com.apple.product-type.application";
 		};
 		13D6086822C321F30084BBC6 /* Example_CoreData */ = {
@@ -674,7 +674,7 @@
 			);
 			name = Example_CoreData;
 			productName = Example_CoreData;
-			productReference = 13D6086922C321F30084BBC6 /* Example_CoreData.app */;
+			productReference = 13D6086922C321F30084BBC6 /* Example_Rx_CoreData.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E11888622336A33500CADC67 /* ExampleTests */ = {
@@ -1265,7 +1265,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.core.Example;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Example_Rx;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1288,7 +1288,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.core.Example;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Example_Rx;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1308,7 +1308,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.core.Example-Realm";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Example_Rx_Realm;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1327,7 +1327,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.core.Example-Realm";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Example_Rx_Realm;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1346,7 +1346,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.core.Example-CoreData";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Example_Rx_CoreData;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1365,7 +1365,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.core.Example-CoreData";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Example_Rx_CoreData;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

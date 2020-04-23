@@ -31,6 +31,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
         store?.state
             .filter { !$0.isLogout }
             .compactMap(\.error)
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
                 [weak self] error in
                 self?.onError(error)
@@ -42,7 +43,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
             .filter { $0.error == nil }
             .map(\.isLogout)
             .filter { $0 }
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
                 [weak self] _ in
                 self?.scene?.detach()
@@ -54,7 +55,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
             .filter { $0.error == nil && !$0.isLogout }
             .map(\.selectedTodoIndex)
             .filter { $0 >= 0 }
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
                 [weak self] _ in
                 self?.scene?.showTodoDetail()
