@@ -21,8 +21,6 @@ class TodoList2ViewController: BaseViewController {
     
     lazy var refreshControl = UIRefreshControl()
     
-    lazy var disposeBag = DisposeBag()
-    
     var scene: TodoScene? {
         (tabBarController as? TodoTabBarController)?.scene
     }
@@ -61,7 +59,7 @@ class TodoList2ViewController: BaseViewController {
                 self.refreshControl.endRefreshing()
                 self.viewSourceProvider.reload()
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         if #available(iOS 10.0, *) {
             collectionView.refreshControl = refreshControl

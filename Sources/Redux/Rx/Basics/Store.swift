@@ -7,12 +7,12 @@
 
 import RxSwift
 import RxRelay
+import NSObject_Rx
 
-open class Store<Action, State>: Storable, Dispatchable where Action: Actionable, State: Statable {
+open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Action: Actionable, State: Statable {
     public typealias StoreScheduler = SchedulerType
 
     private lazy var _disposables = CompositeDisposable()
-    private lazy var _disposeBag = DisposeBag()
     private let _state: BehaviorRelay<State>
     private let _action: PublishRelay<Action>
     private let _derivedAction: PublishRelay<Action>
@@ -124,6 +124,6 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
         _ = _disposables.insert(actionToDerivedAction)
         _ = _disposables.insert(actionToAction)
         _ = _disposables.insert(actionToState)
-        _disposables.disposed(by: _disposeBag)
+        _disposables.disposed(by: disposeBag)
     }
 }

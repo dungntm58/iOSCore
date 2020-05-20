@@ -14,7 +14,6 @@ import CoreRedux
 import Toaster
 
 class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
-    private lazy var disposeBag = DisposeBag()
     
     var scene: TodoScene?
     var newTodo: String?
@@ -36,7 +35,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
                 [weak self] error in
                 self?.onError(error)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         store?
             .state
@@ -48,7 +47,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
                 [weak self] _ in
                 self?.scene?.detach()
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         store?
             .state
@@ -60,7 +59,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
                 [weak self] _ in
                 self?.scene?.showTodoDetail()
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         store?.dispatch(type: .load, payload: Payload.List.Request(page: 1, cancelRunning: false))
     }
@@ -79,7 +78,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
                     [weak self] value in
                     self?.newTodo = value
                 })
-                .disposed(by: self.disposeBag)
+                .disposed(by: self.rx.disposeBag)
         }
         vc.addAction(UIAlertAction(title: "OK", style: .default) {
             _ in

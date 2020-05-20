@@ -17,8 +17,6 @@ class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
     
     var scene: LoginScene?
     
-    lazy var disposeBag = DisposeBag()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,7 +27,7 @@ class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
                 [weak self] _ in
                 self?.scene?.switch(to: TodoScene())
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         scene?.store.state
             .compactMap(\.error)
@@ -38,7 +36,7 @@ class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
                 [weak self] error in
                 self?.onError(error)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
     }
     
     @IBAction func onSignup(_ sender: UIButton) {

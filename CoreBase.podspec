@@ -63,6 +63,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
     ss.dependency 'RxSwift'
     ss.dependency 'RxRelay'
     ss.dependency 'RxCocoa'
+    ss.dependency 'NSObject+Rx'
   end
   
   s.subspec 'ReduxRxExtension' do |ss|

@@ -15,8 +15,6 @@ class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!
     
-    lazy var disposeBag = DisposeBag()
-    
     var scene: LoginScene?
     
     override func viewDidLoad() {
@@ -29,7 +27,7 @@ class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
                 [weak self] _ in
                 self?.scene?.switch(to: TodoScene())
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         scene?.store.state
             .compactMap(\.error)
@@ -38,7 +36,7 @@ class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
                 [weak self] error in
                 self?.onError(error)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
     }
     
     @IBAction func onLogin(_ sender: UIButton) {

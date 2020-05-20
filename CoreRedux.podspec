@@ -53,6 +53,9 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.subspec 'BasicsRx' do |ss|
     ss.source_files = 'Sources/Redux/Shared/Basics/**/*', 'Sources/Redux/Rx/Basics/**/*'
     ss.ios.deployment_target = '10.0'
+    ss.dependency 'RxSwift'
+    ss.dependency 'RxRelay'
+    ss.dependency 'NSObject+Rx'
   end
   
   s.subspec 'ListRx' do |ss|
