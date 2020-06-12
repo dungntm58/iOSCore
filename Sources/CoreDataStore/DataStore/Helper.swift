@@ -41,10 +41,21 @@ struct Helper {
 
     private init() {}
 
-    func saveSync(_ value: NSManagedObject, ttl: TimeInterval, managedContext: NSManagedObjectContext, metaManagedContext: NSManagedObjectContext) throws {
-        managedContext.insert(value)
-        try managedContext.save()
+    private func checkObjectExists(value: NSManagedObject, managedContext: NSManagedObjectContext) throws -> Bool {
+        guard let entityName = value.entity.name else { return false }
+        let existRequest = NSFetchRequest<NSManagedObject>(entityName: entityName)
+        existRequest.predicate = .init(format: "SELF.objectID == %@", value.objectID)
+        let count = try managedContext.count(for: existRequest)
+        return count > 0
+    }
 
+    func saveSync(_ value: NSManagedObject, ttl: TimeInterval, managedContext: NSManagedObjectContext, metaManagedContext: NSManagedObjectContext) throws {
+        if try !checkObjectExists(value: value, managedContext: managedContext) {
+            managedContext.insert(value)
+        }
+        if managedContext.hasChanges {
+            try managedContext.save()
+        }
         let urlRepresentation = value.objectID.uriRepresentation().absoluteString
         let metaFetchRequest = NSFetchRequest<MetaObjectEntity>(entityName: "MetaObjectEntity")
         metaFetchRequest.predicate = NSPredicate(format: "%K = %@ AND %K = %@", #keyPath(MetaObjectEntity.objectClassName), value.objectID.entity.managedObjectClassName, #keyPath(MetaObjectEntity.entityObjectID), urlRepresentation)
@@ -65,10 +76,12 @@ struct Helper {
     }
 
     func saveSync(_ values: [NSManagedObject], ttl: TimeInterval, managedContext: NSManagedObjectContext, metaManagedContext: NSManagedObjectContext) throws {
-        for value in values {
-            managedContext.insert(value)
+        try values
+            .filter { try !checkObjectExists(value: $0, managedContext: managedContext) }
+            .forEach(managedContext.insert(_:))
+        if managedContext.hasChanges {
+            try managedContext.save()
         }
-        try managedContext.save()
 
         for value in values {
             let urlRepresentation = value.objectID.uriRepresentation().absoluteString
