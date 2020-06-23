@@ -9,7 +9,6 @@ import RealmSwift
 import CoreRepository
 
 public protocol RealmDataStore: DataStore {
-    var realm: Realm { get }
     var updatePolicy: Realm.UpdatePolicy { get }
 }
 
