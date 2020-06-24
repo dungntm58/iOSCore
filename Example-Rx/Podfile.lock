@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (5.1.0)
+  - Alamofire (5.2.1)
   - CoreAPNS/Rx (0.1.0):
     - RxRelay
     - RxSwift
@@ -61,11 +61,11 @@ PODS:
     - DifferenceKit/Core
   - "NSObject+Rx (5.1.0)":
     - RxSwift (~> 5.1)
-  - Realm (4.4.1):
-    - Realm/Headers (= 4.4.1)
-  - Realm/Headers (4.4.1)
-  - RealmSwift (4.4.1):
-    - Realm (= 4.4.1)
+  - Realm (5.1.0):
+    - Realm/Headers (= 5.1.0)
+  - Realm/Headers (5.1.0)
+  - RealmSwift (5.1.0):
+    - Realm (= 5.1.0)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
@@ -74,7 +74,7 @@ PODS:
   - RxSwift (5.1.1)
   - SwiftDate (6.1.0)
   - Toaster (2.2.0)
-  - Valet (3.2.8)
+  - Valet (4.1.0)
 
 DEPENDENCIES:
   - CoreAPNS/Rx (from `../`)
@@ -121,7 +121,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
+  Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
   CoreAPNS: 5e8df19a98c3e761cdc9f4920627c3aeca122c9b
   CoreBase: 3f20a0e8185902989b954498418558f516210214
   CoreDataStore: 0c6cede068f7d495d94c2f82a4a385b31e8c2bfc
@@ -131,14 +131,14 @@ SPEC CHECKSUMS:
   CoreRepository: 461e238c191a2b415f72021c3a728bfc3e9bd7ed
   DifferenceKit: 516f12e336ed65a3a0665847b5c3cb5cad4bd4ea
   "NSObject+Rx": fa6bbcc1ab1faa06b01466bc09b1e0692bbc5946
-  Realm: 4eb04d7487bd43c0581256f40b424eafb711deff
-  RealmSwift: 3eb8924ff7100df5928c7602f71d0fec51e7c9c5
+  Realm: bdea546851e37b4cf0a2400cef115c7c26fda488
+  RealmSwift: 70945aa168db93b215c460e9c8ef680261aa28af
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SwiftDate: fa2bb3962056bb44047b4b85a30044e5eae30b03
   Toaster: c1a81b376edcc2470157b4d1ee1e9341d3b96455
-  Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
+  Valet: c306588a9c221d0c9b2b1370d575ac37cfec20fd
 
 PODFILE CHECKSUM: b897854da73cf17aeab9ee42a9175d0d9044a7cd
 

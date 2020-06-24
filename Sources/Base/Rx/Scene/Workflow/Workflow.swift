@@ -38,24 +38,24 @@ public class Workflow {
     }
 }
 
-class ExLauchableScene: Scene, Launchable, WorkflowStep {
-    typealias WorkflowItem = Bool
+//class ExLauchableScene: Scene, Launchable, WorkflowStep {
+//    typealias WorkflowItem = Bool
+//
+//    func produceWorkflowItem() -> Observable<Bool> {
+//        .just(true)
+//    }
+//}
+//
+//class ExOtherScene: Scene, WorkflowStep {
+//    typealias WorkflowItem = Int
+//
+//    func produceWorkflowItem() -> Observable<Int> {
+//        .just(1)
+//    }
+//}
 
-    func produceWorkflowItem() -> Observable<Bool> {
-        .just(true)
+extension ObservableConvertibleType where Element: WorkflowStep {
+    public func produce<WS>(handler: @escaping (_ item: Element.WorkflowItem) -> Observable<WS>) -> Observable<WS> where WS: WorkflowStep {
+        asObservable().flatMap { $0.produceWorkflowItem().flatMap(handler) }
     }
-}
-
-class ExOtherScene: Scene, WorkflowStep {
-    typealias WorkflowItem = Int
-    
-    func produceWorkflowItem() -> Observable<Int> {
-        .just(1)
-    }
-}
-
-func test() {
-    Workflow
-        .start(with: ExLauchableScene())
-    .then(handler: <#T##(Any) -> Observable<WorkflowStep>#>)
 }
