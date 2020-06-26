@@ -26,11 +26,14 @@ public class ViewManager: HasDisposeBag {
         }
     }
 
-    func viewControllerWillAppear(_ viewController: UIViewController) {
-        self.currentViewController = viewController
+    func viewControllerDidLoad(_ viewController: UIViewController) {
         if let scene = scene, let bindable = viewController as? SceneBindable {
             bindable.bind(to: scene)
         }
+    }
+
+    func viewControllerWillAppear(_ viewController: UIViewController) {
+        self.currentViewController = viewController
     }
 
     func viewControllerWillDisappear(_ viewController: UIViewController) {
@@ -89,6 +92,14 @@ extension ViewManager: ViewManagable {
 
 private extension ViewManager {
     func addHook(_ viewController: UIViewController) {
+        Observable
+            .combineLatest(
+                viewController.rx.methodInvoked(#selector(UIViewController.viewDidLoad)),
+                Observable.just(viewController)
+            ) { $1 }
+            .subscribe(onNext: self.viewControllerDidLoad(_:))
+            .disposed(by: disposeBag)
+
         Observable
             .combineLatest(
                 viewController.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))),

@@ -7,9 +7,11 @@
 //
 
 import CoreBase
+import RxSwift
 
-class SwitchScene: ViewableScene, Launchable {
+class SwitchScene: ViewableScene, Launchable, WorkflowSceneStepping {
     lazy var window = UIWindow(frame: UIScreen.main.bounds)
+    lazy var isLoggedInSubject: PublishSubject<Bool> = .init()
     
     init() {
         let vc = AppStoryboard.main.viewController(of: SuperSwitcherViewController.self)
@@ -18,8 +20,12 @@ class SwitchScene: ViewableScene, Launchable {
         vc.scene = self
     }
 
-    override func perform() {
+    override func perform(with object: Any?) {
         window.rootViewController = currentViewController
         window.makeKeyAndVisible()
+    }
+    
+    func produceWorkflowItem() -> Observable<Bool> {
+        isLoggedInSubject
     }
 }

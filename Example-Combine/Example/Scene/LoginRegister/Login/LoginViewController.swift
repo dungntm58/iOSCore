@@ -31,7 +31,7 @@ class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
                 [weak self] _ in
-                self?.scene?.switch(to: TodoScene())
+                self?.scene?.switch(to: TodoScene(), with: nil)
             })
             .store(in: &cancellables)
         

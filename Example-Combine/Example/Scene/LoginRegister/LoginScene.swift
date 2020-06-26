@@ -15,7 +15,7 @@ class LoginScene: ConnectableViewableScene<LoginStore> {
         self.init(store: LoginStore(), viewController: vc)
     }
     
-    override func perform() {
+    override func perform(with object: Any?) {
         if let navigationController = nearestViewable?.currentViewController.navigationController {
             navigationController.pushViewController(currentViewController, animated: true)
         } else {

@@ -21,9 +21,9 @@ class SuperSwitcherViewController: UIViewController, SceneBindableRef, ViewManag
         super.viewDidAppear(animated)
         
         if AppPreferences.instance.token == nil {
-            scene?.switch(to: LoginScene())
+            scene?.switch(to: LoginScene(), with: nil)
         } else {
-            scene?.switch(to: TodoScene())
+            scene?.switch(to: TodoScene(), with: nil)
         }
     }
     

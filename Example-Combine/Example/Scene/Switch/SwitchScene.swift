@@ -18,7 +18,7 @@ class SwitchScene: ViewableScene, Launchable {
         vc.scene = self
     }
 
-    override func perform() {
+    override func perform(with object: Any?) {
         window.rootViewController = currentViewController
         window.makeKeyAndVisible()
     }

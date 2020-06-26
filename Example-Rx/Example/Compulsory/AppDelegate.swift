@@ -15,7 +15,6 @@ import CoreAPNS
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    private lazy var launcher: Launchable = SwitchScene()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -24,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         printDBURL()
         #endif
         
+        let launcher = SwitchScene()
         launcher.launch()
 
 //        Setup remote notifications

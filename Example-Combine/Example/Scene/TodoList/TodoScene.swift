@@ -24,7 +24,7 @@ class TodoScene: ConnectableViewableScene<TodoStore>, Dispatchable {
         self.init(store: TodoStore(), viewController: todoVC)
     }
 
-    override func perform() {
+    override func perform(with object: Any?) {
         let visibleViewController = nearestViewable?.currentViewController
         if let navigationController = visibleViewController?.navigationController {
             navigationController.pushViewController(currentViewController, animated: true)

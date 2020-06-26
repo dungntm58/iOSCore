@@ -25,7 +25,7 @@ class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 [weak self] _ in
-                self?.scene?.switch(to: TodoScene())
+                self?.scene?.switch(to: TodoScene(), with: nil)
             })
             .disposed(by: rx.disposeBag)
         

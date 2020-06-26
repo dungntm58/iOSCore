@@ -19,13 +19,15 @@ public enum WorkflowSceneStepAction {
     case none
 }
 
+public protocol WorkflowSceneStepping: WorkflowStepping where WorkflowStepAction == WorkflowSceneStepAction {}
+
 extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowSceneStepAction {
-    public func perform(action: WorkflowStepAction) {
+    public func perform(action: WorkflowStepAction, with object: Any?) {
         switch action {
         case .switchToNewScene(let scene):
-            self.switch(to: scene)
+            self.switch(to: scene, with: object)
         case .performChild(let index):
-            self.performChild(at: index)
+            self.performChild(at: index, with: object)
         case .detach:
             self.detach()
         case .detachNTimes(let n):

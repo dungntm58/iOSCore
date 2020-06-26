@@ -30,9 +30,10 @@ public class Workflow  {
             .asObservable()
             .flatMap ({ step in
                 step.produceWorkflowItem()
-                    .compactMap { $0 as? PreviousStep.WorkflowItem }
-                    .flatMap { item in handler(item, step.base as! PreviousStep) }
-                    .do(onNext: { step.perform(action: $0.0) })
+                    .flatMap ({ item in
+                        handler(item as! PreviousStep.WorkflowItem, step.base as! PreviousStep)
+                            .do(onNext: { step.perform(action: $0.0, with: item) })
+                    })
             })
             .map { $0.1.eraseToAny() }
         return self
@@ -44,9 +45,11 @@ public class Workflow  {
             .asObservable()
             .flatMap ({ step in
                 step.produceWorkflowItem()
-                    .compactMap { $0 as? PreviousStep.WorkflowItem }
-                    .map{ item in handler(item, step.base as! PreviousStep) }
-                    .do(onNext: { step.perform(action: $0.0) })
+                    .map ({ item -> (PreviousStep.WorkflowStepAction, NextStep) in
+                        let r = handler(item as! PreviousStep.WorkflowItem, step.base as! PreviousStep)
+                        step.perform(action: r.0, with: item)
+                        return r
+                    })
             })
             .map { $0.1.eraseToAny() }
         return self

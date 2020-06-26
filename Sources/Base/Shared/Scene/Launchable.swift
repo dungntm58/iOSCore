@@ -13,7 +13,7 @@ public protocol Launchable where Self: Scenable {
 
 public extension Launchable {
     func launch() {
-        perform()
+        perform(with: nil)
         if isPerformed { return }
         updateLifeCycle(.didBecomeActive)
     }

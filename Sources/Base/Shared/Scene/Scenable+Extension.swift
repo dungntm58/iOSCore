@@ -12,16 +12,16 @@ public extension Scenable {
         Optional<Any>.none as Any // Nil of any
     }
 
-    func `switch`(to scene: Scenable) {
+    func `switch`(to scene: Scenable, with object: Any?) {
         updateLifeCycle(.willResignActive)
         prepare(for: scene)
         scene.previous = self
-        scene.perform()
+        scene.perform(with: object)
         scene.updateLifeCycle(.didBecomeActive)
         updateLifeCycle(.didResignActive)
     }
 
-    func attach(child scene: Scenable) {
+    func attach(child scene: Scenable, with object: Any?) {
         if children.contains(where: { scene as AnyObject === $0 as AnyObject }) {
             #if !RELEASE && !PRODUCTION
             Swift.print("This scene has been already attached")
@@ -39,14 +39,14 @@ public extension Scenable {
             scene.updateLifeCycle(.willBecomeActive)
             prepare(for: scene)
             scene.parent = self
-            scene.perform()
+            scene.perform(with: object)
             current = scene
             scene.updateLifeCycle(.didBecomeActive)
             bindLifeCycle(to: scene)
         }
     }
 
-    func set(children: [Scenable], performAtIndex index: Int?) {
+    func set(children: [Scenable], performAtIndex index: Int?, with object: Any?) {
         guard let index = index else {
             return self.children = children
         }
@@ -60,7 +60,7 @@ public extension Scenable {
             bindLifeCycle(to: scene)
         }
         current = scene
-        scene.perform()
+        scene.perform(with: object)
         scene.updateLifeCycle(.didBecomeActive)
     }
 
@@ -92,11 +92,11 @@ public extension Scenable {
         updateLifeCycle(.didDetach)
     }
 
-    func performChild(at index: Int) {
+    func performChild(at index: Int, with object: Any?) {
         current?.updateLifeCycle(.willResignActive)
         let scene = children[index]
         prepare(for: scene)
-        scene.perform()
+        scene.perform(with: object)
         let prevScene = current
         current = scene
         prevScene?.updateLifeCycle(.didResignActive)

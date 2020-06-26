@@ -13,16 +13,6 @@ public protocol WorkflowItemProducable {
     func produceWorkflowItem() -> Observable<WorkflowItem>
 }
 
-public protocol WorkflowStepping: WorkflowItemProducable {
-    associatedtype WorkflowStepAction
-
-    func perform(action: WorkflowStepAction)
-}
-
-extension WorkflowStepping {
-    public func eraseToAny() -> AnyWorkflowStep { .init(workflowStep: self) }
-}
-
 public struct AnyWorkflowStep: WorkflowStepping {
     public typealias WorkflowItem = Any
     public typealias WorkflowStepAction = Any
@@ -40,8 +30,8 @@ public struct AnyWorkflowStep: WorkflowStepping {
         }
     }
 
-    public func perform(action: WorkflowStepAction) {
-        box.perform(action: action)
+    public func perform(action: WorkflowStepAction, with object: Any?) {
+        box.perform(action: action, with: object)
     }
 
     public func produceWorkflowItem() -> Observable<Any> {
@@ -51,7 +41,7 @@ public struct AnyWorkflowStep: WorkflowStepping {
 
 private protocol AnyWorkflowStepBox {
     var base: Any { get }
-    func perform(action: Any)
+    func perform(action: Any, with object: Any?)
     func produceWorkflowItem() -> Observable<Any>
 }
 
@@ -68,8 +58,8 @@ private extension AnyWorkflowStep {
         }
 
         @inlinable
-        func perform(action: Any) {
-            _base.perform(action: action as! Base.WorkflowStepAction)
+        func perform(action: Any, with object: Any?) {
+            _base.perform(action: action as! Base.WorkflowStepAction, with: object)
         }
 
         @inlinable
