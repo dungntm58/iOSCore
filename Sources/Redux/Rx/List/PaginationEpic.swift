@@ -25,7 +25,7 @@ public protocol ListDataWorker {
 open class BaseListEpic<Action, State, Worker>: Epic where
     Action: Actionable,
     Action.ActionType: ListActionType,
-    State: Statable,
+    State: Stateable,
     Worker: ListDataWorker,
     Worker.T: Equatable {
 

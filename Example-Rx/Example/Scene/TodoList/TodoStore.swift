@@ -12,10 +12,10 @@ import CoreList
 class TodoStore: Store<TodoReducer.Action, TodoReducer.State> {
     init() {
         super.init(reducer: TodoReducer(), initialState: Todo.State())
-        inject(
-            TodoListEpic().apply,
-            TodoCreateEpic().apply,
-            {
+        self
+            <| TodoListEpic()
+            <| TodoCreateEpic()
+            <| {
                 dispatcher, _, _ in
                 dispatcher
                     .of(type: .logout)
@@ -25,7 +25,6 @@ class TodoStore: Store<TodoReducer.Action, TodoReducer.State> {
                         return Action(type: .logoutSuccess, payload: 0)
                 }
             }
-        )
     }
 }
 

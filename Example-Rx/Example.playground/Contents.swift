@@ -14,7 +14,7 @@ struct ExAction: Actionable {
     let payload: Any
 }
 
-struct ExState: Statable {
+struct ExState: Stateable {
     let i: Int
 }
 

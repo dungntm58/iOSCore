@@ -2,16 +2,10 @@
 //  WorkflowStep.swift
 //  CoreBase
 //
-//  Created by Robert on 6/26/20.
+//  Created by Dung Nguyen on 6/24/20.
 //
 
-import Combine
-
-public protocol WorkflowItemProducable {
-    associatedtype WorkflowItem
-
-    func produceWorkflowItem() -> AnyPublisher<WorkflowItem, Never>
-}
+import RxSwift
 
 public struct AnyWorkflowStep: WorkflowStepping {
     public typealias WorkflowItem = Any
@@ -34,7 +28,7 @@ public struct AnyWorkflowStep: WorkflowStepping {
         box.perform(action: action, with: object)
     }
 
-    public func produceWorkflowItem() -> AnyPublisher<Any, Never> {
+    public func produceWorkflowItem() -> Observable<Any> {
         box.produceWorkflowItem()
     }
 }
@@ -42,7 +36,7 @@ public struct AnyWorkflowStep: WorkflowStepping {
 private protocol AnyWorkflowStepBox {
     var base: Any { get }
     func perform(action: Any, with object: Any?)
-    func produceWorkflowItem() -> AnyPublisher<Any, Never>
+    func produceWorkflowItem() -> Observable<Any>
 }
 
 private extension AnyWorkflowStep {
@@ -63,8 +57,8 @@ private extension AnyWorkflowStep {
         }
 
         @inlinable
-        func produceWorkflowItem() -> AnyPublisher<Any, Never> {
-            _base.produceWorkflowItem().map { $0 }.eraseToAnyPublisher()
+        func produceWorkflowItem() -> Observable<Any> {
+            _base.produceWorkflowItem().map { $0 }
         }
     }
 }

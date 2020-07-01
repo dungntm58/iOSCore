@@ -7,7 +7,7 @@
 
 import Combine
 
-open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Action: Actionable, State: Statable, StoreScheduler: Scheduler {
+open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Action: Actionable, State: Stateable, StoreScheduler: Scheduler {
     private let _state: CurrentValueSubject<State, Never>
     private let _action: PassthroughSubject<Action, Never>
     private let _derivedAction: PassthroughSubject<Action, Never>
@@ -76,12 +76,16 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
         actions.forEach(_action.send)
     }
 
+    public func inject<E>(_ epic: E...) where E: Epic, E.Action == Action, E.State == State {
+        self.inject(epic.map { $0.apply })
+    }
+
     public func inject(_ epic: EpicFunction<Action, State>...) {
         self.inject(epic)
     }
 
     public func inject(_ epics: [EpicFunction<Action, State>]) {
-        self._epics = epics
+        self._epics += epics
     }
 
     private func run() {
@@ -122,4 +126,17 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
             .sink(receiveValue: _action.send)
             .store(in: &cancellables)
     }
+}
+
+@discardableResult
+public func <|<S, E, StoreScheduler> (store: S, epic: E) -> S where E: Epic, S: Store<E.Action, E.State, StoreScheduler> {
+    store.inject(epic)
+    return store
+}
+
+@discardableResult
+public func <|<S, Action, State, StoreScheduler> (store: S, epic: @escaping EpicFunction<Action, State>) -> S
+    where Action: Actionable, State: Stateable, S: Store<Action, State, StoreScheduler> {
+    store.inject(epic)
+    return store
 }

@@ -8,7 +8,7 @@
 import RxSwift
 
 public protocol Storable: class, Activating {
-    associatedtype State: Statable
+    associatedtype State: Stateable
 
     var currentState: State { get }
     var state: Observable<State> { get }

@@ -24,7 +24,7 @@ extension CollectionView {
         public let type: CellType
         public let reuseIdentifier: String
         public let position: HeaderFooterPosition
-        public var size: CGSize
+        internal(set) public var size: CGSize
         public let model: Model?
         @usableFromInline
         var bindingFunction: BindingFunction?

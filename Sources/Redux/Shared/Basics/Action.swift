@@ -9,9 +9,9 @@ public protocol Actionable: CustomStringConvertible, CustomDebugStringConvertibl
     associatedtype ActionType: Equatable
 
     var type: ActionType { get }
-    var payload: Any { get }
+    var payload: Any? { get }
 
-    init(type: ActionType, payload: Any)
+    init(type: ActionType, payload: Any?)
 }
 
 extension Actionable {

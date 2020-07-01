@@ -9,7 +9,7 @@ import RxSwift
 import RxRelay
 import NSObject_Rx
 
-open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Action: Actionable, State: Statable {
+open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Action: Actionable, State: Stateable {
     public typealias StoreScheduler = SchedulerType
 
     private lazy var _disposables = CompositeDisposable()
@@ -72,12 +72,16 @@ open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Act
         actions.forEach { _action.accept($0) }
     }
 
+    public func inject<E>(_ epic: E...) where E: Epic, E.Action == Action, E.State == State {
+        self.inject(epic.map { $0.apply })
+    }
+
     public func inject(_ epic: EpicFunction<Action, State>...) {
         self.inject(epic)
     }
 
     public func inject(_ epics: [EpicFunction<Action, State>]) {
-        self._epics = epics
+        self._epics += epics
     }
 
     private func run() {
@@ -126,4 +130,17 @@ open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Act
         _ = _disposables.insert(actionToState)
         _disposables.disposed(by: disposeBag)
     }
+}
+
+@discardableResult
+public func <|<S, E> (store: S, epic: E) -> S where E: Epic, S: Store<E.Action, E.State> {
+    store.inject(epic)
+    return store
+}
+
+@discardableResult
+public func <|<S, Action, State> (store: S, epic: @escaping EpicFunction<Action, State>) -> S
+    where Action: Actionable, State: Stateable, S: Store<Action, State> {
+    store.inject(epic)
+    return store
 }

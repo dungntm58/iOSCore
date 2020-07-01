@@ -27,10 +27,10 @@ enum Todo {
         typealias ActionType = TodoActionType
         
         let type: TodoActionType
-        let payload: Any
+        let payload: Any?
     }
     
-    struct State: Statable, CustomStringConvertible {
+    struct State: Stateable, CustomStringConvertible {
         static func == (lhs: Todo.State, rhs: Todo.State) -> Bool {
             if lhs.error == nil && rhs.error == nil {
                 return lhs.isLogout == rhs.isLogout

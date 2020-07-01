@@ -22,10 +22,10 @@ enum Login {
         typealias ActionType = LoginActionType
         
         let type: ActionType
-        let payload: Any
+        let payload: Any?
     }
     
-    struct State: Statable {
+    struct State: Stateable {
         static func == (lhs: Login.State, rhs: Login.State) -> Bool {
             if lhs.error == nil && rhs.error == nil {
                 return lhs.user?.id == rhs.user?.id

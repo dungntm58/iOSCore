@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol WorkflowStepping: WorkflowItemProducable {
+public protocol WorkflowStepping: WorkflowItemProducible {
     associatedtype WorkflowStepAction
 
     func perform(action: WorkflowStepAction, with object: Any?)
