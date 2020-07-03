@@ -8,20 +8,17 @@
 import Combine
 
 public extension Scenable {
-    func forwardDataWhenDetach() -> Any {
-        Optional<Any>.none as Any // Nil of any
-    }
 
-    func `switch`(to scene: Scenable, with object: Any?) {
+    func `switch`(to scene: Scenable, with userInfo: Any?) {
         updateLifeCycle(.willResignActive)
         prepare(for: scene)
         scene.previous = self
-        scene.perform(with: object)
+        scene.perform(with: userInfo)
         scene.updateLifeCycle(.didBecomeActive)
         updateLifeCycle(.didResignActive)
     }
 
-    func attach(child scene: Scenable, with object: Any?) {
+    func attach(child scene: Scenable, with userInfo: Any?) {
         if children.contains(where: { scene as AnyObject === $0 as AnyObject }) {
             #if !RELEASE && !PRODUCTION
             Swift.print("This scene has been already attached")
@@ -39,14 +36,14 @@ public extension Scenable {
             scene.updateLifeCycle(.willBecomeActive)
             prepare(for: scene)
             scene.parent = self
-            scene.perform(with: object)
+            scene.perform(with: userInfo)
             current = scene
             scene.updateLifeCycle(.didBecomeActive)
             bindLifeCycle(to: scene)
         }
     }
 
-    func set(children: [Scenable], performAtIndex index: Int?, with object: Any?) {
+    func set(children: [Scenable], performAtIndex index: Int?, with userInfo: Any?) {
         guard let index = index else {
             return self.children = children
         }
@@ -60,17 +57,17 @@ public extension Scenable {
             bindLifeCycle(to: scene)
         }
         current = scene
-        scene.perform(with: object)
+        scene.perform(with: userInfo)
         scene.updateLifeCycle(.didBecomeActive)
     }
 
-    func detach() {
+    func detach(with userInfo: Any?) {
         #if !RELEASE && !PRODUCTION
         Swift.print("Detach scene", type(of: self))
         printSceneHierachyDebug()
         #endif
         if previous == nil {
-            parent?.detach()
+            parent?.detach(with: userInfo)
             return
         }
 
@@ -85,18 +82,18 @@ public extension Scenable {
         parent?.current = nil
         if let previousScene = previousScene {
             previousScene.updateLifeCycle(.willBecomeActive)
-            previousScene.retrieve?(forwardDataWhenDetach())
+            previousScene.retrieve?(userInfo)
             previousScene.updateLifeCycle(.didBecomeActive)
         }
         onDetach()
         updateLifeCycle(.didDetach)
     }
 
-    func performChild(at index: Int, with object: Any?) {
+    func performChild(at index: Int, with userInfo: Any?) {
         current?.updateLifeCycle(.willResignActive)
         let scene = children[index]
         prepare(for: scene)
-        scene.perform(with: object)
+        scene.perform(with: userInfo)
         let prevScene = current
         current = scene
         prevScene?.updateLifeCycle(.didResignActive)

@@ -45,7 +45,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 [weak self] _ in
-                self?.scene?.detach()
+                self?.scene?.detach(with: nil)
             })
             .disposed(by: rx.disposeBag)
         

@@ -22,14 +22,14 @@ public enum WorkflowSceneStepAction {
 public protocol WorkflowSceneStepping: WorkflowStepping where WorkflowStepAction == WorkflowSceneStepAction {}
 
 extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowSceneStepAction {
-    public func perform(action: WorkflowStepAction, with object: Any?) {
+    public func perform(action: WorkflowStepAction, with userInfo: Any?) {
         switch action {
         case .switchToNewScene(let scene):
-            self.switch(to: scene, with: object)
+            self.switch(to: scene, with: userInfo)
         case .performChild(let index):
-            self.performChild(at: index, with: object)
+            self.performChild(at: index, with: userInfo)
         case .detach:
-            self.detach()
+            self.detach(with: userInfo)
         case .detachNTimes(let n):
             var current: Scenable? = self
             for _ in 0..<n {
@@ -37,7 +37,7 @@ extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowS
                 if previous == nil { break }
                 current = previous
             }
-            current?.detach()
+            current?.detach(with: userInfo)
         case .detachToSceneType(let t):
             var current: Scenable? = parent
             var isFound = false
@@ -46,7 +46,7 @@ extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowS
                 isFound = true
             }
             guard isFound else { break }
-            current?.detach()
+            current?.detach(with: userInfo)
         case .detachToScene(let scene):
             var current: Scenable? = parent
             var isFound = false
@@ -55,7 +55,7 @@ extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowS
                 isFound = true
             }
             guard isFound else { break }
-            current?.detach()
+            current?.detach(with: userInfo)
         case .none:
             break
         }

@@ -16,14 +16,14 @@ public enum LifeCycle {
 }
 
 @objc public protocol MaybeRetrievable {
-    @objc optional func retrieve(_ data: Any)
+    @objc optional func retrieve(_ userInfo: Any?)
 }
 
 public protocol Scenable: class, MaybeRetrievable {
     /// An object manages scene relationship and life cycle state
     var managedContext: ManagedSceneContext { get }
 
-    func perform(with object: Any?)
+    func perform(with userInfo: Any?)
 
     /**
      Set children, then perform one of them by given index if index is not nil
@@ -35,17 +35,17 @@ public protocol Scenable: class, MaybeRetrievable {
      - Throws:
      - Fatal error if the given index is out of range
      */
-    func set(children: [Scenable], performAtIndex index: Int?, with object: Any?)
+    func set(children: [Scenable], performAtIndex index: Int?, with userInfo: Any?)
 
     /// Attach a scene as a child then perform it, it will be included in children collection.
-    func attach(child scene: Scenable, with object: Any?)
+    func attach(child scene: Scenable, with userInfo: Any?)
 
     /// Navigate to new scene
-    func `switch`(to scene: Scenable, with object: Any?)
+    func `switch`(to scene: Scenable, with userInfo: Any?)
     func prepare(for scene: Scenable)
 
     /// Dismiss this scene, release all resources
     /// Once this scene is detached, it cannot be reused.
-    func detach()
+    func detach(with userInfo: Any?)
     func onDetach()
 }

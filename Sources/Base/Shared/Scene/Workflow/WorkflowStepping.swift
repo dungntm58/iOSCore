@@ -10,7 +10,7 @@ import Foundation
 public protocol WorkflowStepping: WorkflowItemProducible {
     associatedtype WorkflowStepAction
 
-    func perform(action: WorkflowStepAction, with object: Any?)
+    func perform(action: WorkflowStepAction, with userInfo: Any?)
 }
 
 extension WorkflowStepping {

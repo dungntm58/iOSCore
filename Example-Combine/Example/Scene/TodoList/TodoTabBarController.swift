@@ -46,7 +46,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
                 [weak self] _ in
-                self?.scene?.detach()
+                self?.scene?.detach(with: nil)
             })
             .store(in: &cancellables)
         

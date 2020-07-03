@@ -24,8 +24,8 @@ public struct AnyWorkflowStep: WorkflowStepping {
         }
     }
 
-    public func perform(action: WorkflowStepAction, with object: Any?) {
-        box.perform(action: action, with: object)
+    public func perform(action: WorkflowStepAction, with userInfo: Any?) {
+        box.perform(action: action, with: userInfo)
     }
 
     public func produceWorkflowItem() -> Observable<Any> {
@@ -35,7 +35,7 @@ public struct AnyWorkflowStep: WorkflowStepping {
 
 private protocol AnyWorkflowStepBox {
     var base: Any { get }
-    func perform(action: Any, with object: Any?)
+    func perform(action: Any, with userInfo: Any?)
     func produceWorkflowItem() -> Observable<Any>
 }
 
@@ -52,8 +52,8 @@ private extension AnyWorkflowStep {
         }
 
         @inlinable
-        func perform(action: Any, with object: Any?) {
-            _base.perform(action: action as! Base.WorkflowStepAction, with: object)
+        func perform(action: Any, with userInfo: Any?) {
+            _base.perform(action: action as! Base.WorkflowStepAction, with: userInfo)
         }
 
         @inlinable

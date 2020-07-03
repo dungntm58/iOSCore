@@ -16,7 +16,7 @@ open class Scene: Scenable {
         self.managedContext = managedContext
     }
 
-    open func perform(with object: Any?) {
+    open func perform(with userInfo: Any?) {
         // No-op
     }
 
