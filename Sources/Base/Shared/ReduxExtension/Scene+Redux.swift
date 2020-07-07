@@ -7,19 +7,6 @@
 
 import CoreRedux
 
-public protocol ConnectedSceneRef: SceneRef where Scene: Connectable {}
-public protocol ConnectedSceneBindableRef: SceneBindableRef, ConnectedSceneRef {}
-
-public extension Activating where Self: ConnectedSceneRef {
-    func activate() {
-        scene?.store.activate()
-    }
-
-    func deactivate() {
-        scene?.store.deactivate()
-    }
-}
-
 open class ConnectableScene<Store>: Scene, Connectable where Store: Storable {
     public let store: Store
 

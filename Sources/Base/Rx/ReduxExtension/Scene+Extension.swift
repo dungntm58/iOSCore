@@ -8,6 +8,7 @@
 import CoreRedux
 
 extension Scenable where Self: Connectable {
+    @inlinable
     func config() {
         let lifeCycleDiposable = self.lifeCycle
             .map {

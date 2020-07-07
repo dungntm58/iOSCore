@@ -10,7 +10,7 @@ import UIKit
 import Combine
 import CoreBase
 
-class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
+class LoginViewController: BaseViewController {
     
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!

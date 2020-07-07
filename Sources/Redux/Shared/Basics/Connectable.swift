@@ -17,7 +17,7 @@ public protocol Connectable {
 }
 
 public extension Connectable where Self: Dispatchable, Store: Dispatchable, Store.Action == Action {
-    func dispatch(type: Action.ActionType, payload: Any) {
+    func dispatch(type: Action.ActionType, payload: Any?) {
         store.dispatch(type: type, payload: payload)
     }
 

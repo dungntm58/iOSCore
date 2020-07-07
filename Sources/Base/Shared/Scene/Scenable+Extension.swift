@@ -7,9 +7,10 @@
 
 import Combine
 
-public extension Scenable {
+extension Scenable {
 
-    func `switch`(to scene: Scenable, with userInfo: Any?) {
+    @inlinable
+    public func `switch`(to scene: Scenable, with userInfo: Any?) {
         updateLifeCycle(.willResignActive)
         prepare(for: scene)
         scene.previous = self
@@ -18,7 +19,8 @@ public extension Scenable {
         updateLifeCycle(.didResignActive)
     }
 
-    func attach(child scene: Scenable, with userInfo: Any?) {
+    @inlinable
+    public func attach(child scene: Scenable, with userInfo: Any?) {
         if children.contains(where: { scene as AnyObject === $0 as AnyObject }) {
             #if !RELEASE && !PRODUCTION
             Swift.print("This scene has been already attached")
@@ -43,7 +45,8 @@ public extension Scenable {
         }
     }
 
-    func set(children: [Scenable], performAtIndex index: Int?, with userInfo: Any?) {
+    @inlinable
+    public func set(children: [Scenable], performAtIndex index: Int?, with userInfo: Any?) {
         guard let index = index else {
             return self.children = children
         }
@@ -61,7 +64,8 @@ public extension Scenable {
         scene.updateLifeCycle(.didBecomeActive)
     }
 
-    func detach(with userInfo: Any?) {
+    @inlinable
+    public func detach(with userInfo: Any?) {
         #if !RELEASE && !PRODUCTION
         Swift.print("Detach scene", type(of: self))
         printSceneHierachyDebug()
@@ -89,7 +93,8 @@ public extension Scenable {
         updateLifeCycle(.didDetach)
     }
 
-    func performChild(at index: Int, with userInfo: Any?) {
+    @inlinable
+    public func performChild(at index: Int, with userInfo: Any?) {
         current?.updateLifeCycle(.willResignActive)
         let scene = children[index]
         prepare(for: scene)
@@ -104,6 +109,7 @@ public extension Scenable {
     }
 
     #if !RELEASE && !PRODUCTION
+    @inlinable
     func printSceneHierachyDebug() {
         Swift.print("------- Scene hierachy -------")
         guard var currentScene = previous ?? parent else { return }
@@ -118,39 +124,45 @@ public extension Scenable {
 }
 
 // MARK: - Shortcut
-public extension Scenable {
-    internal(set) var previous: Scenable? {
+extension Scenable {
+    @inlinable
+    internal(set) public var previous: Scenable? {
         set { managedContext.previous = newValue }
         get { managedContext.previous }
     }
 
-    internal(set) var children: [Scenable] {
+    @inlinable
+    internal(set) public var children: [Scenable] {
         set { managedContext.children = newValue }
         get { managedContext.children }
     }
 
-    internal(set) var parent: Scenable? {
+    @inlinable
+    internal(set) public var parent: Scenable? {
         set { managedContext.parent = newValue }
         get { managedContext.parent }
     }
 
-    internal(set) var isPerformed: Bool {
+    @inlinable
+    internal(set) public var isPerformed: Bool {
         set { managedContext.isPerformed = newValue }
         get { managedContext.isPerformed }
     }
 
     /// The nearest child scene that has been performed
-    internal(set) var current: Scenable? {
+    @inlinable
+    internal(set) public var current: Scenable? {
         set { managedContext.current = newValue }
         get { managedContext.current }
     }
 }
 
 // MARK: - Convenience
-public extension Scenable {
+extension Scenable {
 
     /// The most leaf child scene that has been performed
-    var visible: Scenable {
+    @inlinable
+    public var visible: Scenable {
         var currentScene: Scenable = self
         while let scene = currentScene.current {
             currentScene = scene
@@ -159,7 +171,8 @@ public extension Scenable {
     }
 
     /// The parent or one of its ancestor
-    var ancestor: Scenable? {
+    @inlinable
+    public var ancestor: Scenable? {
         guard var currentScene = parent else { return nil }
 
         while let scene = currentScene.parent {
@@ -168,7 +181,8 @@ public extension Scenable {
         return currentScene
     }
 
-    var root: Scenable? {
+    @inlinable
+    public var root: Scenable? {
         guard var currentScene = previous ?? parent else { return nil }
 
         while let scene = currentScene.previous ?? currentScene.parent {
@@ -177,7 +191,8 @@ public extension Scenable {
         return currentScene
     }
 
-    var nearestViewable: Viewable? {
+    @inlinable
+    public var nearestViewable: Viewable? {
         guard var currentScene = previous ?? parent else { return nil }
         if let viewable = currentScene as? Viewable {
             return viewable

@@ -10,12 +10,12 @@ import UIKit
 import CoreBase
 import RxSwift
 
-class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
+class SignupViewController: BaseViewController {
     
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!
     
-    var scene: LoginScene?
+    @SceneRef var scene: LoginScene?
     
     override func viewDidLoad() {
         super.viewDidLoad()

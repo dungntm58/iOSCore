@@ -8,7 +8,7 @@
 
 import CoreBase
 
-class TodoDetailViewController: UIViewController, ConnectedSceneBindableRef {
+class TodoDetailViewController: UIViewController {
     @IBOutlet weak var lbTitle: UILabel!
     
     var scene: TodoScene?

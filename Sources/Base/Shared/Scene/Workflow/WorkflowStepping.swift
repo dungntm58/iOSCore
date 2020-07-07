@@ -14,5 +14,6 @@ public protocol WorkflowStepping: WorkflowItemProducible {
 }
 
 extension WorkflowStepping {
+    @inlinable
     public func eraseToAny() -> AnyWorkflowStep { .init(workflowStep: self) }
 }

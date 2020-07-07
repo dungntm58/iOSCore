@@ -27,14 +27,17 @@ public protocol ViewManagable {
     func dismiss(animated flag: Bool, completion: (() -> Void)?)
 }
 
-public extension ViewManagable where Self: UIViewController {
-    var currentViewController: UIViewController { self }
+extension ViewManagable where Self: UIViewController {
+    @inlinable
+    public var currentViewController: UIViewController { self }
 
-    func pushViewController(_ viewController: UIViewController, animated flag: Bool) {
+    @inlinable
+    public func pushViewController(_ viewController: UIViewController, animated flag: Bool) {
         (self.currentViewController as? UINavigationController ?? self.currentViewController.navigationController)?.pushViewController(viewController, animated: true)
     }
 
-    func goBack(animated flag: Bool, completion: (() -> Void)?) {
+    @inlinable
+    public func goBack(animated flag: Bool, completion: (() -> Void)?) {
         if let naviViewController = navigationController {
             if naviViewController.viewControllers.first == self {
                 naviViewController.dismiss(animated: flag, completion: completion)

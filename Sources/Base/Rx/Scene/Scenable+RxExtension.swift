@@ -8,23 +8,27 @@
 import RxSwift
 
 // MARK: - Convenience
-public extension Scenable {
+extension Scenable {
     /// Return an observable instance that observe life cycle of this scene.
-    var lifeCycle: Observable<LifeCycle> {
+    @inlinable
+    public var lifeCycle: Observable<LifeCycle> {
         managedContext.lifeCycle.asObservable()
     }
 
     /// Return the current value of life cycle
-    func getLifeCycleState() throws -> LifeCycle {
+    @inlinable
+    public func getLifeCycleState() throws -> LifeCycle {
         try managedContext.lifeCycle.value()
     }
 }
 
 extension Scenable {
+    @inlinable
     func updateLifeCycle(_ value: LifeCycle) {
         managedContext.lifeCycle.onNext(value)
     }
 
+    @inlinable
     func bindLifeCycle(to scene: Scenable) {
         managedContext.collect(lifeCycle.subscribe(onNext: scene.managedContext.lifeCycle.onNext))
     }

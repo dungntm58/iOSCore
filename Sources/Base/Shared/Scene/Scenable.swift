@@ -23,6 +23,8 @@ public protocol Scenable: class, MaybeRetrievable {
     /// An object manages scene relationship and life cycle state
     var managedContext: ManagedSceneContext { get }
 
+    var id: String { get }
+
     func perform(with userInfo: Any?)
 
     /**

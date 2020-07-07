@@ -64,7 +64,7 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
         self.isActive = false
     }
 
-    public func dispatch(type: Action.ActionType, payload: Any) {
+    public func dispatch(type: Action.ActionType, payload: Any?) {
         dispatch(Action(type: type, payload: payload))
     }
 

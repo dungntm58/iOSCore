@@ -13,9 +13,9 @@ import CoreList
 import CoreRedux
 import Toaster
 
-class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
+class TodoTabBarController: UITabBarController {
     
-    var scene: TodoScene?
+    @SceneRef var scene: TodoScene?
     var newTodo: String?
     
     override func viewDidLoad() {
@@ -82,7 +82,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
         }
         vc.addAction(UIAlertAction(title: "OK", style: .default) {
             _ in
-            self.scene?.dispatch(type: .createTodo, payload: self.newTodo as Any)
+            self.scene?.dispatch(type: .createTodo, payload: self.newTodo)
         })
         present(vc, animated: true)
     }
@@ -92,7 +92,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
     }
     
     @objc func logout() {
-        scene?.store.dispatch(type: .logout, payload: 0)
+        scene?.store <-- .logout
     }
     
     func showSuccess() {

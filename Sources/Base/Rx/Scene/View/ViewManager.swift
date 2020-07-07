@@ -21,23 +21,7 @@ public class ViewManager: HasDisposeBag {
 
     func bind(scene: Scenable) {
         self.scene = scene
-        if let bindable = currentViewController as? SceneBindable {
-            bindable.bind(to: scene)
-        }
-    }
-
-    func viewControllerDidLoad(_ viewController: UIViewController) {
-        if let scene = scene, let bindable = viewController as? SceneBindable {
-            bindable.bind(to: scene)
-        }
-    }
-
-    func viewControllerWillAppear(_ viewController: UIViewController) {
-        self.currentViewController = viewController
-    }
-
-    func viewControllerWillDisappear(_ viewController: UIViewController) {
-        self._currentViewController = nil
+        RefManager.setScene(scene, associatedViewController: currentViewController)
     }
 }
 
@@ -51,6 +35,7 @@ extension ViewManager: ViewManagable {
         get { _currentViewController ?? rootViewController }
     }
 
+    @inlinable
     public func present(_ viewController: UIViewController, animated flag: Bool = true, completion: (() -> Void)? = nil) {
         #if !RELEASE && !PRODUCTION
         Swift.print("Present view controller", type(of: viewController))
@@ -59,6 +44,7 @@ extension ViewManager: ViewManagable {
         self.currentViewController.present(viewController, animated: true, completion: completion)
     }
 
+    @inlinable
     public func pushViewController(_ viewController: UIViewController, animated flag: Bool = true) {
         #if !RELEASE && !PRODUCTION
         Swift.print("Push view controller", type(of: viewController))
@@ -67,6 +53,7 @@ extension ViewManager: ViewManagable {
         (self.currentViewController as? UINavigationController ?? self.currentViewController.navigationController)?.pushViewController(viewController, animated: true)
     }
 
+    @inlinable
     public func show(_ viewController: UIViewController, sender: Any? = nil) {
         #if !RELEASE && !PRODUCTION
         Swift.print("Show view controller", type(of: viewController))
@@ -82,6 +69,7 @@ extension ViewManager: ViewManagable {
         internalDismiss(from: rootViewController, animated: flag, completion: completion)
     }
 
+    @inlinable
     public func goBack(animated flag: Bool = true, completion: (() -> Void)? = nil) {
         #if !RELEASE && !PRODUCTION
         Swift.print("Dismiss current view controller")
@@ -90,33 +78,31 @@ extension ViewManager: ViewManagable {
     }
 }
 
-private extension ViewManager {
+extension ViewManager {
+    @usableFromInline
     func addHook(_ viewController: UIViewController) {
-        Observable
-            .combineLatest(
-                viewController.rx.methodInvoked(#selector(UIViewController.viewDidLoad)),
-                Observable.just(viewController)
-            ) { $1 }
-            .subscribe(onNext: self.viewControllerDidLoad(_:))
-            .disposed(by: disposeBag)
-
         Observable
             .combineLatest(
                 viewController.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))),
                 Observable.just(viewController)
             ) { $1 }
-            .subscribe(onNext: self.viewControllerWillAppear(_:))
+            .subscribe(onNext: {
+                [weak self] viewController in
+                self?.currentViewController = viewController
+            })
             .disposed(by: disposeBag)
 
-        Observable
-            .combineLatest(
-                viewController.rx.methodInvoked(#selector(UIViewController.viewWillDisappear(_:))),
-                Observable.just(viewController)
-            ) { $1 }
-            .subscribe(onNext: self.viewControllerWillDisappear(_:))
-            .disposed(by: disposeBag)
+        RefManager.setScene(scene, associatedViewController: viewController)
+
+        let mirror = Mirror(reflecting: viewController)
+        for child in mirror.children {
+            if let sceneRef = child.value as? SceneRefAssociated {
+                sceneRef.associate(with: viewController)
+            }
+        }
     }
 
+    @usableFromInline
     func internalDismiss(from viewController: UIViewController, animated flag: Bool = true, completion: (() -> Void)? = nil) {
         if let naviViewController = viewController.navigationController {
             if naviViewController.viewControllers.first == viewController {

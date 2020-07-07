@@ -8,9 +8,16 @@
 public protocol Dispatchable {
     associatedtype Action: Actionable
 
-    func dispatch(type: Action.ActionType, payload: Any)
+    func dispatch(type: Action.ActionType, payload: Any?)
     func dispatch(_ action: Action...)
     func dispatch(_ actions: [Action])
+}
+
+extension Dispatchable {
+    @inlinable
+    public func dispatch(type: Action.ActionType) {
+        dispatch(type: type, payload: nil)
+    }
 }
 
 precedencegroup DispatchablePrecedence {
@@ -21,12 +28,21 @@ precedencegroup DispatchablePrecedence {
 infix operator <--: DispatchablePrecedence
 
 @discardableResult
+@inlinable
+public func <--<D> (dispatcher: D, action: D.Action.ActionType) -> D where D: Dispatchable {
+    dispatcher.dispatch(D.Action(type: action, payload: nil))
+    return dispatcher
+}
+
+@discardableResult
+@inlinable
 public func <--<D> (dispatcher: D, action: D.Action) -> D where D: Dispatchable {
     dispatcher.dispatch(action)
     return dispatcher
 }
 
 @discardableResult
+@inlinable
 public func <--<D> (dispatcher: D, actions: [D.Action]) -> D where D: Dispatchable {
     dispatcher.dispatch(actions)
     return dispatcher

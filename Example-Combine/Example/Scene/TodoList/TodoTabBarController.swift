@@ -12,7 +12,7 @@ import CoreList
 import CoreRedux
 import Toaster
 
-class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
+class TodoTabBarController: UITabBarController {
     
     var scene: TodoScene?
     var newTodo: String?

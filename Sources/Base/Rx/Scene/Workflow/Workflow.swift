@@ -16,6 +16,7 @@ public protocol WorkflowItemProducible {
 public typealias WorkflowStepGeneratorObservable<PreviousStep, NextStep> = (_ previousStepItem: PreviousStep.WorkflowItem, _ previousStep: PreviousStep) -> Observable<(PreviousStep.WorkflowStepAction, NextStep)> where PreviousStep: WorkflowStepping, NextStep: WorkflowStepping
 public typealias WorkflowStepGenerator<PreviousStep, NextStep> = (_ previousStepItem: PreviousStep.WorkflowItem, _ previousStep: PreviousStep) -> (PreviousStep.WorkflowStepAction, NextStep) where PreviousStep: WorkflowStepping, NextStep: WorkflowStepping
 
+@inlinable
 public func createWorkflow<FirstStep>(from firstStep: FirstStep) -> Observable<FirstStep> where FirstStep: Launchable & WorkflowStepping {
     Observable
         .just(firstStep)
@@ -23,6 +24,7 @@ public func createWorkflow<FirstStep>(from firstStep: FirstStep) -> Observable<F
 }
 
 extension Observable where Element: WorkflowStepping {
+    @inlinable
     public func next<NextStep>(handler: @escaping WorkflowStepGeneratorObservable<Element, NextStep>) -> Observable<NextStep> where NextStep: WorkflowStepping {
         flatMap { step in
             step.produceWorkflowItem()
@@ -34,6 +36,7 @@ extension Observable where Element: WorkflowStepping {
         .map { $0.1 }
     }
 
+    @inlinable
     public func next<NextStep>(handler: @escaping WorkflowStepGenerator<Element, NextStep>) -> Observable<NextStep> where NextStep: WorkflowStepping {
         flatMap { step in
             step.produceWorkflowItem()
@@ -46,6 +49,7 @@ extension Observable where Element: WorkflowStepping {
         .map { $0.1 }
     }
 
+    @inlinable
     public func commitWorkflow(into disposeBag: DisposeBag) {
         subscribe().disposed(by: disposeBag)
     }

@@ -7,13 +7,16 @@
 
 open class Scene: Scenable {
     public let managedContext: ManagedSceneContext
+    public let id: String
 
     public init() {
         self.managedContext = .init()
+        self.id = UUID().uuidString
     }
 
     public init(managedContext: ManagedSceneContext) {
         self.managedContext = managedContext
+        self.id = UUID().uuidString
     }
 
     open func perform(with userInfo: Any?) {

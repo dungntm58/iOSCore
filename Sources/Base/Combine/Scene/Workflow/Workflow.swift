@@ -16,6 +16,7 @@ public protocol WorkflowItemProducible {
 public typealias WorkflowStepGeneratorObservable<PreviousStep, NextStep> = (_ previousStepItem: PreviousStep.WorkflowItem, _ previousStep: PreviousStep) -> AnyPublisher<(PreviousStep.WorkflowStepAction, NextStep), Never> where PreviousStep: WorkflowStepping, NextStep: WorkflowStepping
 public typealias WorkflowStepGenerator<PreviousStep, NextStep> = (_ previousStepItem: PreviousStep.WorkflowItem, _ previousStep: PreviousStep) -> (PreviousStep.WorkflowStepAction, NextStep) where PreviousStep: WorkflowStepping, NextStep: WorkflowStepping
 
+@inlinable
 public func createWorkflow<FirstStep>(from firstStep: FirstStep) -> AnyPublisher<FirstStep, Never> where FirstStep: Launchable & WorkflowStepping {
     Future{ $0(.success(firstStep)) }
         .handleEvents(receiveOutput: { $0.launch() })
@@ -23,6 +24,8 @@ public func createWorkflow<FirstStep>(from firstStep: FirstStep) -> AnyPublisher
 }
 
 extension Publisher where Output: WorkflowStepping, Failure == Never {
+
+    @inlinable
     public func next<NextStep>(handler: @escaping WorkflowStepGeneratorObservable<Output, NextStep>) -> AnyPublisher<NextStep, Failure> where NextStep: WorkflowStepping {
         flatMap { step in
             step.produceWorkflowItem()
@@ -34,6 +37,7 @@ extension Publisher where Output: WorkflowStepping, Failure == Never {
         .eraseToAnyPublisher()
     }
 
+    @inlinable
     public func next<NextStep>(handler: @escaping WorkflowStepGenerator<Output, NextStep>) -> AnyPublisher<NextStep, Failure> where NextStep: WorkflowStepping {
         flatMap { step in
             step.produceWorkflowItem()
@@ -47,6 +51,7 @@ extension Publisher where Output: WorkflowStepping, Failure == Never {
         .eraseToAnyPublisher()
     }
 
+    @inlinable
     public func commitWorkflow<Cancellables>(into cancellables: inout Cancellables) where Cancellables: RangeReplaceableCollection, Cancellables.Element == AnyCancellable {
         sink(receiveValue: { _ in }).store(in: &cancellables)
     }

@@ -15,7 +15,6 @@ class SwitchScene: ViewableScene, Launchable {
         let vc = AppStoryboard.main.viewController(of: SuperSwitcherViewController.self)
         vc.modalPresentationStyle = .fullScreen
         super.init(viewManager: vc)
-        vc.scene = self
     }
 
     override func perform(with object: Any?) {

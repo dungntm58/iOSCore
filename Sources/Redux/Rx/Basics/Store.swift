@@ -60,10 +60,12 @@ open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Act
         self.isActive = false
     }
 
-    public func dispatch(type: Action.ActionType, payload: Any) {
+    @inlinable
+    public func dispatch(type: Action.ActionType, payload: Any?) {
         dispatch(Action(type: type, payload: payload))
     }
 
+    @inlinable
     public func dispatch(_ action: Action...) {
         dispatch(action)
     }
@@ -72,10 +74,12 @@ open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Act
         actions.forEach { _action.accept($0) }
     }
 
+    @inlinable
     public func inject<E>(_ epic: E...) where E: Epic, E.Action == Action, E.State == State {
         self.inject(epic.map { $0.apply })
     }
 
+    @inlinable
     public func inject(_ epic: EpicFunction<Action, State>...) {
         self.inject(epic)
     }
@@ -133,12 +137,14 @@ open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Act
 }
 
 @discardableResult
+@inlinable
 public func <|<S, E> (store: S, epic: E) -> S where E: Epic, S: Store<E.Action, E.State> {
     store.inject(epic)
     return store
 }
 
 @discardableResult
+@inlinable
 public func <|<S, Action, State> (store: S, epic: @escaping EpicFunction<Action, State>) -> S
     where Action: Actionable, State: Stateable, S: Store<Action, State> {
     store.inject(epic)

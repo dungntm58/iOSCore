@@ -8,14 +8,21 @@
 import Combine
 
 open class ManagedSceneContext {
+    @usableFromInline
     var previous: Scenable?
+    @usableFromInline
     var cancellables: Set<AnyCancellable>
 
+    @usableFromInline
     weak var parent: Scenable?
+    @usableFromInline
     var children: [Scenable]
+    @usableFromInline
     var current: Scenable?
 
+    @usableFromInline
     var lifeCycle: CurrentValueSubject<LifeCycle, Never>
+    @usableFromInline
     var isPerformed: Bool
 
     deinit {
@@ -29,6 +36,7 @@ open class ManagedSceneContext {
         self.isPerformed = false
     }
 
+    @inlinable
     public func collect(_ cancellable: Cancellable) {
         cancellable.store(in: &cancellables)
     }

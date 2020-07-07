@@ -9,13 +9,13 @@
 import UIKit
 import CoreBase
 
-class SuperSwitcherViewController: UIViewController, SceneBindableRef, ViewManagable {
+class SuperSwitcherViewController: UIViewController, ViewManagable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    var scene: SwitchScene?
+    @SceneRef var scene: SwitchScene?
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
