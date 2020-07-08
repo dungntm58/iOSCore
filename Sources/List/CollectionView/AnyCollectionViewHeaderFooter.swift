@@ -40,11 +40,13 @@ extension CollectionView {
             box.didEndDisplaying(view: view, at: indexPath)
         }
 
+        @inlinable
         public static var none: AnyHeaderFooter? { nil }
     }
 }
 
 extension CollectionView.AnyHeaderFooter: Equatable {
+    @inlinable
     public static func == (lhs: CollectionView.AnyHeaderFooter, rhs: CollectionView.AnyHeaderFooter) -> Bool {
         lhs.reuseIdentifier == rhs.reuseIdentifier
             && lhs.size == rhs.size

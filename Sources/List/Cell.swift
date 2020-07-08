@@ -32,6 +32,7 @@ public protocol CellRegisterable {
 }
 
 extension CellRegisterable {
+    @inlinable
     public var reuseIdentifier: String { type.identifier }
 }
 

@@ -326,6 +326,7 @@ struct Helper {
 }
 
 extension Array where Element == DataStoreFetchOption.Sorting {
+    @inlinable
     func toSortDescriptors() -> [NSSortDescriptor] {
         compactMap {
             sorting -> NSSortDescriptor? in

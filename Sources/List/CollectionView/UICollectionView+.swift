@@ -8,6 +8,7 @@
 import UIKit
 
 extension UICollectionView {
+    @inlinable
     public func register<Cell>(cell: Cell) where Cell: CollectionViewCell {
         switch cell.type {
         case .default:
@@ -19,6 +20,7 @@ extension UICollectionView {
         }
     }
 
+    @inlinable
     public func register<HeaderFooter>(headerFooter: HeaderFooter) where HeaderFooter: CollectionViewHeaderFooter {
         let position = headerFooter.position
         switch headerFooter.type {
@@ -46,6 +48,7 @@ extension UICollectionView {
         }
     }
 
+    @inlinable
     public func dequeue<T, Cell>(of type: T.Type, cell: Cell, for indexPath: IndexPath) -> T where T: UICollectionViewCell, Cell: CollectionViewCell {
         switch cell.type {
         case .nib(let nibName, _):
@@ -58,10 +61,12 @@ extension UICollectionView {
         return self.dequeueReusableCell(withReuseIdentifier: cell.reuseIdentifier, for: indexPath) as! T
     }
 
+    @inlinable
     public func dequeue<Cell>(cell: Cell, for indexPath: IndexPath) -> UICollectionViewCell where Cell: CollectionViewCell {
         dequeueReusableCell(withReuseIdentifier: cell.reuseIdentifier, for: indexPath)
     }
 
+    @inlinable
     public func dequeue<T, HeaderFooter>(of type: T.Type, headerFooter: HeaderFooter, for indexPath: IndexPath) -> T where T: UICollectionReusableView, HeaderFooter: CollectionViewHeaderFooter {
         switch headerFooter.type {
         case .nib(let nibName, _):
@@ -79,7 +84,8 @@ extension UICollectionView {
         }
     }
 
-    func dequeue<HeaderFooter>(headerFooter: HeaderFooter, for indexPath: IndexPath) -> UICollectionReusableView where HeaderFooter: CollectionViewHeaderFooter {
+    @inlinable
+    public func dequeue<HeaderFooter>(headerFooter: HeaderFooter, for indexPath: IndexPath) -> UICollectionReusableView where HeaderFooter: CollectionViewHeaderFooter {
         switch headerFooter.position {
         case .header:
             return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerFooter.reuseIdentifier, for: indexPath)

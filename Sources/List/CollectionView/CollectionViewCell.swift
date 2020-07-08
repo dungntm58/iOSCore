@@ -174,20 +174,24 @@ extension CollectionView {
 }
 
 extension CollectionView.Cell where ID == UniqueIdentifier {
+    @inlinable
     public init(type: CellType, reuseIdentifier: String? = nil, model: Model?) {
         self.init(id: .init(), type: type, reuseIdentifier: reuseIdentifier, model: model)
     }
 }
 
 public protocol CollectionViewCellBlock {
+    @inlinable
     var cells: [CollectionView.AnyCell] { get }
 }
 
 extension CollectionViewCellBlock where Self: CollectionViewCell {
+    @inlinable
     public var cells: [CollectionView.AnyCell] { [eraseToAny()] }
 }
 
 extension Optional: CollectionViewCellBlock where Wrapped: CollectionViewCell {
+    @inlinable
     public var cells: [CollectionView.AnyCell] {
         switch self {
         case .none:
@@ -199,10 +203,12 @@ extension Optional: CollectionViewCellBlock where Wrapped: CollectionViewCell {
 }
 
 extension Array: CollectionViewCellBlock where Element: CollectionViewCellBlock {
+    @inlinable
     public var cells: [CollectionView.AnyCell] { flatMap { $0.cells } }
 }
 
 extension ForEach: CollectionViewCellBlock where Content == CollectionViewCellBlock {
+    @inlinable
     public var cells: [CollectionView.AnyCell] { elements.flatMap { $0.cells } }
 
     @inlinable

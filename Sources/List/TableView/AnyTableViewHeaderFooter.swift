@@ -41,11 +41,13 @@ extension TableView {
             box.didEndDisplaying(view: view, at: section)
         }
 
+        @inlinable
         public static var none: AnyHeaderFooter? { nil }
     }
 }
 
 extension TableView.AnyHeaderFooter: Equatable {
+    @inlinable
     public static func == (lhs: TableView.AnyHeaderFooter, rhs: TableView.AnyHeaderFooter) -> Bool {
         lhs.reuseIdentifier == rhs.reuseIdentifier
             && lhs.height == rhs.height

@@ -19,6 +19,7 @@ public protocol TableViewSection {
 }
 
 extension TableViewSection {
+    @inlinable
     public var hasHeader: Bool {
         guard let header = header else {
             return false
@@ -26,6 +27,7 @@ extension TableViewSection {
         return header.position == .header
     }
 
+    @inlinable
     public var hasFooter: Bool {
         guard let footer = footer else {
             return false
@@ -36,6 +38,7 @@ extension TableViewSection {
     @inlinable
     public func eraseToAny() -> TableView.AnySection { .init(self) }
 
+    @inlinable
     public func register(in tableView: UITableView) {
         if hasHeader {
             header.map { tableView.register(headerFooter: $0) }
@@ -80,16 +83,19 @@ extension TableView {
             return other
         }
 
+        @inlinable
         public func refine<Header>(header: Header?, @CellBlockBuilder _ CellBlockBuilder: () -> TableViewCellBlock) -> Self where Header: TableViewHeaderFooter {
-            return refine(header: header, footer: footer, CellBlockBuilder)
+            refine(header: header, footer: footer, CellBlockBuilder)
         }
 
+        @inlinable
         public func refine<Footer>(footer: Footer?, @CellBlockBuilder _ CellBlockBuilder: () -> TableViewCellBlock) -> Self where Footer: TableViewHeaderFooter {
-            return refine(header: header, footer: footer, CellBlockBuilder)
+            refine(header: header, footer: footer, CellBlockBuilder)
         }
 
+        @inlinable
         public func refine(@CellBlockBuilder _ CellBlockBuilder: () -> TableViewCellBlock) -> Self {
-            return refine(header: header, footer: footer, CellBlockBuilder)
+            refine(header: header, footer: footer, CellBlockBuilder)
         }
 
         public func refine<Header, Footer>(@SectionBuilder<Header, Footer> _ SectionBuilder: () -> SectionBuilder<Header, Footer>) -> Self where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
@@ -104,10 +110,12 @@ extension TableView {
 }
 
 extension TableView.Section where ID == UniqueIdentifier {
+    @inlinable
     public init(@TableView.CellBlockBuilder _ CellBlockBuilder: () -> TableViewCellBlock) {
         self.init(id: .init(), CellBlockBuilder)
     }
 
+    @inlinable
     public init() {
         self.init(id: .init())
     }
@@ -118,10 +126,12 @@ public protocol TableViewSectionBlock {
 }
 
 extension TableViewSectionBlock where Self: TableViewSection {
+    @inlinable
     public var sections: [TableView.AnySection] { [eraseToAny()] }
 }
 
 extension Optional: TableViewSectionBlock where Wrapped: TableViewSection {
+    @inlinable
     public var sections: [TableView.AnySection] {
         switch self {
         case .none:
@@ -133,10 +143,12 @@ extension Optional: TableViewSectionBlock where Wrapped: TableViewSection {
 }
 
 extension Array: TableViewSectionBlock where Element: TableViewSectionBlock {
+    @inlinable
     public var sections: [TableView.AnySection] { flatMap { $0.sections } }
 }
 
 extension ForEach: TableViewSectionBlock where Content == TableViewSectionBlock {
+    @inlinable
     public var sections: [TableView.AnySection] { elements.flatMap { $0.sections } }
 
     @inlinable

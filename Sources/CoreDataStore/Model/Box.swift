@@ -15,6 +15,7 @@ public protocol ManagedObjectBox {
 }
 
 extension MetaObjectEntity {
+    @inlinable
     var isValid: Bool {
         guard ttl <= 0 else {
             return true

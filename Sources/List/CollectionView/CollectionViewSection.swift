@@ -26,6 +26,7 @@ public protocol CollectionViewSection {
 }
 
 extension CollectionViewSection {
+    @inlinable
     public var hasHeader: Bool {
         guard let header = header else {
             return false
@@ -33,6 +34,7 @@ extension CollectionViewSection {
         return header.position == .header
     }
 
+    @inlinable
     public var hasFooter: Bool {
         guard let footer = footer else {
             return false
@@ -43,6 +45,7 @@ extension CollectionViewSection {
     @inlinable
     public func eraseToAny() -> CollectionView.AnySection { .init(self) }
 
+    @inlinable
     public func register(in collectionView: UICollectionView) {
         if hasHeader {
             header.map { collectionView.register(headerFooter: $0) }
@@ -90,16 +93,19 @@ extension CollectionView {
             return other
         }
 
+        @inlinable
         public func refine<Header>(header: Header?, @CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) -> Self where Header: CollectionViewHeaderFooter {
-            return refine(header: header, footer: footer, CellBlockBuilder)
+            refine(header: header, footer: footer, CellBlockBuilder)
         }
 
+        @inlinable
         public func refine<Footer>(footer: Footer?, @CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) -> Self where Footer: CollectionViewHeaderFooter {
-            return refine(header: header, footer: footer, CellBlockBuilder)
+            refine(header: header, footer: footer, CellBlockBuilder)
         }
 
+        @inlinable
         public func refine(@CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) -> Self {
-            return refine(header: header, footer: footer, CellBlockBuilder)
+            refine(header: header, footer: footer, CellBlockBuilder)
         }
 
         public func refine<Header, Footer>(@SectionBuilder<Header, Footer> _ SectionBuilder: () -> SectionBuilder<Header, Footer>) -> Self where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
@@ -132,10 +138,12 @@ extension CollectionView {
 }
 
 extension CollectionView.Section where ID == UniqueIdentifier {
+    @inlinable
     public init(@CollectionView.CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) {
         self.init(id: .init(), CellBlockBuilder)
     }
 
+    @inlinable
     public init() {
         self.init(id: .init())
     }
@@ -146,10 +154,12 @@ public protocol CollectionViewSectionBlock {
 }
 
 extension CollectionViewSectionBlock where Self: CollectionViewSection {
+    @inlinable
     public var sections: [CollectionView.AnySection] { [eraseToAny()] }
 }
 
 extension Optional: CollectionViewSectionBlock where Wrapped: CollectionViewSection {
+    @inlinable
     public var sections: [CollectionView.AnySection] {
         switch self {
         case .none:
@@ -161,10 +171,12 @@ extension Optional: CollectionViewSectionBlock where Wrapped: CollectionViewSect
 }
 
 extension Array: CollectionViewSectionBlock where Element: CollectionViewSectionBlock {
+    @inlinable
     public var sections: [CollectionView.AnySection] { flatMap { $0.sections } }
 }
 
 extension ForEach: CollectionViewSectionBlock where Content == CollectionViewSectionBlock {
+    @inlinable
     public var sections: [CollectionView.AnySection] { elements.flatMap { $0.sections } }
 
     @inlinable

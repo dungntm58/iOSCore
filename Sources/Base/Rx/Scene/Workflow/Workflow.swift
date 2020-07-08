@@ -31,7 +31,6 @@ extension Observable where Element: WorkflowStepping {
                 .flatMap ({ item in
                     handler(item, step).do(onNext: { step.perform(action: $0.0, with: item) })
                 })
-                
         }
         .map { $0.1 }
     }

@@ -13,6 +13,7 @@ public protocol ViewModelItem {
 }
 
 extension ViewModelItem where Self: Equatable {
+    @inlinable
     public func toAnyEquatable() -> AnyEquatable { .init(self) }
 }
 

@@ -87,8 +87,10 @@ extension CollectionView {
             target.delegate = adapter
             target.dataSource = adapter
             target.reloadData()
+            target.collectionViewLayout.invalidateLayout()
         }
 
+        @inlinable
         open func createAdapter() -> Adapter { .init() }
     }
 
@@ -160,6 +162,7 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
     }
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard indexPath.section < differenceSections.count, indexPath.row < differenceSections[indexPath.section].cells.count else { return }
         differenceSections[indexPath.section].cells[indexPath.row].didEndDisplaying(view: cell, at: indexPath)
     }
 
@@ -175,6 +178,7 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
     }
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        guard indexPath.section < differenceSections.count else { return }
         switch elementKind {
         case UICollectionView.elementKindSectionHeader:
             differenceSections[indexPath.section].header?.didEndDisplaying(view: view, at: indexPath)
@@ -240,6 +244,7 @@ private extension CollectionView.ViewSourceProvider {
             self.cellsGenerator = generator
         }
 
+        @inlinable
         func build() -> CollectionViewSectionBlock {
             guard let collectionView = collectionView else {
                 return CollectionView.Section()

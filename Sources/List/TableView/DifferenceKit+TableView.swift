@@ -8,8 +8,10 @@
 import DifferenceKit
 
 extension TableView.Cell: Differentiable {
+    @inlinable
     public var differenceIdentifier: ID { id }
 
+    @inlinable
     public func isContentEqual(to source: TableView.Cell<ID, Model, View>) -> Bool {
         model == source.model
             && reuseIdentifier == source.reuseIdentifier
@@ -18,8 +20,10 @@ extension TableView.Cell: Differentiable {
 }
 
 extension TableView.AnyCell: Differentiable {
+    @inlinable
     public var differenceIdentifier: ID { id }
 
+    @inlinable
     public func isContentEqual(to source: TableView.AnyCell) -> Bool {
         model == source.model
             && reuseIdentifier == source.reuseIdentifier
@@ -40,10 +44,13 @@ extension TableView.Section: Differentiable, DifferentiableSection {
         }
     }
 
+    @inlinable
     public var differenceIdentifier: ID { id }
 
+    @inlinable
     public var elements: [TableView.AnyCell] { cells }
 
+    @inlinable
     public func isContentEqual(to source: TableView.Section<ID>) -> Bool {
         header.eraseToAny() == source.header.eraseToAny()
             && footer.eraseToAny() == source.footer.eraseToAny()
@@ -60,10 +67,13 @@ extension TableView.AnySection: Differentiable, DifferentiableSection {
         }
     }
 
+    @inlinable
     public var differenceIdentifier: ID { id }
 
+    @inlinable
     public var elements: [TableView.AnyCell] { cells }
 
+    @inlinable
     public func isContentEqual(to source: TableView.AnySection) -> Bool {
         header == source.header
             && footer == source.footer

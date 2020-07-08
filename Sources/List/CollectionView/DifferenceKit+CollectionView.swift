@@ -8,8 +8,10 @@
 import DifferenceKit
 
 extension CollectionView.Cell: Differentiable {
+    @inlinable
     public var differenceIdentifier: ID { id }
 
+    @inlinable
     public func isContentEqual(to source: CollectionView.Cell<ID, Model, View>) -> Bool {
         model == source.model
             && reuseIdentifier == source.reuseIdentifier
@@ -18,8 +20,10 @@ extension CollectionView.Cell: Differentiable {
 }
 
 extension CollectionView.AnyCell: Differentiable {
+    @inlinable
     public var differenceIdentifier: ID { id }
 
+    @inlinable
     public func isContentEqual(to source: CollectionView.AnyCell) -> Bool {
         model == source.model
             && reuseIdentifier == source.reuseIdentifier
@@ -40,10 +44,13 @@ extension CollectionView.Section: Differentiable, DifferentiableSection {
         }
     }
 
+    @inlinable
     public var differenceIdentifier: ID { id }
 
+    @inlinable
     public var elements: [CollectionView.AnyCell] { cells }
 
+    @inlinable
     public func isContentEqual(to source: CollectionView.Section<ID>) -> Bool {
         header.eraseToAny() == source.header.eraseToAny()
             && footer.eraseToAny() == source.footer.eraseToAny()
@@ -60,10 +67,13 @@ extension CollectionView.AnySection: Differentiable, DifferentiableSection {
         }
     }
 
+    @inlinable
     public var differenceIdentifier: ID { id }
 
+    @inlinable
     public var elements: [CollectionView.AnyCell] { cells }
 
+    @inlinable
     public func isContentEqual(to source: CollectionView.AnySection) -> Bool {
         header == source.header
             && footer == source.footer

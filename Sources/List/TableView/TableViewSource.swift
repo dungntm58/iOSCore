@@ -119,6 +119,7 @@ extension TableView {
             target.reloadData()
         }
 
+        @inlinable
         open func createAdapter() -> Adapter { .init() }
     }
 
@@ -227,6 +228,7 @@ extension TableView.Adapter: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard indexPath.section < differenceSections.count, indexPath.row < differenceSections[indexPath.section].cells.count else { return }
         differenceSections[indexPath.section].cells[indexPath.row].didEndDisplaying(view: cell, at: indexPath)
     }
 
@@ -235,6 +237,7 @@ extension TableView.Adapter: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
+        guard section < differenceSections.count else { return }
         differenceSections[section].header?.didEndDisplaying(view: view as! UITableViewHeaderFooterView, at: section)
     }
 
@@ -281,6 +284,7 @@ private extension TableView.ViewSourceProvider {
             self.cellsGenerator = generator
         }
 
+        @inlinable
         func build() -> TableViewSectionBlock {
             guard let tableView = tableView else {
                 return TableView.Section()

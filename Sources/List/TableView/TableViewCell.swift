@@ -12,6 +12,10 @@ public protocol TableViewCell: CellRegisterable, CellBinding, CellPresentable, I
 }
 
 extension TableViewCell {
+    public var height: CGFloat { UITableView.automaticDimension }
+}
+
+extension TableViewCell {
     @inlinable
     public func eraseToAny() -> TableView.AnyCell { .init(self) }
 }
@@ -174,6 +178,7 @@ extension TableView {
 }
 
 extension TableView.Cell where ID == UniqueIdentifier {
+    @inlinable
     public init(type: CellType, reuseIdentifier: String? = nil, model: Model?) {
         self.init(id: .init(), type: type, reuseIdentifier: reuseIdentifier, model: model)
     }
@@ -184,10 +189,12 @@ public protocol TableViewCellBlock {
 }
 
 extension TableViewCellBlock where Self: TableViewCell {
+    @inlinable
     public var cells: [TableView.AnyCell] { [eraseToAny()] }
 }
 
 extension Optional: TableViewCellBlock where Wrapped: TableViewCell {
+    @inlinable
     public var cells: [TableView.AnyCell] {
         switch self {
         case .none:
@@ -199,10 +206,12 @@ extension Optional: TableViewCellBlock where Wrapped: TableViewCell {
 }
 
 extension Array: TableViewCellBlock where Element: TableViewCellBlock {
+    @inlinable
     public var cells: [TableView.AnyCell] { flatMap { $0.cells } }
 }
 
 extension ForEach: TableViewCellBlock where Content == TableViewCellBlock {
+    @inlinable
     public var cells: [TableView.AnyCell] { elements.flatMap { $0.cells } }
 
     @inlinable
