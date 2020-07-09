@@ -99,9 +99,6 @@ extension ViewManager {
             if let sceneRef = child.value as? SceneReferencedAssociated {
                 sceneRef.associate(with: viewController)
             }
-            if let scene = scene, let storeRef = child.value as? SceneStoreReferencedAssociated {
-                storeRef.associate(with: scene)
-            }
         }
     }
 

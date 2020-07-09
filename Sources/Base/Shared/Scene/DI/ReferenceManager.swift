@@ -54,36 +54,6 @@ private class WeakScenable: Prunable {
         return nil
     }
 
-    static func getAbstractScene(associatedWith viewController: UIViewController) -> Scenable? {
-        if let scene = sceneDictionary[viewController.hashValue]?.value {
-            return scene
-        }
-        if let parent = viewController.parent {
-            if let scene = getAbstractScene(associatedWith: parent) {
-                return scene
-            }
-        }
-        if let presentedViewController = viewController.presentedViewController {
-            if let scene = getAbstractScene(associatedWith: presentedViewController) {
-                return scene
-            }
-        }
-        if let tabBarController = viewController.tabBarController {
-            if let scene = getAbstractScene(associatedWith: tabBarController) {
-                return scene
-            }
-        } else if let navigationController = viewController.navigationController {
-            if let scene = getAbstractScene(associatedWith: navigationController) {
-                return scene
-            }
-        } else if let splitController = viewController.splitViewController {
-            if let scene = getAbstractScene(associatedWith: splitController) {
-                return scene
-            }
-        }
-        return nil
-    }
-
     static func setScene(_ scene: Scenable?, associatedViewController viewController: UIViewController) {
         for (key, value) in sceneDictionary {
             if value.canBePruned {
