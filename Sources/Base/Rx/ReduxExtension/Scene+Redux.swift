@@ -7,10 +7,11 @@
 
 import CoreRedux
 
-extension Scenable where Self: Connectable {
-    func config() {
-        let lifeCycleCancellable = self.lifeCycle
-            .map ({
+extension Scenable {
+    @inlinable
+    func config<Store>(with store: Store) where Store: Storable {
+        let lifeCycleDiposable = self.lifeCycle
+            .map {
                 state -> Bool in
                 switch state {
                 case .didBecomeActive, .willResignActive, .willDetach:
@@ -18,12 +19,12 @@ extension Scenable where Self: Connectable {
                 default:
                     return false
                 }
-            })
-            .removeDuplicates()
-            .sink(receiveValue: {
+            }
+            .distinctUntilChanged()
+            .subscribe(onNext: {
                 [store] shouldActiveStore in
                 shouldActiveStore ? store.activate() : store.deactivate()
             })
-        _ = managedContext.collect(lifeCycleCancellable)
+        _ = managedContext.collect(lifeCycleDiposable)
     }
 }

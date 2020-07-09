@@ -15,7 +15,9 @@ import Toaster
 
 class TodoTabBarController: UITabBarController {
     
-    @SceneRef var scene: TodoScene?
+    @SceneReferenced var scene: TodoScene?
+    @SceneStoreReferenced var store: TodoStore?
+    
     var newTodo: String?
     
     override func viewDidLoad() {
@@ -82,7 +84,7 @@ class TodoTabBarController: UITabBarController {
         }
         vc.addAction(UIAlertAction(title: "OK", style: .default) {
             _ in
-            self.scene?.dispatch(type: .createTodo, payload: self.newTodo)
+            self.store?.dispatch(type: .createTodo, payload: self.newTodo)
         })
         present(vc, animated: true)
     }
@@ -92,7 +94,7 @@ class TodoTabBarController: UITabBarController {
     }
     
     @objc func logout() {
-        scene?.store <-- .logout
+        self.store?.dispatch(type: .logout)
     }
     
     func showSuccess() {

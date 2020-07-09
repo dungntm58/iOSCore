@@ -21,18 +21,16 @@ class TodoListViewController: BaseViewController {
     
     lazy var refreshControl = UIRefreshControl()
     
-    var scene: TodoScene? {
-        (tabBarController as? TodoTabBarController)?.scene
-    }
+    @SceneStoreReferenced var store: TodoStore?
 
     lazy var viewSourceProvider = createViewSourceProvider()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let scene = scene else { return }
+        guard let store = store else { return }
         
-        let response = scene.store.state
+        let response = store.state
             .filter { $0.error == nil && !$0.isLogout }
             .map(\.list)
             .distinctUntilChanged()
@@ -70,7 +68,7 @@ class TodoListViewController: BaseViewController {
     }
     
     @objc func refreshData(_ sender: UIRefreshControl) {
-        self.scene?.store.dispatch(type: .load, payload: 0)
+        self.store?.dispatch(type: .load, payload: 0)
     }
     
     func createViewSourceProvider() -> TableView.ViewSourceProvider<TodoViewModel> {
@@ -87,7 +85,7 @@ class TodoListViewController: BaseViewController {
                         }),
                         didSelectHandler: ({
                             [weak self] indexPath in
-                            self?.scene?.store.dispatch(type: .selectTodo, payload: indexPath.row)
+                            self?.store?.dispatch(type: .selectTodo, payload: indexPath.row)
                         }))
             }
             viewModel.isAnimatedLoading ?
@@ -97,8 +95,8 @@ class TodoListViewController: BaseViewController {
                         guard let self = self else { return }
                         viewModel.isAnimatedLoading ? view.startAnimation() : view.stopAnimation()
                         
-                        let currentPage = self.scene?.store.currentState.list.currentPage ?? 0
-                        self.scene?.store.dispatch(type: .load, payload: Payload.List.Request(page: currentPage + 1, cancelRunning: false))
+                        let currentPage = self.store?.currentState.list.currentPage ?? 0
+                        self.store?.dispatch(type: .load, payload: Payload.List.Request(page: currentPage + 1, cancelRunning: false))
                     })
                 : nil
         }

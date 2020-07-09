@@ -9,7 +9,8 @@
 import CoreBase
 import CoreRedux
 
-class TodoScene: ConnectableViewableScene<TodoStore>, Dispatchable {
+class TodoScene: ViewableScene {
+    
     typealias Action = TodoStore.Action
     
     lazy var navigationController: UINavigationController = {
@@ -18,10 +19,12 @@ class TodoScene: ConnectableViewableScene<TodoStore>, Dispatchable {
         return vc
     }()
     
+    @SceneStoreReferenced var store = TodoStore()
+    
     convenience init() {
         let todoVC = AppStoryboard.main.viewController(of: TodoTabBarController.self)
         todoVC.modalPresentationStyle = .fullScreen
-        self.init(store: TodoStore(), viewController: todoVC)
+        self.init(viewController: todoVC)
     }
 
     override func perform(with object: Any?) {

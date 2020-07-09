@@ -17,7 +17,8 @@ class LoginViewController: BaseViewController {
     
     lazy var cancellables: Set<AnyCancellable> = .init()
     
-    var scene: LoginScene?
+    @SceneReferenced var scene: LoginScene?
+    @SceneStoreReferenced var store: LoginStore?
     
     deinit {
         cancellables.forEach { $0.cancel() }
@@ -26,7 +27,7 @@ class LoginViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scene?.store.state
+        store?.state
             .compactMap(\.user)
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
@@ -35,7 +36,7 @@ class LoginViewController: BaseViewController {
             })
             .store(in: &cancellables)
         
-        scene?.store.state
+        store?.state
             .compactMap(\.error)
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
@@ -50,7 +51,7 @@ class LoginViewController: BaseViewController {
             return
         }
         
-        scene?.store.dispatch(type: .login, payload: (userName, password))
+        store?.dispatch(type: .login, payload: (userName, password))
     }
     
     func onError(_ error: Error) {

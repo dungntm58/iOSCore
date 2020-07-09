@@ -15,12 +15,13 @@ class SignupViewController: BaseViewController {
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!
     
-    @SceneRef var scene: LoginScene?
+    @SceneReferenced var scene: LoginScene?
+    @SceneStoreReferenced var store: LoginStore?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scene?.store.state
+        store?.state
             .compactMap(\.user)
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
@@ -29,7 +30,7 @@ class SignupViewController: BaseViewController {
             })
             .disposed(by: rx.disposeBag)
         
-        scene?.store.state
+        store?.state
             .compactMap(\.error)
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
@@ -44,7 +45,7 @@ class SignupViewController: BaseViewController {
             return
         }
         
-        scene?.store.dispatch(type: .register, payload: (userName, password))
+        store?.dispatch(type: .register, payload: (userName, password))
     }
     
     func onError(_ error: Error) {

@@ -19,7 +19,7 @@ final public class ViewManager {
 
     func bind(scene: Scenable) {
         self.scene = scene
-        RefManager.setScene(scene, associatedViewController: currentViewController)
+        ReferenceManager.setScene(scene, associatedViewController: currentViewController)
     }
 
     func viewControllerWillAppear(_ viewController: UIViewController) {
@@ -103,11 +103,11 @@ extension ViewManager {
 //            .sink(receiveValue: self.viewControllerWillDisappear(_:))
 //            .disposed(by: disposeBag)
 
-        RefManager.setScene(scene, associatedViewController: viewController)
+        ReferenceManager.setScene(scene, associatedViewController: viewController)
 
         let mirror = Mirror(reflecting: viewController)
         for child in mirror.children {
-            if let sceneRef = child.value as? SceneRefAssociated {
+            if let sceneRef = child.value as? SceneReferencedAssociated {
                 sceneRef.associate(with: viewController)
             }
         }

@@ -157,16 +157,16 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
         }
     }
 
-    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         differenceSections[indexPath.section].cells[indexPath.row].willDisplay(view: cell, at: indexPath)
     }
 
-    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard indexPath.section < differenceSections.count, indexPath.row < differenceSections[indexPath.section].cells.count else { return }
         differenceSections[indexPath.section].cells[indexPath.row].didEndDisplaying(view: cell, at: indexPath)
     }
 
-    public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         switch elementKind {
         case UICollectionView.elementKindSectionHeader:
             differenceSections[indexPath.section].header?.willDisplay(view: view, at: indexPath)
@@ -177,7 +177,7 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
         }
     }
 
-    public func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         guard indexPath.section < differenceSections.count else { return }
         switch elementKind {
         case UICollectionView.elementKindSectionHeader:
@@ -189,11 +189,11 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
         }
     }
 
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         differenceSections[indexPath.section].cells[indexPath.row].didSelect(at: indexPath)
     }
 
-    public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         differenceSections[indexPath.section].cells[indexPath.row].didDeselect(at: indexPath)
     }
 

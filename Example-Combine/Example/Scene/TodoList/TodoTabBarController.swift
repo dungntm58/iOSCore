@@ -14,7 +14,9 @@ import Toaster
 
 class TodoTabBarController: UITabBarController {
     
-    var scene: TodoScene?
+    @SceneReferenced var scene: TodoScene?
+    @SceneStoreReferenced var store: TodoStore?
+    
     var newTodo: String?
     
     lazy var cancellables: Set<AnyCancellable> = .init()
@@ -27,7 +29,6 @@ class TodoTabBarController: UITabBarController {
         self.navigationItem.rightBarButtonItems = [btnAdd, btnLogout]
         self.navigationItem.hidesBackButton = true
         
-        let store = self.scene?.store
         store?.state
             .filter { !$0.isLogout }
             .compactMap(\.error)
@@ -81,7 +82,7 @@ class TodoTabBarController: UITabBarController {
         }
         vc.addAction(UIAlertAction(title: "OK", style: .default) {
             _ in
-            self.scene?.dispatch(type: .createTodo, payload: self.newTodo as Any)
+            self.store?.dispatch(type: .createTodo, payload: self.newTodo as Any)
         })
         present(vc, animated: true)
     }
@@ -91,7 +92,7 @@ class TodoTabBarController: UITabBarController {
     }
     
     @objc func logout() {
-        scene?.store.dispatch(type: .logout, payload: 0)
+        store?.dispatch(type: .logout, payload: 0)
     }
     
     func showSuccess() {

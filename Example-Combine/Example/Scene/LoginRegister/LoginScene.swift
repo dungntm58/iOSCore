@@ -8,11 +8,14 @@
 
 import CoreBase
 
-class LoginScene: ConnectableViewableScene<LoginStore> {
+class LoginScene: ViewableScene {
+    
+    @SceneStoreReferenced var store = LoginStore()
+    
     convenience init() {
         let vc = AppStoryboard.main.viewController(of: LoginViewController.self)
         vc.modalPresentationStyle = .fullScreen
-        self.init(store: LoginStore(), viewController: vc)
+        self.init(viewController: vc)
     }
     
     override func perform(with object: Any?) {

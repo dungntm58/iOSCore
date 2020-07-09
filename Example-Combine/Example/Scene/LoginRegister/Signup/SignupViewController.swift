@@ -15,14 +15,15 @@ class SignupViewController: BaseViewController {
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!
     
-    @SceneRef var scene: LoginScene?
+    @SceneReferenced var scene: LoginScene?
+    @SceneStoreReferenced var store: LoginStore?
     
     lazy var cancellables: Set<AnyCancellable> = .init()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scene?.store.state
+        store?.state
             .compactMap(\.user)
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
@@ -31,7 +32,7 @@ class SignupViewController: BaseViewController {
             })
             .store(in: &cancellables)
         
-        scene?.store.state
+        store?.state
             .compactMap(\.error)
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
@@ -46,7 +47,7 @@ class SignupViewController: BaseViewController {
             return
         }
         
-        scene?.store.dispatch(type: .register, payload: (userName, password))
+        store?.dispatch(type: .register, payload: (userName, password))
     }
     
     func onError(_ error: Error) {
