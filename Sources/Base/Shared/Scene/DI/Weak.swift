@@ -7,15 +7,11 @@
 
 import Foundation
 
-protocol Prunable {
-    var canBePruned: Bool { get }
-}
+struct AnyWeak {
 
-struct Weak<T>: Prunable where T: AnyObject {
+    weak var value: AnyObject?
 
-    weak var value: T?
-
-    init(value: T?) {
+    init(value: AnyObject?) {
         self.value = value
     }
 

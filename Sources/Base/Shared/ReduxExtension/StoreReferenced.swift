@@ -11,14 +11,14 @@ extension ReferenceManager {
 
     // Key: associated object hash value string
     // Value: weak ref of storable instance
-    private static var storeDictionary: [String: Prunable] = [:]
+    private static var storeDictionary: [String: AnyWeak] = [:]
 
     static func getStore<S>(_ hashValue: String) -> S? where S: Storable {
-        (storeDictionary[hashValue] as? Weak<S>)?.value
+        storeDictionary[hashValue]?.value as? S
     }
 
     static func setStore<S>(_ store: S?, associatedObjectHashValue hashValue: String) where S: Storable {
-        storeDictionary[hashValue] = Weak(value: store)
+        storeDictionary[hashValue] = AnyWeak(value: store)
         for (key, value) in storeDictionary {
             if value.canBePruned {
                 storeDictionary[key] = nil

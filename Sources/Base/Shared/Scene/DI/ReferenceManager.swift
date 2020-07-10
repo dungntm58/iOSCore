@@ -7,49 +7,30 @@
 
 import Foundation
 
-private class WeakScenable: Prunable {
-
-    weak var value: Scenable?
-
-    init(value: Scenable?) {
-        self.value = value
-    }
-
-    var canBePruned: Bool { value == nil }
-}
-
 @frozen enum ReferenceManager {
 
     // Key: view controller's hash value
     // Value: weak ref of scenable instance
-    private static var sceneDictionary: [Int: WeakScenable] = [:]
+    private static var sceneDictionary: [Int: AnyWeak] = [:]
 
     static func getScene<S>(associatedWith viewController: UIViewController) -> S? where S: Scenable {
         if let scene = sceneDictionary[viewController.hashValue]?.value as? S {
             return scene
         }
-        if let parent = viewController.parent {
-            if let scene: S = getScene(associatedWith: parent) {
-                return scene
-            }
+        if let scene: S = viewController.parent.flatMap(getScene(associatedWith:)) {
+            return scene
         }
-        if let presentedViewController = viewController.presentedViewController {
-            if let scene: S = getScene(associatedWith: presentedViewController) {
-                return scene
-            }
+        if let scene: S = viewController.presentedViewController.flatMap(getScene(associatedWith:)) {
+            return scene
         }
-        if let tabBarController = viewController.tabBarController {
-            if let scene: S = getScene(associatedWith: tabBarController) {
-                return scene
-            }
-        } else if let navigationController = viewController.navigationController {
-            if let scene: S = getScene(associatedWith: navigationController) {
-                return scene
-            }
-        } else if let splitController = viewController.splitViewController {
-            if let scene: S = getScene(associatedWith: splitController) {
-                return scene
-            }
+        if let scene: S = viewController.tabBarController.flatMap(getScene(associatedWith:)) {
+            return scene
+        }
+        if let scene: S = viewController.navigationController.flatMap(getScene(associatedWith:)) {
+            return scene
+        }
+        if let scene: S = viewController.splitViewController.flatMap(getScene(associatedWith:)) {
+            return scene
         }
         return nil
     }
@@ -60,11 +41,11 @@ private class WeakScenable: Prunable {
                 sceneDictionary[key] = nil
             }
         }
-        let weakScene = WeakScenable(value: scene)
+        let weakScene = AnyWeak(value: scene)
         pureSetWeakScene(weakScene, associatedViewController: viewController)
     }
 
-    private static func pureSetWeakScene(_ scene: WeakScenable, associatedViewController viewController: UIViewController) {
+    private static func pureSetWeakScene(_ scene: AnyWeak, associatedViewController viewController: UIViewController) {
         if sceneDictionary.keys.contains(viewController.hashValue) { return }
         if let parent = viewController.parent {
             pureSetWeakScene(scene, associatedViewController: parent)
