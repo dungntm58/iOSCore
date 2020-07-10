@@ -7,15 +7,24 @@
 
 import Foundation
 
-public protocol CollectionViewHeaderFooter: CellRegisterable, CellBinding, CellPresentable where View: UICollectionReusableView {
+public protocol CollectionViewHeaderFooter: CellRegisterable, CellBinding, CollectionViewCellPresentable where View: UICollectionReusableView {
 
     var position: HeaderFooterPosition { get }
-    var size: CGSize { get }
 }
 
 extension CollectionViewHeaderFooter {
     @inlinable
     public func eraseToAny() -> CollectionView.AnyHeaderFooter { .init(self) }
+
+    @inlinable
+    public func estimateSize(in view: View, collectionView: UICollectionView) -> CGSize {
+        switch position {
+        case .header:
+            return (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.headerReferenceSize ?? view.intrinsicContentSize
+        case .footer:
+            return (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.footerReferenceSize ?? view.intrinsicContentSize
+        }
+    }
 }
 
 extension CollectionView {
@@ -24,10 +33,11 @@ extension CollectionView {
         public let type: CellType
         public let reuseIdentifier: String
         public let position: HeaderFooterPosition
-        internal(set) public var size: CGSize
         public let model: Model?
         @usableFromInline
         var bindingFunction: BindingFunction?
+        @usableFromInline
+        var sizeEstimationHandler: SizeEstimationHandler?
         @usableFromInline
         var willDisplayHandler: IndexPathInteractiveHandler?
         @usableFromInline
@@ -37,20 +47,20 @@ extension CollectionView {
             self.type = type
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
             self.position = position
-            self.size = .zero
             self.model = model
-        }
-
-        public func size(_ size: CGSize) -> Self {
-            var other = self
-            other.size = size
-            return other
         }
 
         @inlinable
         public func bind(_ bindingFunction: BindingFunction?) -> Self {
             var other = self
             other.bindingFunction = bindingFunction
+            return other
+        }
+
+        @inlinable
+        public func sizeEstimationHandler(_ sizeEstimationHandler: SizeEstimationHandler?) -> Self {
+            var other = self
+            other.sizeEstimationHandler = sizeEstimationHandler
             return other
         }
 
@@ -69,9 +79,10 @@ extension CollectionView {
         }
 
         @inlinable
-        public func handlers(bindingFunction: BindingFunction? = nil, willDisplayHandler: IndexPathInteractiveHandler? = nil, didEndDisplayingHandler: IndexPathInteractiveHandler? = nil) -> Self {
+        public func handlers(bindingFunction: BindingFunction? = nil, sizeEstimationHandler: SizeEstimationHandler? = nil, willDisplayHandler: IndexPathInteractiveHandler? = nil, didEndDisplayingHandler: IndexPathInteractiveHandler? = nil) -> Self {
             var other = self
             other.bindingFunction = bindingFunction
+            other.sizeEstimationHandler = sizeEstimationHandler
             other.willDisplayHandler = willDisplayHandler
             other.didEndDisplayingHandler = didEndDisplayingHandler
             return other
@@ -80,6 +91,19 @@ extension CollectionView {
         @inlinable
         public func bind(model: Model?, to view: View, at indexPath: IndexPath) {
             bindingFunction?(model, view, indexPath)
+        }
+
+        @inlinable
+        public func estimateSize(in view: View, collectionView: UICollectionView) -> CGSize {
+            if let size = sizeEstimationHandler?(view, collectionView) {
+                return size
+            }
+            switch position {
+            case .header:
+                return (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.headerReferenceSize ?? view.intrinsicContentSize
+            case .footer:
+                return (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.footerReferenceSize ?? view.intrinsicContentSize
+            }
         }
 
         @inlinable

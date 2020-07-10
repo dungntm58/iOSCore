@@ -7,13 +7,23 @@
 
 import Foundation
 
-public protocol CollectionViewCell: CellRegisterable, CellBinding, CellPresentable, Identifiable where View: UICollectionViewCell, Model: Equatable {
-    var size: CGSize { get }
+public protocol CollectionViewCellPresentable: CellPresentable {
+    typealias SizeEstimationHandler = (View, UICollectionView) -> CGSize
+
+    func estimateSize(in view: View, collectionView: UICollectionView) -> CGSize
+}
+
+public protocol CollectionViewCell: CellRegisterable, CellBinding, CollectionViewCellPresentable, Identifiable where View: UICollectionViewCell, Model: Equatable {
 }
 
 extension CollectionViewCell {
     @inlinable
     public func eraseToAny() -> CollectionView.AnyCell { .init(self) }
+
+    @inlinable
+    public func estimateSize(in view: View, collectionView: UICollectionView) -> CGSize {
+        (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize ?? view.intrinsicContentSize
+    }
 }
 
 extension CollectionView {
@@ -22,10 +32,11 @@ extension CollectionView {
         public var id: ID
         public let type: CellType
         public let reuseIdentifier: String
-        internal(set) public var size: CGSize
         public let model: Model?
         @usableFromInline
         var bindingFunction: BindingFunction?
+        @usableFromInline
+        var sizeEstimationHandler: SizeEstimationHandler?
         @usableFromInline
         var willDisplayHandler: IndexPathInteractiveHandler?
         @usableFromInline
@@ -39,20 +50,20 @@ extension CollectionView {
             self.id = id
             self.type = type
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
-            self.size = .zero
             self.model = model
-        }
-
-        public func size(_ size: CGSize) -> Self {
-            var other = self
-            other.size = size
-            return other
         }
 
         @inlinable
         public func bind(_ bindingFunction: BindingFunction?) -> Self {
             var other = self
             other.bindingFunction = bindingFunction
+            return other
+        }
+
+        @inlinable
+        public func sizeEstimationHandler(_ sizeEstimationHandler: SizeEstimationHandler?) -> Self {
+            var other = self
+            other.sizeEstimationHandler = sizeEstimationHandler
             return other
         }
 
@@ -85,9 +96,10 @@ extension CollectionView {
         }
 
         @inlinable
-        public func handlers(bindingFunction: BindingFunction? = nil, willDisplayHandler: IndexPathInteractiveHandler? = nil, didEndDisplayingHandler: IndexPathInteractiveHandler? = nil, didSelectHandler: SelectionInteractiveHandler? = nil, didDeselectHandler: SelectionInteractiveHandler? = nil) -> Self {
+        public func handlers(bindingFunction: BindingFunction? = nil, sizeEstimationHandler: SizeEstimationHandler? = nil, willDisplayHandler: IndexPathInteractiveHandler? = nil, didEndDisplayingHandler: IndexPathInteractiveHandler? = nil, didSelectHandler: SelectionInteractiveHandler? = nil, didDeselectHandler: SelectionInteractiveHandler? = nil) -> Self {
             var other = self
             other.bindingFunction = bindingFunction
+            other.sizeEstimationHandler = sizeEstimationHandler
             other.willDisplayHandler = willDisplayHandler
             other.didEndDisplayingHandler = didEndDisplayingHandler
             other.didSelectHandler = didSelectHandler
@@ -98,6 +110,11 @@ extension CollectionView {
         @inlinable
         public func bind(model: Model?, to view: View, at indexPath: IndexPath) {
             bindingFunction?(model, view, indexPath)
+        }
+
+        @inlinable
+        public func estimateSize(in view: View, collectionView: UICollectionView) -> CGSize {
+            sizeEstimationHandler?(view, collectionView) ?? (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize ?? view.intrinsicContentSize
         }
 
         @inlinable

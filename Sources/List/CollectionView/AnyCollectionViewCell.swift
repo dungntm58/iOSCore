@@ -27,11 +27,15 @@ extension CollectionView {
         public var id: ID { box.id }
         public var type: CellType { box.type }
         public var reuseIdentifier: String { box.reuseIdentifier }
-        public var size: CGSize { box.size }
         public var model: Model? { box.model }
+        var hashString: String { box.hashString }
 
         public func bind(model: Model?, to view: View, at indexPath: IndexPath) {
             box.bind(model: model?.base, to: view, at: indexPath)
+        }
+
+        public func estimateSize(in view: UICollectionViewCell, collectionView: UICollectionView) -> CGSize {
+            box.estimateSize(in: view, collectionView: collectionView)
         }
 
         public func willDisplay(view: View, at indexPath: IndexPath) {
@@ -56,10 +60,11 @@ private protocol AnyCollectionViewCellBox: CellInteractable {
     var id: AnyHashable { get }
     var type: CellType { get }
     var reuseIdentifier: String { get }
-    var size: CGSize { get }
     var model: AnyEquatable? { get }
+    var hashString: String { get }
 
     func bind(model: Any?, to view: UICollectionViewCell, at indexPath: IndexPath)
+    func estimateSize(in view: UICollectionViewCell, collectionView: UICollectionView) -> CGSize
     func willDisplay(view: UICollectionViewCell, at indexPath: IndexPath)
     func didEndDisplaying(view: UICollectionViewCell, at indexPath: IndexPath)
 }
@@ -68,10 +73,13 @@ private extension CollectionView.AnyCell {
     struct CellBox<Base>: AnyCollectionViewCellBox where Base: CollectionViewCell {
         @usableFromInline
         let _base: Base
+        @usableFromInline
+        let hashString: String
 
         @inlinable
         init(_ base: Base) {
             self._base = base
+            self.hashString = String(describing: Base.View.self) + String(describing: base.model)
         }
 
         @inlinable
@@ -84,9 +92,6 @@ private extension CollectionView.AnyCell {
         var reuseIdentifier: String { _base.reuseIdentifier }
 
         @inlinable
-        var size: CGSize { _base.size }
-
-        @inlinable
         var model: AnyEquatable? { _base.model?.eraseToAny() }
 
         @inlinable
@@ -95,6 +100,12 @@ private extension CollectionView.AnyCell {
                 preconditionFailure("Opaque cell must associate with view type \(String(describing: Base.Model.self))")
             }
             _base.bind(model: model as? Base.Model, to: view, at: indexPath)
+        }
+
+        @inlinable
+        func estimateSize(in view: UICollectionViewCell, collectionView: UICollectionView) -> CGSize {
+            guard let view = view as? Base.View else { return .zero }
+            return _base.estimateSize(in: view, collectionView: collectionView)
         }
 
         @inlinable
@@ -119,16 +130,4 @@ private extension CollectionView.AnyCell {
             (_base as? CellInteractable)?.didDeselect(at: indexPath)
         }
     }
-}
-
-private protocol AnyCollectionViewCellFullBox: CellInteractable {
-    var id: AnyHashable { get }
-    var type: CellType { get }
-    var reuseIdentifier: String { get }
-    var size: CGSize { get }
-    var model: AnyEquatable? { get }
-
-    func bind(model: Any?, to view: UICollectionViewCell, at indexPath: IndexPath)
-    func willDisplay(view: UICollectionViewCell, at indexPath: IndexPath)
-    func didEndDisplaying(view: UICollectionViewCell, at indexPath: IndexPath)
 }
