@@ -28,6 +28,7 @@ extension CollectionView {
         public var type: CellType { box.type }
         public var reuseIdentifier: String { box.reuseIdentifier }
         public var model: Model? { box.model }
+        public var hasFixedSize: Bool { box.hasFixedSize }
         var hashString: String { box.hashString }
 
         public func bind(model: Model?, to view: View, at indexPath: IndexPath) {
@@ -61,6 +62,7 @@ private protocol AnyCollectionViewCellBox: CellInteractable {
     var type: CellType { get }
     var reuseIdentifier: String { get }
     var model: AnyEquatable? { get }
+    var hasFixedSize: Bool { get }
     var hashString: String { get }
 
     func bind(model: Any?, to view: UICollectionViewCell, at indexPath: IndexPath)
@@ -79,7 +81,24 @@ private extension CollectionView.AnyCell {
         @inlinable
         init(_ base: Base) {
             self._base = base
-            self.hashString = String(describing: Base.View.self) + String(describing: base.model)
+            let viewHash: String
+            switch base.type {
+            case .default:
+                viewHash = "UICollectionViewCell"
+            case .class(let `class`):
+                viewHash = String(describing: `class`)
+            case .nib(let nibName, let bundle):
+                if let bundleID = bundle?.bundleIdentifier {
+                    viewHash = nibName + bundleID
+                } else {
+                    viewHash = nibName
+                }
+            }
+            if self._base.hasFixedSize {
+                self.hashString = viewHash
+            } else {
+                self.hashString = viewHash + String(describing: base.model)
+            }
         }
 
         @inlinable
@@ -93,6 +112,9 @@ private extension CollectionView.AnyCell {
 
         @inlinable
         var model: AnyEquatable? { _base.model?.eraseToAny() }
+
+        @inlinable
+        var hasFixedSize: Bool { _base.hasFixedSize }
 
         @inlinable
         func bind(model: Any?, to view: UICollectionViewCell, at indexPath: IndexPath) {

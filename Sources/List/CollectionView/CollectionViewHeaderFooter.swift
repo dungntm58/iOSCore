@@ -34,6 +34,7 @@ extension CollectionView {
         public let reuseIdentifier: String
         public let position: HeaderFooterPosition
         public let model: Model?
+        internal(set) public var hasFixedSize: Bool
         @usableFromInline
         var bindingFunction: BindingFunction?
         @usableFromInline
@@ -48,6 +49,13 @@ extension CollectionView {
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
             self.position = position
             self.model = model
+            self.hasFixedSize = true
+        }
+
+        public func hasSizeFixed(_ hasSizeFixed: Bool) -> Self {
+            var other = self
+            other.hasFixedSize = hasFixedSize
+            return other
         }
 
         @inlinable

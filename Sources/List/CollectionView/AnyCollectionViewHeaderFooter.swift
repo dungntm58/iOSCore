@@ -26,6 +26,7 @@ extension CollectionView {
         public var reuseIdentifier: String { box.reuseIdentifier }
         public var position: HeaderFooterPosition { box.position }
         public var model: Any? { box.model }
+        public var hasFixedSize: Bool { box.hasFixedSize }
         var hashString: String { box.hashString }
 
         public func bind(model: Any?, to view: View, at indexPath: IndexPath) {
@@ -61,6 +62,7 @@ private protocol AnyCollectionViewHeaderFooterBox {
     var reuseIdentifier: String { get }
     var position: HeaderFooterPosition { get }
     var model: Any? { get }
+    var hasFixedSize: Bool { get }
     var hashString: String { get }
 
     func bind(model: Any?, to view: UICollectionReusableView, at indexPath: IndexPath)
@@ -79,7 +81,24 @@ private extension CollectionView.AnyHeaderFooter {
         @inlinable
         init(_ base: Base) {
             self._base = base
-            self.hashString = String(describing: Base.View.self) + String(describing: base.model)
+            let viewHash: String
+            switch base.type {
+            case .default:
+                viewHash = "UICollectionReusableView"
+            case .class(let `class`):
+                viewHash = String(describing: `class`)
+            case .nib(let nibName, let bundle):
+                if let bundleID = bundle?.bundleIdentifier {
+                    viewHash = nibName + bundleID
+                } else {
+                    viewHash = nibName
+                }
+            }
+            if self._base.hasFixedSize {
+                self.hashString = viewHash
+            } else {
+                self.hashString = viewHash + String(describing: base.model)
+            }
         }
 
         @inlinable
@@ -96,6 +115,9 @@ private extension CollectionView.AnyHeaderFooter {
 
         @inlinable
         var model: Any? { _base.model }
+
+        @inlinable
+        var hasFixedSize: Bool { _base.hasFixedSize }
 
         @inlinable
         func bind(model: Any?, to view: UICollectionReusableView, at indexPath: IndexPath) {

@@ -77,6 +77,7 @@ class TodoList2ViewController: BaseViewController {
             ForEach(viewModel.todos) {
                 index, todo in
                 TodoCell(id: index, model: todo)
+                    .hasFixedSize(true)
                     .handlers(
                         bindingFunction: ({
                             model, view, _ in

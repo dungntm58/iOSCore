@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-public class ViewManager: HasDisposeBag {
+open class ViewManager: HasDisposeBag {
     private var _currentViewController: UIViewController?
     private var rootViewController: UIViewController
     fileprivate weak var scene: Scenable?

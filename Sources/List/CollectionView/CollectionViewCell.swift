@@ -11,6 +11,7 @@ public protocol CollectionViewCellPresentable: CellPresentable {
     typealias SizeEstimationHandler = (View, UICollectionView) -> CGSize
 
     func estimateSize(in view: View, collectionView: UICollectionView) -> CGSize
+    var hasFixedSize: Bool { get }
 }
 
 public protocol CollectionViewCell: CellRegisterable, CellBinding, CollectionViewCellPresentable, Identifiable where View: UICollectionViewCell, Model: Equatable {
@@ -33,6 +34,7 @@ extension CollectionView {
         public let type: CellType
         public let reuseIdentifier: String
         public let model: Model?
+        internal(set) public var hasFixedSize: Bool
         @usableFromInline
         var bindingFunction: BindingFunction?
         @usableFromInline
@@ -51,6 +53,13 @@ extension CollectionView {
             self.type = type
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
             self.model = model
+            self.hasFixedSize = true
+        }
+
+        public func hasFixedSize(_ hasFixedSize: Bool) -> Self {
+            var other = self
+            other.hasFixedSize = hasFixedSize
+            return other
         }
 
         @inlinable
@@ -148,6 +157,7 @@ extension CollectionView {
         public let reuseIdentifier: String
         public let size: CGSize
         public let model: Model?
+        public let hasFixedSize: Bool
         @usableFromInline
         var willDisplayHandler: IndexPathInteractiveHandler?
         @usableFromInline
@@ -159,6 +169,7 @@ extension CollectionView {
             self.reuseIdentifier = type.identifier
             self.size = size
             self.model = nil
+            self.hasFixedSize = true
         }
 
         @inlinable
