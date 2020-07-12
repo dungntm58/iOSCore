@@ -5,12 +5,16 @@
 //  Created by Robert on 8/15/19.
 //
 
-public protocol SceneReferencedAssociated {
+public protocol ViewControllerAssociated {
     func associate(with viewController: UIViewController)
 }
 
+public protocol SceneAssociated {
+    func associate(with scene: Scenable)
+}
+
 @propertyWrapper
-final public class SceneReferenced<S>: SceneReferencedAssociated where S: Scenable {
+final public class SceneReferenced<S>: ViewControllerAssociated where S: Scenable {
 
     public init() {}
 
@@ -19,6 +23,8 @@ final public class SceneReferenced<S>: SceneReferencedAssociated where S: Scenab
 
     public func associate(with viewController: UIViewController) {
         self.viewController = viewController
+        guard scene == nil else { return }
+        scene = ReferenceManager.getScene(associatedWith: viewController)
     }
 
     public var wrappedValue: S? {

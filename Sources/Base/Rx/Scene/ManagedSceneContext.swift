@@ -9,7 +9,9 @@ import RxSwift
 
 open class ManagedSceneContext {
     @usableFromInline
-    var previous: Scenable?
+    var next: Scenable?
+    @usableFromInline
+    weak var previous: Scenable?
     @usableFromInline
     let disposables: CompositeDisposable
 

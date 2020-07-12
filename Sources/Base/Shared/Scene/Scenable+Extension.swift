@@ -12,6 +12,7 @@ extension Scenable {
     @inlinable
     public func `switch`(to scene: Scenable, with userInfo: Any?) {
         updateLifeCycle(.willResignActive)
+        next = scene
         prepare(for: scene)
         scene.previous = self
         scene.perform(with: userInfo)
@@ -79,6 +80,7 @@ extension Scenable {
         updateLifeCycle(.willDetach)
         children.removeAll()
         current = nil
+        previous?.next = nil
         previous = nil
         if let parent = parent, let selfIndex = parent.children.firstIndex(where: { $0 === self }) {
             parent.children.remove(at: selfIndex)
@@ -125,6 +127,12 @@ extension Scenable {
 
 // MARK: - Shortcut
 extension Scenable {
+    @inlinable
+    internal(set) public var next: Scenable? {
+        set { managedContext.next = newValue }
+        get { managedContext.next }
+    }
+
     @inlinable
     internal(set) public var previous: Scenable? {
         set { managedContext.previous = newValue }

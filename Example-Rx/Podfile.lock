@@ -38,7 +38,8 @@ PODS:
     - CoreRepository/RemoteLocalRx (= 0.1.0)
     - CoreRepository/RemoteRx (= 0.1.0)
     - CoreRepository/RequestRx (= 0.1.0)
-  - CoreRepository/BasicsRx (0.1.0)
+  - CoreRepository/BasicsRx (0.1.0):
+    - RxSwift
   - CoreRepository/DataStoreRx (0.1.0):
     - CoreRepository/BasicsRx
   - CoreRepository/LocalRx (0.1.0):
@@ -123,12 +124,12 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
   CoreAPNS: 5e8df19a98c3e761cdc9f4920627c3aeca122c9b
-  CoreBase: 3f20a0e8185902989b954498418558f516210214
+  CoreBase: 4f7eb3aedaaf9cf330c37344f959e519a43df232
   CoreDataStore: 0c6cede068f7d495d94c2f82a4a385b31e8c2bfc
   CoreList: 7e2e079bd1f47c244e0d27943c64014964d40599
   CoreRealmDataStore: d36340a67081600841019e0f08adb27a7b072612
   CoreRedux: dc70e5d0e84e40e30990a2bb70ab637d18237b65
-  CoreRepository: 461e238c191a2b415f72021c3a728bfc3e9bd7ed
+  CoreRepository: 52b66b7b4a766ec0d15a0fab9cb79dab3b7aa996
   DifferenceKit: 516f12e336ed65a3a0665847b5c3cb5cad4bd4ea
   "NSObject+Rx": fa6bbcc1ab1faa06b01466bc09b1e0692bbc5946
   Realm: bdea546851e37b4cf0a2400cef115c7c26fda488

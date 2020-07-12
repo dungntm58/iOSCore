@@ -10,6 +10,7 @@ import UIKit
 import CoreBase
 import CoreRedux
 import CoreList
+import SwiftDate
 import Combine
 
 class TodoList2ViewController: BaseViewController {
@@ -75,12 +76,15 @@ class TodoList2ViewController: BaseViewController {
             ForEach(viewModel.todos) {
                 index, todo in
                 TodoCell(id: index, model: todo)
-                    .size(CGSize(width: collectionView.frame.width, height: 60))
                     .handlers(
                         bindingFunction: ({
                             model, view, _ in
                             view.lbTime.text = model?.createdAt.toString()
                             view.lbTitle.text = model?.title
+                        }),
+                        sizeEstimationHandler: ({
+                           _, _ in
+                            CGSize(width: collectionView.frame.width, height: 60)
                         }),
                         didSelectHandler: ({
                             [weak self] indexPath in

@@ -9,14 +9,16 @@ open class Scene: Scenable {
     public let managedContext: ManagedSceneContext
     public let id: String
 
-    public init() {
-        self.managedContext = .init()
-        self.id = UUID().uuidString
-    }
-
-    public init(managedContext: ManagedSceneContext) {
+    public init(managedContext: ManagedSceneContext = .init()) {
         self.managedContext = managedContext
         self.id = UUID().uuidString
+
+        let mirror = Mirror(reflecting: self)
+        for child in mirror.children {
+            if let sceneRef = child.value as? SceneAssociated {
+                sceneRef.associate(with: self)
+            }
+        }
     }
 
     open func perform(with userInfo: Any?) {
@@ -38,9 +40,10 @@ open class ViewableScene: Scene, Viewable {
     public init(managedContext: ManagedSceneContext = .init(), viewManager: ViewManagable) {
         self.viewManager = viewManager
         super.init(managedContext: managedContext)
+        viewManager.bind(scene: self)
     }
 
-    public init(managedContext: ManagedSceneContext = ManagedSceneContext(), viewController: UIViewController) {
+    public init(managedContext: ManagedSceneContext = .init(), viewController: UIViewController) {
         let viewManager = ViewManager(viewController: viewController)
         self.viewManager = viewManager
         super.init(managedContext: managedContext)

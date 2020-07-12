@@ -28,7 +28,6 @@ class TodoTabBarController: UITabBarController {
         self.navigationItem.rightBarButtonItems = [btnAdd, btnLogout]
         self.navigationItem.hidesBackButton = true
         
-        let store = self.scene?.store
         store?.state
             .filter { !$0.isLogout }
             .compactMap(\.error)

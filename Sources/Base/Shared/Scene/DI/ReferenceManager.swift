@@ -7,6 +7,7 @@
 
 import Foundation
 
+@usableFromInline
 @frozen enum ReferenceManager {
 
     // Key: view controller's hash value
@@ -35,6 +36,39 @@ import Foundation
         return nil
     }
 
+    static func getAbstractScene(associatedWith viewController: UIViewController) -> Scenable? {
+        if let scene = sceneDictionary[viewController.hashValue]?.value {
+            if let scene = scene as? Scenable {
+                return scene
+            }
+        }
+        if let parent = viewController.parent {
+            if let scene = getAbstractScene(associatedWith: parent) {
+                return scene
+            }
+        }
+        if let presentedViewController = viewController.presentedViewController {
+            if let scene = getAbstractScene(associatedWith: presentedViewController) {
+                return scene
+            }
+        }
+        if let tabBarController = viewController.tabBarController {
+            if let scene = getAbstractScene(associatedWith: tabBarController) {
+                return scene
+            }
+        } else if let navigationController = viewController.navigationController {
+            if let scene = getAbstractScene(associatedWith: navigationController) {
+                return scene
+            }
+        } else if let splitController = viewController.splitViewController {
+            if let scene = getAbstractScene(associatedWith: splitController) {
+                return scene
+            }
+        }
+        return nil
+    }
+
+    @usableFromInline
     static func setScene(_ scene: Scenable?, associatedViewController viewController: UIViewController) {
         for (key, value) in sceneDictionary {
             if value.canBePruned {
@@ -42,47 +76,56 @@ import Foundation
             }
         }
         let weakScene = AnyWeak(value: scene)
-        pureSetWeakScene(weakScene, associatedViewController: viewController)
+        pureSetWeakScene(weakScene, associatedTopViewController: viewController)
+        pureSetWeakScene(weakScene, associatedBottomViewController: viewController)
     }
 
-    private static func pureSetWeakScene(_ scene: AnyWeak, associatedViewController viewController: UIViewController) {
-        if sceneDictionary.keys.contains(viewController.hashValue) { return }
+    private static func pureSetWeakScene(_ scene: AnyWeak, associatedTopViewController viewController: UIViewController) {
+        if !sceneDictionary.keys.contains(viewController.hashValue) {
+            sceneDictionary[viewController.hashValue] = scene
+        }
         if let parent = viewController.parent {
-            pureSetWeakScene(scene, associatedViewController: parent)
+            pureSetWeakScene(scene, associatedTopViewController: parent)
         }
         if let presentedViewController = viewController.presentedViewController {
-            pureSetWeakScene(scene, associatedViewController: presentedViewController)
+            pureSetWeakScene(scene, associatedTopViewController: presentedViewController)
         }
         if let tabBarController = viewController.tabBarController {
             tabBarController.viewControllers?.forEach {
-                pureSetWeakScene(scene, associatedViewController: $0)
+                pureSetWeakScene(scene, associatedTopViewController: $0)
             }
         } else if let navigationController = viewController.navigationController {
             navigationController.viewControllers.forEach {
-                pureSetWeakScene(scene, associatedViewController: $0)
+                pureSetWeakScene(scene, associatedTopViewController: $0)
             }
         } else if let splitController = viewController.splitViewController {
             splitController.viewControllers.forEach {
-                pureSetWeakScene(scene, associatedViewController: $0)
+                pureSetWeakScene(scene, associatedTopViewController: $0)
             }
         }
+    }
+
+    private static func pureSetWeakScene(_ scene: AnyWeak, associatedBottomViewController viewController: UIViewController) {
+        if !sceneDictionary.keys.contains(viewController.hashValue) {
+            sceneDictionary[viewController.hashValue] = scene
+        }
         viewController.children.forEach {
-            pureSetWeakScene(scene, associatedViewController: $0)
+            pureSetWeakScene(scene, associatedBottomViewController: $0)
         }
         if let presentingViewController = viewController.presentingViewController {
-            pureSetWeakScene(scene, associatedViewController: presentingViewController)
+            pureSetWeakScene(scene, associatedBottomViewController: presentingViewController)
         }
         if let tabBarController = viewController as? UITabBarController {
             tabBarController.viewControllers?.forEach {
-                pureSetWeakScene(scene, associatedViewController: $0)
+                pureSetWeakScene(scene, associatedBottomViewController: $0)
             }
         } else if let navigationController = viewController as? UINavigationController {
             navigationController.viewControllers.forEach {
-                pureSetWeakScene(scene, associatedViewController: $0)
+                pureSetWeakScene(scene, associatedBottomViewController: $0)
             }
         } else if let splitController = viewController.splitViewController {
             splitController.viewControllers.forEach {
-                pureSetWeakScene(scene, associatedViewController: $0)
+                pureSetWeakScene(scene, associatedBottomViewController: $0)
             }
         }
     }

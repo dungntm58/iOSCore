@@ -19,7 +19,7 @@ open class ViewManager: HasDisposeBag {
         addHook(viewController)
     }
 
-    func bind(scene: Scenable) {
+    public func bind(scene: Scenable) {
         self.scene = scene
         ReferenceManager.setScene(scene, associatedViewController: currentViewController)
     }
@@ -92,13 +92,8 @@ extension ViewManager {
             })
             .disposed(by: disposeBag)
 
-        ReferenceManager.setScene(scene, associatedViewController: viewController)
-
-        let mirror = Mirror(reflecting: viewController)
-        for child in mirror.children {
-            if let sceneRef = child.value as? SceneReferencedAssociated {
-                sceneRef.associate(with: viewController)
-            }
+        if let scene = scene {
+            ReferenceManager.setScene(scene, associatedViewController: viewController)
         }
     }
 
@@ -116,6 +111,17 @@ extension ViewManager {
             tabbarViewController.dismiss(animated: flag, completion: completion)
         } else {
             viewController.dismiss(animated: flag, completion: completion)
+        }
+    }
+}
+
+extension UIViewController {
+    @objc dynamic func configAssociation() {
+        let mirror = Mirror(reflecting: self)
+        for child in mirror.children {
+            if let sceneRef = child.value as? ViewControllerAssociated {
+                sceneRef.associate(with: self)
+            }
         }
     }
 }

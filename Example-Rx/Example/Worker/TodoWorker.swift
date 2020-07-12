@@ -7,7 +7,6 @@
 //
 
 import RxSwift
-import SwiftDate
 import CoreRepository
 import CoreRedux
 

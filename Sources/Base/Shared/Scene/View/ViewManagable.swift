@@ -6,6 +6,8 @@
 //
 
 public protocol ViewManagable {
+    func bind(scene: Scenable)
+
     /// The current view controller that scene presents
     var currentViewController: UIViewController { get }
 
@@ -28,6 +30,12 @@ public protocol ViewManagable {
 }
 
 extension ViewManagable where Self: UIViewController {
+
+    @inlinable
+    public func bind(scene: Scenable) {
+        ReferenceManager.setScene(scene, associatedViewController: self)
+    }
+
     @inlinable
     public var currentViewController: UIViewController { self }
 

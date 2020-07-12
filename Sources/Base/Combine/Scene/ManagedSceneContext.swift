@@ -9,6 +9,8 @@ import Combine
 
 open class ManagedSceneContext {
     @usableFromInline
+    var next: Scenable?
+    @usableFromInline
     var previous: Scenable?
     @usableFromInline
     var cancellables: Set<AnyCancellable>

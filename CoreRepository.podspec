@@ -85,6 +85,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
     ss.source_files = 'Sources/Repository/Shared/Basics/**/*', 'Sources/Repository/Rx/Basics/**/*', 'Sources/Shared/**/*.swift'
     ss.exclude_files = 'Sources/Repository/Shared/Basics/Shared/**/*'
     ss.ios.deployment_target = '10.0'
+    ss.dependency 'RxSwift'
   end
 
   s.subspec 'DataStoreRx' do |ss|
