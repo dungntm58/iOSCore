@@ -18,7 +18,7 @@ class LoginViewController: BaseViewController {
     lazy var cancellables: Set<AnyCancellable> = .init()
     
     @SceneReferenced var scene: LoginScene?
-    @SceneStoreReferenced var store: LoginStore?
+    @SceneDependencyReferenced var store: LoginStore?
     
     deinit {
         cancellables.forEach { $0.cancel() }

@@ -8,21 +8,32 @@
 
 import CoreBase
 
-class LoginScene: ViewableScene {
+class LoginScene: Scene {
     
-    @SceneStoreReferenced var store = LoginStore()
-    
-    convenience init() {
-        let vc = AppStoryboard.main.viewController(of: LoginViewController.self)
-        vc.modalPresentationStyle = .fullScreen
-        self.init(viewController: vc)
-    }
+    @SceneDependency var store = LoginStore()
+    @SceneDependency var viewManager = ViewManager()
     
     override func perform(with object: Any?) {
-        if let navigationController = nearestViewable?.currentViewController.navigationController {
-            navigationController.pushViewController(currentViewController, animated: true)
-        } else {
-            nearestViewable?.currentViewController.present(currentViewController, animated: true)
+        viewManager?.show()
+    }
+}
+
+extension LoginScene {
+    class ViewManager: CoreBase.ViewManager {
+        init() {
+            super.init(viewController: {
+                let vc = AppStoryboard.main.viewController(of: LoginViewController.self)
+                vc.modalPresentationStyle = .fullScreen
+                return vc
+            }())
+        }
+        
+        func show() {
+            if let navigationController = scene?.presentedViewManager?.currentViewController.navigationController {
+                navigationController.pushViewController(currentViewController, animated: true)
+            } else {
+                scene?.anyViewManager?.currentViewController.present(currentViewController, animated: true)
+            }
         }
     }
 }

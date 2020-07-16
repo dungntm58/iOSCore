@@ -6,8 +6,6 @@
 //
 
 public protocol ViewManagable {
-    func bind(scene: Scenable)
-
     /// The current view controller that scene presents
     var currentViewController: UIViewController { get }
 
@@ -29,12 +27,50 @@ public protocol ViewManagable {
     func dismiss(animated flag: Bool, completion: (() -> Void)?)
 }
 
-extension ViewManagable where Self: UIViewController {
+extension ViewManagable {
 
     @inlinable
-    public func bind(scene: Scenable) {
-        ReferenceManager.setScene(scene, associatedViewController: self)
+    public func present(_ viewController: UIViewController, animated flag: Bool) {
+        present(viewController, animated: flag, completion: nil)
     }
+
+    @inlinable
+    public func present(_ viewController: UIViewController) {
+        present(viewController, animated: true, completion: nil)
+    }
+
+    @inlinable
+    public func pushViewController(_ viewController: UIViewController) {
+        pushViewController(viewController, animated: true)
+    }
+
+    @inlinable
+    public func show(_ viewController: UIViewController) {
+        show(viewController, sender: nil)
+    }
+
+    @inlinable
+    public func goBack(animated flag: Bool) {
+        goBack(animated: flag, completion: nil)
+    }
+
+    @inlinable
+    public func goBack() {
+        goBack(animated: true, completion: nil)
+    }
+
+    @inlinable
+    public func dismiss(animated flag: Bool) {
+        dismiss(animated: flag, completion: nil)
+    }
+
+    @inlinable
+    public func dismiss() {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ViewManagable where Self: UIViewController {
 
     @inlinable
     public var currentViewController: UIViewController { self }

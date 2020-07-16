@@ -5,9 +5,34 @@
 //  Created by Robert on 8/10/19.
 //
 
-import Combine
+import Foundation
 
 extension Scenable {
+
+    @inlinable
+    public func set(children: [Scenable], performAtIndex index: Int?) {
+        set(children: children, performAtIndex: index, with: nil)
+    }
+
+    @inlinable
+    public func set(children: [Scenable]) {
+        set(children: children, performAtIndex: nil, with: nil)
+    }
+
+    @inlinable
+    public func attach(child scene: Scenable) {
+        attach(child: scene, with: nil)
+    }
+
+    @inlinable
+    public func `switch`(to scene: Scenable) {
+        `switch`(to: scene, with: nil)
+    }
+
+    @inlinable
+    public func detach() {
+        detach(with: nil)
+    }
 
     @inlinable
     public func `switch`(to scene: Scenable, with userInfo: Any?) {
@@ -168,6 +193,23 @@ extension Scenable {
 // MARK: - Convenience
 extension Scenable {
 
+    @inlinable
+    public var anyViewManager: ViewManagable? {
+        Mirror(reflecting: self)
+            .children
+            .compactMap({
+                if let viewManager = $0.value as? ViewManagable {
+                    return viewManager
+                }
+                let dependency = Mirror(reflecting: $0.value)
+                    .children
+                    .first { $0.label == "dependency" }?
+                    .value
+                return dependency.flattened() as? ViewManagable
+            })
+            .first
+    }
+
     /// The most leaf child scene that has been performed
     @inlinable
     public var visible: Scenable {
@@ -200,17 +242,32 @@ extension Scenable {
     }
 
     @inlinable
-    public var nearestViewable: Viewable? {
+    public var presentedViewManager: ViewManagable? {
         guard var currentScene = previous ?? parent else { return nil }
-        if let viewable = currentScene as? Viewable {
-            return viewable
+        if let viewManager = currentScene.anyViewManager {
+            return viewManager
         }
         while let scene = currentScene.previous ?? currentScene.parent {
-            if let viewable = currentScene as? Viewable {
-                return viewable
+            if let viewManager = currentScene.anyViewManager {
+                return viewManager
             }
             currentScene = scene
         }
         return nil
+    }
+}
+
+protocol Flattenable {
+    func flattened() -> Any?
+}
+
+extension Optional: Flattenable {
+    @usableFromInline
+    func flattened() -> Any? {
+        switch self {
+        case .some(let x as Flattenable): return x.flattened()
+        case .some(let x): return x
+        case .none: return nil
+        }
     }
 }

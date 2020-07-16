@@ -15,7 +15,8 @@ import Toaster
 class TodoTabBarController: UITabBarController {
     
     @SceneReferenced var scene: TodoScene?
-    @SceneStoreReferenced var store: TodoStore?
+    @SceneDependencyReferenced var store: TodoStore?
+    @SceneDependencyReferenced var viewManager: TodoScene.ViewManager?
     
     var newTodo: String?
     
@@ -59,7 +60,7 @@ class TodoTabBarController: UITabBarController {
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
                 [weak self] _ in
-                self?.scene?.showTodoDetail()
+                self?.viewManager?.showTodoDetail()
             })
             .store(in: &cancellables)
         

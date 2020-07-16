@@ -9,22 +9,37 @@
 import CoreBase
 import RxSwift
 
-class SwitchScene: ViewableScene, Launchable, WorkflowSceneStepping {
-    lazy var window = UIWindow(frame: UIScreen.main.bounds)
-    lazy var isLoggedInSubject: PublishSubject<Bool> = .init()
+class SwitchScene: Scene, Launchable, WorkflowSceneStepping {
     
-    init() {
-        let vc = AppStoryboard.main.viewController(of: SuperSwitcherViewController.self)
-        vc.modalPresentationStyle = .fullScreen
-        super.init(viewManager: vc)
-    }
+    @SceneDependency var viewManager = ViewManager()
+    
+    lazy var isLoggedInSubject: PublishSubject<Bool> = .init()
 
     override func perform(with object: Any?) {
-        window.rootViewController = currentViewController
-        window.makeKeyAndVisible()
+        viewManager?.show()
     }
     
     func produceWorkflowItem() -> Observable<Bool> {
         isLoggedInSubject
+    }
+}
+
+extension SwitchScene {
+    class ViewManager: CoreBase.ViewManager {
+        
+        lazy var window = UIWindow(frame: UIScreen.main.bounds)
+        
+        init() {
+            super.init(viewController: {
+                let vc = AppStoryboard.main.viewController(of: SuperSwitcherViewController.self)
+                vc.modalPresentationStyle = .fullScreen
+                return vc
+            }())
+        }
+        
+        func show() {
+            window.rootViewController = currentViewController
+            window.makeKeyAndVisible()
+        }
     }
 }

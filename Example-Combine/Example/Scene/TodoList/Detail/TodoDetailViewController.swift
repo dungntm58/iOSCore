@@ -12,7 +12,7 @@ class TodoDetailViewController: UIViewController {
     @IBOutlet weak var lbTitle: UILabel!
     
     @SceneReferenced var scene: TodoScene?
-    @SceneStoreReferenced var store: TodoStore?
+    @SceneDependencyReferenced var store: TodoStore?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +22,6 @@ class TodoDetailViewController: UIViewController {
     }
     
     @IBAction func onBack(_ sender: UIButton) {
-        scene?.goBack()
+        scene?.detach()
     }
 }

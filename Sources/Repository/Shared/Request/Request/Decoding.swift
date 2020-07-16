@@ -5,7 +5,7 @@
 //  Created by Robert on 7/21/19.
 //
 
-import Combine
+import Foundation
 
 public protocol Decoding {
     var decoder: JSONDecoder { get }

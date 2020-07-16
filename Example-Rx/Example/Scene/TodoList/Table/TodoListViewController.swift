@@ -22,7 +22,7 @@ class TodoListViewController: BaseViewController {
     
     lazy var refreshControl = UIRefreshControl()
     
-    @SceneStoreReferenced var store: TodoStore?
+    @SceneDependencyReferenced var store: TodoStore?
 
     lazy var viewSourceProvider = createViewSourceProvider()
 
@@ -31,31 +31,23 @@ class TodoListViewController: BaseViewController {
         
         guard let store = store else { return }
         
-        let response = store.state
+        store.state
             .filter { $0.error == nil && !$0.isLogout }
             .map(\.list)
             .distinctUntilChanged()
-            .share()
-        
-        Observable
-            .combineLatest(
-                response
-                    .map(\.hasNext)
-                    .distinctUntilChanged(),
-                response
-                    .filter { !$0.isLoading }
-            )
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
-                [weak self] isAnimating, response in
+                [weak self] response in
                 guard let self = self else { return }
-                self.viewSourceProvider.store.isAnimatedLoading = isAnimating
-                if response.currentPage == 0 {
-                    self.viewSourceProvider.store.todos = response.data
-                } else {
-                    self.viewSourceProvider.store.todos += response.data
+                self.viewSourceProvider.store.isAnimatedLoading = response.hasNext
+                if !response.isLoading {
+                    if response.currentPage == 0 {
+                        self.viewSourceProvider.store.todos = response.data
+                    } else {
+                        self.viewSourceProvider.store.todos += response.data
+                    }
+                    self.refreshControl.endRefreshing()
                 }
-                self.refreshControl.endRefreshing()
                 self.viewSourceProvider.reload()
             })
             .disposed(by: rx.disposeBag)

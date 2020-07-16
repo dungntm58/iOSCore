@@ -7,10 +7,11 @@
 
 import CoreRedux
 
-extension Scenable {
+extension SceneAssociated where Self: Activating {
+
     @inlinable
-    func config<Store>(with store: Store) where Store: Storable {
-        let lifeCycleCancellable = self.lifeCycle
+    public func associate(with scene: Scenable) {
+        let lifeCycleCancellable = scene.lifeCycle
             .map ({
                 state -> Bool in
                 switch state {
@@ -22,9 +23,9 @@ extension Scenable {
             })
             .removeDuplicates()
             .sink(receiveValue: {
-                [store] shouldActiveStore in
-                shouldActiveStore ? store.activate() : store.deactivate()
+                [weak self] shouldActiveStore in
+                shouldActiveStore ? self?.activate() : self?.deactivate()
             })
-        _ = managedContext.collect(lifeCycleCancellable)
+        scene.managedContext.collect(lifeCycleCancellable)
     }
 }

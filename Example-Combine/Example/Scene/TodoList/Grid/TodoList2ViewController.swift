@@ -24,7 +24,7 @@ class TodoList2ViewController: BaseViewController {
     
     lazy var cancellables = Set<AnyCancellable>()
     
-    @SceneStoreReferenced var store: TodoStore?
+    @SceneDependencyReferenced var store: TodoStore?
     
     lazy var viewSourceProvider = createViewSourceProvider()
 
@@ -33,31 +33,23 @@ class TodoList2ViewController: BaseViewController {
         
         guard let store = store else { return }
         
-        let response = store.state
+        store.state
             .filter { $0.error == nil && !$0.isLogout }
             .map(\.list)
             .removeDuplicates()
-            .share()
-        
-        Publishers
-            .CombineLatest(
-                response
-                    .map(\.hasNext)
-                    .removeDuplicates(),
-                response
-                    .filter { !$0.isLoading }
-            )
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
-                [weak self] isAnimating, response in
+                [weak self] response in
                 guard let self = self else { return }
-                self.viewSourceProvider.store.isAnimatedLoading = isAnimating
-                if response.currentPage == 0 {
-                    self.viewSourceProvider.store.todos = response.data
-                } else {
-                    self.viewSourceProvider.store.todos += response.data
+                self.viewSourceProvider.store.isAnimatedLoading = response.hasNext
+                if !response.isLoading {
+                    if response.currentPage == 0 {
+                        self.viewSourceProvider.store.todos = response.data
+                    } else {
+                        self.viewSourceProvider.store.todos += response.data
+                    }
+                    self.refreshControl.endRefreshing()
                 }
-                self.refreshControl.endRefreshing()
                 self.viewSourceProvider.reload()
             })
             .store(in: &cancellables)

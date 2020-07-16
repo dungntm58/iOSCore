@@ -9,35 +9,50 @@
 import CoreBase
 import CoreRedux
 
-class TodoScene: ViewableScene {
+class TodoScene: Scene {
     
-    @SceneStoreReferenced var store: TodoStore?
-    
-    lazy var navigationController: UINavigationController = {
-        let vc = UINavigationController(rootViewController: currentViewController)
-        vc.modalPresentationStyle = .fullScreen
-        return vc
-    }()
-    
-    convenience init() {
-        let todoVC = AppStoryboard.main.viewController(of: TodoTabBarController.self)
-        todoVC.modalPresentationStyle = .fullScreen
-        self.init(viewController: todoVC)
-    }
+    @SceneDependency var store = TodoStore()
+    @SceneDependency var viewManager = ViewManager()
 
     override func perform(with object: Any?) {
-        let visibleViewController = nearestViewable?.currentViewController
-        if let navigationController = visibleViewController?.navigationController {
-            navigationController.pushViewController(currentViewController, animated: true)
-        }
-        else {
-            visibleViewController?.present(navigationController, animated: true)
-        }
+        viewManager?.show()
     }
     
-    func showTodoDetail() {
-        let vc = AppStoryboard.main.viewController(of: TodoDetailViewController.self)
-        vc.modalPresentationStyle = .fullScreen
-        present(vc)
+    override func onDetach() {
+        viewManager?.dismiss()
+    }
+}
+
+extension TodoScene {
+    class ViewManager: CoreBase.ViewManager {
+        init() {
+            super.init(viewController: {
+                let todoVC = AppStoryboard.main.viewController(of: TodoTabBarController.self)
+                todoVC.modalPresentationStyle = .fullScreen
+                return todoVC
+            }())
+        }
+        
+        func show() {
+            let navigationController: UINavigationController = {
+                let vc = UINavigationController(rootViewController: currentViewController)
+                vc.modalPresentationStyle = .fullScreen
+                return vc
+            }()
+            
+            let visibleViewController = scene?.presentedViewManager?.currentViewController
+            if let navigationController = visibleViewController?.navigationController {
+                navigationController.pushViewController(currentViewController, animated: true)
+            }
+            else {
+                visibleViewController?.present(navigationController, animated: true)
+            }
+        }
+        
+        func showTodoDetail() {
+            let vc = AppStoryboard.main.viewController(of: TodoDetailViewController.self)
+            vc.modalPresentationStyle = .fullScreen
+            present(vc)
+        }
     }
 }

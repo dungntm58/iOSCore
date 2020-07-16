@@ -44,7 +44,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   
   s.subspec 'SceneCombine' do |ss|
     ss.source_files = 'Sources/Base/Shared/Scene/**/*.{h,m,mm,swift}', 'Sources/Base/Combine/Scene/**/*'
-    ss.private_header_files = 'Sources/Base/Scene/**/*+Internal.h'
+    ss.private_header_files = 'Sources/Base/Shared/Scene/**/*+Internal.h'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
   end

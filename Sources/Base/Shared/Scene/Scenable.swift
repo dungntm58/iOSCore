@@ -28,7 +28,7 @@ public protocol Scenable: class, MaybeRetrievable {
     func perform(with userInfo: Any?)
 
     /**
-     Set children, then perform one of them by given index if index is not nil
+     Set children, then perform one of them by the given index if index is not nil
 
      - Parameters:
      - children: An array of scenes
@@ -39,8 +39,11 @@ public protocol Scenable: class, MaybeRetrievable {
      */
     func set(children: [Scenable], performAtIndex index: Int?, with userInfo: Any?)
 
-    /// Attach a scene as a child then perform it, it will be included in children collection.
+    /// Attach a scene as a child then perform it, it will be included in the children collection.
     func attach(child scene: Scenable, with userInfo: Any?)
+
+    /// Perform the child at the given index with user info
+    func performChild(at index: Int, with userInfo: Any?)
 
     /// Navigate to new scene
     func `switch`(to scene: Scenable, with userInfo: Any?)

@@ -8,17 +8,31 @@
 
 import CoreBase
 
-class SwitchScene: ViewableScene, Launchable {
-    lazy var window = UIWindow(frame: UIScreen.main.bounds)
+class SwitchScene: Scene, Launchable {
     
-    init() {
-        let vc = AppStoryboard.main.viewController(of: SuperSwitcherViewController.self)
-        vc.modalPresentationStyle = .fullScreen
-        super.init(viewManager: vc)
-    }
+    @SceneDependency var viewManager = ViewManager()
 
     override func perform(with object: Any?) {
-        window.rootViewController = currentViewController
-        window.makeKeyAndVisible()
+        viewManager?.show()
+    }
+}
+
+extension SwitchScene {
+    class ViewManager: CoreBase.ViewManager {
+        
+        lazy var window = UIWindow(frame: UIScreen.main.bounds)
+        
+        init() {
+            super.init(viewController: {
+                let vc = AppStoryboard.main.viewController(of: SuperSwitcherViewController.self)
+                vc.modalPresentationStyle = .fullScreen
+                return vc
+            }())
+        }
+        
+        func show() {
+            window.rootViewController = currentViewController
+            window.makeKeyAndVisible()
+        }
     }
 }

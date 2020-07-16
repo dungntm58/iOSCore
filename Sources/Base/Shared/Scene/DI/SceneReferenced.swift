@@ -9,10 +9,6 @@ public protocol ViewControllerAssociated {
     func associate(with viewController: UIViewController)
 }
 
-public protocol SceneAssociated {
-    func associate(with scene: Scenable)
-}
-
 @propertyWrapper
 final public class SceneReferenced<S>: ViewControllerAssociated where S: Scenable {
 
@@ -32,5 +28,16 @@ final public class SceneReferenced<S>: ViewControllerAssociated where S: Scenabl
         guard let viewController = viewController else { return nil }
         scene = ReferenceManager.getScene(associatedWith: viewController)
         return scene
+    }
+}
+
+extension UIViewController {
+    @objc dynamic func configAssociation() {
+        let mirror = Mirror(reflecting: self)
+        for child in mirror.children {
+            if let sceneRef = child.value as? ViewControllerAssociated {
+                sceneRef.associate(with: self)
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ class SignupViewController: BaseViewController {
     @IBOutlet weak var lbPassword: UITextField!
     
     @SceneReferenced var scene: LoginScene?
-    @SceneStoreReferenced var store: LoginStore?
+    @SceneDependencyReferenced var store: LoginStore?
     
     override func viewDidLoad() {
         super.viewDidLoad()

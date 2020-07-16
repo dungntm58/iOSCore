@@ -176,6 +176,11 @@ extension CollectionView {
         public func bind(model: Model?, to view: View, at indexPath: IndexPath) {}
 
         @inlinable
+        public func estimateSize(in view: LoadingCollectionViewCell, collectionView: UICollectionView) -> CGSize {
+            size
+        }
+
+        @inlinable
         public func willDisplayHandler(_ willDisplayHandler: IndexPathInteractiveHandler?) -> Self {
             var other = self
             other.willDisplayHandler = willDisplayHandler

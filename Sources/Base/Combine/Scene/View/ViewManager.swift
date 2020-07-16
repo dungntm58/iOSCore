@@ -7,19 +7,18 @@
 
 import Combine
 
-final public class ViewManager {
+open class ViewManager: SceneAssociated {
     private var _currentViewController: UIViewController?
     private var rootViewController: UIViewController
-    fileprivate weak var scene: Scenable?
+    fileprivate(set) public weak var scene: Scenable?
 
     public init(viewController: UIViewController) {
         self.rootViewController = viewController
         addHook(viewController)
     }
 
-    func bind(scene: Scenable) {
+    public func associate(with scene: Scenable) {
         self.scene = scene
-        self.currentViewController.sceneID = scene.id
         ReferenceManager.setScene(scene, associatedViewController: currentViewController)
     }
 
@@ -104,16 +103,8 @@ extension ViewManager {
 //            .sink(receiveValue: self.viewControllerWillDisappear(_:))
 //            .disposed(by: disposeBag)
 
-        viewController.sceneID = scene?.id
         if let scene = scene {
             ReferenceManager.setScene(scene, associatedViewController: viewController)
-        }
-
-        let mirror = Mirror(reflecting: viewController)
-        for child in mirror.children {
-            if let sceneRef = child.value as? ViewControllerAssociated {
-                sceneRef.associate(with: viewController)
-            }
         }
     }
 
