@@ -19,3 +19,7 @@ enum Constant {
         ])
     }
 }
+
+public func ??<Wrapped> (lhs: Bool, rhs: Wrapped) -> Wrapped? {
+    lhs ? rhs : nil
+}

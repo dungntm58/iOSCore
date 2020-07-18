@@ -86,17 +86,16 @@ class TodoList2ViewController: BaseViewController {
                             self?.store?.dispatch(type: .selectTodo, payload: indexPath.row)
                         }))
             }
-            viewModel.isAnimatedLoading ?
+            viewModel.isAnimatedLoading ??
                 LoadingCell(size: CGSize(width: collectionView.frame.width, height: 60))
                     .willDisplayHandler({
                         [weak self] view, indexPath in
                         guard let self = self else { return }
                         viewModel.isAnimatedLoading ? view.startAnimation() : view.stopAnimation()
                         
-                        let currentPage = self.store?.currentState.list.currentPage ?? 0
+                        guard let currentPage = self.store?.currentState.list.currentPage else { return }
                         self.store?.dispatch(type: .load, payload: Payload.List.Request(page: currentPage + 1, cancelRunning: false))
                     })
-                : nil
         }
     }
 }
