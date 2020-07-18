@@ -7,6 +7,10 @@
 
 import Foundation
 
+public protocol ViewControllerLookingForAssociatedScene where Self: UIViewController {
+    func sceneAssociatedViewController() -> UIViewController?
+}
+
 @usableFromInline
 @frozen enum ReferenceManager {
 
@@ -16,6 +20,11 @@ import Foundation
 
     static func getScene<S>(associatedWith viewController: UIViewController) -> S? where S: Scenable {
         if let scene = sceneDictionary[viewController.hashValue]?.value as? S {
+            return scene
+        }
+        if let vc = viewController as? ViewControllerLookingForAssociatedScene,
+            let associatedSceneViewController = vc.sceneAssociatedViewController(),
+            let scene = sceneDictionary[associatedSceneViewController.hashValue]?.value as? S {
             return scene
         }
         if let scene: S = viewController.parent.flatMap(getScene(associatedWith:)) {

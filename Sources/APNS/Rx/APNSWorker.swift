@@ -7,7 +7,6 @@
 
 import RxSwift
 import RxRelay
-import UserNotifications
 
 open class APNSWorker<ValueType> where ValueType: APNSEventProtocol {
     private let _subscriber: PublishSubject<ValueType>
