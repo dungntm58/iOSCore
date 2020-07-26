@@ -59,6 +59,7 @@ final public class SceneDependencyReferenced<S>: ViewControllerAssociated where 
     private weak var scene: Scenable?
     private weak var viewController: UIViewController?
     private var dependency: S?
+    private weak var weakDependency: S?
 
     public func associate(with viewController: UIViewController) {
         self.viewController = viewController
@@ -66,15 +67,25 @@ final public class SceneDependencyReferenced<S>: ViewControllerAssociated where 
     }
 
     public var wrappedValue: S? {
-        if let dependency = dependency { return dependency }
+        if let dependency = dependency ?? weakDependency { return dependency }
         guard let scene = scene else {
             guard let viewController = viewController,
                 let scene = ReferenceManager.getAbstractScene(associatedWith: viewController) else { return nil }
             self.scene = scene
-            self.dependency = scene.getDependency(keyPath: keyPath)
+            let dependency: S? = scene.getDependency(keyPath: keyPath)
+            if dependency === viewController {
+                self.weakDependency = dependency
+            } else {
+                self.dependency = dependency
+            }
             return dependency
         }
-        self.dependency = scene.getDependency(keyPath: keyPath)
+        let dependency: S? = scene.getDependency(keyPath: keyPath)
+        if dependency === viewController {
+            self.weakDependency = dependency
+        } else {
+            self.dependency = dependency
+        }
         return dependency
     }
 }
