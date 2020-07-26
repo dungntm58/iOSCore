@@ -7,10 +7,12 @@
 
 import RxSwift
 
-public extension DataStore {
-    var ttl: TimeInterval { 0 }
+extension DataStore {
+    @inlinable
+    public var ttl: TimeInterval { 0 }
 
-    func saveAsync(_ value: T) -> Observable<T> {
+    @inlinable
+    public func saveAsync(_ value: T) -> Observable<T> {
         .create {
             subscribe in
             do {
@@ -27,7 +29,7 @@ public extension DataStore {
         }
     }
 
-    func saveAsync(_ values: [T]) -> Observable<[T]> {
+    public func saveAsync(_ values: [T]) -> Observable<[T]> {
         .create {
             subscribe in
             do {
@@ -44,7 +46,8 @@ public extension DataStore {
         }
     }
 
-    func deleteAsync(_ value: T) -> Observable<Void> {
+    @inlinable
+    public func deleteAsync(_ value: T) -> Observable<Void> {
         .create {
             subscribe in
             do {
@@ -61,7 +64,8 @@ public extension DataStore {
         }
     }
 
-    func getListAsync(options: DataStoreFetchOption) -> Observable<ListDTO<T>> {
+    @inlinable
+    public func getListAsync(options: DataStoreFetchOption) -> Observable<ListDTO<T>> {
         .create {
             subscribe in
             do {
@@ -78,7 +82,8 @@ public extension DataStore {
         }
     }
 
-    func eraseAsync() -> Observable<Void> {
+    @inlinable
+    public func eraseAsync() -> Observable<Void> {
         .create {
             subscribe in
             do {
@@ -96,15 +101,17 @@ public extension DataStore {
     }
 }
 
-public extension IdentifiableDataStore {
-    func deleteSync(_ id: T.ID, options: DataStoreFetchOption?) throws {
+extension IdentifiableDataStore {
+    @inlinable
+    public func deleteSync(_ id: T.ID, options: DataStoreFetchOption?) throws {
         guard let value = try? getSync(id, options: options) else {
             return
         }
         try deleteSync(value)
     }
 
-    func getAsync(_ id: T.ID, options: DataStoreFetchOption?) -> Observable<T> {
+    @inlinable
+    public func getAsync(_ id: T.ID, options: DataStoreFetchOption?) -> Observable<T> {
         .create {
             subscribe in
             do {
@@ -121,7 +128,8 @@ public extension IdentifiableDataStore {
         }
     }
 
-    func deleteAsync(_ id: T.ID, options: DataStoreFetchOption?) -> Observable<Void> {
+    @inlinable
+    public func deleteAsync(_ id: T.ID, options: DataStoreFetchOption?) -> Observable<Void> {
         .create {
             subscribe in
             do {

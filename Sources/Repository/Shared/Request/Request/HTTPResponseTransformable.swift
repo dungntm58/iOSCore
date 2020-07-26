@@ -15,8 +15,9 @@ public protocol HTTPResponseTransformable {
     func transform(dataResponse: AFDataResponse<Data>) throws -> Response
 }
 
-public extension HTTPResponseTransformable where Self: Decoding, Response: Decodable {
-    func transform(dataResponse: AFDataResponse<Data>) throws -> Response {
+extension HTTPResponseTransformable where Self: Decoding, Response: Decodable {
+    @inlinable
+    public func transform(dataResponse: AFDataResponse<Data>) throws -> Response {
         switch dataResponse.result {
         case .success(let data):
             let httpResponse = try decoder.decode(Response.self, from: data)

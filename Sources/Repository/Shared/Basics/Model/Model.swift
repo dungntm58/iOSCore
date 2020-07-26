@@ -11,8 +11,10 @@ public protocol Expirable {
     var localUpdatedDate: Date { get }
 }
 
-public extension Expirable {
-    var expiryDate: Date? { ttl > 0 ? localUpdatedDate.addingTimeInterval(ttl) : nil }
+extension Expirable {
+    @inlinable
+    public var expiryDate: Date? { ttl > 0 ? localUpdatedDate.addingTimeInterval(ttl) : nil }
 
-    var isValid: Bool { expiryDate == nil || expiryDate! <= Date() }
+    @inlinable
+    public var isValid: Bool { expiryDate == nil || expiryDate! <= Date() }
 }

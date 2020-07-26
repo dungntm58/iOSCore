@@ -10,3 +10,8 @@ import Foundation
 public protocol Decoding {
     var decoder: JSONDecoder { get }
 }
+
+extension Decoding {
+    @inlinable
+    public var decoder: JSONDecoder { .init() }
+}

@@ -5,6 +5,7 @@
 //  Created by Robert Nguyen on 5/15/19.
 //
 
+@frozen
 public enum LifeCycle {
     case inital
     case willBecomeActive

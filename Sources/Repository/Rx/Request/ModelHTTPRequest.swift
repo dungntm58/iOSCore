@@ -23,26 +23,31 @@ public protocol IdentifiableSingleHTTPRequest: SingleModelHTTPRequest where Resp
     func delete(id: Response.ValueType.ID, options: RequestOption?) -> Observable<Response>
 }
 
-public extension SingleModelHTTPRequest {
-    func create(_ value: Response.ValueType, options: RequestOption?) -> Observable<Response> {
+extension SingleModelHTTPRequest {
+    @inlinable
+    public func create(_ value: Response.ValueType, options: RequestOption?) -> Observable<Response> {
         .empty()
     }
 
-    func update(_ value: Response.ValueType, options: RequestOption?) -> Observable<Response> {
+    @inlinable
+    public func update(_ value: Response.ValueType, options: RequestOption?) -> Observable<Response> {
         .empty()
     }
 
-    func delete(_ value: Response.ValueType, options: RequestOption?) -> Observable<Response> {
+    @inlinable
+    public func delete(_ value: Response.ValueType, options: RequestOption?) -> Observable<Response> {
         .empty()
     }
 }
 
-public extension IdentifiableSingleHTTPRequest {
-    func get(id: Response.ValueType.ID, options: RequestOption?) -> Observable<Response> {
+extension IdentifiableSingleHTTPRequest {
+    @inlinable
+    public func get(id: Response.ValueType.ID, options: RequestOption?) -> Observable<Response> {
         .empty()
     }
 
-    func delete(id: Response.ValueType.ID, options: RequestOption?) -> Observable<Response> {
+    @inlinable
+    public func delete(id: Response.ValueType.ID, options: RequestOption?) -> Observable<Response> {
         .empty()
     }
 }

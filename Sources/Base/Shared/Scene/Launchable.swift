@@ -11,8 +11,9 @@ public protocol Launchable where Self: Scenable {
     func launch()
 }
 
-public extension Launchable {
-    func launch() {
+extension Launchable {
+    @inlinable
+    public func launch() {
         perform(with: nil)
         if isPerformed { return }
         updateLifeCycle(.didBecomeActive)

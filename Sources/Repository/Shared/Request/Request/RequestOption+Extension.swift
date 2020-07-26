@@ -5,14 +5,17 @@
 //  Created by Robert on 8/10/19.
 //
 
-public extension ProgressTrackable {
-    var queue: DispatchQueue { .main }
+extension ProgressTrackable {
+    @inlinable
+    public var queue: DispatchQueue { .main }
 }
 
-public extension TrackingOption where Self: ProgressTrackable {
-    var tracking: ProgressTrackable? { self }
+extension TrackingOption where Self: ProgressTrackable {
+    @inlinable
+    public var tracking: ProgressTrackable? { self }
 }
 
-public extension DownloadRequestOption where Self: DownloadFileDestination {
-    var downloadFileDestination: DownloadFileDestination? { self }
+extension DownloadRequestOption where Self: DownloadFileDestination {
+    @inlinable
+    public var downloadFileDestination: DownloadFileDestination? { self }
 }

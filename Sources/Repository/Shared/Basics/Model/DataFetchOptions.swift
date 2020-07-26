@@ -11,6 +11,7 @@ public protocol RequestOption {
 }
 
 extension Dictionary: RequestOption where Key == String {
+    @inlinable
     public var parameters: [String: Any]? { self }
 }
 
@@ -20,6 +21,7 @@ public protocol FetchOptions {
     var storeFetchOptions: DataStoreFetchOption { get }
 }
 
+@frozen
 public enum RepositoryOption {
     case ignoreDataStore
     case forceRefresh(ignoreDataStoreFailure: Bool)
@@ -38,11 +40,13 @@ public enum DataStoreFetchOption {
     case page(_ page: Int, size: Int, predicate: NSPredicate?, sorting: [Sorting], validate: Bool)
 }
 
+@inlinable
 public func makeFetchOptions(requestOptions: RequestOption? = nil, repositoryOptions: RepositoryOption = .default, storeFetchOptions: DataStoreFetchOption = .automatic) -> FetchOptions {
     InternalFetchOptions(requestOptions: requestOptions, repositoryOptions: repositoryOptions, storeFetchOptions: storeFetchOptions)
 }
 
 extension Encodable {
+    @inlinable
     public func toDictionary(withEncoder encoder: JSONEncoder = .init()) -> [String: Any]? {
         switch self {
         case let dict as [String: Any]:
@@ -59,5 +63,6 @@ extension Encodable {
 }
 
 extension Encodable where Self: RequestOption {
+    @inlinable
     public var parameters: [String: Any]? { toDictionary() }
 }

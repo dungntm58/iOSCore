@@ -9,8 +9,9 @@ import Alamofire
 import RxSwift
 
 // MARK: - Convenience
-public extension PureHTTPRequest {
-    func pureExecute(api: API, options: RequestOption?) -> Observable<AFDataResponse<Data>>{
+extension PureHTTPRequest {
+    @inlinable
+    public func pureExecute(api: API, options: RequestOption?) -> Observable<AFDataResponse<Data>>{
         .create {
             subscribe in
             var dataRequest: DataRequest!
@@ -50,7 +51,8 @@ public extension PureHTTPRequest {
         }
     }
 
-    func pureUpload(api: API, options: UploadRequestOption) -> Observable<AFDataResponse<Data>> {
+    @inlinable
+    public func pureUpload(api: API, options: UploadRequestOption) -> Observable<AFDataResponse<Data>> {
         .create {
             subscribe in
             var uploadRequest: UploadRequest!
@@ -125,7 +127,8 @@ public extension PureHTTPRequest {
 
     /// Download request
     /// Return an observable of raw DownloadResponse to keep data stable
-    func pureDownload(api: API, options: DownloadRequestOption?) -> Observable<AFDownloadResponse<Data>> {
+    @inlinable
+    public func pureDownload(api: API, options: DownloadRequestOption?) -> Observable<AFDownloadResponse<Data>> {
         .create {
             subscribe in
             var downloadRequest: DownloadRequest!
@@ -169,48 +172,34 @@ public extension PureHTTPRequest {
     }
 }
 
-#if !RELEASE && !PRODUCTION
-private func printDebug(data: Data) {
-    do {
-        let serialization = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-        switch serialization {
-        case let dict as [String: Any]:
-            Swift.print("Response represents", dict)
-        case let array as Array<Any>:
-            Swift.print("Response represents", array)
-        default:
-            Swift.print("Response string represents", String(data: data, encoding: .utf8) as Any)
-        }
-    } catch {
-        Swift.print("Response string represents", String(data: data, encoding: .utf8) as Any)
-    }
-}
-#endif
-
-public extension PureHTTPRequest where Self: HTTPResponseTransformable {
+extension PureHTTPRequest where Self: HTTPResponseTransformable {
     /// Common HTTP request
     /// Return an observable of HTTPResponse to keep data stable
-    func execute(api: API, options: RequestOption?) -> Observable<Response>{
+    @inlinable
+    public func execute(api: API, options: RequestOption?) -> Observable<Response>{
         pureExecute(api: api, options: options).map(transform)
     }
 
     /// Upload request
     /// Return an observable of HTTPResponse to keep data stable
-    func upload(api: API, options: UploadRequestOption) -> Observable<Response> {
+    @inlinable
+    public func upload(api: API, options: UploadRequestOption) -> Observable<Response> {
         pureUpload(api: api, options: options).map(transform)
     }
 }
 
-public extension PureHTTPRequest where API: HTTPResponseTransformable {
+extension PureHTTPRequest where API: HTTPResponseTransformable {
     /// Common HTTP request
     /// Return an observable of HTTPResponse to keep data stable
-    func execute(api: API, options: RequestOption?) -> Observable<API.Response>{
+    @inlinable
+    public func execute(api: API, options: RequestOption?) -> Observable<API.Response>{
         pureExecute(api: api, options: options).map(api.transform)
     }
 
     /// Upload request
     /// Return an observable of HTTPResponse to keep data stable
-    func upload(api: API, options: UploadRequestOption) -> Observable<API.Response> {
+    @inlinable
+    public func upload(api: API, options: UploadRequestOption) -> Observable<API.Response> {
         pureUpload(api: api, options: options).map(api.transform)
     }
 }

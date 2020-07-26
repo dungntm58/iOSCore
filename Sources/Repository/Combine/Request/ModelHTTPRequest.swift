@@ -23,26 +23,31 @@ public protocol IdentifiableSingleHTTPRequest: SingleModelHTTPRequest where Resp
     func delete(id: Response.ValueType.ID, options: RequestOption?) -> AnyPublisher<Response, Error>
 }
 
-public extension SingleModelHTTPRequest {
-    func create(_ value: Response.ValueType, options: RequestOption?) -> AnyPublisher<Response, Error> {
+extension SingleModelHTTPRequest {
+    @inlinable
+    public func create(_ value: Response.ValueType, options: RequestOption?) -> AnyPublisher<Response, Error> {
         Empty().eraseToAnyPublisher()
     }
 
-    func update(_ value: Response.ValueType, options: RequestOption?) -> AnyPublisher<Response, Error> {
+    @inlinable
+    public func update(_ value: Response.ValueType, options: RequestOption?) -> AnyPublisher<Response, Error> {
         Empty().eraseToAnyPublisher()
     }
 
-    func delete(_ value: Response.ValueType, options: RequestOption?) -> AnyPublisher<Response, Error> {
+    @inlinable
+    public func delete(_ value: Response.ValueType, options: RequestOption?) -> AnyPublisher<Response, Error> {
         Empty().eraseToAnyPublisher()
     }
 }
 
-public extension IdentifiableSingleHTTPRequest {
-    func get(id: Response.ValueType.ID, options: RequestOption?) -> AnyPublisher<Response, Error> {
+extension IdentifiableSingleHTTPRequest {
+    @inlinable
+    public func get(id: Response.ValueType.ID, options: RequestOption?) -> AnyPublisher<Response, Error> {
         Empty().eraseToAnyPublisher()
     }
 
-    func delete(id: Response.ValueType.ID, options: RequestOption?) -> AnyPublisher<Response, Error> {
+    @inlinable
+    public func delete(id: Response.ValueType.ID, options: RequestOption?) -> AnyPublisher<Response, Error> {
         Empty().eraseToAnyPublisher()
     }
 }

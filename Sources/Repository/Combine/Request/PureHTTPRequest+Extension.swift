@@ -9,8 +9,9 @@ import Alamofire
 import Combine
 
 // MARK: - Convenience
-public extension PureHTTPRequest {
-    func pureExecute(api: API, options: RequestOption?) -> AnyPublisher<AFDataResponse<Data>, Error>{
+extension PureHTTPRequest {
+    @inlinable
+    public func pureExecute(api: API, options: RequestOption?) -> AnyPublisher<AFDataResponse<Data>, Error>{
         Deferred {
             Future<AFDataResponse<Data>, Error> {
                 promise in
@@ -44,7 +45,8 @@ public extension PureHTTPRequest {
         }.eraseToAnyPublisher()
     }
 
-    func pureUpload(api: API, options: UploadRequestOption) -> AnyPublisher<AFDataResponse<Data>, Error> {
+    @inlinable
+    public func pureUpload(api: API, options: UploadRequestOption) -> AnyPublisher<AFDataResponse<Data>, Error> {
         Deferred {
             Future {
                 promise in
@@ -113,7 +115,8 @@ public extension PureHTTPRequest {
 
     /// Download request
     /// Return an observable of raw DownloadResponse to keep data stable
-    func pureDownload(api: API, options: DownloadRequestOption?) -> AnyPublisher<AFDownloadResponse<Data>, Error> {
+    @inlinable
+    public func pureDownload(api: API, options: DownloadRequestOption?) -> AnyPublisher<AFDownloadResponse<Data>, Error> {
         Deferred {
             Future {
                 promise in
@@ -151,48 +154,34 @@ public extension PureHTTPRequest {
     }
 }
 
-#if !RELEASE && !PRODUCTION
-private func printDebug(data: Data) {
-    do {
-        let serialization = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-        switch serialization {
-        case let dict as [String: Any]:
-            Swift.print("Response represents", dict)
-        case let array as Array<Any>:
-            Swift.print("Response represents", array)
-        default:
-            Swift.print("Response string represents", String(data: data, encoding: .utf8) as Any)
-        }
-    } catch {
-        Swift.print("Response string represents", String(data: data, encoding: .utf8) as Any)
-    }
-}
-#endif
-
-public extension PureHTTPRequest where Self: HTTPResponseTransformable {
+extension PureHTTPRequest where Self: HTTPResponseTransformable {
     /// Common HTTP request
     /// Return an observable of HTTPResponse to keep data stable
-    func execute(api: API, options: RequestOption?) -> AnyPublisher<Response, Error> {
+    @inlinable
+    public func execute(api: API, options: RequestOption?) -> AnyPublisher<Response, Error> {
         pureExecute(api: api, options: options).tryMap(transform).eraseToAnyPublisher()
     }
 
     /// Upload request
     /// Return an observable of HTTPResponse to keep data stable
-    func upload(api: API, options: UploadRequestOption) -> AnyPublisher<Response, Error> {
+    @inlinable
+    public func upload(api: API, options: UploadRequestOption) -> AnyPublisher<Response, Error> {
         pureUpload(api: api, options: options).tryMap(transform).eraseToAnyPublisher()
     }
 }
 
-public extension PureHTTPRequest where API: HTTPResponseTransformable {
+extension PureHTTPRequest where API: HTTPResponseTransformable {
     /// Common HTTP request
     /// Return an observable of HTTPResponse to keep data stable
-    func execute(api: API, options: RequestOption?) -> AnyPublisher<API.Response, Error>{
+    @inlinable
+    public func execute(api: API, options: RequestOption?) -> AnyPublisher<API.Response, Error>{
         pureExecute(api: api, options: options).tryMap(api.transform).eraseToAnyPublisher()
     }
 
     /// Upload request
     /// Return an observable of HTTPResponse to keep data stable
-    func upload(api: API, options: UploadRequestOption) -> AnyPublisher<API.Response, Error> {
+    @inlinable
+    public func upload(api: API, options: UploadRequestOption) -> AnyPublisher<API.Response, Error> {
         pureUpload(api: api, options: options).tryMap(api.transform).eraseToAnyPublisher()
     }
 }

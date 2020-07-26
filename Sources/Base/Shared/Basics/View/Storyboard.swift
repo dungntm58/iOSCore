@@ -10,12 +10,12 @@ public protocol Storyboard {
     var bundle: Bundle? { get }
 }
 
-public extension Storyboard {
-    func viewController<ViewController>(of type: ViewController.Type, with identifier: String? = nil) -> ViewController where ViewController: UIViewController {
+extension Storyboard {
+    @inlinable
+    public func viewController<ViewController>(of type: ViewController.Type, with identifier: String? = nil) -> ViewController where ViewController: UIViewController {
         instantiate().instantiateViewController(withIdentifier: identifier ?? String(describing: ViewController.self)) as! ViewController
     }
 
-    func instantiate() -> UIStoryboard {
-        UIStoryboard.init(name: name, bundle: bundle)
-    }
+    @inlinable
+    public func instantiate() -> UIStoryboard { .init(name: name, bundle: bundle) }
 }

@@ -5,6 +5,7 @@
 //  Created by Robert on 8/10/19.
 //
 
+@frozen
 public enum DataStoreError: Error, LocalizedError {
     case storeFailure
     case invalidParam(_ param: String)
@@ -14,6 +15,7 @@ public enum DataStoreError: Error, LocalizedError {
     case lookForIDFailure
     case unknown
 
+    @inlinable
     public var errorDescription: String? {
         switch self {
         case .storeFailure:

@@ -25,8 +25,9 @@ public protocol RequestConfiguration {
     var versions: [String] { get }
 }
 
-public extension RequestConfiguration {
-    var defaultServerUrl: String {
+extension RequestConfiguration {
+    @inlinable
+    public var defaultServerUrl: String {
         if let version = self.versions.last {
             return "\(baseUrl)/\(version)"
         }
@@ -36,7 +37,8 @@ public extension RequestConfiguration {
     /**
      * Get the last server url
      */
-    func urlOf(version: String) -> String {
+    @inlinable
+    public func urlOf(version: String) -> String {
         if versions.contains(version) {
             return "\(baseUrl)/\(version)"
         }

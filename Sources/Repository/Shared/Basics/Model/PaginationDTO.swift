@@ -12,8 +12,9 @@ public protocol PaginationDTO {
     var previous: Any { get }
 }
 
-public extension PaginationDTO {
-    var hasNext: Bool {
+extension PaginationDTO {
+    @inlinable
+    public var hasNext: Bool {
         if case Optional<Any>.none = next {
             return false
         } else {
@@ -21,7 +22,8 @@ public extension PaginationDTO {
         }
     }
 
-    var hasPrevious: Bool {
+    @inlinable
+    public var hasPrevious: Bool {
         if case Optional<Any>.none = previous {
             return false
         } else {

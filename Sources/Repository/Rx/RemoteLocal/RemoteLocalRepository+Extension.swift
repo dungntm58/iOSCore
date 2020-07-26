@@ -7,8 +7,9 @@
 
 import RxSwift
 
-public extension RemoteLocalListRepository {
-    func getList(options: FetchOptions?) -> Observable<ListDTO<T>> {
+extension RemoteLocalListRepository {
+    @inlinable
+    public func getList(options: FetchOptions?) -> Observable<ListDTO<T>> {
         var remote: Observable<ListDTO<T>> = listRequest
             .getList(options: options?.requestOptions)
             .filter { $0.results != nil }
@@ -48,8 +49,9 @@ public extension RemoteLocalListRepository {
     }
 }
 
-public extension RemoteLocalSingleRepository {
-    func create(_ value: T, options: FetchOptions?) -> Observable<T> {
+extension RemoteLocalSingleRepository {
+    @inlinable
+    public func create(_ value: T, options: FetchOptions?) -> Observable<T> {
         #if swift(>=5.2)
         return singleRequest
             .create(value, options: options?.requestOptions)
@@ -63,7 +65,8 @@ public extension RemoteLocalSingleRepository {
         #endif
     }
 
-    func update(_ value: T, options: FetchOptions?) -> Observable<T> {
+    @inlinable
+    public func update(_ value: T, options: FetchOptions?) -> Observable<T> {
         #if swift(>=5.2)
         return singleRequest
             .update(value, options: options?.requestOptions)
@@ -78,15 +81,17 @@ public extension RemoteLocalSingleRepository {
         
     }
 
-    func delete(_ value: T, options: FetchOptions?) -> Observable<Void> {
+    @inlinable
+    public func delete(_ value: T, options: FetchOptions?) -> Observable<Void> {
         let cacheObservable = store.deleteAsync(value)
         let remote = singleRequest.delete(value, options: options?.requestOptions)
         return .zip(remote, cacheObservable) { _,_ in }
     }
 }
 
-public extension RemoteLocalIdentifiableSingleRepository {
-    func get(id: T.ID, options: FetchOptions?) -> Observable<T> {
+extension RemoteLocalIdentifiableSingleRepository {
+    @inlinable
+    public func get(id: T.ID, options: FetchOptions?) -> Observable<T> {
         #if swift(>=5.2)
         let remote = singleRequest
             .get(id: id, options: options?.requestOptions)
@@ -113,15 +118,17 @@ public extension RemoteLocalIdentifiableSingleRepository {
         }
     }
 
-    func delete(id: T.ID, options: FetchOptions?) -> Observable<Void> {
+    @inlinable
+    public func delete(id: T.ID, options: FetchOptions?) -> Observable<Void> {
         let cacheObservable = store.deleteAsync(id, options: options?.storeFetchOptions)
         let remote = singleRequest.delete(id: id, options: options?.requestOptions)
         return .zip(remote, cacheObservable) { _, _ in }
     }
 }
 
-public extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
-    func refreshIfNeeded(_ list: ListDTO<T>, optionsGenerator: (T.ID) -> FetchOptions?) -> Observable<ListDTO<T>> {
+extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
+    @inlinable
+    public func refreshIfNeeded(_ list: ListDTO<T>, optionsGenerator: (T.ID) -> FetchOptions?) -> Observable<ListDTO<T>> {
         if list.data.filter({ !$0.isValid }).isEmpty {
             return .from(optional: list)
         }

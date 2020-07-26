@@ -6,7 +6,7 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
-public protocol RemoteListRepository: ListModelRepository  where ListRequest.Response.ValueType == T {
+public protocol RemoteListRepository: ListModelRepository where ListRequest.Response.ValueType == T {
     associatedtype ListRequest: ListModelHTTPRequest
 
     var listRequest: ListRequest { get }

@@ -21,10 +21,15 @@ public protocol RequestAPI {
     var acceptableStatusCodes: [Int] { get }
 }
 
-public extension RequestAPI {
-    var cachePolicy: URLRequest.CachePolicy { .useProtocolCachePolicy }
-    var cacheTimeoutInterval: TimeInterval { 0 }
-    var extraParams: Parameters? { nil }
-    var extraHeaders: HTTPHeaders? { nil }
-    var encoding: ParameterEncoding { URLEncoding.default }
+extension RequestAPI {
+    @inlinable
+    public var cachePolicy: URLRequest.CachePolicy { .useProtocolCachePolicy }
+    @inlinable
+    public var cacheTimeoutInterval: TimeInterval { 0 }
+    @inlinable
+    public var extraParams: Parameters? { nil }
+    @inlinable
+    public var extraHeaders: HTTPHeaders? { nil }
+    @inlinable
+    public var encoding: ParameterEncoding { URLEncoding.default }
 }

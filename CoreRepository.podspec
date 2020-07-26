@@ -58,7 +58,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   end
 
   s.subspec 'RemoteCombine' do |ss|
-    ss.source_files = 'Sources/Repository/Combine/Remote/**/*'
+    ss.source_files = 'Sources/Repository/Shared/Remote/**/*', 'Sources/Repository/Combine/Remote/**/*'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
     ss.dependency 'CoreRepository/BasicsCombine'
@@ -66,7 +66,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   end
 
   s.subspec 'LocalCombine' do |ss|
-    ss.source_files = 'Sources/Repository/Combine/Local/**/*'
+    ss.source_files = 'Sources/Repository/Shared/Local/**/*', 'Sources/Repository/Combine/Local/**/*'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
     ss.dependency 'CoreRepository/BasicsCombine'
@@ -74,7 +74,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   end
 
   s.subspec 'RemoteLocalCombine' do |ss|
-    ss.source_files = 'Sources/Repository/Combine/RemoteLocal/**/*'
+    ss.source_files = 'Sources/Repository/Shared/RemoteLocal/**/*', 'Sources/Repository/Combine/RemoteLocal/**/*'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
     ss.dependency 'CoreRepository/RemoteCombine'
@@ -102,21 +102,21 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   end
 
   s.subspec 'RemoteRx' do |ss|
-    ss.source_files = 'Sources/Repository/Rx/Remote/**/*'
+    ss.source_files = 'Sources/Repository/Shared/Remote/**/*', 'Sources/Repository/Rx/Remote/**/*'
     ss.ios.deployment_target = '10.0'
     ss.dependency 'CoreRepository/BasicsRx'
     ss.dependency 'CoreRepository/RequestRx'
   end
 
   s.subspec 'LocalRx' do |ss|
-    ss.source_files = 'Sources/Repository/Rx/Local/**/*'
+    ss.source_files = 'Sources/Repository/Shared/Local/**/*', 'Sources/Repository/Rx/Local/**/*'
     ss.ios.deployment_target = '10.0'
     ss.dependency 'CoreRepository/BasicsRx'
     ss.dependency 'CoreRepository/DataStoreRx'
   end
 
   s.subspec 'RemoteLocalRx' do |ss|
-    ss.source_files = 'Sources/Repository/Rx/RemoteLocal/**/*'
+    ss.source_files = 'Sources/Repository/Shared/RemoteLocal/**/*', 'Sources/Repository/Rx/RemoteLocal/**/*'
     ss.ios.deployment_target = '10.0'
     ss.dependency 'CoreRepository/RemoteRx'
     ss.dependency 'CoreRepository/LocalRx'

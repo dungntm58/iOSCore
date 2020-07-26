@@ -7,8 +7,9 @@
 
 import RxSwift
 
-public extension RemoteListRepository {
-    func getList(options: FetchOptions?) -> Observable<ListDTO<T>> {
+extension RemoteListRepository {
+    @inlinable
+    public func getList(options: FetchOptions?) -> Observable<ListDTO<T>> {
         var remote: Observable<ListDTO<T>> = listRequest
             .getList(options: options?.requestOptions)
             .map(ListDTO.init)
@@ -21,8 +22,9 @@ public extension RemoteListRepository {
     }
 }
 
-public extension RemoteSingleRepository {
-    func create(_ value: T, options: FetchOptions?) -> Observable<T> {
+extension RemoteSingleRepository {
+    @inlinable
+    public func create(_ value: T, options: FetchOptions?) -> Observable<T> {
         #if swift(>=5.2)
         return singleRequest
             .create(value, options: options?.requestOptions)
@@ -34,7 +36,8 @@ public extension RemoteSingleRepository {
         #endif
     }
 
-    func update(_ value: T, options: FetchOptions?) -> Observable<T> {
+    @inlinable
+    public func update(_ value: T, options: FetchOptions?) -> Observable<T> {
         #if swift(>=5.2)
         return singleRequest
             .update(value, options: options?.requestOptions)
@@ -46,15 +49,17 @@ public extension RemoteSingleRepository {
         #endif
     }
 
-    func delete(_ value: T, options: FetchOptions?) -> Observable<Void> {
+    @inlinable
+    public func delete(_ value: T, options: FetchOptions?) -> Observable<Void> {
         singleRequest
             .delete(value, options: options?.requestOptions)
             .mapToVoid()
     }
 }
 
-public extension RemoteIdentifiableSingleRepository {
-    func get(id: T.ID, options: FetchOptions?) -> Observable<T> {
+extension RemoteIdentifiableSingleRepository {
+    @inlinable
+    public func get(id: T.ID, options: FetchOptions?) -> Observable<T> {
         #if swift(>=5.2)
         return singleRequest
             .get(id: id, options: options?.requestOptions)
@@ -67,7 +72,8 @@ public extension RemoteIdentifiableSingleRepository {
         
     }
 
-    func delete(id: T.ID, options: FetchOptions?) -> Observable<Void> {
+    @inlinable
+    public func delete(id: T.ID, options: FetchOptions?) -> Observable<Void> {
         singleRequest
             .delete(id: id, options: options?.requestOptions)
             .mapToVoid()

@@ -7,8 +7,9 @@
 
 import Combine
 
-public extension RemoteLocalListRepository {
-    func getList(options: FetchOptions?) -> AnyPublisher<ListDTO<T>, Error> {
+extension RemoteLocalListRepository {
+    @inlinable
+    public func getList(options: FetchOptions?) -> AnyPublisher<ListDTO<T>, Error> {
         #if !RELEASE && !PRODUCTION
         let remote = listRequest
             .getList(options: options?.requestOptions)
@@ -70,8 +71,9 @@ public extension RemoteLocalListRepository {
     }
 }
 
-public extension RemoteLocalSingleRepository {
-    func create(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
+extension RemoteLocalSingleRepository {
+    @inlinable
+    public func create(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
         singleRequest
             .create(value, options: options?.requestOptions)
             .compactMap(\.result)
@@ -79,7 +81,8 @@ public extension RemoteLocalSingleRepository {
             .eraseToAnyPublisher()
     }
 
-    func update(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
+    @inlinable
+    public func update(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
         singleRequest
             .update(value, options: options?.requestOptions)
             .compactMap(\.result)
@@ -87,7 +90,8 @@ public extension RemoteLocalSingleRepository {
             .eraseToAnyPublisher()
     }
 
-    func delete(_ value: T, options: FetchOptions?) -> AnyPublisher<Void, Error> {
+    @inlinable
+    public func delete(_ value: T, options: FetchOptions?) -> AnyPublisher<Void, Error> {
         let cacheObservable = store.deleteAsync(value)
         let remote = singleRequest.delete(value, options: options?.requestOptions)
         return remote
@@ -96,8 +100,9 @@ public extension RemoteLocalSingleRepository {
     }
 }
 
-public extension RemoteLocalIdentifiableSingleRepository {
-    func get(id: T.ID, options: FetchOptions?) -> AnyPublisher<T, Error> {
+extension RemoteLocalIdentifiableSingleRepository {
+    @inlinable
+    public func get(id: T.ID, options: FetchOptions?) -> AnyPublisher<T, Error> {
         let remote = singleRequest
             .get(id: id, options: options?.requestOptions)
             .compactMap(\.result)
@@ -121,15 +126,17 @@ public extension RemoteLocalIdentifiableSingleRepository {
         }
     }
 
-    func delete(id: T.ID, options: FetchOptions?) -> AnyPublisher<Void, Error> {
+    @inlinable
+    public func delete(id: T.ID, options: FetchOptions?) -> AnyPublisher<Void, Error> {
         let cacheObservable = store.deleteAsync(id, options: options?.storeFetchOptions)
         let remote = singleRequest.delete(id: id, options: options?.requestOptions)
         return remote.zip(cacheObservable) { _, _ in () }.eraseToAnyPublisher()
     }
 }
 
-public extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
-    func refreshIfNeeded(_ list: ListDTO<T>, optionsGenerator: (T.ID) -> FetchOptions?) -> AnyPublisher<ListDTO<T>, Error> {
+extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
+    @inlinable
+    public func refreshIfNeeded(_ list: ListDTO<T>, optionsGenerator: (T.ID) -> FetchOptions?) -> AnyPublisher<ListDTO<T>, Error> {
         if list.data.filter({ !$0.isValid }).isEmpty {
             return Future<ListDTO<T>, Error> { $0(.success(list)) }
                 .eraseToAnyPublisher()

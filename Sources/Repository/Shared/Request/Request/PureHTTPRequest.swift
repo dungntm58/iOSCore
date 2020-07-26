@@ -33,8 +33,9 @@ public extension PureHTTPRequest {
 }
 
 // MARK: - Convenience
-public extension PureHTTPRequest {
-    func makeRequest(api: API, options: RequestOption?) throws -> URLRequestConvertible {
+extension PureHTTPRequest {
+    @inlinable
+    public func makeRequest(api: API, options: RequestOption?) throws -> URLRequestConvertible {
         var headers = defaultHeaders
         if let extraHeaders = api.extraHeaders {
             if let _headers = headers {

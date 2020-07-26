@@ -7,8 +7,9 @@
 
 import Combine
 
-public extension LocalListRepository {
-    func getList(options: FetchOptions?) -> AnyPublisher<ListDTO<T>, Error> {
+extension LocalListRepository {
+    @inlinable
+    public func getList(options: FetchOptions?) -> AnyPublisher<ListDTO<T>, Error> {
         guard let storeFetchOptions = options?.storeFetchOptions else {
             assertionFailure("DataStore options must be set")
             return Empty().eraseToAnyPublisher()
@@ -17,26 +18,31 @@ public extension LocalListRepository {
     }
 }
 
-public extension LocalSingleRepository {
-    func create(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
+extension LocalSingleRepository {
+    @inlinable
+    public func create(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
         store.saveAsync(value)
     }
 
-    func update(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
+    @inlinable
+    public func update(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
         store.saveAsync(value)
     }
 
-    func delete(_ value: T, options: FetchOptions?) -> AnyPublisher<Void, Error> {
+    @inlinable
+    public func delete(_ value: T, options: FetchOptions?) -> AnyPublisher<Void, Error> {
         store.deleteAsync(value)
     }
 }
 
-public extension LocalIdentifiableSingleRepository {
-    func get(id: T.ID, options: FetchOptions?) -> AnyPublisher<T, Error> {
+extension LocalIdentifiableSingleRepository {
+    @inlinable
+    public func get(id: T.ID, options: FetchOptions?) -> AnyPublisher<T, Error> {
         store.getAsync(id, options: options?.storeFetchOptions)
     }
 
-    func delete(id: T.ID, options: FetchOptions?) -> AnyPublisher<Void, Error> {
+    @inlinable
+    public func delete(id: T.ID, options: FetchOptions?) -> AnyPublisher<Void, Error> {
         store.deleteAsync(id, options: options?.storeFetchOptions)
     }
 }

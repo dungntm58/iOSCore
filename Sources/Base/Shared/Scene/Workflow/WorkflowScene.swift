@@ -7,6 +7,7 @@
 
 import Foundation
 
+@frozen
 public enum WorkflowSceneStepAction {
     case switchToNewScene(scene: Scenable)
     case performChild(index: Int)
@@ -22,6 +23,7 @@ public enum WorkflowSceneStepAction {
 public protocol WorkflowSceneStepping: WorkflowStepping where WorkflowStepAction == WorkflowSceneStepAction {}
 
 extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowSceneStepAction {
+    @inlinable
     public func perform(action: WorkflowStepAction, with userInfo: Any?) {
         switch action {
         case .switchToNewScene(let scene):

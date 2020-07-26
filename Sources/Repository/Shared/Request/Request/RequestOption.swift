@@ -33,6 +33,7 @@ public protocol FileUpload {
     var size: UInt64 { get }
 }
 
+@frozen
 public enum UploadRequestOptionType {
     case data(_ data: Data)
     case fileURL(_ url: URL)

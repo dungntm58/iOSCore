@@ -7,10 +7,12 @@
 
 import Combine
 
-public extension DataStore {
-    var ttl: TimeInterval { 0 }
+extension DataStore {
+    @inlinable
+    public var ttl: TimeInterval { 0 }
 
-    func saveAsync(_ value: T) -> AnyPublisher<T, Error> {
+    @inlinable
+    public func saveAsync(_ value: T) -> AnyPublisher<T, Error> {
         Deferred {
             Future {
                 promise in
@@ -27,7 +29,8 @@ public extension DataStore {
         }.eraseToAnyPublisher()
     }
 
-    func saveAsync(_ values: [T]) -> AnyPublisher<[T], Error> {
+    @inlinable
+    public func saveAsync(_ values: [T]) -> AnyPublisher<[T], Error> {
         Deferred {
             Future {
                 promise in
@@ -44,7 +47,8 @@ public extension DataStore {
         }.eraseToAnyPublisher()
     }
 
-    func deleteAsync(_ value: T) -> AnyPublisher<Void, Error> {
+    @inlinable
+    public func deleteAsync(_ value: T) -> AnyPublisher<Void, Error> {
         Deferred {
             Future {
                 promise in
@@ -61,7 +65,8 @@ public extension DataStore {
         }.eraseToAnyPublisher()
     }
 
-    func getListAsync(options: DataStoreFetchOption) -> AnyPublisher<ListDTO<T>, Error> {
+    @inlinable
+    public func getListAsync(options: DataStoreFetchOption) -> AnyPublisher<ListDTO<T>, Error> {
         Deferred {
             Future {
                 promise in
@@ -78,7 +83,8 @@ public extension DataStore {
         }.eraseToAnyPublisher()
     }
 
-    func eraseAsync() -> AnyPublisher<Void, Error> {
+    @inlinable
+    public func eraseAsync() -> AnyPublisher<Void, Error> {
         Deferred {
             Future {
                 promise in
@@ -96,15 +102,17 @@ public extension DataStore {
     }
 }
 
-public extension IdentifiableDataStore {
-    func deleteSync(_ id: T.ID, options: DataStoreFetchOption?) throws {
+extension IdentifiableDataStore {
+    @inlinable
+    public func deleteSync(_ id: T.ID, options: DataStoreFetchOption?) throws {
         guard let value = try? getSync(id, options: options) else {
             return
         }
         try deleteSync(value)
     }
 
-    func getAsync(_ id: T.ID, options: DataStoreFetchOption?) -> AnyPublisher<T, Error> {
+    @inlinable
+    public func getAsync(_ id: T.ID, options: DataStoreFetchOption?) -> AnyPublisher<T, Error> {
         Deferred {
             Future {
                 promise in
@@ -121,7 +129,8 @@ public extension IdentifiableDataStore {
         }.eraseToAnyPublisher()
     }
 
-    func deleteAsync(_ id: T.ID, options: DataStoreFetchOption?) -> AnyPublisher<Void, Error> {
+    @inlinable
+    public func deleteAsync(_ id: T.ID, options: DataStoreFetchOption?) -> AnyPublisher<Void, Error> {
         Deferred {
             Future {
                 promise in

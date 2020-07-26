@@ -129,7 +129,7 @@ SPEC CHECKSUMS:
   CoreList: 7e2e079bd1f47c244e0d27943c64014964d40599
   CoreRealmDataStore: d36340a67081600841019e0f08adb27a7b072612
   CoreRedux: dc70e5d0e84e40e30990a2bb70ab637d18237b65
-  CoreRepository: 52b66b7b4a766ec0d15a0fab9cb79dab3b7aa996
+  CoreRepository: f9f530e6486932d6228522e3ba0819deaa875e0f
   DifferenceKit: 516f12e336ed65a3a0665847b5c3cb5cad4bd4ea
   "NSObject+Rx": fa6bbcc1ab1faa06b01466bc09b1e0692bbc5946
   Realm: bdea546851e37b4cf0a2400cef115c7c26fda488

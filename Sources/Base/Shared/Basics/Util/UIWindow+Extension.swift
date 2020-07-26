@@ -6,8 +6,9 @@
 //  Copyright © 2018 Robert Nguyen. All rights reserved.
 //
 
-public extension UIWindow {
-    var topVisibleViewController: UIViewController? {
+extension UIWindow {
+    @inlinable
+    public var topVisibleViewController: UIViewController? {
         var base = rootViewController
         while base != nil {
             if let nav = base as? UINavigationController {
@@ -23,7 +24,8 @@ public extension UIWindow {
         return base
     }
 
-    func getPresentedViewController<T>(of type: T.Type) -> T? where T: UIViewController {
+    @inlinable
+    public func getPresentedViewController<T>(of type: T.Type) -> T? where T: UIViewController {
         var base = rootViewController
         while base != nil && !(base is T) {
             if let nav = base as? UINavigationController {
