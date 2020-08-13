@@ -54,7 +54,7 @@ extension PureHTTPRequest {
             }
         }
 
-        let urlString = "\(environment.config.defaultServerUrl)\(api.endPoint)"
+        let urlString = environment.config.defaultServerURL.appendingPathComponent(api.endPoint)
 
         #if !RELEASE && !PRODUCTION
         Swift.print("URL", urlString)
@@ -62,7 +62,7 @@ extension PureHTTPRequest {
         Swift.print("Params", requestParams ?? [:])
         #endif
 
-        let rawRequest = try URLRequest.init(url: urlString, method: api.method, headers: headers)
+        let rawRequest = try URLRequest(url: urlString, method: api.method, headers: headers)
         var request = try api.encoding.encode(rawRequest, with: requestParams)
         request.cachePolicy = api.cachePolicy
         request.timeoutInterval = api.cacheTimeoutInterval

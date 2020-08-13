@@ -28,7 +28,9 @@ public enum RepositoryOption {
     case `default`
 }
 
+@frozen
 public enum DataStoreFetchOption {
+    @frozen
     public enum Sorting {
         case asc(property: String)
         case desc(property: String)

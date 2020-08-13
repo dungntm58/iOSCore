@@ -45,7 +45,7 @@ enum AppEnvironment: RequestEnvironment {
 }
 
 extension AppEnvironment: RequestConfiguration {
-    var baseUrl: String { "https://uetcc-todo-app.herokuapp.com" }
+    var baseURL: URL { URL(string: "https://uetcc-todo-app.herokuapp.com")! }
     
     var versions: [String] { [] }
 }

@@ -45,7 +45,6 @@ extension PureHTTPRequest {
                 subscribe.onError(error)
             }
             return Disposables.create {
-                [weak dataRequest] in
                 dataRequest?.cancel()
             }
         }
@@ -82,7 +81,7 @@ extension PureHTTPRequest {
                                 multipartFormData.append(data, withName: key, fileName: fileUpload.fileName, mimeType: fileUpload.mimeType)
                             } else if let inputStream = fileUpload.inputStream {
                                 multipartFormData.append(inputStream, withLength: fileUpload.size, name: key, fileName: fileUpload.fileName, mimeType: fileUpload.mimeType)
-                            } else if let fileUrl = fileUpload.fileUrl {
+                            } else if let fileUrl = fileUpload.fileURL {
                                 multipartFormData.append(fileUrl, withName: key, fileName: fileUpload.fileName, mimeType: fileUpload.mimeType)
                             }
                         }
@@ -119,7 +118,6 @@ extension PureHTTPRequest {
                 subscribe.onError(error)
             }
             return Disposables.create {
-                [weak uploadRequest] in
                 uploadRequest?.cancel()
             }
         }
@@ -165,7 +163,6 @@ extension PureHTTPRequest {
                 subscribe.onError(error)
             }
             return Disposables.create {
-                [weak downloadRequest] in
                 downloadRequest?.cancel()
             }
         }

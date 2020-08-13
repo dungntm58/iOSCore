@@ -21,27 +21,30 @@ public protocol Request {
 }
 
 public protocol RequestConfiguration {
-    var baseUrl: String { get }
+    var baseURL: URL { get }
     var versions: [String] { get }
 }
 
 extension RequestConfiguration {
     @inlinable
-    public var defaultServerUrl: String {
+    public var defaultServerURL: URL {
         if let version = self.versions.last {
-            return "\(baseUrl)/\(version)"
+            return baseURL.appendingPathComponent(version)
         }
-        return baseUrl
+        return baseURL
     }
+
+    @inlinable
+    public var versions: [String] { [] }
 
     /**
      * Get the last server url
      */
     @inlinable
-    public func urlOf(version: String) -> String {
+    public func urlOf(version: String) -> URL {
         if versions.contains(version) {
-            return "\(baseUrl)/\(version)"
+            return baseURL.appendingPathComponent(version)
         }
-        return baseUrl
+        return baseURL
     }
 }

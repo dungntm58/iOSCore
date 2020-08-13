@@ -25,7 +25,7 @@ public protocol DownloadRequestOption: RequestOption, TrackingOption {
 }
 
 public protocol FileUpload {
-    var fileUrl: URL? { get }
+    var fileURL: URL? { get }
     var mimeType: String { get }
     var data: Data? { get }
     var fileName: String { get }
