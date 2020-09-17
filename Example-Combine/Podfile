@@ -9,7 +9,7 @@ abstract_target 'Abstract_Example' do
   pod 'CoreRepository/RemoteLocalCombine', :path => '../'
   pod 'CoreAPNS/Combine', :path => '../'
   pod 'SwiftDate'
-  pod 'Toaster'
+  pod 'Toaster', :git => 'https://github.com/devxoul/Toaster.git', :branch => 'master'
   pod 'Valet'
   
   target 'Example' do

@@ -74,7 +74,7 @@ PODS:
     - RxSwift (~> 5)
   - RxSwift (5.1.1)
   - SwiftDate (6.1.0)
-  - Toaster (2.2.0)
+  - Toaster (2.3.0)
   - Valet (4.1.0)
 
 DEPENDENCIES:
@@ -88,7 +88,7 @@ DEPENDENCIES:
   - CoreRedux/ListRx (from `../`)
   - CoreRepository (from `../`)
   - SwiftDate
-  - Toaster
+  - Toaster (from `https://github.com/devxoul/Toaster.git`, branch `master`)
   - Valet
 
 SPEC REPOS:
@@ -102,7 +102,6 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - SwiftDate
-    - Toaster
     - Valet
 
 EXTERNAL SOURCES:
@@ -120,6 +119,14 @@ EXTERNAL SOURCES:
     :path: "../"
   CoreRepository:
     :path: "../"
+  Toaster:
+    :branch: master
+    :git: https://github.com/devxoul/Toaster.git
+
+CHECKOUT OPTIONS:
+  Toaster:
+    :commit: aec54fc48d3d36279424103de0784c23862d19df
+    :git: https://github.com/devxoul/Toaster.git
 
 SPEC CHECKSUMS:
   Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
@@ -138,9 +145,9 @@ SPEC CHECKSUMS:
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SwiftDate: fa2bb3962056bb44047b4b85a30044e5eae30b03
-  Toaster: c1a81b376edcc2470157b4d1ee1e9341d3b96455
+  Toaster: 33d27524fb6829cdb6b247c924beab0cfa001b3e
   Valet: c306588a9c221d0c9b2b1370d575ac37cfec20fd
 
-PODFILE CHECKSUM: b897854da73cf17aeab9ee42a9175d0d9044a7cd
+PODFILE CHECKSUM: 69f17ba23677c16df27fdddea43d4bd00d60b31b
 
 COCOAPODS: 1.9.3

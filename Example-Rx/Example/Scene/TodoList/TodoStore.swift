@@ -29,15 +29,9 @@ class TodoStore: Store<TodoReducer.Action, TodoReducer.State> {
 }
 
 enum TodoActionType: String, ListActionType {
-    static var updateListState: TodoActionType { ._updateListState }
-    
-    static var load: TodoActionType { ._load }
-    
-    static var receiveError: TodoActionType { ._receiveError }
-    
-    case _updateListState
-    case _load
-    case _receiveError
+    case updateListState
+    case load
+    case receiveError
 
     case createTodo
     case selectTodo

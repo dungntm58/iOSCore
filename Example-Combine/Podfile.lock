@@ -44,7 +44,7 @@ PODS:
   - RealmSwift (4.4.1):
     - Realm (= 4.4.1)
   - SwiftDate (6.1.0)
-  - Toaster (2.2.0)
+  - Toaster (2.3.0)
   - Valet (3.2.8)
 
 DEPENDENCIES:
@@ -58,7 +58,7 @@ DEPENDENCIES:
   - CoreRedux/ListCombine (from `../`)
   - CoreRepository/RemoteLocalCombine (from `../`)
   - SwiftDate
-  - Toaster
+  - Toaster (from `https://github.com/devxoul/Toaster.git`, branch `master`)
   - Valet
 
 SPEC REPOS:
@@ -68,7 +68,6 @@ SPEC REPOS:
     - Realm
     - RealmSwift
     - SwiftDate
-    - Toaster
     - Valet
 
 EXTERNAL SOURCES:
@@ -86,6 +85,14 @@ EXTERNAL SOURCES:
     :path: "../"
   CoreRepository:
     :path: "../"
+  Toaster:
+    :branch: master
+    :git: https://github.com/devxoul/Toaster.git
+
+CHECKOUT OPTIONS:
+  Toaster:
+    :commit: aec54fc48d3d36279424103de0784c23862d19df
+    :git: https://github.com/devxoul/Toaster.git
 
 SPEC CHECKSUMS:
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
@@ -100,9 +107,9 @@ SPEC CHECKSUMS:
   Realm: 4eb04d7487bd43c0581256f40b424eafb711deff
   RealmSwift: 3eb8924ff7100df5928c7602f71d0fec51e7c9c5
   SwiftDate: fa2bb3962056bb44047b4b85a30044e5eae30b03
-  Toaster: c1a81b376edcc2470157b4d1ee1e9341d3b96455
+  Toaster: 33d27524fb6829cdb6b247c924beab0cfa001b3e
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
-PODFILE CHECKSUM: 2294456aa346a9f86bc8d6e6afe393189ef55fef
+PODFILE CHECKSUM: f31d52eee6d4c600df13b84a9ddb223da89a4b7f
 
 COCOAPODS: 1.9.3

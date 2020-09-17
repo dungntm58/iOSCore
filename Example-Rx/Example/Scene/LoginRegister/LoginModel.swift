@@ -10,12 +10,10 @@ import CoreRedux
 
 enum Login {
     enum LoginActionType: ErrorActionType {
-        static var receiveError: LoginActionType { ._error }
-        
         case login
         case register
         case success
-        case _error
+        case receiveError
     }
     
     struct Action: Actionable {
