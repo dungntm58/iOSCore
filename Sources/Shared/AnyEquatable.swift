@@ -9,7 +9,7 @@ import Foundation
 
 public struct AnyEquatable {
     private let box: AnyEquatableBox
-    public var base: Any { box.base }
+    var base: Any { box.base }
 
     @usableFromInline
     init<E>(_ equatable: E) where E: Equatable {
