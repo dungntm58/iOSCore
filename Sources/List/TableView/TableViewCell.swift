@@ -175,6 +175,80 @@ extension TableView {
             didEndDisplayingHandler?(view, indexPath)
         }
     }
+
+    @frozen
+    public struct NestedListCell<ID, Model, View>: TableViewCell, TableViewCellBlock where ID: Hashable, Model: NestedChildListModel & Equatable, View: NestedListViewCell & UITableViewCell {
+        public let id: ID
+        public let type: CellType
+        public let reuseIdentifier: String
+        internal(set) public var height: CGFloat
+        public let model: Model?
+        @usableFromInline
+        var bindingFunction: BindingFunction?
+        @usableFromInline
+        var willDisplayHandler: IndexPathInteractiveHandler?
+        @usableFromInline
+        var didEndDisplayingHandler: IndexPathInteractiveHandler?
+
+        public init(id: ID, type: CellType, reuseIdentifier: String? = nil, model: Model?) {
+            self.id = id
+            self.type = type
+            self.reuseIdentifier = reuseIdentifier ?? type.identifier
+            self.height = UITableView.automaticDimension
+            self.model = model
+        }
+
+        public func height(_ height: CGFloat) -> Self {
+            var other = self
+            other.height = height
+            return other
+        }
+
+        @inlinable
+        public func bind(_ bindingFunction: BindingFunction?) -> Self {
+            var other = self
+            other.bindingFunction = bindingFunction
+            return other
+        }
+
+        @inlinable
+        public func willDisplayHandler(_ willDisplayHandler: IndexPathInteractiveHandler?) -> Self {
+            var other = self
+            other.willDisplayHandler = willDisplayHandler
+            return other
+        }
+
+        @inlinable
+        public func didEndDisplayingHandler(_ didEndDisplayingHandler: IndexPathInteractiveHandler?) -> Self {
+            var other = self
+            other.didEndDisplayingHandler = didEndDisplayingHandler
+            return other
+        }
+
+        @inlinable
+        public func handlers(bindingFunction: BindingFunction? = nil, willDisplayHandler: IndexPathInteractiveHandler? = nil, didEndDisplayingHandler: IndexPathInteractiveHandler? = nil) -> Self {
+            var other = self
+            other.bindingFunction = bindingFunction
+            other.willDisplayHandler = willDisplayHandler
+            other.didEndDisplayingHandler = didEndDisplayingHandler
+            return other
+        }
+
+        @inlinable
+        public func bind(model: Model?, to view: View, at indexPath: IndexPath) {
+            bindingFunction?(model, view, indexPath)
+        }
+
+        @inlinable
+        public func willDisplay(view: View, at indexPath: IndexPath) {
+            willDisplayHandler?(view, indexPath)
+        }
+
+        @inlinable
+        public func didEndDisplaying(view: View, at indexPath: IndexPath) {
+            didEndDisplayingHandler?(view, indexPath)
+        }
+    }
 }
 
 extension TableView.Cell where ID == UniqueIdentifier {

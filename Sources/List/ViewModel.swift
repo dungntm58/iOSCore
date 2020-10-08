@@ -30,3 +30,13 @@ public struct UniqueIdentifier: Hashable {
 }
 
 public struct LoadingIdentifier: Hashable {}
+
+public protocol NestedChildListModel: ViewModelItem {
+    associatedtype ListModel: Sequence where ListModel: Equatable
+
+    var list: ListModel { get }
+}
+
+public protocol NestedListViewCell {
+    var collectionView: UICollectionView? { get }
+}

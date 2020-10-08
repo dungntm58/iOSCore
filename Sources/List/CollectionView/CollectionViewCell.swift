@@ -204,6 +204,95 @@ extension CollectionView {
             didEndDisplayingHandler?(view, indexPath)
         }
     }
+
+    @frozen
+    public struct NestedListCell<ID, Model, View>: CollectionViewCell, CollectionViewCellBlock where ID: Hashable, Model: NestedChildListModel & Equatable, View: NestedListViewCell & UICollectionViewCell {
+        public var id: ID
+        public let type: CellType
+        public let reuseIdentifier: String
+        public let model: Model?
+        internal(set) public var hasFixedSize: Bool
+        @usableFromInline
+        var bindingFunction: BindingFunction?
+        @usableFromInline
+        var sizeEstimationHandler: SizeEstimationHandler?
+        @usableFromInline
+        var willDisplayHandler: IndexPathInteractiveHandler?
+        @usableFromInline
+        var didEndDisplayingHandler: IndexPathInteractiveHandler?
+
+        public init(id: ID, type: CellType, reuseIdentifier: String? = nil, model: Model?) {
+            self.id = id
+            self.type = type
+            self.reuseIdentifier = reuseIdentifier ?? type.identifier
+            self.model = model
+            self.hasFixedSize = true
+        }
+
+        public func hasFixedSize(_ hasFixedSize: Bool) -> Self {
+            var other = self
+            other.hasFixedSize = hasFixedSize
+            return other
+        }
+
+        @inlinable
+        public func bind(_ bindingFunction: BindingFunction?) -> Self {
+            var other = self
+            other.bindingFunction = bindingFunction
+            return other
+        }
+
+        @inlinable
+        public func sizeEstimationHandler(_ sizeEstimationHandler: SizeEstimationHandler?) -> Self {
+            var other = self
+            other.sizeEstimationHandler = sizeEstimationHandler
+            return other
+        }
+
+        @inlinable
+        public func willDisplayHandler(_ willDisplayHandler: IndexPathInteractiveHandler?) -> Self {
+            var other = self
+            other.willDisplayHandler = willDisplayHandler
+            return other
+        }
+
+        @inlinable
+        public func didEndDisplayingHandler(_ didEndDisplayingHandler: IndexPathInteractiveHandler?) -> Self {
+            var other = self
+            other.didEndDisplayingHandler = didEndDisplayingHandler
+            return other
+        }
+
+        @inlinable
+        public func handlers(bindingFunction: BindingFunction? = nil, sizeEstimationHandler: SizeEstimationHandler? = nil, willDisplayHandler: IndexPathInteractiveHandler? = nil, didEndDisplayingHandler: IndexPathInteractiveHandler? = nil) -> Self {
+            var other = self
+            other.bindingFunction = bindingFunction
+            other.sizeEstimationHandler = sizeEstimationHandler
+            other.willDisplayHandler = willDisplayHandler
+            other.didEndDisplayingHandler = didEndDisplayingHandler
+            return other
+        }
+
+        @inlinable
+        public func bind(model: Model?, to view: View, at indexPath: IndexPath) {
+            bindingFunction?(model, view, indexPath)
+        }
+
+        @inlinable
+        public func estimateSize(in view: View, collectionView: UICollectionView) -> CGSize {
+            sizeEstimationHandler?(view, collectionView) ?? (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize ?? view.intrinsicContentSize
+        }
+
+        @inlinable
+        public func willDisplay(view: View, at indexPath: IndexPath) {
+            willDisplayHandler?(view, indexPath)
+        }
+
+        @inlinable
+        public func didEndDisplaying(view: View, at indexPath: IndexPath) {
+            didEndDisplayingHandler?(view, indexPath)
+        }
+    }
 }
 
 extension CollectionView.Cell where ID == UniqueIdentifier {
