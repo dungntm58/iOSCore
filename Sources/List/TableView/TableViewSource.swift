@@ -18,9 +18,8 @@ extension TableView {
         public typealias PrototypeSectionGenerateFunction = (UITableView, Store) -> TableViewCellBlock
         public typealias RowAnimation = UITableView.RowAnimation
 
-        private var _sectionsGenerator: PrototypeSectionBlockGenerateFunction?
-        private var _cellsGenerator: PrototypeSectionGenerateFunction?
-        private weak var _tableView: UITableView?
+        private var sectionsGenerator: PrototypeSectionBlockGenerateFunction
+        private weak var tableView: UITableView?
 
         private var viewHashValue: Int {
             willSet {
@@ -36,21 +35,10 @@ extension TableView {
             if let generator = DI.generator[viewHashValue] as? PrototypeGenerator {
                 return generator
             }
-            if let generatorFunction = _sectionsGenerator {
-                let generator = PrototypeGenerator(tableView: _tableView, store: store, generator: generatorFunction)
-                self._tableView = nil
-                self._sectionsGenerator = nil
-                DI.generator[viewHashValue] = generator
-                return generator
-            }
-            if let generatorFunction = _cellsGenerator {
-                let generator = PrototypeGenerator(tableView: _tableView, store: store, generator: generatorFunction)
-                self._tableView = nil
-                self._cellsGenerator = nil
-                DI.generator[viewHashValue] = generator
-                return generator
-            }
-            neverOccur()
+            let generator = PrototypeGenerator(tableView: tableView, store: store, generator: sectionsGenerator)
+            self.tableView = nil
+            DI.generator[viewHashValue] = generator
+            return generator
         }
 
         deinit {
@@ -58,8 +46,8 @@ extension TableView {
         }
 
         public init(tableView: UITableView, store: Store, @SectionBlockBuilder generator: @escaping PrototypeSectionBlockGenerateFunction) {
-            self._sectionsGenerator = generator
-            self._tableView = tableView
+            self.sectionsGenerator = generator
+            self.tableView = tableView
             self.viewHashValue = tableView.hashValue
             self.store = store
             tableView.delegate = adapter
@@ -67,8 +55,12 @@ extension TableView {
         }
 
         public init(tableView: UITableView, store: Store, @CellBlockBuilder generator: @escaping PrototypeSectionGenerateFunction) {
-            self._cellsGenerator = generator
-            self._tableView = tableView
+            self.sectionsGenerator = { tableView, store in
+                TableView.Section {
+                    generator(tableView, store)
+                }
+            }
+            self.tableView = tableView
             self.viewHashValue = tableView.hashValue
             self.store = store
             tableView.delegate = adapter
@@ -262,26 +254,12 @@ private extension TableView.ViewSourceProvider {
     final class PrototypeGenerator {
         var store: Store
         weak var tableView: UITableView?
-        var sectionsGenerator: PrototypeSectionBlockGenerateFunction?
-        var cellsGenerator: PrototypeSectionGenerateFunction?
-
-        deinit {
-            sectionsGenerator = nil
-            cellsGenerator = nil
-        }
+        let sectionsGenerator: PrototypeSectionBlockGenerateFunction
 
         init(tableView: UITableView?, store: Store, generator: @escaping PrototypeSectionBlockGenerateFunction) {
             self.store = store
             self.tableView = tableView
             self.sectionsGenerator = generator
-            self.cellsGenerator = nil
-        }
-
-        init(tableView: UITableView?, store: Store, generator: @escaping PrototypeSectionGenerateFunction) {
-            self.store = store
-            self.tableView = tableView
-            self.sectionsGenerator = nil
-            self.cellsGenerator = generator
         }
 
         @inlinable
@@ -289,15 +267,7 @@ private extension TableView.ViewSourceProvider {
             guard let tableView = tableView else {
                 return TableView.Section()
             }
-            if let generator = sectionsGenerator {
-                return generator(tableView, store)
-            }
-            if let generator = cellsGenerator {
-                return TableView.Section() {
-                    generator(tableView, store)
-                }
-            }
-            return TableView.Section()
+            return sectionsGenerator(tableView, store)
         }
     }
 }

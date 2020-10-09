@@ -19,9 +19,8 @@ extension CollectionView {
         public typealias PrototypeSectionBlockGenerateFunction = (UICollectionView, Store) -> CollectionViewSectionBlock
         public typealias PrototypeSectionGenerateFunction = (UICollectionView, Store) -> CollectionViewCellBlock
 
-        private var _sectionsGenerator: PrototypeSectionBlockGenerateFunction?
-        private var _cellsGenerator: PrototypeSectionGenerateFunction?
-        private weak var _collectionView: UICollectionView?
+        private let sectionsGenerator: PrototypeSectionBlockGenerateFunction
+        private weak var collectionView: UICollectionView?
 
         private var viewHashValue: Int {
             willSet {
@@ -37,21 +36,10 @@ extension CollectionView {
             if let generator = DI.generator[viewHashValue] as? PrototypeGenerator {
                 return generator
             }
-            if let generatorFunction = _sectionsGenerator {
-                let generator = PrototypeGenerator(collectionView: _collectionView, store: store, generator: generatorFunction)
-                self._collectionView = nil
-                self._sectionsGenerator = nil
-                DI.generator[viewHashValue] = generator
-                return generator
-            }
-            if let generatorFunction = _cellsGenerator {
-                let generator = PrototypeGenerator(collectionView: _collectionView, store: store, generator: generatorFunction)
-                self._collectionView = nil
-                self._cellsGenerator = nil
-                DI.generator[viewHashValue] = generator
-                return generator
-            }
-            neverOccur()
+            let generator = PrototypeGenerator(collectionView: collectionView, store: store, generator: sectionsGenerator)
+            self.collectionView = nil
+            DI.generator[viewHashValue] = generator
+            return generator
         }
 
         deinit {
@@ -59,8 +47,8 @@ extension CollectionView {
         }
 
         public init(collectionView: UICollectionView, store: Store, @SectionBlockBuilder generator: @escaping PrototypeSectionBlockGenerateFunction) {
-            self._sectionsGenerator = generator
-            self._collectionView = collectionView
+            self.sectionsGenerator = generator
+            self.collectionView = collectionView
             self.viewHashValue = collectionView.hashValue
             self.store = store
             collectionView.delegate = adapter
@@ -68,8 +56,12 @@ extension CollectionView {
         }
 
         public init(collectionView: UICollectionView, store: Store, @CellBlockBuilder generator: @escaping PrototypeSectionGenerateFunction) {
-            self._cellsGenerator = generator
-            self._collectionView = collectionView
+            self.sectionsGenerator = { collectionView, store in
+                CollectionView.Section {
+                    generator(collectionView, store)
+                }
+            }
+            self.collectionView = collectionView
             self.viewHashValue = collectionView.hashValue
             self.store = store
             collectionView.delegate = adapter
@@ -265,26 +257,12 @@ private extension CollectionView.ViewSourceProvider {
     final class PrototypeGenerator {
         var store: Store
         weak var collectionView: UICollectionView?
-        var sectionsGenerator: PrototypeSectionBlockGenerateFunction?
-        var cellsGenerator: PrototypeSectionGenerateFunction?
-
-        deinit {
-            sectionsGenerator = nil
-            cellsGenerator = nil
-        }
+        let sectionsGenerator: PrototypeSectionBlockGenerateFunction
 
         init(collectionView: UICollectionView?, store: Store, generator: @escaping PrototypeSectionBlockGenerateFunction) {
             self.collectionView = collectionView
             self.store = store
             self.sectionsGenerator = generator
-            self.cellsGenerator = nil
-        }
-
-        init(collectionView: UICollectionView?, store: Store, generator: @escaping PrototypeSectionGenerateFunction) {
-            self.collectionView = collectionView
-            self.store = store
-            self.sectionsGenerator = nil
-            self.cellsGenerator = generator
         }
 
         @inlinable
@@ -292,15 +270,7 @@ private extension CollectionView.ViewSourceProvider {
             guard let collectionView = collectionView else {
                 return CollectionView.Section()
             }
-            if let generator = sectionsGenerator {
-                return generator(collectionView, store)
-            }
-            if let generator = cellsGenerator {
-                return CollectionView.Section() {
-                    generator(collectionView, store)
-                }
-            }
-            return CollectionView.Section()
+            return sectionsGenerator(collectionView, store)
         }
     }
 }
