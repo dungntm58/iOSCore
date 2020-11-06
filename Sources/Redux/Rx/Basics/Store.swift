@@ -30,7 +30,7 @@ open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Act
         _state.asObservable().distinctUntilChanged()
     }
 
-    public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler = SerialDispatchQueueScheduler(qos: .default)) where Reducer: Reducable, Reducer.Action == Action, Reducer.State == State {
+    public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler = SerialDispatchQueueScheduler(qos: .default)) where Reducer: Reducible, Reducer.Action == Action, Reducer.State == State {
         self._state = .init(value: initialState)
         self._action = .init()
         self._derivedAction = .init()

@@ -7,14 +7,14 @@
 
 public typealias ReduceFunction<Action, State> = (_ action: Action, _ currentState: State) -> State where Action: Actionable, State: Stateable
 
-public protocol Reducable {
+public protocol Reducible {
     associatedtype State: Stateable
     associatedtype Action: Actionable
 
     func reduce(action: Action, currentState: State) -> State
 }
 
-public extension Reducable {
+public extension Reducible {
     func reduce(action: Action, currentState: State) -> State {
         currentState
     }
