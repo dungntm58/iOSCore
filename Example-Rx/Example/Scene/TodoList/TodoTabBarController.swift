@@ -62,8 +62,6 @@ class TodoTabBarController: UITabBarController {
                 self?.viewManager?.showTodoDetail()
             })
             .disposed(by: rx.disposeBag)
-        
-        store?.dispatch(type: .load, payload: Payload.List.Request(page: 1, cancelRunning: false))
     }
     
     @objc func showNewTodoAlert() {

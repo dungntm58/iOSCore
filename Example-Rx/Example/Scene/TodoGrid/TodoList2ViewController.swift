@@ -1,9 +1,9 @@
 //
-//  TodoListViewController.swift
+//  TodoList2ViewController.swift
 //  Core-CleanSwift-Example
 //
-//  Created by Robert Nguyễn on 9/9/18.
-//  Copyright © 2018 Robert Nguyễn. All rights reserved.
+//  Created by Robert Nguyen on 1/23/19.
+//  Copyright © 2019 Robert Nguyễn. All rights reserved.
 //
 
 import UIKit
@@ -13,17 +13,17 @@ import CoreList
 import SwiftDate
 import RxSwift
 
-class TodoListViewController: BaseViewController {
+class TodoList2ViewController: BaseViewController {
     
-    typealias TodoCell = TableView.Cell<Int, TodoEntity, TodoTableViewCell>
-    typealias LoadingCell = TableView.LoadingCell
+    typealias TodoCell = CollectionView.Cell<Int, TodoEntity, TodoCollectionViewCell>
+    typealias LoadingCell = CollectionView.LoadingCell
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     lazy var refreshControl = UIRefreshControl()
     
-    @SceneDependencyReferenced var store: TodoStore?
-
+    @SceneDependencyReferenced var store: TodoGridStore?
+    
     lazy var viewSourceProvider = createViewSourceProvider()
 
     override func viewDidLoad() {
@@ -53,28 +53,39 @@ class TodoListViewController: BaseViewController {
             .disposed(by: rx.disposeBag)
         
         if #available(iOS 10.0, *) {
-            tableView.refreshControl = refreshControl
+            collectionView.refreshControl = refreshControl
         } else {
-            tableView.addSubview(refreshControl)
+            collectionView.addSubview(refreshControl)
         }
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isViewAppeared { return }
+        store?.dispatch(type: .load, payload: Payload.List.Request(page: 1, cancelRunning: false))
     }
     
     @objc func refreshData(_ sender: UIRefreshControl) {
         self.store?.dispatch(type: .load, payload: 0)
     }
     
-    func createViewSourceProvider() -> TableView.ViewSourceProvider<TodoViewModel> {
-        return .init(tableView: tableView, store: .init()) {
-            tableView, viewModel in
+    func createViewSourceProvider() -> CollectionView.ViewSourceProvider<TodoViewModel> {
+        return .init(collectionView: collectionView, store: .init()) {
+            collectionView, viewModel in
             ForEach(viewModel.todos) {
                 index, todo in
                 TodoCell(id: index, model: todo)
+                    .hasFixedSize(true)
                     .handlers(
                         bindingFunction: ({
                             model, view, _ in
                             view.lbTime.text = model?.createdAt.toString()
                             view.lbTitle.text = model?.title
+                        }),
+                        sizeEstimationHandler: ({
+                            _, collectionView in
+                            CGSize(width: collectionView.frame.width, height: 60)
                         }),
                         didSelectHandler: ({
                             [weak self] indexPath in
@@ -82,7 +93,7 @@ class TodoListViewController: BaseViewController {
                         }))
             }
             viewModel.isAnimatedLoading ??
-                LoadingCell()
+                LoadingCell(size: CGSize(width: collectionView.frame.width, height: 60))
                     .willDisplayHandler({
                         [weak self] view, indexPath in
                         guard let self = self else { return }
@@ -95,8 +106,8 @@ class TodoListViewController: BaseViewController {
     }
 }
 
-extension TodoListViewController.TodoCell {
+extension TodoList2ViewController.TodoCell {
     init(id: ID, model: Model) {
-        self.init(id: id, type: .nib(nibName: "TodoTableViewCell", bundle: nil), model: model)
+        self.init(id: id, type: .nib(nibName: "TodoCollectionViewCell", bundle: nil), model: model)
     }
 }

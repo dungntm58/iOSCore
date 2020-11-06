@@ -8,32 +8,7 @@
 
 import CoreRepository
 import CoreRedux
-import CoreList
 import RxSwift
-
-class TodoListEpic: BaseListEpic<Todo.Action, Todo.State, TodoWorker> {
-    init() {
-        super.init(worker: TodoWorker())
-    }
-    
-    override func toPaginationRequestOptions(from payload: PayloadListRequestable?) -> PaginationRequestOptions? {
-        payload as? PaginationRequestOptions
-    }
-}
-
-extension Payload.List.Request: PaginationRequestOptions {
-    var requestOptions: RequestOption? {
-        [
-            "page": page
-        ]
-    }
-    
-    var repositoryOptions: RepositoryOption { .default }
-    
-    var storeFetchOptions: DataStoreFetchOption {
-        .page(page, size: count, predicate: nil, sorting: [.desc(property: "createdAt")], validate: true)
-    }
-}
 
 class TodoCreateEpic: Epic {
     typealias Action = Todo.Action

@@ -8,12 +8,33 @@
 
 import CoreBase
 import CoreRedux
+import NSObject_Rx
 
-class TodoScene: Scene {
+class TodoScene: Scene, HasDisposeBag {
     
     @SceneDependency var store = TodoStore()
     @SceneDependency var viewManager = ViewManager()
-
+    
+    init() {
+        super.init()
+        setup()
+    }
+    
+    private func setup() {
+        // setup views
+        let tableScene = TodoTableScene()
+        let gridScene = TodoGridScene()
+        set(children: [tableScene, gridScene])
+        guard let tableVC = tableScene.viewManager?.currentViewController,
+              let gridVC = gridScene.viewManager?.currentViewController else { return }
+        viewManager?.setChildViewControllers([tableVC, gridVC])
+        
+        // sync store
+        store?.state.subscribe(onNext: {
+            state in
+        }).disposed(by: disposeBag)
+    }
+    
     override func perform(with object: Any?) {
         viewManager?.show()
     }
@@ -31,6 +52,11 @@ extension TodoScene {
                 todoVC.modalPresentationStyle = .fullScreen
                 return todoVC
             }())
+        }
+        
+        func setChildViewControllers(_ viewControllers: [UIViewController]) {
+            guard let tabBar = currentViewController as? UITabBarController else { return }
+            tabBar.viewControllers = viewControllers
         }
         
         func show() {
