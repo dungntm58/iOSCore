@@ -54,8 +54,7 @@ class TodoTabBarController: UITabBarController {
         store?
             .state
             .filter { $0.error == nil && !$0.isLogout }
-            .map(\.selectedTodoIndex)
-            .filter { $0 >= 0 }
+            .compactMap(\.selectedTodo)
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 [weak self] _ in

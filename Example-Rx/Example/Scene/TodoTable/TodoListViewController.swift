@@ -32,7 +32,7 @@ class TodoListViewController: BaseViewController {
         guard let store = store else { return }
         
         store.state
-            .filter { $0.error == nil && !$0.isLogout }
+            .filter { $0.error == nil }
             .map(\.list)
             .distinctUntilChanged()
             .observeOn(MainScheduler.asyncInstance)

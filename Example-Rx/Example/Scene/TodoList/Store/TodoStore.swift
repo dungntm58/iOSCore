@@ -9,18 +9,6 @@
 import CoreRedux
 import CoreList
 
-enum TodoActionType: String, ListActionType {
-    case updateListState
-    case load
-    case receiveError
-
-    case createTodo
-    case selectTodo
-
-    case logout
-    case logoutSuccess
-}
-
 class TodoStore: CoreRedux.Store<TodoReducer.Action, TodoReducer.State> {
     init() {
         super.init(reducer: TodoReducer(), initialState: .init())

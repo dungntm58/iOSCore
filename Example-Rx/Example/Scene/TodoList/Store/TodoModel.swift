@@ -12,6 +12,16 @@ import CoreList
 import CoreRedux
 
 enum Todo {
+    enum ActionType: String, ErrorActionType {
+        case createTodoSuccess
+        case receiveError
+
+        case createTodo
+
+        case logout
+        case logoutSuccess
+    }
+    
     enum Single {
         struct Request: RequestOption {
             let id: String
@@ -23,9 +33,9 @@ enum Todo {
     typealias ViewModel = TodoEntity
     
     struct Action: Actionable {
-        typealias ActionType = TodoActionType
+        typealias ActionType = Todo.ActionType
         
-        let type: TodoActionType
+        let type: ActionType
         let payload: Any?
     }
     
@@ -33,27 +43,19 @@ enum Todo {
         static func == (lhs: Todo.State, rhs: Todo.State) -> Bool {
             if lhs.error == nil && rhs.error == nil {
                 return lhs.isLogout == rhs.isLogout
-                    && lhs.list == rhs.list
-                    && lhs.selectedTodoIndex == rhs.selectedTodoIndex
+                    && lhs.selectedTodo == rhs.selectedTodo
             }
             return false
         }
         
         var error: Error?
-        let list: Payload.List.Response<TodoEntity>
-        let selectedTodoIndex: Int
+        let selectedTodo: TodoEntity?
+        let newTodo: TodoEntity?
         let isLogout: Bool
         
-        init() {
-            self.list = Payload.List.Response()
-            self.selectedTodoIndex = -1
-            self.error = nil
-            self.isLogout = false
-        }
-        
-        init(list: Payload.List.Response<TodoEntity>, selectedTodoIndex: Int = -1, error: Error? = nil, isLogout: Bool = false) {
-            self.list = list
-            self.selectedTodoIndex = selectedTodoIndex
+        init(selectedTodo: TodoEntity? = nil, newTodo: TodoEntity? = nil, error: Error? = nil, isLogout: Bool = false) {
+            self.selectedTodo = selectedTodo
+            self.newTodo = newTodo
             self.error = error
             self.isLogout = isLogout
         }
@@ -62,8 +64,7 @@ enum Todo {
             """
             Todo.State(
                 error: \(error.map(String.init(describing:)) ?? "nil"),
-                list: \(String(describing: list)),
-                selectedTodoIndex: \(selectedTodoIndex),
+                selectedTodo: \(selectedTodo.map(String.init(describing:)) ?? "nil"),
                 isLogout: \(isLogout)
             )
             """

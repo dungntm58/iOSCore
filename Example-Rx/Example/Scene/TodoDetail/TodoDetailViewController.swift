@@ -17,8 +17,7 @@ class TodoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let selectedIndex = store?.currentState.selectedTodoIndex ?? -1
-        lbTitle.text = store?.currentState.list.data[selectedIndex].title
+        lbTitle.text = store?.currentState.selectedTodo?.title
     }
     
     @IBAction func onBack(_ sender: UIButton) {

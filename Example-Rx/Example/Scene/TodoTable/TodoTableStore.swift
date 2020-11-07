@@ -8,9 +8,9 @@
 
 import CoreRedux
 
-class TodoTableStore: CoreRedux.Store<TodoReducer.Action, TodoReducer.State> {
+class TodoTableStore: CoreRedux.Store<TodoListReducer.Action, TodoListReducer.State> {
     init() {
-        super.init(reducer: TodoReducer(), initialState: .init())
+        super.init(reducer: TodoListReducer(), initialState: .init())
         self <| TodoListEpic()
     }
 }

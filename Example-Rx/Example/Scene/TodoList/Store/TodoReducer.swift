@@ -13,22 +13,14 @@ class TodoReducer: Reducible {
     typealias State = Todo.State
     typealias Action = Todo.Action
     
-    let listReducer: BaseListReducer<TodoEntity, Action>
-    init() {
-        listReducer = BaseListReducer()
-    }
-    
     func reduce(action: Action, currentState: State) -> State {
         switch action.type {
-        case .updateListState:
-            let newList = listReducer.reduce(action: action, currentState: currentState.list)
-            return State(list: newList)
+        case .createTodoSuccess:
+            return State(newTodo: action.payload as? TodoEntity)
         case .receiveError:
-            return State(list: Payload.List.Response<TodoEntity>(), error: action.payload as? Error)
-        case .selectTodo:
-            return State(list: currentState.list, selectedTodoIndex: action.payload as! Int)
+            return State(error: action.payload as? Error)
         case .logoutSuccess:
-            return State(list: currentState.list, error: currentState.error, isLogout: true)
+            return State(isLogout: true)
         default:
             return currentState
         }

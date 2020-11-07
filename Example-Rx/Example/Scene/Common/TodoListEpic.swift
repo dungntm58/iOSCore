@@ -9,7 +9,7 @@
 import CoreRedux
 import CoreRepository
 
-class TodoListEpic: BaseListEpic<Todo.Action, Todo.State, TodoWorker> {
+class TodoListEpic: BaseListEpic<TodoList.Action, TodoList.State, TodoWorker> {
     init() {
         super.init(worker: TodoWorker())
     }

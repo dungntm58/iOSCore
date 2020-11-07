@@ -24,8 +24,7 @@ class TodoCreateEpic: Epic {
             .of(type: .createTodo)
             .compactMap { $0.payload as? String }
             .flatMap(worker.createNew)
-            .map { Payload.List.Response(data: [$0]) }
-            .map { $0.toAction() }
+            .map { Action(type: .createTodoSuccess, payload: $0) }
             .catchError { .just($0.toAction()) }
     }
 }
