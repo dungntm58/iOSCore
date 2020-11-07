@@ -43,12 +43,13 @@ enum Todo {
         static func == (lhs: Todo.State, rhs: Todo.State) -> Bool {
             if lhs.error == nil && rhs.error == nil {
                 return lhs.isLogout == rhs.isLogout
+                    && lhs.newTodo == rhs.newTodo
                     && lhs.selectedTodo == rhs.selectedTodo
             }
             return false
         }
         
-        var error: Error?
+        let error: Error?
         let selectedTodo: TodoEntity?
         let newTodo: TodoEntity?
         let isLogout: Bool
@@ -64,6 +65,7 @@ enum Todo {
             """
             Todo.State(
                 error: \(error.map(String.init(describing:)) ?? "nil"),
+                newTodo: \(newTodo.map(String.init(describing:)) ?? "nil"),
                 selectedTodo: \(selectedTodo.map(String.init(describing:)) ?? "nil"),
                 isLogout: \(isLogout)
             )
