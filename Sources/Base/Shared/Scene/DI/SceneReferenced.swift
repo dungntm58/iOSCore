@@ -34,8 +34,8 @@ final public class SceneReferenced<S>: ViewControllerAssociated where S: Scenabl
 extension UIViewController {
     @objc dynamic func configAssociation() {
         let mirror = Mirror(reflecting: self)
-        for child in mirror.children {
-            if let sceneRef = child.value as? ViewControllerAssociated {
+        for (_, value) in mirror.children {
+            if let sceneRef = value as? ViewControllerAssociated {
                 sceneRef.associate(with: self)
             }
         }

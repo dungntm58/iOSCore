@@ -22,7 +22,7 @@ class TodoList2ViewController: BaseViewController {
     
     lazy var refreshControl = UIRefreshControl()
     
-    @SceneDependencyReferenced var store: TodoGridStore?
+    @SceneDependencyReferenced var store: TodoListStore?
     
     lazy var viewSourceProvider = createViewSourceProvider()
 

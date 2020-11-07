@@ -30,9 +30,16 @@ class TodoScene: Scene, HasDisposeBag {
         viewManager?.setChildViewControllers([tableVC, gridVC])
         
         // sync store
-        store?.state.subscribe(onNext: {
-            state in
-        }).disposed(by: disposeBag)
+        store?
+            .state
+            .compactMap(\.newTodo)
+            .distinctUntilChanged()
+            .subscribe(onNext: {
+                [weak tableScene, weak gridScene] state in
+                tableScene?.store?.dispatch(type: .addNewTodo, payload: state)
+                gridScene?.store?.dispatch(type: .addNewTodo, payload: state)
+            })
+            .disposed(by: disposeBag)
     }
     
     override func perform(with object: Any?) {

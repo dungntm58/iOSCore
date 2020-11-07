@@ -14,6 +14,7 @@ enum TodoList {
         case load
         case receiveError
         
+        case addNewTodo
         case selectTodo
     }
     

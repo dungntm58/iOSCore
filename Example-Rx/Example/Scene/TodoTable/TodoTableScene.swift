@@ -11,7 +11,7 @@ import CoreRedux
 
 class TodoTableScene: Scene {
     
-    @SceneDependency var store = TodoTableStore()
+    @SceneDependency var store = TodoListStore()
     @SceneDependency var viewManager = ViewManager()
     
     override func perform(with userInfo: Any?) {
