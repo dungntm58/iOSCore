@@ -49,8 +49,8 @@ open class BaseListEpic<Action, State, Worker>: Epic where
         #endif
         return dispatcher
             .of(type: .load)
-            .compactMap { $0.payload as? PayloadListRequestable }
-            .filter { !$0.cancelRunning }
+            .map { $0.payload as? PayloadListRequestable }
+            .filter { $0 == nil || !$0!.cancelRunning }
             .flatMap {
                 [weak self] payload -> Observable<Payload.List.Response<Worker.T>> in
                 guard let `self` = self else { return .empty() }
