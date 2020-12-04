@@ -10,7 +10,11 @@ import CoreBase
 import CoreRedux
 import NSObject_Rx
 
-class TodoScene: Scene, HasDisposeBag {
+protocol TodoSceneProtocol: Scenable {
+    
+}
+
+class TodoScene: Scene, HasDisposeBag, TodoSceneProtocol {
     
     @SceneDependency var store = TodoStore()
     @SceneDependency var viewManager = ViewManager()

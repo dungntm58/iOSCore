@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'CoreRepository'
+  s.name             = 'CoreRepository-Combine'
   s.version          = '0.1.0'
   s.summary          = 'Clean Architecture'
 
@@ -33,92 +33,51 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.swift_version = "5.2"
   s.framework = "Foundation"
 
-  s.default_subspecs = 'BasicsRx', 'DataStoreRx', 'RequestRx', 'RemoteRx', 'LocalRx', 'RemoteLocalRx'
+  s.default_subspecs = 'Basics', 'DataStore', 'Request', 'Remote', 'Local', 'RemoteLocal'
   
-  s.subspec 'BasicsCombine' do |ss|
+  s.subspec 'Basics' do |ss|
     ss.source_files = 'Sources/Repository/Shared/Basics/**/*', 'Sources/Repository/Combine/Basics/**/*', 'Sources/Shared/**/*.swift'
     ss.exclude_files = 'Sources/Repository/Shared/Basics/Shared/**/*'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
   end
 
-  s.subspec 'DataStoreCombine' do |ss|
+  s.subspec 'DataStore' do |ss|
     ss.source_files = 'Sources/Repository/Shared/DataStore/**/*', 'Sources/Repository/Combine/DataStore/**/*'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
-    ss.dependency 'CoreRepository/BasicsCombine'
+    ss.dependency 'CoreRepository-Combine/Basics'
   end
 
-  s.subspec 'RequestCombine' do |ss|
+  s.subspec 'Request' do |ss|
     ss.source_files = 'Sources/Repository/Shared/Request/**/*', 'Sources/Repository/Combine/Request/**/*'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
     ss.dependency 'Alamofire'
-    ss.dependency 'CoreRepository/BasicsCombine'
+    ss.dependency 'CoreRepository-Combine/Basics'
   end
 
-  s.subspec 'RemoteCombine' do |ss|
+  s.subspec 'Remote' do |ss|
     ss.source_files = 'Sources/Repository/Shared/Remote/**/*', 'Sources/Repository/Combine/Remote/**/*'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
-    ss.dependency 'CoreRepository/BasicsCombine'
-    ss.dependency 'CoreRepository/RequestCombine'
+    ss.dependency 'CoreRepository-Combine/Basics'
+    ss.dependency 'CoreRepository-Combine/Request'
   end
 
-  s.subspec 'LocalCombine' do |ss|
+  s.subspec 'Local' do |ss|
     ss.source_files = 'Sources/Repository/Shared/Local/**/*', 'Sources/Repository/Combine/Local/**/*'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
-    ss.dependency 'CoreRepository/BasicsCombine'
-    ss.dependency 'CoreRepository/DataStoreCombine'
+    ss.dependency 'CoreRepository-Combine/Basics'
+    ss.dependency 'CoreRepository-Combine/DataStore'
   end
 
-  s.subspec 'RemoteLocalCombine' do |ss|
+  s.subspec 'RemoteLocal' do |ss|
     ss.source_files = 'Sources/Repository/Shared/RemoteLocal/**/*', 'Sources/Repository/Combine/RemoteLocal/**/*'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
-    ss.dependency 'CoreRepository/RemoteCombine'
-    ss.dependency 'CoreRepository/LocalCombine'
-  end
-
-  s.subspec 'BasicsRx' do |ss|
-    ss.source_files = 'Sources/Repository/Shared/Basics/**/*', 'Sources/Repository/Rx/Basics/**/*', 'Sources/Shared/**/*.swift'
-    ss.exclude_files = 'Sources/Repository/Shared/Basics/Shared/**/*'
-    ss.ios.deployment_target = '10.0'
-    ss.dependency 'RxSwift'
-  end
-
-  s.subspec 'DataStoreRx' do |ss|
-    ss.source_files = 'Sources/Repository/Shared/DataStore/**/*', 'Sources/Repository/Rx/DataStore/**/*'
-    ss.ios.deployment_target = '10.0'
-    ss.dependency 'CoreRepository/BasicsRx'
-  end
-
-  s.subspec 'RequestRx' do |ss|
-    ss.source_files = 'Sources/Repository/Shared/Request/**/*', 'Sources/Repository/Rx/Request/**/*'
-    ss.ios.deployment_target = '10.0'
-    ss.dependency 'Alamofire'
-    ss.dependency 'CoreRepository/BasicsRx'
-  end
-
-  s.subspec 'RemoteRx' do |ss|
-    ss.source_files = 'Sources/Repository/Shared/Remote/**/*', 'Sources/Repository/Rx/Remote/**/*'
-    ss.ios.deployment_target = '10.0'
-    ss.dependency 'CoreRepository/BasicsRx'
-    ss.dependency 'CoreRepository/RequestRx'
-  end
-
-  s.subspec 'LocalRx' do |ss|
-    ss.source_files = 'Sources/Repository/Shared/Local/**/*', 'Sources/Repository/Rx/Local/**/*'
-    ss.ios.deployment_target = '10.0'
-    ss.dependency 'CoreRepository/BasicsRx'
-    ss.dependency 'CoreRepository/DataStoreRx'
-  end
-
-  s.subspec 'RemoteLocalRx' do |ss|
-    ss.source_files = 'Sources/Repository/Shared/RemoteLocal/**/*', 'Sources/Repository/Rx/RemoteLocal/**/*'
-    ss.ios.deployment_target = '10.0'
-    ss.dependency 'CoreRepository/RemoteRx'
-    ss.dependency 'CoreRepository/LocalRx'
+    ss.dependency 'CoreRepository-Combine/Remote'
+    ss.dependency 'CoreRepository-Combine/Local'
   end
 end

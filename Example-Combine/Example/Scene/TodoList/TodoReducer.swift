@@ -9,7 +9,7 @@
 import CoreRedux
 import CoreList
 
-class TodoReducer: Reducable {
+class TodoReducer: Reducible {
     typealias State = Todo.State
     typealias Action = Todo.Action
     

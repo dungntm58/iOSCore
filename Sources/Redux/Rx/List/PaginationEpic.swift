@@ -36,17 +36,10 @@ open class BaseListEpic<Action, State, Worker>: Epic where
     }
 
     public func apply(dispatcher: Observable<Action>, actionStream: Observable<Action>, stateStream: Observable<State>) -> Observable<Action> {
-        #if swift(>=5.2)
         let cancelAction = actionStream
             .of(type: .load)
             .compactMap { $0.payload as? PayloadListRequestable }
             .filter(\.cancelRunning)
-        #else
-        let cancelAction = actionStream
-            .of(type: .load)
-            .compactMap { $0.payload as? PayloadListRequestable }
-            .filter { $0.cancelRunning }
-        #endif
         return dispatcher
             .of(type: .load)
             .map { $0.payload as? PayloadListRequestable }

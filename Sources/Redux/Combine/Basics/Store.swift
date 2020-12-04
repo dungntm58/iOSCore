@@ -32,7 +32,7 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
         cancellables.forEach { $0.cancel() }
     }
 
-    public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler, schedulerOptions: StoreScheduler.SchedulerOptions? = nil) where Reducer: Reducable, Reducer.Action == Action, Reducer.State == State {
+    public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler, schedulerOptions: StoreScheduler.SchedulerOptions? = nil) where Reducer: Reducible, Reducer.Action == Action, Reducer.State == State {
         self._state = .init(initialState)
         self._action = .init()
         self._derivedAction = .init()

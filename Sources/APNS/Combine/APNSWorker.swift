@@ -19,7 +19,7 @@ open class APNSWorker<ValueType> where ValueType: APNSEventProtocol {
         _subscriber.eraseToAnyPublisher()
     }
 
-    public func send(_ data: ValueType) {
+    public func subscribe(_ data: ValueType) {
         self._subscriber.send(data)
     }
 }

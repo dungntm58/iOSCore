@@ -52,33 +52,18 @@ extension RemoteLocalListRepository {
 extension RemoteLocalSingleRepository {
     @inlinable
     public func create(_ value: T, options: FetchOptions?) -> Observable<T> {
-        #if swift(>=5.2)
-        return singleRequest
+        singleRequest
             .create(value, options: options?.requestOptions)
             .compactMap(\.result)
             .map(store.saveSync)
-        #else
-        return singleRequest
-            .create(value, options: options?.requestOptions)
-            .compactMap { $0.result }
-            .map(store.saveSync)
-        #endif
     }
 
     @inlinable
     public func update(_ value: T, options: FetchOptions?) -> Observable<T> {
-        #if swift(>=5.2)
-        return singleRequest
+        singleRequest
             .update(value, options: options?.requestOptions)
             .compactMap(\.result)
             .map(store.saveSync)
-        #else
-        return singleRequest
-            .update(value, options: options?.requestOptions)
-            .compactMap { $0.result }
-            .map(store.saveSync)
-        #endif
-        
     }
 
     @inlinable
@@ -92,15 +77,9 @@ extension RemoteLocalSingleRepository {
 extension RemoteLocalIdentifiableSingleRepository {
     @inlinable
     public func get(id: T.ID, options: FetchOptions?) -> Observable<T> {
-        #if swift(>=5.2)
         let remote = singleRequest
             .get(id: id, options: options?.requestOptions)
             .compactMap(\.result)
-        #else
-        let remote = singleRequest
-            .get(id: id, options: options?.requestOptions)
-            .compactMap { $0.result }
-        #endif
 
         let repositoryOptions = options?.repositoryOptions ?? .default
         switch repositoryOptions {
@@ -140,11 +119,7 @@ extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
                 return self.get(id: item.id, options: optionsGenerator(item.id))
             }
         }
-        #if swift(>=5.2)
         let idsObservable = Observable.deferred { .just(list.data.map(\.id )) }
-        #else
-        let idsObservable = Observable.deferred { .just(list.data.map { $0.id }) }
-        #endif
         return .zip(
             Observable.just(list.pagination),
             idsObservable,

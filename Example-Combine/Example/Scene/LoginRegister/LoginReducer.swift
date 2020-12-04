@@ -9,7 +9,7 @@
 import CoreRedux
 import Combine
 
-class LoginReducer: Reducable {
+class LoginReducer: Reducible {
     typealias State = Login.State
     typealias Action = Login.Action
     

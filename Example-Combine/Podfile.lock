@@ -1,62 +1,62 @@
 PODS:
-  - Alamofire (5.1.0)
-  - CoreAPNS/Combine (0.1.0)
-  - CoreBase/Basics (0.1.0)
-  - CoreBase/ReduxCombineExtension (0.1.0):
-    - CoreBase/SceneCombine
-    - CoreRedux/BasicsCombine
-  - CoreBase/SceneCombine (0.1.0)
-  - CoreDataStore/Combine (0.1.0):
-    - CoreRepository/DataStoreCombine
+  - Alamofire (5.4.0)
+  - CoreAPNS-Combine (0.1.0)
+  - CoreBase-Combine/Basics (0.1.0)
+  - CoreBase-Combine/ReduxExtension (0.1.0):
+    - CoreBase-Combine/Scene
+    - CoreRedux-Combine/Basics
+  - CoreBase-Combine/Scene (0.1.0)
+  - CoreDataStore-Combine (0.1.0):
+    - CoreRepository-Combine/DataStore
   - CoreList (0.1.0):
     - DifferenceKit
-  - CoreRealmDataStore/Combine (0.1.0):
-    - CoreRepository/DataStoreCombine
+  - CoreRealmDataStore-Combine (0.1.0):
+    - CoreRepository-Combine/DataStore
     - RealmSwift
-  - CoreRedux/BasicsCombine (0.1.0)
-  - CoreRedux/ListCombine (0.1.0):
-    - CoreRedux/BasicsCombine
-    - CoreRepository/BasicsCombine
-  - CoreRepository/BasicsCombine (0.1.0)
-  - CoreRepository/DataStoreCombine (0.1.0):
-    - CoreRepository/BasicsCombine
-  - CoreRepository/LocalCombine (0.1.0):
-    - CoreRepository/BasicsCombine
-    - CoreRepository/DataStoreCombine
-  - CoreRepository/RemoteCombine (0.1.0):
-    - CoreRepository/BasicsCombine
-    - CoreRepository/RequestCombine
-  - CoreRepository/RemoteLocalCombine (0.1.0):
-    - CoreRepository/LocalCombine
-    - CoreRepository/RemoteCombine
-  - CoreRepository/RequestCombine (0.1.0):
+  - CoreRedux-Combine/Basics (0.1.0)
+  - CoreRedux-Combine/List (0.1.0):
+    - CoreRedux-Combine/Basics
+    - CoreRepository-Combine/Basics
+  - CoreRepository-Combine/Basics (0.1.0)
+  - CoreRepository-Combine/DataStore (0.1.0):
+    - CoreRepository-Combine/Basics
+  - CoreRepository-Combine/Local (0.1.0):
+    - CoreRepository-Combine/Basics
+    - CoreRepository-Combine/DataStore
+  - CoreRepository-Combine/Remote (0.1.0):
+    - CoreRepository-Combine/Basics
+    - CoreRepository-Combine/Request
+  - CoreRepository-Combine/RemoteLocal (0.1.0):
+    - CoreRepository-Combine/Local
+    - CoreRepository-Combine/Remote
+  - CoreRepository-Combine/Request (0.1.0):
     - Alamofire
-    - CoreRepository/BasicsCombine
+    - CoreRepository-Combine/Basics
   - DifferenceKit (1.1.5):
     - DifferenceKit/Core (= 1.1.5)
     - DifferenceKit/UIKitExtension (= 1.1.5)
   - DifferenceKit/Core (1.1.5)
   - DifferenceKit/UIKitExtension (1.1.5):
     - DifferenceKit/Core
-  - Realm (4.4.1):
-    - Realm/Headers (= 4.4.1)
-  - Realm/Headers (4.4.1)
-  - RealmSwift (4.4.1):
-    - Realm (= 4.4.1)
+  - Realm (10.1.4):
+    - Realm/Headers (= 10.1.4)
+  - Realm/Headers (10.1.4)
+  - RealmSwift (10.1.4):
+    - Realm (= 10.1.4)
   - SwiftDate (6.1.0)
   - Toaster (2.3.0)
   - Valet (3.2.8)
 
 DEPENDENCIES:
-  - CoreAPNS/Combine (from `../`)
-  - CoreBase/Basics (from `../`)
-  - CoreBase/ReduxCombineExtension (from `../`)
-  - CoreDataStore/Combine (from `../`)
+  - CoreAPNS-Combine (from `../`)
+  - CoreBase-Combine/Basics (from `../`)
+  - CoreBase-Combine/ReduxExtension (from `../`)
+  - CoreDataStore-Combine (from `../`)
   - CoreList (from `../`)
-  - CoreRealmDataStore/Combine (from `../`)
-  - CoreRedux/BasicsCombine (from `../`)
-  - CoreRedux/ListCombine (from `../`)
-  - CoreRepository/RemoteLocalCombine (from `../`)
+  - CoreRealmDataStore-Combine (from `../`)
+  - CoreRedux-Combine/Basics (from `../`)
+  - CoreRedux-Combine/List (from `../`)
+  - CoreRepository-Combine/RemoteLocal (from `../`)
   - SwiftDate
   - Toaster (from `https://github.com/devxoul/Toaster.git`, branch `master`)
   - Valet
@@ -71,19 +71,19 @@ SPEC REPOS:
     - Valet
 
 EXTERNAL SOURCES:
-  CoreAPNS:
+  CoreAPNS-Combine:
     :path: "../"
-  CoreBase:
+  CoreBase-Combine:
     :path: "../"
-  CoreDataStore:
+  CoreDataStore-Combine:
     :path: "../"
   CoreList:
     :path: "../"
-  CoreRealmDataStore:
+  CoreRealmDataStore-Combine:
     :path: "../"
-  CoreRedux:
+  CoreRedux-Combine:
     :path: "../"
-  CoreRepository:
+  CoreRepository-Combine:
     :path: "../"
   Toaster:
     :branch: master
@@ -95,21 +95,21 @@ CHECKOUT OPTIONS:
     :git: https://github.com/devxoul/Toaster.git
 
 SPEC CHECKSUMS:
-  Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
-  CoreAPNS: 5e8df19a98c3e761cdc9f4920627c3aeca122c9b
-  CoreBase: 03cdc4e7395ae65c8a09f33b500e143408cda0b8
-  CoreDataStore: 0c6cede068f7d495d94c2f82a4a385b31e8c2bfc
+  Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
+  CoreAPNS-Combine: fa6386ea466292d229adcc4ced2c774b9734afc1
+  CoreBase-Combine: d36ef904ceff52ea9e62ee88e84605d0391d6fe6
+  CoreDataStore-Combine: c67521187ffa05f41aa4a0dfb387080a3a68a84b
   CoreList: 7e2e079bd1f47c244e0d27943c64014964d40599
-  CoreRealmDataStore: d36340a67081600841019e0f08adb27a7b072612
-  CoreRedux: dc70e5d0e84e40e30990a2bb70ab637d18237b65
-  CoreRepository: f9f530e6486932d6228522e3ba0819deaa875e0f
+  CoreRealmDataStore-Combine: 5d91573cf97e95df8fd73a80623fb3112d6aaa2f
+  CoreRedux-Combine: ceeb6fd0ae72b00855f2e699826ee7f66a68da7a
+  CoreRepository-Combine: 20395f3b6598fcb3be3084c039a8e9c0d063b14f
   DifferenceKit: 516f12e336ed65a3a0665847b5c3cb5cad4bd4ea
-  Realm: 4eb04d7487bd43c0581256f40b424eafb711deff
-  RealmSwift: 3eb8924ff7100df5928c7602f71d0fec51e7c9c5
+  Realm: 80f4fb2971ccb9adc27a47d0955ae8e533a7030b
+  RealmSwift: 0e566ca714edb377bba8ea0811eafcea0b93734e
   SwiftDate: fa2bb3962056bb44047b4b85a30044e5eae30b03
   Toaster: 33d27524fb6829cdb6b247c924beab0cfa001b3e
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
-PODFILE CHECKSUM: f31d52eee6d4c600df13b84a9ddb223da89a4b7f
+PODFILE CHECKSUM: ba5982fe12f7fb460e9dd08c3229cbdc52a8a1f8
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

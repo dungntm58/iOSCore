@@ -11,7 +11,7 @@ import CoreRepository
 import CoreDataStore
 import CoreData
 
-class UserEntity: Decodable, ManagedObjectBox {
+class UserEntity: Decodable, ManagedObjectWrapper {
     let core: UserCoreEntity
     
     var id: String { core.id ?? "" }
@@ -26,8 +26,8 @@ class UserEntity: Decodable, ManagedObjectBox {
         case name
     }
     
-    required init(core: UserCoreEntity) {
-        self.core = core
+    required init(object: UserCoreEntity) {
+        self.core = object
     }
     
     required init(from decoder: Decoder) throws {
@@ -44,6 +44,8 @@ class UserEntity: Decodable, ManagedObjectBox {
         core.email = try values.decode(String.self, forKey: .email)
         core.name = try values.decode(String.self, forKey: .name)
     }
+    
+    func toObject() -> UserCoreEntity { core }
 }
 
 extension UserEntity: CoreDataIdentifiable {

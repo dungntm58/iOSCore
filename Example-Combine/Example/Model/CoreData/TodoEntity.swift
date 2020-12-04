@@ -12,7 +12,7 @@ import CoreDataStore
 import CoreBase
 import CoreData
 
-class TodoEntity: NSObject, Decodable, ManagedObjectBox {
+class TodoEntity: NSObject, Decodable, ManagedObjectWrapper {
     let core: TodoCoreEntity
     
     var id: String { core.id ?? "" }
@@ -36,11 +36,11 @@ class TodoEntity: NSObject, Decodable, ManagedObjectBox {
     convenience init(title: String) {
         let core = TodoCoreEntity()
         core.title = title
-        self.init(core: core)
+        self.init(object: core)
     }
     
-    required init(core: TodoCoreEntity) {
-        self.core = core
+    required init(object: TodoCoreEntity) {
+        self.core = object
     }
     
     required init(from decoder: Decoder) throws {
@@ -65,6 +65,8 @@ class TodoEntity: NSObject, Decodable, ManagedObjectBox {
             "title": title
         ]
     }
+    
+    func toObject() -> TodoCoreEntity { core }
 }
 
 extension TodoEntity: CoreDataIdentifiable {
