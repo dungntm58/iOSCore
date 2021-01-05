@@ -7,12 +7,12 @@
 
 import RxSwift
 import RxRelay
-import NSObject_Rx
 
-open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Action: Actionable, State: Stateable {
+open class Store<Action, State>: Storable, Dispatchable where Action: Actionable, State: Stateable {
     public typealias StoreScheduler = SchedulerType
 
     private lazy var _disposables = CompositeDisposable()
+    private lazy var disposeBag = DisposeBag()
     private let _state: BehaviorRelay<State>
     private let _action: PublishRelay<Action>
     private let _derivedAction: PublishRelay<Action>
@@ -112,13 +112,14 @@ open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Act
         let actionToDerivedAction = _action.bind(to: _derivedAction)
         // Handle epics
         let actionToAction = _action
-            .observeOn(scheduler)
+            .observe(on: scheduler)
+            .withUnretained(self)
             .flatMap {
-                [weak self] action -> Observable<Action> in
-                guard let `self` = self, self.isActive, !self._epics.isEmpty else { return .empty() }
-                return .merge(self._epics.map { $0(.just(action), self._derivedAction.asObservable(), self._state.asObservable()).observeOn(self.scheduler) })
+                `self`, action -> Observable<Action> in
+                guard self.isActive, !self._epics.isEmpty else { return .empty() }
+                return .merge(self._epics.map { $0(.just(action), self._derivedAction.asObservable(), self._state.asObservable()).observe(on: self.scheduler) })
             }
-            .catchError { _ in .empty() }
+            .catch { _ in .empty() }
             .bind(to: _action)
         _ = _disposables.insert(actionToDerivedAction)
         _ = _disposables.insert(actionToAction)

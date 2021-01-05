@@ -30,7 +30,7 @@ extension RemoteLocalListRepository {
                 .do(onNext: { try self.store.saveSync($0.data) })
             return store
                 .getListAsync(options: cacheOptions)
-                .catchError { _ in remoteThenDataStore }
+                .catch { _ in remoteThenDataStore }
                 .filter { !$0.data.isEmpty }
                 .ifEmpty(switchTo: remoteThenDataStore)
         case .forceRefresh(let ignoreDataStoreFailure):

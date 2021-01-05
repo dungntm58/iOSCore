@@ -35,7 +35,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
 
   s.source_files = 'Sources/APNS/Shared/**/*', 'Sources/APNS/Rx/**/*'
   s.ios.deployment_target = '10.0'
-  s.dependency 'RxSwift'
-  s.dependency 'RxRelay'
+  s.dependency 'RxSwift', '~>6.0.0'
+  s.dependency 'RxRelay', '~>6.0.0'
   
 end

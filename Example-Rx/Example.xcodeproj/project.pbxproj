@@ -25,6 +25,9 @@
 		0A4625B7255557F60003EA46 /* TodoListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4625B6255557F60003EA46 /* TodoListModel.swift */; };
 		0A4625B8255557F60003EA46 /* TodoListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4625B6255557F60003EA46 /* TodoListModel.swift */; };
 		0A4625B9255557F60003EA46 /* TodoListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4625B6255557F60003EA46 /* TodoListModel.swift */; };
+		0AECFAF325A43FC600528A32 /* NSObject+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAF225A43FC600528A32 /* NSObject+Rx.swift */; };
+		0AECFAF425A43FC600528A32 /* NSObject+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAF225A43FC600528A32 /* NSObject+Rx.swift */; };
+		0AECFAF525A43FC600528A32 /* NSObject+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAF225A43FC600528A32 /* NSObject+Rx.swift */; };
 		12952A0B943AB8F97BAD1A09 /* Pods_Abstract_Example_Example_Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77CB0FA19C384AA07A72C7D /* Pods_Abstract_Example_Example_Realm.framework */; };
 		13D6084322C31FF80084BBC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13D6084122C31FF80084BBC6 /* Main.storyboard */; };
 		13D6088022C3232F0084BBC6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D6087E22C3232F0084BBC6 /* LaunchScreen.xib */; };
@@ -192,6 +195,7 @@
 		0A462589255555FE0003EA46 /* RequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestParams.swift; sourceTree = "<group>"; };
 		0A4625AD2555578B0003EA46 /* TodoListEpic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListEpic.swift; sourceTree = "<group>"; };
 		0A4625B6255557F60003EA46 /* TodoListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListModel.swift; sourceTree = "<group>"; };
+		0AECFAF225A43FC600528A32 /* NSObject+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Rx.swift"; sourceTree = "<group>"; };
 		13D6083A22C31FF80084BBC6 /* Example_Rx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example_Rx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13D6084222C31FF80084BBC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		13D6084922C31FFA0084BBC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -391,6 +395,7 @@
 				13D6087E22C3232F0084BBC6 /* LaunchScreen.xib */,
 				13D6084122C31FF80084BBC6 /* Main.storyboard */,
 				13D6084922C31FFA0084BBC6 /* Info.plist */,
+				0AECFAF225A43FC600528A32 /* NSObject+Rx.swift */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -1038,6 +1043,7 @@
 				13D608EF22C323470084BBC6 /* UserEntity.swift in Sources */,
 				13D608E222C323470084BBC6 /* UserDataStore.swift in Sources */,
 				13D6090822C323470084BBC6 /* TodoTabBarController.swift in Sources */,
+				0AECFAF325A43FC600528A32 /* NSObject+Rx.swift in Sources */,
 				13D608F122C323470084BBC6 /* AuthDto.swift in Sources */,
 				13D6090722C323470084BBC6 /* TodoScene.swift in Sources */,
 				E1145B0325567831001982AD /* TodoListReducer.swift in Sources */,
@@ -1052,6 +1058,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13D6093722C324020084BBC6 /* LoginScene.swift in Sources */,
+				0AECFAF425A43FC600528A32 /* NSObject+Rx.swift in Sources */,
 				E14B188523065DA400F91E91 /* LoginEpic.swift in Sources */,
 				13D6091C22C323A40084BBC6 /* AppDelegate.swift in Sources */,
 				E179EC6022D2826A00588B36 /* TodoList2ViewController.swift in Sources */,
@@ -1131,6 +1138,7 @@
 				E179EC7222D282A400588B36 /* TodoListViewController.swift in Sources */,
 				13D6095822C324210084BBC6 /* SwitchScene.swift in Sources */,
 				0A4625B9255557F60003EA46 /* TodoListModel.swift in Sources */,
+				0AECFAF525A43FC600528A32 /* NSObject+Rx.swift in Sources */,
 				E14B188E23065DEE00F91E91 /* LoginReducer.swift in Sources */,
 				13D6094B22C324140084BBC6 /* TodoEpic.swift in Sources */,
 				13D6092522C323D00084BBC6 /* UserEntity.swift in Sources */,

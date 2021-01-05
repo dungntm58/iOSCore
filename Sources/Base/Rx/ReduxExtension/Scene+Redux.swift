@@ -22,9 +22,9 @@ extension SceneAssociated where Self: Activating {
                 }
             }
             .distinctUntilChanged()
-            .subscribe(onNext: {
-                [weak self] shouldActiveStore in
-                shouldActiveStore ? self?.activate() : self?.deactivate()
+            .withUnretained(self)
+            .subscribe(onNext: { `self`, shouldActiveStore in
+                shouldActiveStore ? self.activate() : self.deactivate()
             })
         _ = scene.managedContext.collect(lifeCycleDiposable)
     }

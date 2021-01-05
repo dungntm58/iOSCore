@@ -45,10 +45,9 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.subspec 'Scene' do |ss|
     ss.source_files = 'Sources/Base/Shared/Scene/**/*.{h,m,mm,swift}', 'Sources/Base/Rx/Scene/**/*'
     ss.private_header_files = 'Sources/Base/Shared/Scene/**/*+Internal.h'
-    ss.dependency 'RxSwift'
-    ss.dependency 'RxRelay'
-    ss.dependency 'RxCocoa'
-    ss.dependency 'NSObject+Rx'
+    ss.dependency 'RxSwift', '~>6.0.0'
+    ss.dependency 'RxRelay', '~>6.0.0'
+    ss.dependency 'RxCocoa', '~>6.0.0'
   end
   
   s.subspec 'ReduxExtension' do |ss|

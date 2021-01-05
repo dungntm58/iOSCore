@@ -44,9 +44,9 @@ open class BaseListEpic<Action, State, Worker>: Epic where
             .of(type: .load)
             .map { $0.payload as? PayloadListRequestable }
             .filter { $0 == nil || !$0!.cancelRunning }
+            .withUnretained(self)
             .flatMap {
-                [weak self] payload -> Observable<Payload.List.Response<Worker.T>> in
-                guard let `self` = self else { return .empty() }
+                `self`, payload -> Observable<Payload.List.Response<Worker.T>> in
                 return .concat(
                     .just(.init(isLoading: true)),
                     self.worker
@@ -54,9 +54,9 @@ open class BaseListEpic<Action, State, Worker>: Epic where
                         .map { .init(from: $0, payload: payload) }
                 )
             }
-            .takeUntil(cancelAction)
+            .take(until: cancelAction)
             .map { $0.toAction() }
-            .catchError { .just($0.toAction()) }
+            .catch { .just($0.toAction()) }
     }
 
     open func toPaginationRequestOptions(from payload: PayloadListRequestable?) -> PaginationRequestOptions? {

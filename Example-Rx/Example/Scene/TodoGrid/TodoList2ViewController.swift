@@ -35,10 +35,9 @@ class TodoList2ViewController: BaseViewController {
             .filter { $0.error == nil }
             .map(\.list)
             .distinctUntilChanged()
-            .observeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
-                [weak self] response in
-                guard let self = self else { return }
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
+            .subscribe(onNext: { `self`, response in
                 self.viewSourceProvider.store.isAnimatedLoading = response.hasNext
                 if !response.isLoading {
                     if response.currentPage == 0 {

@@ -6,18 +6,20 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
+import RxSwift
 import CoreBase
 import CoreRedux
-import NSObject_Rx
 
 protocol TodoSceneProtocol: Scenable {
     
 }
 
-class TodoScene: Scene, HasDisposeBag, TodoSceneProtocol {
+class TodoScene: Scene, TodoSceneProtocol {
     
     @SceneDependency var store = TodoStore()
     @SceneDependency var viewManager = ViewManager()
+    
+    private lazy var disposeBag = DisposeBag()
     
     init() {
         super.init()

@@ -26,7 +26,7 @@ class LoginEpic: Epic {
             .map { $0.payload as! (String, String) }
             .flatMap { self.worker.login(userName: $0.0, password: $0.1) }
             .map { Action(type: .success, payload: $0) }
-            .catchError { .just($0.toAction()) }
+            .catch { .just($0.toAction()) }
     }
 }
 
@@ -46,6 +46,6 @@ class RegisterEpic: Epic {
             .map { $0.payload as! (String, String) }
             .flatMap { self.worker.signup(userName: $0.0, password: $0.1) }
             .map { Action(type: .success, payload: $0) }
-            .catchError { .just($0.toAction()) }
+            .catch { .just($0.toAction()) }
     }
 }

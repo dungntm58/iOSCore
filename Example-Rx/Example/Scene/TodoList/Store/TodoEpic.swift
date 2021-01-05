@@ -25,6 +25,6 @@ class TodoCreateEpic: Epic {
             .compactMap { $0.payload as? String }
             .flatMap(worker.createNew)
             .map { Action(type: .createTodoSuccess, payload: $0) }
-            .catchError { .just($0.toAction()) }
+            .catch { .just($0.toAction()) }
     }
 }
