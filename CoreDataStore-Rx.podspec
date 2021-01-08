@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint CoreRedux.podspec' to ensure this is a
+# Be sure to run `pod lib lint CoreCoreData.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'CoreRedux'
+  s.name             = 'CoreDataStore-Rx'
   s.version          = '0.1.0'
   s.summary          = 'Clean Architecture'
 
@@ -29,39 +29,12 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform = :ios
-  s.module_name = 'CoreRedux'
+  s.module_name = 'CoreDataStore'
   s.swift_version = "5.2"
   s.prefix_header_file = false
-  s.framework = "Foundation"
-  
-  s.default_subspecs = 'BasicsRx'
-  
-  s.subspec 'BasicsCombine' do |ss|
-    ss.source_files = 'Sources/Redux/Shared/Basics/**/*', 'Sources/Redux/Combine/Basics/**/*'
-    ss.ios.deployment_target = '13.0'
-    ss.framework = 'Combine'
-  end
-  
-  s.subspec 'ListCombine' do |ss|
-    ss.source_files = 'Sources/Redux/Shared/List/**/*', 'Sources/Redux/Combine/List/**/*'
-    ss.ios.deployment_target = '13.0'
-    ss.framework = 'Combine'
-    ss.dependency 'CoreRepository/BasicsCombine'
-    ss.dependency 'CoreRedux/BasicsCombine'
-  end
-
-  s.subspec 'BasicsRx' do |ss|
-    ss.source_files = 'Sources/Redux/Shared/Basics/**/*', 'Sources/Redux/Rx/Basics/**/*'
-    ss.ios.deployment_target = '10.0'
-    ss.dependency 'RxSwift'
-    ss.dependency 'RxRelay'
-    ss.dependency 'NSObject+Rx'
-  end
-  
-  s.subspec 'ListRx' do |ss|
-    ss.source_files = 'Sources/Redux/Shared/List/**/*', 'Sources/Redux/Rx/List/**/*'
-    ss.ios.deployment_target = '10.0'
-    ss.dependency 'CoreRepository/BasicsRx'
-    ss.dependency 'CoreRedux/BasicsRx'
-  end
+  s.framework = "CoreData"
+  s.source_files = 'Sources/CoreDataStore/**/*.{h,m,mm,swift,xcdatamodeld}'
+  s.resources = 'Sources/CoreDataStore/Model/MetaModel.xcdatamodeld'
+  s.ios.deployment_target = '10.0'
+  s.dependency 'CoreRepository-Rx/DataStore'
 end

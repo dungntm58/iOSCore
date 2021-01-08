@@ -1,44 +1,12 @@
 //
-//  Core-CleanSwift-ExampleInteractor.swift
-//  Core-CleanSwift-Example
+//  RequestParams.swift
+//  Example
 //
-//  Created by Robert Nguyen on 1/15/19.
-//  Copyright © 2019 Robert Nguyễn. All rights reserved.
+//  Created by Dung Nguyen on 11/6/20.
+//  Copyright © 2020 Robert Nguyen. All rights reserved.
 //
 
 import CoreRedux
-import CoreList
-
-class TodoStore: Store<TodoReducer.Action, TodoReducer.State> {
-    init() {
-        super.init(reducer: TodoReducer(), initialState: Todo.State())
-        self
-            <| TodoListEpic()
-            <| TodoCreateEpic()
-            <| {
-                dispatcher, _, _ in
-                dispatcher
-                    .of(type: .logout)
-                    .map {
-                        _ in
-                        AppPreferences.instance.token = nil
-                        return Action(type: .logoutSuccess, payload: 0)
-                }
-            }
-    }
-}
-
-enum TodoActionType: String, ListActionType {
-    case updateListState
-    case load
-    case receiveError
-
-    case createTodo
-    case selectTodo
-
-    case logout
-    case logoutSuccess
-}
 
 extension Payload.List {
     struct Request: PayloadListRequestable, CustomStringConvertible {

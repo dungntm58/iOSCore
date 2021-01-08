@@ -8,19 +8,19 @@
 import CoreData
 import CoreRepository
 
-public extension CoreDataDataStore where T: ManagedObjectBox {
+public extension CoreDataDataStore where T: ManagedObjectWrapper {
     func saveSync(_ value: T) throws -> T {
-        try Helper.instance.saveSync(value.core, ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
+        try Helper.instance.saveSync(value.toObject(), ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
         return value
     }
 
     func saveSync(_ values: [T]) throws -> [T] {
-        try Helper.instance.saveSync(values.map(\.core), ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
+        try Helper.instance.saveSync(values.map { $0.toObject() }, ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
         return values
     }
 
     func deleteSync(_ value: T) throws {
-        try Helper.instance.deleteSync(value.core, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
+        try Helper.instance.deleteSync(value.toObject(), managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
     }
 
     func getList(options: DataStoreFetchOption) throws -> ListDTO<T> {
@@ -38,14 +38,14 @@ public extension CoreDataDataStore where T: ManagedObjectBox {
     }
 }
 
-public extension CoreDataIdentifiableDataStore where T: ManagedObjectBox {
+public extension CoreDataIdentifiableDataStore where T: ManagedObjectWrapper {
     func lastID() throws -> T.ID {
         let value = try Helper.instance.getLastObject(of: T.Object.self, ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
-        return T(core: value).id
+        return T(object: value).id
     }
 }
 
-public extension CoreDataIdentifiableDataStore where T: CoreDataIdentifiable, T: ManagedObjectBox {
+public extension CoreDataIdentifiableDataStore where T: CoreDataIdentifiable, T: ManagedObjectWrapper {
     func getSync(_ id: T.ID, options: DataStoreFetchOption?) throws -> T {
         guard let idArg = id as? CVarArg else {
             throw DataStoreError.lookForIDFailure
@@ -59,12 +59,12 @@ public extension CoreDataIdentifiableDataStore where T: CoreDataIdentifiable, T:
         }
 
         if ttl <= 0 {
-            return T(core: value)
+            return T(object: value)
         }
 
         let meta = try Helper.instance.getMeta(forObject: value, metaManagedContext: configuration.metaManagedObjectContext)
         if meta.isValid {
-            return T(core: value)
+            return T(object: value)
         }
 
         throw DataStoreError.lookForIDFailure

@@ -22,7 +22,7 @@ class TodoList2ViewController: BaseViewController {
     
     lazy var refreshControl = UIRefreshControl()
     
-    @SceneDependencyReferenced var store: TodoStore?
+    @SceneDependencyReferenced var store: TodoListStore?
     
     lazy var viewSourceProvider = createViewSourceProvider()
 
@@ -32,13 +32,12 @@ class TodoList2ViewController: BaseViewController {
         guard let store = store else { return }
         
         store.state
-            .filter { $0.error == nil && !$0.isLogout }
+            .filter { $0.error == nil }
             .map(\.list)
             .distinctUntilChanged()
-            .observeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
-                [weak self] response in
-                guard let self = self else { return }
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
+            .subscribe(onNext: { `self`, response in
                 self.viewSourceProvider.store.isAnimatedLoading = response.hasNext
                 if !response.isLoading {
                     if response.currentPage == 0 {
@@ -58,6 +57,12 @@ class TodoList2ViewController: BaseViewController {
             collectionView.addSubview(refreshControl)
         }
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isViewAppeared { return }
+        store?.dispatch(type: .load, payload: Payload.List.Request(page: 1, cancelRunning: false))
     }
     
     @objc func refreshData(_ sender: UIRefreshControl) {

@@ -23,20 +23,18 @@ class SignupViewController: BaseViewController {
         
         store?.state
             .compactMap(\.user)
-            .observeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
-                [weak self] _ in
-                self?.scene?.switch(to: TodoScene(), with: nil)
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
+            .subscribe(onNext: { `self`, _ in
+                self.scene?.switch(to: TodoScene(), with: nil)
             })
             .disposed(by: rx.disposeBag)
         
         store?.state
             .compactMap(\.error)
-            .observeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
-                [weak self] error in
-                self?.onError(error)
-            })
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
+            .subscribe(onNext: { $0.onError($1) })
             .disposed(by: rx.disposeBag)
     }
     

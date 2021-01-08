@@ -8,6 +8,13 @@
 import RealmSwift
 import CoreRepository
 
+public protocol RealmObjectWrapper {
+    associatedtype RealmObject: Object
+
+    init(object: RealmObject)
+    func toObject() -> RealmObject
+}
+
 open class ExpirableObject: Object, Expirable {
     @objc dynamic internal(set) open var localUpdatedDate: Date = Date()
     @objc dynamic internal(set) open var ttl: TimeInterval = 0

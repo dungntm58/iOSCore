@@ -25,28 +25,16 @@ extension RemoteListRepository {
 extension RemoteSingleRepository {
     @inlinable
     public func create(_ value: T, options: FetchOptions?) -> Observable<T> {
-        #if swift(>=5.2)
-        return singleRequest
+        singleRequest
             .create(value, options: options?.requestOptions)
             .compactMap(\.result)
-        #else
-        return singleRequest
-            .create(value, options: options?.requestOptions)
-            .compactMap { $0.result }
-        #endif
     }
 
     @inlinable
     public func update(_ value: T, options: FetchOptions?) -> Observable<T> {
-        #if swift(>=5.2)
-        return singleRequest
+        singleRequest
             .update(value, options: options?.requestOptions)
             .compactMap(\.result)
-        #else
-        return singleRequest
-            .update(value, options: options?.requestOptions)
-            .compactMap { $0.result }
-        #endif
     }
 
     @inlinable
@@ -60,16 +48,9 @@ extension RemoteSingleRepository {
 extension RemoteIdentifiableSingleRepository {
     @inlinable
     public func get(id: T.ID, options: FetchOptions?) -> Observable<T> {
-        #if swift(>=5.2)
-        return singleRequest
+        singleRequest
             .get(id: id, options: options?.requestOptions)
             .compactMap(\.result)
-        #else
-        return singleRequest
-            .get(id: id, options: options?.requestOptions)
-            .compactMap { $0.result }
-        #endif
-        
     }
 
     @inlinable

@@ -14,8 +14,8 @@ open class Scene: Scenable {
         self.id = UUID().uuidString
 
         let mirror = Mirror(reflecting: self)
-        for child in mirror.children {
-            if let sceneRef = child.value as? SceneAssociated {
+        for (_, value) in mirror.children {
+            if let sceneRef = value as? SceneAssociated {
                 sceneRef.associate(with: self)
             }
         }

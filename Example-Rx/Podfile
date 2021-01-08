@@ -1,13 +1,13 @@
 use_frameworks!
 
 abstract_target 'Abstract_Example' do
-  pod 'CoreRedux', :path => '../'
-  pod 'CoreRedux/ListRx', :path => '../'
-  pod 'CoreBase', :path => '../'
-  pod 'CoreBase/ReduxRxExtension', :path => '../'
+  pod 'CoreRedux-Rx', :path => '../'
+  pod 'CoreRedux-Rx/List', :path => '../'
+  pod 'CoreBase-Rx', :path => '../'
+  pod 'CoreBase-Rx/ReduxExtension', :path => '../'
   pod 'CoreList', :path => '../'
-  pod 'CoreRepository', :path => '../'
-  pod 'CoreAPNS/Rx', :path => '../'
+  pod 'CoreRepository-Rx', :path => '../'
+  pod 'CoreAPNS-Rx', :path => '../'
   pod 'SwiftDate'
   pod 'Toaster', :git => 'https://github.com/devxoul/Toaster.git', :branch => 'master'
   pod 'Valet'
@@ -16,11 +16,11 @@ abstract_target 'Abstract_Example' do
   end
 
   target 'Example_Realm' do
-    pod 'CoreRealmDataStore/Rx', :path => '../'
+    pod 'CoreRealmDataStore-Rx', :path => '../'
   end
   
   target 'Example_CoreData' do
-    pod 'CoreDataStore/Rx', :path => '../'
+    pod 'CoreDataStore-Rx', :path => '../'
   end
 end
 
@@ -33,6 +33,7 @@ post_install do |installer|
     installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
             config.build_settings['CONFIGURATION_BUILD_DIR'] = '$PODS_CONFIGURATION_BUILD_DIR'
+            config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
         end
     end
 end

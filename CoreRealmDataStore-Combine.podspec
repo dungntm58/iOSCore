@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint CoreAPNS.podspec' to ensure this is a
+# Be sure to run `pod lib lint CoreRealm.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'CoreAPNS'
+  s.name             = 'CoreRealmDataStore-Combine'
   s.version          = '0.1.0'
   s.summary          = 'Clean Architecture'
 
@@ -29,23 +29,13 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform = :ios
-  s.module_name = 'CoreAPNS'
+  s.ios.deployment_target = '9.0'
+  s.module_name = 'CoreRealmDataStore'
   s.swift_version = "5.2"
-  s.framework = "Foundation"
-
-  s.default_subspecs = 'Rx'
-
-  s.subspec 'Rx' do |ss|
-    ss.source_files = 'Sources/APNS/Shared/**/*', 'Sources/APNS/Rx/**/*'
-    ss.ios.deployment_target = '10.0'
-    ss.dependency 'RxSwift'
-    ss.dependency 'RxRelay'
-  end
-  
-  s.subspec 'Combine' do |ss|
-    ss.source_files = 'Sources/APNS/Shared/**/*', 'Sources/APNS/Combine/**/*'
-    ss.ios.deployment_target = '13.0'
-    ss.framework = 'Combine'
-  end
-  
+  s.prefix_header_file = false
+  s.source_files = 'Sources/RealmDataStore/**/*'
+  s.ios.deployment_target = '13.0'
+  s.framework = 'Combine'
+  s.dependency 'RealmSwift'
+  s.dependency 'CoreRepository-Combine/DataStore'
 end

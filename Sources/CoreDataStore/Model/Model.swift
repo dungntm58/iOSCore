@@ -1,17 +1,18 @@
 //
-//  Box.swift
+//  CoreDataIdentifiable.swift
 //  CoreCoreData
 //
-//  Created by Robert Nguyen on 3/16/19.
+//  Created by Robert Nguyen on 3/8/19.
 //
 
 import CoreData
+import CoreRepository
 
-public protocol ManagedObjectBox {
+public protocol ManagedObjectWrapper {
     associatedtype Object: NSManagedObject
-    
-    var core: Object { get }
-    init(core: Object)
+
+    init(object: Object)
+    func toObject() -> Object
 }
 
 extension MetaObjectEntity {
@@ -23,4 +24,8 @@ extension MetaObjectEntity {
         let localUpdatedDate = Date(timeIntervalSince1970: localUpdatedTimestamp)
         return localUpdatedDate.addingTimeInterval(ttl) <= Date()
     }
+}
+
+public protocol CoreDataIdentifiable: Identifiable {
+    static func keyPathForID() -> String
 }

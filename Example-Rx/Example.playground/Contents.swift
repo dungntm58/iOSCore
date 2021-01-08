@@ -68,7 +68,7 @@ class ExStore: Store<ExAction, ExState> {
     }
 }
 
-class ExReducer: Reducable {
+class ExReducer: Reducible {
     typealias Action = ExAction
     typealias State = ExState
     

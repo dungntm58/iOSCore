@@ -7,12 +7,12 @@
 
 import RxSwift
 import RxRelay
-import NSObject_Rx
 
-open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Action: Actionable, State: Stateable {
+open class Store<Action, State>: Storable, Dispatchable where Action: Actionable, State: Stateable {
     public typealias StoreScheduler = SchedulerType
 
     private lazy var _disposables = CompositeDisposable()
+    private lazy var disposeBag = DisposeBag()
     private let _state: BehaviorRelay<State>
     private let _action: PublishRelay<Action>
     private let _derivedAction: PublishRelay<Action>
@@ -30,7 +30,7 @@ open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Act
         _state.asObservable().distinctUntilChanged()
     }
 
-    public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler = SerialDispatchQueueScheduler(qos: .default)) where Reducer: Reducable, Reducer.Action == Action, Reducer.State == State {
+    public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler = SerialDispatchQueueScheduler(qos: .default)) where Reducer: Reducible, Reducer.Action == Action, Reducer.State == State {
         self._state = .init(value: initialState)
         self._action = .init()
         self._derivedAction = .init()
@@ -89,16 +89,14 @@ open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Act
     }
 
     private func run() {
-        #if swift(>=5.2)
+        #if !RELEASE && !PRODUCTION
         let actionToState = _derivedAction
             .withLatestFrom(_state) {
                 [reducer] action, state -> (Action, State) in
                 let newState = reducer(action, state)
-                #if !RELEASE && !PRODUCTION
                 Swift.print("Previous state:", String(describing: state))
                 Swift.print("Action:", String(describing: action))
                 Swift.print("Next state:", String(describing: newState))
-                #endif
                 return (action, newState)
         }
         .map(\.1)
@@ -106,28 +104,22 @@ open class Store<Action, State>: Storable, Dispatchable, HasDisposeBag where Act
         #else
         let actionToState = _derivedAction
             .withLatestFrom(_state) {
-                [reducer] action, state -> (Action, State) in
-                let newState = reducer(action, state)
-                #if !RELEASE && !PRODUCTION
-                Swift.print("Previous state:", String(describing: state))
-                Swift.print("Action:", String(describing: action))
-                Swift.print("Next state:", String(describing: newState))
-                #endif
-                return (action, newState)
+                [reducer] action, state -> State in
+                reducer(action, state)
         }
-        .map { $0.1 }
         .bind(to: _state)
         #endif
         let actionToDerivedAction = _action.bind(to: _derivedAction)
         // Handle epics
         let actionToAction = _action
-            .observeOn(scheduler)
+            .observe(on: scheduler)
+            .withUnretained(self)
             .flatMap {
-                [weak self] action -> Observable<Action> in
-                guard let `self` = self, self.isActive, !self._epics.isEmpty else { return .empty() }
-                return .merge(self._epics.map { $0(.just(action), self._derivedAction.asObservable(), self._state.asObservable()).observeOn(self.scheduler) })
+                `self`, action -> Observable<Action> in
+                guard self.isActive, !self._epics.isEmpty else { return .empty() }
+                return .merge(self._epics.map { $0(.just(action), self._derivedAction.asObservable(), self._state.asObservable()).observe(on: self.scheduler) })
             }
-            .catchError { _ in .empty() }
+            .catch { _ in .empty() }
             .bind(to: _action)
         _ = _disposables.insert(actionToDerivedAction)
         _ = _disposables.insert(actionToAction)

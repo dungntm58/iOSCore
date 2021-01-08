@@ -8,24 +8,24 @@
 import RealmSwift
 import CoreRepository
 
-public extension RealmDataStore where T: RealmObjectBox {
+public extension RealmDataStore where T: RealmObjectWrapper {
     @discardableResult
     func saveSync(_ value: T) throws -> T {
         let realm = try Realm()
-        try Helper.instance.saveSync(value.core, ttl: ttl, realm: realm, update: self.updatePolicy)
+        try Helper.instance.saveSync(value.toObject(), ttl: ttl, realm: realm, update: self.updatePolicy)
         return value
     }
 
     @discardableResult
     func saveSync(_ values: [T]) throws -> [T] {
         let realm = try Realm()
-        try Helper.instance.saveSync(values.map(\.core), ttl: ttl, realm: realm, update: self.updatePolicy)
+        try Helper.instance.saveSync(values.map { $0.toObject() }, ttl: ttl, realm: realm, update: self.updatePolicy)
         return values
     }
 
     func deleteSync(_ value: T) throws {
         let realm = try Realm()
-        try Helper.instance.deleteSync(value.core, realm: realm)
+        try Helper.instance.deleteSync(value.toObject(), realm: realm)
     }
 
     func getList(options: DataStoreFetchOption) throws -> ListDTO<T> {
@@ -44,7 +44,7 @@ public extension RealmDataStore where T: RealmObjectBox {
     }
 }
 
-public extension RealmIdentifiableDataStore where T: RealmObjectBox {
+public extension RealmIdentifiableDataStore where T: RealmObjectWrapper {
     func getSync(_ id: T.ID, options: DataStoreFetchOption?) throws -> T {
         let realm = try Realm()
         guard let value = realm.object(ofType: T.RealmObject.self, forPrimaryKey: id) else {
@@ -53,13 +53,13 @@ public extension RealmIdentifiableDataStore where T: RealmObjectBox {
         if let expirable = value as? Expirable, let expiryDate = expirable.expiryDate, expiryDate < Date() {
             throw DataStoreError.notFound
         }
-        return T(core: value)
+        return T(object: value)
     }
 
     func lastID() throws -> T.ID {
         let realm = try Realm()
         if let value = realm.objects(T.RealmObject.self).last {
-            return T(core: value).id
+            return T(object: value).id
         }
         throw DataStoreError.lookForIDFailure
     }

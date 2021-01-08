@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'CoreRealmDataStore'
+  s.name             = 'CoreRealmDataStore-Rx'
   s.version          = '0.1.0'
   s.summary          = 'Clean Architecture'
 
@@ -33,21 +33,8 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.module_name = 'CoreRealmDataStore'
   s.swift_version = "5.2"
   s.prefix_header_file = false
-
-  s.default_subspecs = 'Rx'
-
-  s.subspec 'Rx' do |ss|
-    ss.source_files = 'Sources/RealmDataStore/**/*'
-    ss.ios.deployment_target = '10.0'
-    ss.dependency 'RealmSwift'
-    ss.dependency 'CoreRepository/DataStoreRx'
-  end
-  
-  s.subspec 'Combine' do |ss|
-    ss.source_files = 'Sources/RealmDataStore/**/*'
-    ss.ios.deployment_target = '13.0'
-    ss.framework = 'Combine'
-    ss.dependency 'RealmSwift'
-    ss.dependency 'CoreRepository/DataStoreCombine'
-  end
+  s.source_files = 'Sources/RealmDataStore/**/*'
+  s.ios.deployment_target = '10.0'
+  s.dependency 'RealmSwift'
+  s.dependency 'CoreRepository-Rx/DataStore'
 end

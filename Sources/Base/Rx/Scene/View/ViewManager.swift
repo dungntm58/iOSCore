@@ -7,11 +7,11 @@
 
 import RxSwift
 import RxCocoa
-import NSObject_Rx
 
-open class ViewManager: HasDisposeBag, SceneAssociated {
+open class ViewManager: SceneAssociated {
     private var _currentViewController: UIViewController?
     private var rootViewController: UIViewController
+    private lazy var disposeBag = DisposeBag()
     fileprivate(set) public weak var scene: Scenable?
 
     public init(viewController: UIViewController) {
@@ -86,10 +86,8 @@ extension ViewManager {
                 viewController.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))),
                 Observable.just(viewController)
             ) { $1 }
-            .subscribe(onNext: {
-                [weak self] viewController in
-                self?.currentViewController = viewController
-            })
+            .withUnretained(self)
+            .subscribe(onNext: { $0.currentViewController = $1 })
             .disposed(by: disposeBag)
 
         if let scene = scene {

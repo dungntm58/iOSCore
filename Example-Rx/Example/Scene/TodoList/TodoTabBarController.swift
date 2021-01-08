@@ -32,11 +32,9 @@ class TodoTabBarController: UITabBarController {
         store?.state
             .filter { !$0.isLogout }
             .compactMap(\.error)
-            .observeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {
-                [weak self] error in
-                self?.onError(error)
-            })
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
+            .subscribe(onNext: { $0.onError($1) })
             .disposed(by: rx.disposeBag)
         
         store?
@@ -44,26 +42,25 @@ class TodoTabBarController: UITabBarController {
             .filter { $0.error == nil }
             .map(\.isLogout)
             .filter { $0 }
-            .observeOn(MainScheduler.asyncInstance)
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
             .subscribe(onNext: {
-                [weak self] _ in
-                self?.scene?.detach(with: nil)
+                `self`, _ in
+                self.scene?.detach(with: nil)
             })
             .disposed(by: rx.disposeBag)
         
         store?
             .state
             .filter { $0.error == nil && !$0.isLogout }
-            .map(\.selectedTodoIndex)
-            .filter { $0 >= 0 }
-            .observeOn(MainScheduler.asyncInstance)
+            .compactMap(\.selectedTodo)
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
             .subscribe(onNext: {
-                [weak self] _ in
-                self?.viewManager?.showTodoDetail()
+                `self`, _ in
+                self.viewManager?.showTodoDetail()
             })
             .disposed(by: rx.disposeBag)
-        
-        store?.dispatch(type: .load, payload: Payload.List.Request(page: 1, cancelRunning: false))
     }
     
     @objc func showNewTodoAlert() {
@@ -76,10 +73,7 @@ class TodoTabBarController: UITabBarController {
                 .text
                 .orEmpty
                 .distinctUntilChanged()
-                .subscribe(onNext: {
-                    [weak self] value in
-                    self?.newTodo = value
-                })
+                .bind(to: self.rx.newTodo)
                 .disposed(by: self.rx.disposeBag)
         }
         vc.addAction(UIAlertAction(title: "OK", style: .default) {

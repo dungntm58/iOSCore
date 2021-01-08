@@ -53,7 +53,7 @@ extension Scenable {
             #endif
             if let retrieve = scene.retrieve {
                 scene.updateLifeCycle(.willBecomeActive)
-                retrieve(Optional<Any>.none as Any)
+                retrieve(nil)
                 current = scene
                 scene.updateLifeCycle(.didBecomeActive)
             } else {
@@ -73,18 +73,15 @@ extension Scenable {
 
     @inlinable
     public func set(children: [Scenable], performAtIndex index: Int?, with userInfo: Any?) {
-        guard let index = index else {
-            return self.children = children
-        }
-
-        let scene = children[index]
-        prepare(for: scene)
         self.children = children
         children.forEach {
             scene in
             scene.parent = self
             bindLifeCycle(to: scene)
         }
+        guard let index = index else { return }
+        let scene = children[index]
+        prepare(for: scene)
         current = scene
         scene.perform(with: userInfo)
         scene.updateLifeCycle(.didBecomeActive)

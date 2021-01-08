@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint CoreCoreData.podspec' to ensure this is a
+# Be sure to run `pod lib lint CoreBase.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'CoreDataStore'
+  s.name             = 'CoreBase-Combine'
   s.version          = '0.1.0'
   s.summary          = 'Clean Architecture'
 
@@ -29,25 +29,31 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform = :ios
-  s.module_name = 'CoreDataStore'
+  s.module_name = 'CoreBase'
   s.swift_version = "5.2"
   s.prefix_header_file = false
-  s.framework = "CoreData"
+  s.framework = "Foundation"
+  s.ios.framework = "UIKit"
 
-  s.default_subspecs = 'Rx'
-
-  s.subspec 'Rx' do |ss|
-    ss.source_files = 'Sources/CoreDataStore/**/*.{h,m,mm,swift,xcdatamodeld}'
-    ss.resources = 'Sources/CoreDataStore/Model/MetaModel.xcdatamodeld'
+  s.default_subspecs = 'Basics', 'Scene'
+  
+  s.subspec 'Basics' do |ss|
+    ss.source_files = 'Sources/Base/Shared/Basics/**/*'
     ss.ios.deployment_target = '10.0'
-    ss.dependency 'CoreRepository/DataStoreRx'
   end
   
-  s.subspec 'Combine' do |ss|
-    ss.source_files = 'Sources/CoreDataStore/**/*.{h,m,mm,swift,xcdatamodeld}'
-    ss.resources = 'Sources/CoreDataStore/Model/MetaModel.xcdatamodeld'
+  s.subspec 'Scene' do |ss|
+    ss.source_files = 'Sources/Base/Shared/Scene/**/*.{h,m,mm,swift}', 'Sources/Base/Combine/Scene/**/*'
+    ss.private_header_files = 'Sources/Base/Shared/Scene/**/*+Internal.h'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
-    ss.dependency 'CoreRepository/DataStoreCombine'
+  end
+  
+  s.subspec 'ReduxExtension' do |ss|
+    ss.source_files = 'Sources/Base/Shared/ReduxExtension/**/*.{h,m,mm,swift}', 'Sources/Base/Combine/ReduxExtension/**/*'
+    ss.ios.deployment_target = '13.0'
+    ss.framework = 'Combine'
+    ss.dependency 'CoreBase-Combine/Scene'
+    ss.dependency 'CoreRedux-Combine/Basics'
   end
 end

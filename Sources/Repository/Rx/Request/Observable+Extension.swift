@@ -11,7 +11,7 @@ import RxSwift
 extension Observable {
     @inlinable
     static public func first(_ source1: Observable, _ source2: Observable) -> Observable {
-        source1.catchError { _ in source2 }
+        source1.catch { _ in source2 }
     }
 
     @inlinable

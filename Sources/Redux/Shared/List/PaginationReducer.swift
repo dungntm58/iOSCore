@@ -6,7 +6,7 @@
 //  Copyright © 2018 Robert Nguyen. All rights reserved.
 //
 
-open class BaseListReducer<T, Action>: Reducable where Action: Actionable, Action.ActionType: ListActionType, T: Equatable {
+open class BaseListReducer<T, Action>: Reducible where Action: Actionable, Action.ActionType: ListActionType, T: Equatable {
     public typealias State = Payload.List.Response<T>
 
     public init() {}

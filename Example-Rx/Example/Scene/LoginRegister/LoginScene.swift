@@ -32,7 +32,7 @@ extension LoginScene {
             if let navigationController = scene?.presentedViewManager?.currentViewController.navigationController {
                 navigationController.pushViewController(currentViewController, animated: true)
             } else {
-                scene?.anyViewManager?.currentViewController.present(currentViewController, animated: true)
+                scene?.presentedViewManager?.currentViewController.present(currentViewController, animated: true)
             }
         }
     }
