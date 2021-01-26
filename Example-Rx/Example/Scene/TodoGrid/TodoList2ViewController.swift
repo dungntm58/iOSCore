@@ -72,35 +72,30 @@ class TodoList2ViewController: BaseViewController {
     func createViewSourceProvider() -> CollectionView.ViewSourceProvider<TodoViewModel> {
         return .init(collectionView: collectionView, store: .init()) {
             collectionView, viewModel in
-            ForEach(viewModel.todos) {
-                index, todo in
+            ForEach(viewModel.todos) { index, todo in
                 TodoCell(id: index, model: todo)
                     .hasFixedSize(true)
-                    .handlers(
-                        bindingFunction: ({
-                            model, view, _ in
-                            view.lbTime.text = model?.createdAt.toString()
-                            view.lbTitle.text = model?.title
-                        }),
-                        sizeEstimationHandler: ({
-                            _, collectionView in
-                            CGSize(width: collectionView.frame.width, height: 60)
-                        }),
-                        didSelectHandler: ({
-                            [weak self] indexPath in
-                            self?.store?.dispatch(type: .selectTodo, payload: indexPath.row)
-                        }))
+                    .handlers { model, view, _ in
+                        view.lbTime.text = model?.createdAt.toString()
+                        view.lbTitle.text = model?.title
+                    }
+                    sizeEstimationHandler: { _, collectionView in
+                        CGSize(width: collectionView.frame.width, height: 60)
+                    }
+                    didSelectHandler: { [weak self] indexPath in
+                        self?.store?.dispatch(type: .selectTodo, payload: indexPath.row)
+                    }
             }
-            viewModel.isAnimatedLoading ??
+            if viewModel.isAnimatedLoading {
                 LoadingCell(size: CGSize(width: collectionView.frame.width, height: 60))
-                    .willDisplayHandler({
-                        [weak self] view, indexPath in
+                    .willDisplayHandler { [weak self] view, indexPath in
                         guard let self = self else { return }
                         viewModel.isAnimatedLoading ? view.startAnimation() : view.stopAnimation()
                         
                         guard let currentPage = self.store?.currentState.list.currentPage else { return }
                         self.store?.dispatch(type: .load, payload: Payload.List.Request(page: currentPage + 1, cancelRunning: false))
-                    })
+                    }
+            }
         }
     }
 }

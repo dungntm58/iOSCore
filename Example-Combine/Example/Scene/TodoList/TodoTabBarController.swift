@@ -75,10 +75,7 @@ class TodoTabBarController: UITabBarController {
             textField
                 .publisher(for: \.text)
                 .removeDuplicates()
-                .sink(receiveValue: {
-                    [weak self] value in
-                    self?.newTodo = value
-                })
+                .assign(to: \.newTodo, on: self)
                 .store(in: &self.cancellables)
         }
         vc.addAction(UIAlertAction(title: "OK", style: .default) {

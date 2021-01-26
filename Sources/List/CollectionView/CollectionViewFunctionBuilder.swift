@@ -11,16 +11,54 @@ extension CollectionView {
     @_functionBuilder
     public struct CellBlockBuilder {
         @inlinable
-        public static func buildBlock(_ cellBlock: CollectionViewCellBlock...) -> CollectionViewCellBlock {
-            cellBlock.flatMap { $0.cells }
+        public static func buildBlock(_ content: CollectionViewCellBlock...) -> CollectionViewCellBlock {
+            content.flatMap { $0.cells }
+        }
+
+        @inlinable
+        public static func buildIf(_ content: CollectionViewCellBlock?) -> CollectionViewCellBlock {
+            if let content = content {
+                return content
+            } else {
+                return [CollectionView.AnyCell]()
+            }
+        }
+
+        @inlinable
+        public static func buildEither(first: CollectionViewCellBlock) -> CollectionViewCellBlock {
+            first
+        }
+
+        @inlinable
+        public static func buildEither(second: CollectionViewCellBlock) -> CollectionViewCellBlock {
+            second
         }
     }
 
     @_functionBuilder
     public struct SectionBlockBuilder {
         @inlinable
-        public static func buildBlock(_ sectionsBlock: CollectionViewSectionBlock...) -> CollectionViewSectionBlock {
-            sectionsBlock.flatMap { $0.sections }
+        public static func buildBlock(_ content: CollectionViewSectionBlock...) -> CollectionViewSectionBlock {
+            content.flatMap { $0.sections }
+        }
+
+        @inlinable
+        public static func buildIf(_ content: CollectionViewSectionBlock?) -> CollectionViewSectionBlock {
+            if let content = content {
+                return content
+            } else {
+                return [CollectionView.AnySection]()
+            }
+        }
+
+        @inlinable
+        public static func buildEither(first: CollectionViewSectionBlock) -> CollectionViewSectionBlock {
+            first
+        }
+
+        @inlinable
+        public static func buildEither(second: CollectionViewSectionBlock) -> CollectionViewSectionBlock {
+            second
         }
     }
 

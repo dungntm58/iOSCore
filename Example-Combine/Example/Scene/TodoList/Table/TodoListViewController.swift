@@ -67,28 +67,24 @@ class TodoListViewController: BaseViewController {
             ForEach(viewModel.todos) {
                 index, todo in
                 TodoCell(id: index, model: todo)
-                    .handlers(
-                        bindingFunction: ({
-                            model, view, _ in
-                            view.lbTime.text = model?.createdAt.toString()
-                            view.lbTitle.text = model?.title
-                        }),
-                        didSelectHandler: ({
-                            [weak self] indexPath in
-                            self?.store?.dispatch(type: .selectTodo, payload: indexPath.row)
-                        }))
+                    .handlers { model, view, _ in
+                        view.lbTime.text = model?.createdAt.toString()
+                        view.lbTitle.text = model?.title
+                    }
+                    didSelectHandler: { [weak self] indexPath in
+                        self?.store?.dispatch(type: .selectTodo, payload: indexPath.row)
+                    }
             }
-            viewModel.isAnimatedLoading ?
+            if viewModel.isAnimatedLoading {
                 LoadingCell()
-                    .willDisplayHandler({
-                        [weak self] view, indexPath in
+                    .willDisplayHandler { [weak self] view, indexPath in
                         guard let self = self else { return }
                         viewModel.isAnimatedLoading ? view.startAnimation() : view.stopAnimation()
                         
                         let currentPage = self.store?.currentState.list.currentPage ?? 0
                         self.store?.dispatch(type: .load, payload: Payload.List.Request(page: currentPage + 1, cancelRunning: false))
-                    })
-                : nil
+                    }
+            }
         }
     }
 }

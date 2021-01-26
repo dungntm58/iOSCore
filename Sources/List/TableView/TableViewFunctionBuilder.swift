@@ -11,16 +11,54 @@ extension TableView {
     @_functionBuilder
     public struct CellBlockBuilder {
         @inlinable
-        public static func buildBlock(_ cellBlock: TableViewCellBlock...) -> TableViewCellBlock {
-            cellBlock.flatMap { $0.cells }
+        public static func buildBlock(_ content: TableViewCellBlock...) -> TableViewCellBlock {
+            content.flatMap { $0.cells }
+        }
+
+        @inlinable
+        public static func buildIf(_ content: TableViewCellBlock?) -> TableViewCellBlock {
+            if let content = content {
+                return content
+            } else {
+                return [TableView.AnyCell]()
+            }
+        }
+
+        @inlinable
+        public static func buildEither(first: TableViewCellBlock) -> TableViewCellBlock {
+            first
+        }
+
+        @inlinable
+        public static func buildEither(second: TableViewCellBlock) -> TableViewCellBlock {
+            second
         }
     }
 
     @_functionBuilder
     public struct SectionBlockBuilder {
         @inlinable
-        public static func buildBlock(_ sectionsBlock: TableViewSectionBlock...) -> TableViewSectionBlock {
-            sectionsBlock.flatMap { $0.sections }
+        public static func buildBlock(_ content: TableViewSectionBlock...) -> TableViewSectionBlock {
+            content.flatMap { $0.sections }
+        }
+
+        @inlinable
+        public static func buildIf(_ content: TableViewSectionBlock?) -> TableViewSectionBlock {
+            if let content = content {
+                return content
+            } else {
+                return [TableView.AnySection]()
+            }
+        }
+
+        @inlinable
+        public static func buildEither(first: TableViewSectionBlock) -> TableViewSectionBlock {
+            first
+        }
+
+        @inlinable
+        public static func buildEither(second: TableViewSectionBlock) -> TableViewSectionBlock {
+            second
         }
     }
 
