@@ -29,7 +29,6 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform = :ios
-  s.ios.deployment_target = '9.0'
   s.module_name = 'CoreRealmDataStore'
   s.swift_version = "5.2"
   s.prefix_header_file = false
