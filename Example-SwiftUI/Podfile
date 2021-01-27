@@ -1,0 +1,37 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '13.0'
+use_frameworks!
+
+abstract_target 'Abstract_Example' do
+  pod 'CoreRedux-Combine/Basics', :path => '../'
+  pod 'CoreRedux-Combine/List', :path => '../'
+  pod 'CoreRepository-Combine/RemoteLocal', :path => '../'
+  pod 'SwiftDate'
+  pod 'Valet'
+
+  target 'Example' do
+  end
+
+  target 'Example_Realm' do
+    pod 'CoreRealmDataStore-Combine', :path => '../'
+  end
+
+  target 'Example_CoreData' do
+    pod 'CoreDataStore-Combine', :path => '../'
+  end
+
+end
+
+post_install do |installer|
+    installer.pods_project.build_configurations.each do |config|
+        config.build_settings.delete('CODE_SIGNING_ALLOWED')
+        config.build_settings.delete('CODE_SIGNING_REQUIRED')
+    end
+
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['CONFIGURATION_BUILD_DIR'] = '$PODS_CONFIGURATION_BUILD_DIR'
+            config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+        end
+    end
+end

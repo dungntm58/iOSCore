@@ -1,0 +1,75 @@
+PODS:
+  - Alamofire (5.4.1)
+  - CoreDataStore-Combine (0.1.0):
+    - CoreRepository-Combine/DataStore
+  - CoreRealmDataStore-Combine (0.1.0):
+    - CoreRepository-Combine/DataStore
+    - RealmSwift
+  - CoreRedux-Combine/Basics (0.1.0)
+  - CoreRedux-Combine/List (0.1.0):
+    - CoreRedux-Combine/Basics
+    - CoreRepository-Combine/Basics
+  - CoreRepository-Combine/Basics (0.1.0)
+  - CoreRepository-Combine/DataStore (0.1.0):
+    - CoreRepository-Combine/Basics
+  - CoreRepository-Combine/Local (0.1.0):
+    - CoreRepository-Combine/Basics
+    - CoreRepository-Combine/DataStore
+  - CoreRepository-Combine/Remote (0.1.0):
+    - CoreRepository-Combine/Basics
+    - CoreRepository-Combine/Request
+  - CoreRepository-Combine/RemoteLocal (0.1.0):
+    - CoreRepository-Combine/Local
+    - CoreRepository-Combine/Remote
+  - CoreRepository-Combine/Request (0.1.0):
+    - Alamofire
+    - CoreRepository-Combine/Basics
+  - Realm (10.5.1):
+    - Realm/Headers (= 10.5.1)
+  - Realm/Headers (10.5.1)
+  - RealmSwift (10.5.1):
+    - Realm (= 10.5.1)
+  - SwiftDate (6.3.1)
+  - Valet (4.1.1)
+
+DEPENDENCIES:
+  - CoreDataStore-Combine (from `../`)
+  - CoreRealmDataStore-Combine (from `../`)
+  - CoreRedux-Combine/Basics (from `../`)
+  - CoreRedux-Combine/List (from `../`)
+  - CoreRepository-Combine/RemoteLocal (from `../`)
+  - SwiftDate
+  - Valet
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Realm
+    - RealmSwift
+    - SwiftDate
+    - Valet
+
+EXTERNAL SOURCES:
+  CoreDataStore-Combine:
+    :path: "../"
+  CoreRealmDataStore-Combine:
+    :path: "../"
+  CoreRedux-Combine:
+    :path: "../"
+  CoreRepository-Combine:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  CoreDataStore-Combine: c67521187ffa05f41aa4a0dfb387080a3a68a84b
+  CoreRealmDataStore-Combine: 5d91573cf97e95df8fd73a80623fb3112d6aaa2f
+  CoreRedux-Combine: ceeb6fd0ae72b00855f2e699826ee7f66a68da7a
+  CoreRepository-Combine: 20395f3b6598fcb3be3084c039a8e9c0d063b14f
+  Realm: 77fcb4e0b9f2963ea06f584749a0d7dc9cab95e1
+  RealmSwift: 6abe6aa6cd8b70cc1a87afcb9232cabea74ff1ac
+  SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
+  Valet: 11ab0e318b7284888a81392e36136563b4af5deb
+
+PODFILE CHECKSUM: 5cc47f794fc1a2fb4f4ae472720e980d228b683d
+
+COCOAPODS: 1.10.0
