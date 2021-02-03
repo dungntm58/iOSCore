@@ -10,34 +10,34 @@ public protocol ViewControllerAssociated {
 }
 
 @propertyWrapper
-final public class SceneReferenced<S>: ViewControllerAssociated where S: Scenable {
+final public class SceneReferenced<S>: ViewControllerAssociated {
 
     public init() {}
 
     private weak var viewController: UIViewController?
-    private weak var scene: S?
+    private var weakScene: AnyWeak?
 
     public func associate(with viewController: UIViewController) {
         self.viewController = viewController
-        guard scene == nil else { return }
-        scene = ReferenceManager.getScene(associatedWith: viewController)
+        guard weakScene == nil else { return }
+        weakScene = ReferenceManager.getScene(associatedWith: viewController).map(AnyWeak.init(value:))
     }
 
     public var wrappedValue: S? {
-        if let scene = scene { return scene }
+        if let scene = weakScene?.value as? S { return scene }
         guard let viewController = viewController else { return nil }
-        scene = ReferenceManager.getScene(associatedWith: viewController)
+        let scene: S? = ReferenceManager.getScene(associatedWith: viewController)
+        weakScene = (scene as AnyObject?).map(AnyWeak.init(value:))
         return scene
     }
 }
 
 extension UIViewController {
     @objc dynamic func configAssociation() {
-        let mirror = Mirror(reflecting: self)
-        for (_, value) in mirror.children {
-            if let sceneRef = value as? ViewControllerAssociated {
-                sceneRef.associate(with: self)
-            }
-        }
+        Mirror(reflecting: self)
+            .children
+            .filter { $0.value is ViewControllerAssociated }
+            .compactMap { $0.value as? ViewControllerAssociated }
+            .forEach { $0.associate(with: self) }
     }
 }

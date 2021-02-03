@@ -18,7 +18,7 @@ public protocol ViewControllerLookingForAssociatedScene where Self: UIViewContro
     // Value: weak ref of scenable instance
     private static var sceneDictionary: [Int: AnyWeak] = [:]
 
-    static func getScene<S>(associatedWith viewController: UIViewController) -> S? where S: Scenable {
+    static func getScene<S>(associatedWith viewController: UIViewController) -> S? {
         if let scene = sceneDictionary[viewController.hashValue]?.value as? S {
             return scene
         }

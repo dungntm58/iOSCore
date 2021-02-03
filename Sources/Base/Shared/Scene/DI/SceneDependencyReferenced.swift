@@ -49,7 +49,7 @@ final public class SceneDependency<S>: SceneAssociated where S: SceneAssociated 
 }
 
 @propertyWrapper
-final public class SceneDependencyReferenced<S>: ViewControllerAssociated where S: SceneAssociated {
+final public class SceneDependencyReferenced<S>: ViewControllerAssociated {
 
     public init(keyPath: String? = nil) {
         self.keyPath = keyPath
@@ -59,7 +59,7 @@ final public class SceneDependencyReferenced<S>: ViewControllerAssociated where 
     private weak var scene: Scenable?
     private weak var viewController: UIViewController?
     private var dependency: S?
-    private weak var weakDependency: S?
+    private var weakDependency: AnyWeak?
 
     public func associate(with viewController: UIViewController) {
         self.viewController = viewController
@@ -67,22 +67,22 @@ final public class SceneDependencyReferenced<S>: ViewControllerAssociated where 
     }
 
     public var wrappedValue: S? {
-        if let dependency = dependency ?? weakDependency { return dependency }
+        if let dependency = dependency ?? weakDependency?.value as? S { return dependency }
         guard let scene = scene else {
             guard let viewController = viewController,
                 let scene = ReferenceManager.getAbstractScene(associatedWith: viewController) else { return nil }
             self.scene = scene
             let dependency: S? = scene.getDependency(keyPath: keyPath)
-            if dependency === viewController {
-                self.weakDependency = dependency
+            if dependency as? UIViewController === viewController {
+                self.weakDependency = AnyWeak(value: viewController)
             } else {
                 self.dependency = dependency
             }
             return dependency
         }
         let dependency: S? = scene.getDependency(keyPath: keyPath)
-        if dependency === viewController {
-            self.weakDependency = dependency
+        if dependency as? UIViewController === viewController {
+            self.weakDependency = AnyWeak(value: viewController)
         } else {
             self.dependency = dependency
         }

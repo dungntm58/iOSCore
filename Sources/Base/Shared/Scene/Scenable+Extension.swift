@@ -194,7 +194,7 @@ extension Scenable {
     public var anyViewManager: ViewManagable? {
         Mirror(reflecting: self)
             .children
-            .compactMap({
+            .compactMap {
                 if let viewManager = $0.value as? ViewManagable {
                     return viewManager
                 }
@@ -203,7 +203,7 @@ extension Scenable {
                     .first { $0.label == "dependency" }?
                     .value
                 return dependency.flattened() as? ViewManagable
-            })
+            }
             .first
     }
 

@@ -72,7 +72,9 @@ struct Helper {
 
             metaManagedContext.insert(newMeta)
         }
-        try metaManagedContext.save()
+        if metaManagedContext.hasChanges {
+            try metaManagedContext.save()
+        }
     }
 
     func saveSync(_ values: [NSManagedObject], ttl: TimeInterval, managedContext: NSManagedObjectContext, metaManagedContext: NSManagedObjectContext) throws {
@@ -101,8 +103,9 @@ struct Helper {
                 metaManagedContext.insert(newMeta)
             }
         }
-
-        try metaManagedContext.save()
+        if metaManagedContext.hasChanges {
+            try metaManagedContext.save()
+        }
     }
 
     func deleteSync(_ value: NSManagedObject, managedContext: NSManagedObjectContext, metaManagedContext: NSManagedObjectContext) throws {

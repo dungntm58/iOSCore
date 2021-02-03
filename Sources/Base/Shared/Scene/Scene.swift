@@ -13,12 +13,11 @@ open class Scene: Scenable {
         self.managedContext = managedContext
         self.id = UUID().uuidString
 
-        let mirror = Mirror(reflecting: self)
-        for (_, value) in mirror.children {
-            if let sceneRef = value as? SceneAssociated {
-                sceneRef.associate(with: self)
-            }
-        }
+        Mirror(reflecting: self)
+            .children
+            .filter { $0.value is SceneAssociated }
+            .compactMap { $0.value as? SceneAssociated }
+            .forEach { $0.associate(with: self) }
     }
 
     open func perform(with userInfo: Any?) {
