@@ -72,6 +72,14 @@ extension TableView {
             self.cells = CellBlockBuilder().cells
         }
 
+        public init<Header, Footer>(id: ID, @SectionBuilder<Header, Footer> _ SectionBuilder: () -> SectionBuilder<Header, Footer>) where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
+            self.id = id
+            let builder = SectionBuilder()
+            self.header = builder.header?.eraseToAny()
+            self.footer = builder.footer?.eraseToAny()
+            self.cells = builder.cells
+        }
+
         public func refine<Header, Footer>(header: Header?, footer: Footer?, @CellBlockBuilder _ CellBlockBuilder: () -> TableViewCellBlock) -> Self where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
             precondition(header == nil || header?.position == .header)
             precondition(footer == nil || footer?.position == .footer)

@@ -98,9 +98,3 @@ class TodoListViewController: BaseViewController {
         }
     }
 }
-
-extension TodoListViewController.TodoCell {
-    init(id: ID, model: Model) {
-        self.init(id: id, type: .nib(nibName: "TodoTableViewCell", bundle: nil), model: model)
-    }
-}

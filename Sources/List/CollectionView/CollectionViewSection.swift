@@ -82,6 +82,14 @@ extension CollectionView {
             self.cells = CellBlockBuilder().cells
         }
 
+        public init<Header, Footer>(id: ID, @SectionBuilder<Header, Footer> _ SectionBuilder: () -> SectionBuilder<Header, Footer>) where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
+            self.id = id
+            let builder = SectionBuilder()
+            self.header = builder.header?.eraseToAny()
+            self.footer = builder.footer?.eraseToAny()
+            self.cells = builder.cells
+        }
+
         public func refine<Header, Footer>(header: Header?, footer: Footer?, @CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) -> Self where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
             precondition(header == nil || header?.position == .header)
             precondition(footer == nil || footer?.position == .footer)

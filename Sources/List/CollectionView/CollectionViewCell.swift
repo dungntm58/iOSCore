@@ -48,8 +48,22 @@ extension CollectionView {
         @usableFromInline
         var didDeselectHandler: SelectionInteractiveHandler?
 
-        public init(id: ID, type: CellType, reuseIdentifier: String? = nil, model: Model?) {
+        public init(id: ID, type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
             self.id = id
+            self.type = type
+            self.reuseIdentifier = reuseIdentifier ?? type.identifier
+            self.model = model
+            self.hasFixedSize = true
+        }
+
+        public init(id: ID, reuseIdentifier: String? = nil, model: Model? = nil) {
+            self.id = id
+            let type: CellType
+            if View.self === UICollectionViewCell.self {
+                type = .default
+            } else {
+                type = .nib(nibName: String(describing: View.self), bundle: Bundle(for: View.classForCoder()))
+            }
             self.type = type
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
             self.model = model
@@ -208,8 +222,13 @@ extension CollectionView {
 
 extension CollectionView.Cell where ID == UniqueIdentifier {
     @inlinable
-    public init(type: CellType, reuseIdentifier: String? = nil, model: Model?) {
+    public init(type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
         self.init(id: .init(), type: type, reuseIdentifier: reuseIdentifier, model: model)
+    }
+
+    @inlinable
+    public init(reuseIdentifier: String? = nil, model: Model? = nil) {
+        self.init(id: .init(), reuseIdentifier: reuseIdentifier, model: model)
     }
 }
 
