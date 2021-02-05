@@ -15,9 +15,9 @@ import Toaster
 
 class TodoTabBarController: UITabBarController {
     
-    @SceneReferenced var scene: Scenable?
-    @SceneDependencyReferenced var store: TodoStore?
-    @SceneDependencyReferenced var viewManager: TodoScene.ViewManager?
+    @SceneReferenced var scene: TodoSceneProtocol?
+    @SceneDependencyReferenced var viewModel: TodoViewModelProtocol?
+    @SceneDependencyReferenced var viewManager: TodoViewManagable?
     
     var newTodo: String?
     
@@ -29,19 +29,13 @@ class TodoTabBarController: UITabBarController {
         self.navigationItem.rightBarButtonItems = [btnAdd, btnLogout]
         self.navigationItem.hidesBackButton = true
         
-        store?.state
-            .filter { !$0.isLogout }
-            .compactMap(\.error)
+        viewModel?.errorObservale
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .subscribe(onNext: { $0.onError($1) })
             .disposed(by: rx.disposeBag)
         
-        store?
-            .state
-            .filter { $0.error == nil }
-            .map(\.isLogout)
-            .filter { $0 }
+        viewModel?.isLogoutObservable
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .subscribe(onNext: {
@@ -50,10 +44,7 @@ class TodoTabBarController: UITabBarController {
             })
             .disposed(by: rx.disposeBag)
         
-        store?
-            .state
-            .filter { $0.error == nil && !$0.isLogout }
-            .compactMap(\.selectedTodo)
+        viewModel?.selectedTodoObservable
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .subscribe(onNext: {
@@ -78,7 +69,7 @@ class TodoTabBarController: UITabBarController {
         }
         vc.addAction(UIAlertAction(title: "OK", style: .default) {
             _ in
-            self.store?.dispatch(type: .createTodo, payload: self.newTodo)
+            self.viewModel?.createNewTodo(self.newTodo)
         })
         present(vc, animated: true)
     }
@@ -88,7 +79,7 @@ class TodoTabBarController: UITabBarController {
     }
     
     @objc func logout() {
-        self.store?.dispatch(type: .logout)
+        viewModel?.logout()
     }
     
     func showSuccess() {

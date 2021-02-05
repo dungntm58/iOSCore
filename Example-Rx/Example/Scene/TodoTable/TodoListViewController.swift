@@ -22,19 +22,16 @@ class TodoListViewController: BaseViewController {
     
     lazy var refreshControl = UIRefreshControl()
     
-    @SceneDependencyReferenced var store: TodoListStore?
+    @SceneDependencyReferenced var viewModel: TodoListViewModelProtocol?
 
     lazy var viewSourceProvider = createViewSourceProvider()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let store = store else { return }
+        guard let viewModel = viewModel else { return }
         
-        store.state
-            .filter { $0.error == nil }
-            .map(\.list)
-            .distinctUntilChanged()
+        viewModel.todosObservable
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .subscribe(onNext: { `self`, response in
@@ -62,11 +59,11 @@ class TodoListViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if isViewAppeared { return }
-        store?.dispatch(type: .load, payload: Payload.List.Request(page: 1, cancelRunning: false))
+        viewModel?.load(page: 1)
     }
     
     @objc func refreshData(_ sender: UIRefreshControl) {
-        self.store?.dispatch(type: .load, payload: 0)
+        self.viewModel?.load()
     }
     
     func createViewSourceProvider() -> TableView.ViewSourceProvider<TodoViewModel> {
@@ -79,7 +76,7 @@ class TodoListViewController: BaseViewController {
                         view.lbTitle.text = model?.title
                     }
                     didSelectHandler: { [weak self] indexPath in
-                        self?.store?.dispatch(type: .selectTodo, payload: indexPath.row)
+                        self?.viewModel?.selectTodo(at: indexPath.row)
                     }
             }
             if viewModel.isAnimatedLoading {
@@ -88,11 +85,8 @@ class TodoListViewController: BaseViewController {
                         guard let self = self else { return }
                         viewModel.isAnimatedLoading ? view.startAnimation() : view.stopAnimation()
                         
-                        guard let currentPage = self.store?.currentState.list.currentPage else { return }
-                        self.store?.dispatch(
-                            type: .load,
-                            payload: Payload.List.Request(page: currentPage + 1, cancelRunning: false)
-                        )
+                        guard let currentPage = self.viewModel?.currentPage else { return }
+                        self.viewModel?.load(page: currentPage + 1)
                     }
             }
         }

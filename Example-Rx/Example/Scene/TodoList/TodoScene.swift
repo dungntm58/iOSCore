@@ -14,6 +14,10 @@ protocol TodoSceneProtocol: Scenable {
     
 }
 
+protocol TodoViewManagable {
+    func showTodoDetail()
+}
+
 class TodoScene: Scene, TodoSceneProtocol {
     
     @SceneDependency var store = TodoStore()
@@ -58,7 +62,7 @@ class TodoScene: Scene, TodoSceneProtocol {
 }
 
 extension TodoScene {
-    class ViewManager: CoreBase.ViewManager {
+    class ViewManager: CoreBase.ViewManager, TodoViewManagable {
         init() {
             super.init(viewController: {
                 let todoVC = AppStoryboard.main.viewController(of: TodoTabBarController.self)

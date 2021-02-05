@@ -71,16 +71,3 @@ enum Todo {
         }
     }
 }
-
-extension TodoEntity: ViewModelItem, Differentiable {
-    var differenceIdentifier: String { id }
-    
-    typealias DifferenceIdentifier = String
-    
-    func isContentEqual(to source: TodoEntity) -> Bool {
-        title == source.title
-            && completed == source.completed
-            && owner == source.owner
-            && createdAt == source.createdAt
-    }
-}

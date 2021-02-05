@@ -8,15 +8,6 @@
 
 import DifferenceKit
 
-public protocol ViewModelItem {
-    func toAnyEquatable() -> AnyEquatable
-}
-
-extension ViewModelItem where Self: Equatable {
-    @inlinable
-    public func toAnyEquatable() -> AnyEquatable { .init(self) }
-}
-
 @frozen
 public enum HeaderFooterPosition {
     case header

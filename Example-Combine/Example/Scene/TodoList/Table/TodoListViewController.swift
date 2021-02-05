@@ -23,16 +23,16 @@ class TodoListViewController: BaseViewController {
     
     lazy var cancellables = Set<AnyCancellable>()
     
-    @SceneDependencyReferenced var store: TodoStore?
+    @SceneDependencyReferenced var viewModel: TodoStore?
 
     lazy var viewSourceProvider = createViewSourceProvider()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let store = store else { return }
+        guard let viewModel = viewModel else { return }
         
-        store.state
+        viewModel.state
             .filter { $0.error == nil && !$0.isLogout }
             .map(\.list)
             .removeDuplicates()
@@ -58,7 +58,7 @@ class TodoListViewController: BaseViewController {
     }
     
     @objc func refreshData(_ sender: UIRefreshControl) {
-        self.store?.dispatch(type: .load, payload: 0)
+        self.viewModel?.dispatch(type: .load, payload: 0)
     }
     
     func createViewSourceProvider() -> TableView.ViewSourceProvider<TodoViewModel> {
@@ -72,7 +72,7 @@ class TodoListViewController: BaseViewController {
                         view.lbTitle.text = model?.title
                     }
                     didSelectHandler: { [weak self] indexPath in
-                        self?.store?.dispatch(type: .selectTodo, payload: indexPath.row)
+                        self?.viewModel?.dispatch(type: .selectTodo, payload: indexPath.row)
                     }
             }
             if viewModel.isAnimatedLoading {
@@ -81,8 +81,8 @@ class TodoListViewController: BaseViewController {
                         guard let self = self else { return }
                         viewModel.isAnimatedLoading ? view.startAnimation() : view.stopAnimation()
                         
-                        let currentPage = self.store?.currentState.list.currentPage ?? 0
-                        self.store?.dispatch(type: .load, payload: Payload.List.Request(page: currentPage + 1, cancelRunning: false))
+                        let currentPage = self.viewModel?.currentState.list.currentPage ?? 0
+                        self.viewModel?.dispatch(type: .load, payload: Payload.List.Request(page: currentPage + 1, cancelRunning: false))
                     }
             }
         }

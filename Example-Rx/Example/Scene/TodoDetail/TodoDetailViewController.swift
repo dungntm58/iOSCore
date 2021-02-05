@@ -11,13 +11,13 @@ import CoreBase
 class TodoDetailViewController: UIViewController {
     @IBOutlet weak var lbTitle: UILabel!
     
-    @SceneReferenced var scene: TodoScene?
-    @SceneDependencyReferenced var store: TodoStore?
+    @SceneReferenced var scene: TodoSceneProtocol?
+    @SceneDependencyReferenced var viewModel: TodoViewModelProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        lbTitle.text = store?.currentState.selectedTodo?.title
+        lbTitle.text = viewModel?.selectedTodo?.title
     }
     
     @IBAction func onBack(_ sender: UIButton) {

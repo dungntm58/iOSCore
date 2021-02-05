@@ -15,7 +15,7 @@ import Toaster
 class TodoTabBarController: UITabBarController {
     
     @SceneReferenced var scene: TodoScene?
-    @SceneDependencyReferenced var store: TodoStore?
+    @SceneDependencyReferenced var viewModel: TodoStore?
     @SceneDependencyReferenced var viewManager: TodoScene.ViewManager?
     
     var newTodo: String?
@@ -30,7 +30,7 @@ class TodoTabBarController: UITabBarController {
         self.navigationItem.rightBarButtonItems = [btnAdd, btnLogout]
         self.navigationItem.hidesBackButton = true
         
-        store?.state
+        viewModel?.state
             .filter { !$0.isLogout }
             .compactMap(\.error)
             .receive(on: DispatchQueue.main)
@@ -40,7 +40,7 @@ class TodoTabBarController: UITabBarController {
             })
             .store(in: &cancellables)
         
-        store?
+        viewModel?
             .state
             .filter { $0.error == nil }
             .map(\.isLogout)
@@ -52,7 +52,7 @@ class TodoTabBarController: UITabBarController {
             })
             .store(in: &cancellables)
         
-        store?
+        viewModel?
             .state
             .filter { $0.error == nil && !$0.isLogout }
             .map(\.selectedTodoIndex)
@@ -64,7 +64,7 @@ class TodoTabBarController: UITabBarController {
             })
             .store(in: &cancellables)
         
-        store?.dispatch(type: .load, payload: Payload.List.Request(page: 1, cancelRunning: false))
+        viewModel?.dispatch(type: .load, payload: Payload.List.Request(page: 1, cancelRunning: false))
     }
     
     @objc func showNewTodoAlert() {
@@ -80,7 +80,7 @@ class TodoTabBarController: UITabBarController {
         }
         vc.addAction(UIAlertAction(title: "OK", style: .default) {
             _ in
-            self.store?.dispatch(type: .createTodo, payload: self.newTodo as Any)
+            self.viewModel?.dispatch(type: .createTodo, payload: self.newTodo as Any)
         })
         present(vc, animated: true)
     }
@@ -90,7 +90,7 @@ class TodoTabBarController: UITabBarController {
     }
     
     @objc func logout() {
-        store?.dispatch(type: .logout, payload: 0)
+        viewModel?.dispatch(type: .logout, payload: 0)
     }
     
     func showSuccess() {
