@@ -39,7 +39,6 @@ extension TodoListStore: TodoListViewModelProtocol {
         state.filter { $0.error == nil }
             .map(\.list)
             .distinctUntilChanged()
-            .asObservable()
     }
     
     var currentPage: Int {

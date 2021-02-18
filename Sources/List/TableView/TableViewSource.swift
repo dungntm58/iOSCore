@@ -69,7 +69,7 @@ extension TableView {
 
         @inlinable
         final public func reload(interrupt: ((Changeset<[AnySection]>) -> Bool)? = nil) {
-            reload(animation: .automatic)
+            reload(animation: .automatic, interrupt: interrupt)
         }
 
         @inlinable
@@ -81,7 +81,8 @@ extension TableView {
                    reloadSectionsAnimation: animation(),
                    deleteRowsAnimation: animation(),
                    insertRowsAnimation: animation(),
-                   reloadRowsAnimation: animation())
+                   reloadRowsAnimation: animation(),
+                   interrupt: interrupt)
         }
 
         final public func reload(deleteSectionsAnimation: @autoclosure () -> RowAnimation,

@@ -38,7 +38,7 @@ extension TableView {
             box.willDisplay(view: view, at: indexPath)
         }
 
-        public func didEndDisplaying(view: View,at indexPath: IndexPath) {
+        public func didEndDisplaying(view: View, at indexPath: IndexPath) {
             box.didEndDisplaying(view: view, at: indexPath)
         }
 
@@ -61,7 +61,7 @@ private protocol AnyTableViewCellBox: CellInteractable {
 
     func bind(model: Any?, to view: UITableViewCell, at indexPath: IndexPath)
     func willDisplay(view: UITableViewCell, at indexPath: IndexPath)
-    func didEndDisplaying(view: UITableViewCell,at indexPath: IndexPath)
+    func didEndDisplaying(view: UITableViewCell, at indexPath: IndexPath)
 }
 
 private extension TableView.AnyCell {
@@ -92,7 +92,7 @@ private extension TableView.AnyCell {
         @inlinable
         func bind(model: Any?, to view: UITableViewCell, at indexPath: IndexPath) {
             guard let view = view as? Base.View else {
-                preconditionFailure("Opaque cell must associate with view type \(String(describing: Base.Model.self))")
+                preconditionFailure("Opaque cell must associate with view type \(String(describing: Base.View.self))")
             }
             _base.bind(model: model as? Base.Model, to: view, at: indexPath)
         }

@@ -40,19 +40,16 @@ extension TodoStore: TodoViewModelProtocol {
         state.filter { $0.error == nil }
             .map(\.isLogout)
             .filter { $0 }
-            .asObservable()
     }
     
     var errorObservale: Observable<Error> {
         state.filter { !$0.isLogout }
             .compactMap(\.error)
-            .asObservable()
     }
     
     var selectedTodoObservable: Observable<TodoEntity> {
         state.filter { $0.error == nil && !$0.isLogout }
             .compactMap(\.selectedTodo)
-            .asObservable()
     }
     
     var selectedTodo: TodoEntity? {

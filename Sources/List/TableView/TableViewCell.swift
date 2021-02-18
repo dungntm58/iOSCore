@@ -22,7 +22,7 @@ extension TableViewCell {
 
 extension TableView {
     @frozen
-    public struct Cell<ID, Model, View>: TableViewCell, TableViewCellBlock, CellPresentable, CellInteractable where ID: Hashable, Model: Equatable, View: UITableViewCell {
+    public struct Cell<ID, Model, View>: TableViewCell, TableViewCellBlock, CellInteractable where ID: Hashable, Model: Equatable, View: UITableViewCell {
         public let id: ID
         public let type: CellType
         public let reuseIdentifier: String
