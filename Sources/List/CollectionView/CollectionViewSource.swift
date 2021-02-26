@@ -23,9 +23,8 @@ extension CollectionView {
         private weak var collectionView: UICollectionView?
 
         private var viewHashValue: Int {
-            willSet {
-                DI.generator[viewHashValue] = nil
-                DI.generator[newValue] = generator
+            didSet {
+                DI.generator[viewHashValue] = generator
             }
         }
 
