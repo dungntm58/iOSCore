@@ -72,7 +72,7 @@ class TodoList2ViewController: BaseViewController {
                         view.lbTime.text = model?.createdAt.toString()
                         view.lbTitle.text = model?.title
                     }
-                    sizeEstimationHandler: { _, _ in
+                    sizeEstimationHandler: { _, collectionView in
                         CGSize(width: collectionView.frame.width, height: 60)
                     }
                     didSelectHandler: { [weak self] indexPath in

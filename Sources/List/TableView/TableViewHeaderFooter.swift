@@ -41,7 +41,21 @@ extension TableView {
         @usableFromInline
         var didEndDisplayingHandler: SectionInteractiveHandler?
 
-        public init(position: HeaderFooterPosition, type: CellType = .default, reuseIdentifier: String? = nil, model: Model?) {
+        public init(position: HeaderFooterPosition, reuseIdentifier: String? = nil, model: Model? = nil) {
+            let type: CellType
+            if View.self === UITableViewHeaderFooterView.self {
+                type = .default
+            } else {
+                type = .nib(nibName: String(describing: View.self), bundle: Bundle(for: View.classForCoder()))
+            }
+            self.type = type
+            self.reuseIdentifier = reuseIdentifier ?? type.identifier
+            self.position = position
+            self.height = UITableView.automaticDimension
+            self.model = model
+        }
+
+        public init(position: HeaderFooterPosition, type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
             self.type = type
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
             self.position = position
@@ -105,5 +119,17 @@ extension TableView {
         public func didEndDisplaying(view: View, at section: Int) {
             didEndDisplayingHandler?(view, section)
         }
+    }
+}
+
+extension TableView.HeaderFooter where Model == AnyEquatable {
+    @inlinable
+    public init(position: HeaderFooterPosition, reuseIdentifier: String? = nil) {
+        self.init(position: position, reuseIdentifier: reuseIdentifier, model: nil)
+    }
+
+    @inlinable
+    public init(position: HeaderFooterPosition, type: CellType, reuseIdentifier: String? = nil) {
+        self.init(position: position, type: type, reuseIdentifier: reuseIdentifier, model: nil)
     }
 }
