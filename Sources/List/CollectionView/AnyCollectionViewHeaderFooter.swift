@@ -33,8 +33,8 @@ extension CollectionView {
             box.bind(model: model, to: view, at: indexPath)
         }
 
-        public func estimateSize(in view: UICollectionReusableView, collectionView: UICollectionView) -> CGSize {
-            box.estimateSize(in: view, collectionView: collectionView)
+        public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+            box.estimateSize(layout: layout, collectionView: collectionView)
         }
 
         public func willDisplay(view: View, at indexPath: IndexPath) {
@@ -66,7 +66,7 @@ private protocol AnyCollectionViewHeaderFooterBox {
     var hashString: String { get }
 
     func bind(model: Any?, to view: UICollectionReusableView, at indexPath: IndexPath)
-    func estimateSize(in view: UICollectionReusableView, collectionView: UICollectionView) -> CGSize
+    func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize
     func willDisplay(view: UICollectionReusableView, at indexPath: IndexPath)
     func didEndDisplaying(view: UICollectionReusableView, at indexPath: IndexPath)
 }
@@ -128,9 +128,8 @@ private extension CollectionView.AnyHeaderFooter {
         }
 
         @inlinable
-        func estimateSize(in view: UICollectionReusableView, collectionView: UICollectionView) -> CGSize {
-            guard let view = view as? Base.View else { return .zero }
-            return _base.estimateSize(in: view, collectionView: collectionView)
+        func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+            return _base.estimateSize(layout: layout, collectionView: collectionView)
         }
 
         @inlinable

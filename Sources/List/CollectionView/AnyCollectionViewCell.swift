@@ -35,8 +35,8 @@ extension CollectionView {
             box.bind(model: model?.base, to: view, at: indexPath)
         }
 
-        public func estimateSize(in view: UICollectionViewCell, collectionView: UICollectionView) -> CGSize {
-            box.estimateSize(in: view, collectionView: collectionView)
+        public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+            box.estimateSize(layout: layout, collectionView: collectionView)
         }
 
         public func willDisplay(view: View, at indexPath: IndexPath) {
@@ -66,7 +66,7 @@ private protocol AnyCollectionViewCellBox: CellInteractable {
     var hashString: String { get }
 
     func bind(model: Any?, to view: UICollectionViewCell, at indexPath: IndexPath)
-    func estimateSize(in view: UICollectionViewCell, collectionView: UICollectionView) -> CGSize
+    func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize
     func willDisplay(view: UICollectionViewCell, at indexPath: IndexPath)
     func didEndDisplaying(view: UICollectionViewCell, at indexPath: IndexPath)
 }
@@ -125,9 +125,8 @@ private extension CollectionView.AnyCell {
         }
 
         @inlinable
-        func estimateSize(in view: UICollectionViewCell, collectionView: UICollectionView) -> CGSize {
-            guard let view = view as? Base.View else { return .zero }
-            return _base.estimateSize(in: view, collectionView: collectionView)
+        func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+            return _base.estimateSize(layout: layout, collectionView: collectionView)
         }
 
         @inlinable

@@ -17,12 +17,12 @@ extension CollectionViewHeaderFooter {
     public func eraseToAny() -> CollectionView.AnyHeaderFooter { .init(self) }
 
     @inlinable
-    public func estimateSize(in view: View, collectionView: UICollectionView) -> CGSize {
+    public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
         switch position {
         case .header:
-            return (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.headerReferenceSize ?? view.intrinsicContentSize
+            return (layout as? UICollectionViewFlowLayout)?.headerReferenceSize ?? .zero
         case .footer:
-            return (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.footerReferenceSize ?? view.intrinsicContentSize
+            return (layout as? UICollectionViewFlowLayout)?.footerReferenceSize ?? .zero
         }
     }
 }
@@ -119,15 +119,15 @@ extension CollectionView {
         }
 
         @inlinable
-        public func estimateSize(in view: View, collectionView: UICollectionView) -> CGSize {
-            if let size = sizeEstimationHandler?(view, collectionView) {
+        public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+            if let size = sizeEstimationHandler?(layout, collectionView) {
                 return size
             }
             switch position {
             case .header:
-                return (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.headerReferenceSize ?? view.intrinsicContentSize
+                return (layout as? UICollectionViewFlowLayout)?.headerReferenceSize ?? .zero
             case .footer:
-                return (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.footerReferenceSize ?? view.intrinsicContentSize
+                return (layout as? UICollectionViewFlowLayout)?.footerReferenceSize ?? .zero
             }
         }
 

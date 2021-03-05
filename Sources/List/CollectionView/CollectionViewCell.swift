@@ -8,9 +8,9 @@
 import Foundation
 
 public protocol CollectionViewCellPresentable: CellPresentable {
-    typealias SizeEstimationHandler = (View, UICollectionView) -> CGSize
+    typealias SizeEstimationHandler = (UICollectionViewLayout, UICollectionView) -> CGSize
 
-    func estimateSize(in view: View, collectionView: UICollectionView) -> CGSize
+    func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize
     var hasFixedSize: Bool { get }
 }
 
@@ -22,8 +22,8 @@ extension CollectionViewCell {
     public func eraseToAny() -> CollectionView.AnyCell { .init(self) }
 
     @inlinable
-    public func estimateSize(in view: View, collectionView: UICollectionView) -> CGSize {
-        (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize ?? view.intrinsicContentSize
+    public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+        (layout as? UICollectionViewFlowLayout)?.itemSize ?? .init(width: 50, height: 50)
     }
 }
 
@@ -136,8 +136,8 @@ extension CollectionView {
         }
 
         @inlinable
-        public func estimateSize(in view: View, collectionView: UICollectionView) -> CGSize {
-            sizeEstimationHandler?(view, collectionView) ?? (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize ?? view.intrinsicContentSize
+        public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+            sizeEstimationHandler?(layout, collectionView) ?? (layout as? UICollectionViewFlowLayout)?.itemSize ?? CGSize(width: 50, height: 50)
         }
 
         @inlinable
@@ -190,7 +190,7 @@ extension CollectionView {
         public func bind(model: Model?, to view: View, at indexPath: IndexPath) {}
 
         @inlinable
-        public func estimateSize(in view: LoadingCollectionViewCell, collectionView: UICollectionView) -> CGSize {
+        public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
             size
         }
 

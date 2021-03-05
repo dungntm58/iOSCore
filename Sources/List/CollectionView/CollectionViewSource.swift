@@ -122,24 +122,32 @@ extension CollectionView.Adapter: UICollectionViewDataSource {
         }
         let cellView = collectionView.dequeue(cell: cell, for: indexPath)
         cell.bind(model: cell.model, to: cellView, at: indexPath)
-        let cellHashString = cell.hashString
-        switch sizeCacheMode {
-        case .currentContext:
-            if cachedCellSize[cellHashString] == nil {
-                cachedCellSize[cellHashString] = cell.estimateSize(in: cellView, collectionView: collectionView)
-            }
-        case .global:
-            if CollectionView.DI.cachedCellSize[cellHashString] == nil {
-                CollectionView.DI.cachedCellSize[cellHashString] = cell.estimateSize(in: cellView, collectionView: collectionView)
-            }
-        }
         return cellView
     }
 }
 
 extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        cachedCellSize[differenceSections[indexPath.section].cells[indexPath.row].hashString] ?? .zero
+        let cell = differenceSections[indexPath.section].cells[indexPath.row]
+        let cellHashString = cell.hashString
+        let size: CGSize
+        switch sizeCacheMode {
+        case .currentContext:
+            if let cachedSize = cachedCellSize[cellHashString] {
+                size = cachedSize
+            } else {
+                size = cell.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+                cachedCellSize[cellHashString] = size
+            }
+        case .global:
+            if let cachedSize = CollectionView.DI.cachedCellSize[cellHashString] {
+                size = cachedSize
+            } else {
+                size = cell.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+                CollectionView.DI.cachedCellSize[cellHashString] = size
+            }
+        }
+        return size
     }
 
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -165,17 +173,6 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
         }
         let headerFooterView = collectionView.dequeue(headerFooter: headerFooter, for: indexPath)
         headerFooter.bind(model: headerFooter.model, to: headerFooterView, at: indexPath)
-        let headerHashString = headerFooter.hashString
-        switch sizeCacheMode {
-        case .currentContext:
-            if cachedHeaderFooterSize[headerHashString] == nil {
-                cachedHeaderFooterSize[headerHashString] = headerFooter.estimateSize(in: headerFooterView, collectionView: collectionView)
-            }
-        case .global:
-            if CollectionView.DI.cachedHeaderFooterSize[headerHashString] == nil {
-                CollectionView.DI.cachedHeaderFooterSize[headerHashString] = headerFooter.estimateSize(in: headerFooterView, collectionView: collectionView)
-            }
-        }
         return headerFooterView
     }
 
@@ -220,23 +217,53 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
     }
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        guard let header = differenceSections[section].header else { return .zero }
+        guard let headerFooter = differenceSections[section].header else {
+            return .zero
+        }
+        let headerHashString = headerFooter.hashString
+        let size: CGSize
         switch sizeCacheMode {
         case .currentContext:
-            return cachedHeaderFooterSize[header.hashString] ?? .zero
+            if let cachedSize = cachedHeaderFooterSize[headerHashString] {
+                size = cachedSize
+            } else {
+                size = headerFooter.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+                cachedHeaderFooterSize[headerHashString] = size
+            }
         case .global:
-            return CollectionView.DI.cachedHeaderFooterSize[header.hashString] ?? .zero
+            if let cachedSize = CollectionView.DI.cachedHeaderFooterSize[headerHashString] {
+                size = cachedSize
+            } else {
+                size = headerFooter.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+                CollectionView.DI.cachedHeaderFooterSize[headerHashString] = size
+            }
         }
+        return size
     }
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        guard let footer = differenceSections[section].footer else { return .zero }
+        guard let headerFooter = differenceSections[section].footer else {
+            return .zero
+        }
+        let headerHashString = headerFooter.hashString
+        let size: CGSize
         switch sizeCacheMode {
         case .currentContext:
-            return cachedHeaderFooterSize[footer.hashString] ?? .zero
+            if let cachedSize = cachedHeaderFooterSize[headerHashString] {
+                size = cachedSize
+            } else {
+                size = headerFooter.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+                cachedHeaderFooterSize[headerHashString] = size
+            }
         case .global:
-            return CollectionView.DI.cachedHeaderFooterSize[footer.hashString] ?? .zero
+            if let cachedSize = CollectionView.DI.cachedHeaderFooterSize[headerHashString] {
+                size = cachedSize
+            } else {
+                size = headerFooter.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+                CollectionView.DI.cachedHeaderFooterSize[headerHashString] = size
+            }
         }
+        return size
     }
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
