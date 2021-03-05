@@ -25,6 +25,10 @@ public protocol CollectionViewSection {
     var minimumInteritemSpacing: CGFloat { get }
 }
 
+public protocol CollectionViewDecorativeSection: CollectionViewSection {
+    
+}
+
 extension CollectionViewSection {
     @inlinable
     public var hasHeader: Bool {
@@ -149,9 +153,107 @@ extension CollectionView {
             return other
         }
     }
+
+    @frozen
+    public struct DecorativeSection<ID>: CollectionViewSection, CollectionViewSectionBlock where ID: Hashable {
+        public let id: ID
+        public internal(set) var header: AnyHeaderFooter?
+        public internal(set) var footer: AnyHeaderFooter?
+        public internal(set) var cells: [AnyCell]
+        public internal(set) var inset: UIEdgeInsets = CollectionView.sectionInset
+        public internal(set) var minimumLineSpacing: CGFloat = CollectionView.sectionMinimumLineSpacing
+        public internal(set) var minimumInteritemSpacing: CGFloat = CollectionView.sectionMinimumInteritemSpacing
+
+        public init(id: ID) {
+            self.id = id
+            self.header = nil
+            self.footer = nil
+            self.cells = []
+        }
+
+        public init(id: ID, @CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) {
+            self.id = id
+            self.header = nil
+            self.footer = nil
+            self.cells = CellBlockBuilder().cells
+        }
+
+        public init<Header, Footer>(id: ID, @SectionBuilder<Header, Footer> _ SectionBuilder: () -> SectionBuilder<Header, Footer>) where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
+            self.id = id
+            let builder = SectionBuilder()
+            self.header = builder.header?.eraseToAny()
+            self.footer = builder.footer?.eraseToAny()
+            self.cells = builder.cells
+        }
+
+        public func refine<Header, Footer>(header: Header?, footer: Footer?, @CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) -> Self where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
+            precondition(header == nil || header?.position == .header)
+            precondition(footer == nil || footer?.position == .footer)
+
+            var other = self
+            other.header = header?.eraseToAny()
+            other.footer = footer?.eraseToAny()
+            other.cells = CellBlockBuilder().cells
+            return other
+        }
+
+        @inlinable
+        public func refine<Header>(header: Header?, @CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) -> Self where Header: CollectionViewHeaderFooter {
+            refine(header: header, footer: footer, CellBlockBuilder)
+        }
+
+        @inlinable
+        public func refine<Footer>(footer: Footer?, @CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) -> Self where Footer: CollectionViewHeaderFooter {
+            refine(header: header, footer: footer, CellBlockBuilder)
+        }
+
+        @inlinable
+        public func refine(@CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) -> Self {
+            refine(header: header, footer: footer, CellBlockBuilder)
+        }
+
+        public func refine<Header, Footer>(@SectionBuilder<Header, Footer> _ SectionBuilder: () -> SectionBuilder<Header, Footer>) -> Self where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
+            var other = self
+            let builder = SectionBuilder()
+            other.header = builder.header?.eraseToAny()
+            other.footer = builder.footer?.eraseToAny()
+            other.cells = builder.cells
+            return other
+        }
+
+        public func inset(_ inset: UIEdgeInsets) -> Self {
+            var other = self
+            other.inset = inset
+            return other
+        }
+
+        public func minimumLineSpacing(_ minimumLineSpacing: CGFloat) -> Self {
+            var other = self
+            other.minimumLineSpacing = minimumLineSpacing
+            return other
+        }
+
+        public func minimumInteritemSpacing(_ minimumInteritemSpacing: CGFloat) -> Self {
+            var other = self
+            other.minimumInteritemSpacing = minimumInteritemSpacing
+            return other
+        }
+    }
 }
 
 extension CollectionView.Section where ID == UniqueIdentifier {
+    @inlinable
+    public init(@CollectionView.CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) {
+        self.init(id: .init(), CellBlockBuilder)
+    }
+
+    @inlinable
+    public init() {
+        self.init(id: .init())
+    }
+}
+
+extension CollectionView.DecorativeSection where ID == UniqueIdentifier {
     @inlinable
     public init(@CollectionView.CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) {
         self.init(id: .init(), CellBlockBuilder)
