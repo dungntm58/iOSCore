@@ -131,6 +131,12 @@ extension CollectionView {
             return other
         }
 
+        public func inset(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> Self {
+            var other = self
+            other.inset = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+            return other
+        }
+
         public func minimumLineSpacing(_ minimumLineSpacing: CGFloat) -> Self {
             var other = self
             other.minimumLineSpacing = minimumLineSpacing
