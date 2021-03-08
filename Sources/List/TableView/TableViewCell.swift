@@ -47,10 +47,32 @@ extension TableView {
             self.model = model
         }
 
+        public init(id: ID, cellType: View.Type, type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
+            self.id = id
+            self.type = type
+            self.reuseIdentifier = reuseIdentifier ?? type.identifier
+            self.height = UITableView.automaticDimension
+            self.model = model
+        }
+
+        public init(id: ID, cellType: View.Type, reuseIdentifier: String? = nil, model: Model? = nil) {
+            self.id = id
+            let type: CellType
+            if cellType === UITableViewCell.self {
+                type = .default
+            } else {
+                type = .nib(nibName: String(describing: cellType), bundle: Bundle(for: View.classForCoder()))
+            }
+            self.type = type
+            self.reuseIdentifier = reuseIdentifier ?? type.identifier
+            self.height = UITableView.automaticDimension
+            self.model = model
+        }
+
         public init(id: ID, reuseIdentifier: String? = nil, model: Model? = nil) {
             self.id = id
             let type: CellType
-            if View.self === UICollectionViewCell.self {
+            if View.self === UITableViewCell.self {
                 type = .default
             } else {
                 type = .nib(nibName: String(describing: View.self), bundle: Bundle(for: View.classForCoder()))
@@ -196,6 +218,17 @@ extension TableView.Cell where ID == UniqueIdentifier {
     public init(type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
         self.init(id: .init(), type: type, reuseIdentifier: reuseIdentifier, model: model)
     }
+
+    @inlinable
+    public init(cellType: View.Type, type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
+        self.init(id: .init(), cellType: cellType, type: type, reuseIdentifier: reuseIdentifier, model: model)
+    }
+
+    @inlinable
+    public init(cellType: View.Type, reuseIdentifier: String? = nil, model: Model? = nil) {
+        self.init(id: .init(), cellType: cellType, reuseIdentifier: reuseIdentifier, model: model)
+    }
+
 
     @inlinable
     public init(reuseIdentifier: String? = nil, model: Model? = nil) {

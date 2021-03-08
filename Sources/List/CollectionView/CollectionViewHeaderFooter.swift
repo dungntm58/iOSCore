@@ -43,7 +43,7 @@ extension CollectionView {
         var willDisplayHandler: IndexPathInteractiveHandler?
         @usableFromInline
         var didEndDisplayingHandler: IndexPathInteractiveHandler?
-        
+
         public init(position: HeaderFooterPosition, reuseIdentifier: String? = nil, model: Model? = nil) {
             let type: CellType
             if View.self === UICollectionReusableView.self {
@@ -58,7 +58,32 @@ extension CollectionView {
             self.hasFixedSize = true
         }
 
+        public init(position: HeaderFooterPosition, cellType: View.Type, reuseIdentifier: String? = nil, model: Model? = nil) {
+            let type: CellType
+            if cellType === UICollectionReusableView.self {
+                preconditionFailure("View must be a subclass of UICollectionReusableView")
+            } else {
+                type = .nib(nibName: String(describing: cellType), bundle: Bundle(for: View.classForCoder()))
+            }
+            self.type = type
+            self.reuseIdentifier = reuseIdentifier ?? type.identifier
+            self.position = position
+            self.model = model
+            self.hasFixedSize = true
+        }
+
         public init(position: HeaderFooterPosition, type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
+            if case .default = type {
+                assertionFailure("Type default is not supported")
+            }
+            self.type = type
+            self.reuseIdentifier = reuseIdentifier ?? type.identifier
+            self.position = position
+            self.model = model
+            self.hasFixedSize = true
+        }
+
+        public init(position: HeaderFooterPosition, cellType: View.Type, type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
             if case .default = type {
                 assertionFailure("Type default is not supported")
             }
@@ -150,7 +175,17 @@ extension CollectionView.HeaderFooter where Model == AnyEquatable {
     }
 
     @inlinable
+    public init(position: HeaderFooterPosition, cellType: View.Type, reuseIdentifier: String? = nil) {
+        self.init(position: position, cellType: cellType, reuseIdentifier: reuseIdentifier, model: nil)
+    }
+
+    @inlinable
     public init(position: HeaderFooterPosition, type: CellType, reuseIdentifier: String? = nil) {
         self.init(position: position, type: type, reuseIdentifier: reuseIdentifier, model: nil)
+    }
+
+    @inlinable
+    public init(position: HeaderFooterPosition, cellType: View.Type, type: CellType, reuseIdentifier: String? = nil) {
+        self.init(position: position, cellType: cellType, type: type, reuseIdentifier: reuseIdentifier, model: nil)
     }
 }

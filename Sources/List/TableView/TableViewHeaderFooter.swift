@@ -55,7 +55,29 @@ extension TableView {
             self.model = model
         }
 
+        public init(position: HeaderFooterPosition, cellType: View.Type, reuseIdentifier: String? = nil, model: Model? = nil) {
+            let type: CellType
+            if cellType === UITableViewHeaderFooterView.self {
+                type = .default
+            } else {
+                type = .nib(nibName: String(describing: cellType), bundle: Bundle(for: View.classForCoder()))
+            }
+            self.type = type
+            self.reuseIdentifier = reuseIdentifier ?? type.identifier
+            self.position = position
+            self.height = UITableView.automaticDimension
+            self.model = model
+        }
+
         public init(position: HeaderFooterPosition, type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
+            self.type = type
+            self.reuseIdentifier = reuseIdentifier ?? type.identifier
+            self.position = position
+            self.height = UITableView.automaticDimension
+            self.model = model
+        }
+
+        public init(position: HeaderFooterPosition, cellType: View.Type, type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
             self.type = type
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
             self.position = position
@@ -129,7 +151,17 @@ extension TableView.HeaderFooter where Model == AnyEquatable {
     }
 
     @inlinable
+    public init(position: HeaderFooterPosition, cellType: View.Type, reuseIdentifier: String? = nil) {
+        self.init(position: position, cellType: cellType, reuseIdentifier: reuseIdentifier, model: nil)
+    }
+
+    @inlinable
     public init(position: HeaderFooterPosition, type: CellType, reuseIdentifier: String? = nil) {
         self.init(position: position, type: type, reuseIdentifier: reuseIdentifier, model: nil)
+    }
+
+    @inlinable
+    public init(position: HeaderFooterPosition, cellType: View.Type, type: CellType, reuseIdentifier: String? = nil) {
+        self.init(position: position, cellType: cellType, type: type, reuseIdentifier: reuseIdentifier, model: nil)
     }
 }

@@ -56,6 +56,28 @@ extension CollectionView {
             self.hasFixedSize = true
         }
 
+        public init(id: ID, cellType: View.Type, type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
+            self.id = id
+            self.type = type
+            self.reuseIdentifier = reuseIdentifier ?? type.identifier
+            self.model = model
+            self.hasFixedSize = true
+        }
+
+        public init(id: ID, cellType: View.Type, reuseIdentifier: String? = nil, model: Model? = nil) {
+            self.id = id
+            let type: CellType
+            if cellType === UICollectionViewCell.self {
+                type = .default
+            } else {
+                type = .nib(nibName: String(describing: cellType), bundle: Bundle(for: View.classForCoder()))
+            }
+            self.type = type
+            self.reuseIdentifier = reuseIdentifier ?? type.identifier
+            self.model = model
+            self.hasFixedSize = true
+        }
+
         public init(id: ID, reuseIdentifier: String? = nil, model: Model? = nil) {
             self.id = id
             let type: CellType
@@ -224,6 +246,16 @@ extension CollectionView.Cell where ID == UniqueIdentifier {
     @inlinable
     public init(type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
         self.init(id: .init(), type: type, reuseIdentifier: reuseIdentifier, model: model)
+    }
+
+    @inlinable
+    public init(cellType: View.Type, type: CellType, reuseIdentifier: String? = nil, model: Model? = nil) {
+        self.init(id: .init(), cellType: cellType, type: type, reuseIdentifier: reuseIdentifier, model: model)
+    }
+
+    @inlinable
+    public init(cellType: View.Type, reuseIdentifier: String? = nil, model: Model? = nil) {
+        self.init(id: .init(), cellType: cellType, reuseIdentifier: reuseIdentifier, model: model)
     }
 
     @inlinable
