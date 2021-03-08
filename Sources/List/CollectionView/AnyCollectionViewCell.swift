@@ -86,10 +86,10 @@ private extension CollectionView.AnyCell {
             case .default:
                 viewHash = "UICollectionViewCell"
             case .class(let `class`):
-                viewHash = String(describing: `class`)
+                viewHash = "\(String(describing: `class`))_\(Bundle(for: `class`).bundleIdentifier ?? "")"
             case .nib(let nibName, let bundle):
                 if let bundleID = bundle?.bundleIdentifier {
-                    viewHash = nibName + bundleID
+                    viewHash = "\(nibName)_\(bundleID)"
                 } else {
                     viewHash = nibName
                 }

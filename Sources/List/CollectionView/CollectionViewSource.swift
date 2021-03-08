@@ -129,6 +129,9 @@ extension CollectionView.Adapter: UICollectionViewDataSource {
 extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cell = differenceSections[indexPath.section].cells[indexPath.row]
+        guard cell.hasFixedSize else {
+            return cell.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+        }
         let cellHashString = cell.hashString
         let size: CGSize
         switch sizeCacheMode {
@@ -220,6 +223,9 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
         guard let headerFooter = differenceSections[section].header else {
             return .zero
         }
+        guard headerFooter.hasFixedSize else {
+            return headerFooter.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+        }
         let headerHashString = headerFooter.hashString
         let size: CGSize
         switch sizeCacheMode {
@@ -244,6 +250,9 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         guard let headerFooter = differenceSections[section].footer else {
             return .zero
+        }
+        guard headerFooter.hasFixedSize else {
+            return headerFooter.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
         }
         let headerHashString = headerFooter.hashString
         let size: CGSize
