@@ -15,9 +15,6 @@ import RxSwift
 
 class TodoList2ViewController: BaseViewController {
     
-    typealias TodoCell = CollectionView.Cell<Int, TodoEntity, TodoCollectionViewCell>
-    typealias LoadingCell = CollectionView.LoadingCell
-    
     @IBOutlet weak var collectionView: UICollectionView!
     
     lazy var refreshControl = UIRefreshControl()
@@ -68,7 +65,7 @@ class TodoList2ViewController: BaseViewController {
         return .init(collectionView: collectionView, store: .init()) {
             collectionView, viewModel in
             ForEach(viewModel.todos) { index, todo in
-                TodoCell(id: index, model: todo)
+                CollectionView.Cell(id: index, cellType: TodoCollectionViewCell.self, model: todo)
                     .hasFixedSize(true)
                     .handlers { model, view, _ in
                         view.lbTime.text = model?.createdAt.toString()
@@ -80,9 +77,10 @@ class TodoList2ViewController: BaseViewController {
                     didSelectHandler: { [weak self] indexPath in
                         self?.viewModel?.selectTodo(at: indexPath.row)
                     }
+                CollectionView.Cell()
             }
             if viewModel.isAnimatedLoading {
-                LoadingCell(size: CGSize(width: collectionView.frame.width, height: 60))
+                CollectionView.LoadingCell(size: CGSize(width: collectionView.frame.width, height: 60))
                     .willDisplayHandler { [weak self] view, indexPath in
                         guard let self = self else { return }
                         viewModel.isAnimatedLoading ? view.startAnimation() : view.stopAnimation()

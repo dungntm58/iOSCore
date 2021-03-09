@@ -15,9 +15,6 @@ import Combine
 
 class TodoList2ViewController: BaseViewController {
     
-    typealias TodoCell = CollectionView.Cell<Int, TodoEntity, TodoCollectionViewCell>
-    typealias LoadingCell = CollectionView.LoadingCell
-    
     @IBOutlet weak var collectionView: UICollectionView!
     
     lazy var refreshControl = UIRefreshControl()
@@ -67,20 +64,24 @@ class TodoList2ViewController: BaseViewController {
             collectionView, viewModel in
             ForEach(viewModel.todos) {
                 index, todo in
-                TodoCell(id: index, model: todo)
-                    .handlers { model, view, _ in
-                        view.lbTime.text = model?.createdAt.toString()
-                        view.lbTitle.text = model?.title
-                    }
-                    sizeEstimationHandler: { _, collectionView in
-                        CGSize(width: collectionView.frame.width, height: 60)
-                    }
-                    didSelectHandler: { [weak self] indexPath in
-                        self?.viewModel?.dispatch(type: .selectTodo, payload: indexPath.row)
-                    }
+                CollectionView.Cell(
+                    id: index,
+                    cellType: TodoCollectionViewCell.self,
+                    model: todo
+                )
+                .handlers { model, view, _ in
+                    view.lbTime.text = model?.createdAt.toString()
+                    view.lbTitle.text = model?.title
+                }
+                sizeEstimationHandler: { _, collectionView in
+                    CGSize(width: collectionView.frame.width, height: 60)
+                }
+                didSelectHandler: { [weak self] indexPath in
+                    self?.viewModel?.dispatch(type: .selectTodo, payload: indexPath.row)
+                }
             }
             if viewModel.isAnimatedLoading {
-                LoadingCell(size: CGSize(width: collectionView.frame.width, height: 60))
+                CollectionView.LoadingCell(size: CGSize(width: collectionView.frame.width, height: 60))
                     .willDisplayHandler { [weak self] view, indexPath in
                         guard let self = self else { return }
                         viewModel.isAnimatedLoading ? view.startAnimation() : view.stopAnimation()
@@ -90,11 +91,5 @@ class TodoList2ViewController: BaseViewController {
                     }
             }
         }
-    }
-}
-
-extension TodoList2ViewController.TodoCell {
-    init(id: ID, model: Model) {
-        self.init(id: id, type: .nib(nibName: "TodoCollectionViewCell", bundle: nil), model: model)
     }
 }

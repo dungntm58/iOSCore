@@ -14,9 +14,6 @@ import Combine
 
 class TodoListViewController: BaseViewController {
     
-    typealias TodoCell = TableView.Cell<Int, TodoEntity, TodoTableViewCell>
-    typealias LoadingCell = TableView.LoadingCell
-    
     @IBOutlet weak var tableView: UITableView!
     
     lazy var refreshControl = UIRefreshControl()
@@ -66,7 +63,7 @@ class TodoListViewController: BaseViewController {
             tableView, viewModel in
             ForEach(viewModel.todos) {
                 index, todo in
-                TodoCell(id: index, model: todo)
+                TableView.Cell(id: index, cellType: TodoTableViewCell.self, model: todo)
                     .handlers { model, view, _ in
                         view.lbTime.text = model?.createdAt.toString()
                         view.lbTitle.text = model?.title
@@ -76,7 +73,7 @@ class TodoListViewController: BaseViewController {
                     }
             }
             if viewModel.isAnimatedLoading {
-                LoadingCell()
+                TableView.LoadingCell()
                     .willDisplayHandler { [weak self] view, indexPath in
                         guard let self = self else { return }
                         viewModel.isAnimatedLoading ? view.startAnimation() : view.stopAnimation()
@@ -86,11 +83,5 @@ class TodoListViewController: BaseViewController {
                     }
             }
         }
-    }
-}
-
-extension TodoListViewController.TodoCell {
-    init(id: ID, model: Model) {
-        self.init(id: id, type: .nib(nibName: "TodoTableViewCell", bundle: nil), model: model)
     }
 }

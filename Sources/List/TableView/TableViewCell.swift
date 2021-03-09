@@ -229,10 +229,53 @@ extension TableView.Cell where ID == UniqueIdentifier {
         self.init(id: .init(), cellType: cellType, reuseIdentifier: reuseIdentifier, model: model)
     }
 
-
     @inlinable
     public init(reuseIdentifier: String? = nil, model: Model? = nil) {
         self.init(id: .init(), reuseIdentifier: reuseIdentifier, model: model)
+    }
+}
+
+extension TableView.Cell where Model == AnyEquatable {
+    @inlinable
+    public init(id: ID, type: CellType, reuseIdentifier: String? = nil) {
+        self.init(id: id, type: type, reuseIdentifier: reuseIdentifier, model: nil)
+    }
+
+    @inlinable
+    public init(id: ID, cellType: View.Type, reuseIdentifier: String? = nil) {
+        self.init(id: id, cellType: cellType, reuseIdentifier: reuseIdentifier, model: nil)
+    }
+
+    @inlinable
+    public init(id: ID, cellType: View.Type, type: CellType, reuseIdentifier: String? = nil) {
+        self.init(id: id, cellType: cellType, type: type, reuseIdentifier: reuseIdentifier, model: nil)
+    }
+
+    @inlinable
+    public init(id: ID, reuseIdentifier: String? = nil) {
+        self.init(id: id, reuseIdentifier: reuseIdentifier, model: nil)
+    }
+}
+
+extension TableView.Cell where ID == UniqueIdentifier, Model == AnyEquatable {
+    @inlinable
+    public init(type: CellType, reuseIdentifier: String? = nil) {
+        self.init(type: type, reuseIdentifier: reuseIdentifier, model: nil)
+    }
+
+    @inlinable
+    public init(cellType: View.Type, reuseIdentifier: String? = nil) {
+        self.init(cellType: cellType, reuseIdentifier: reuseIdentifier, model: nil)
+    }
+
+    @inlinable
+    public init(cellType: View.Type, type: CellType, reuseIdentifier: String? = nil) {
+        self.init(cellType: cellType, type: type, reuseIdentifier: reuseIdentifier, model: nil)
+    }
+
+    @inlinable
+    public init(reuseIdentifier: String? = nil) {
+        self.init(reuseIdentifier: reuseIdentifier, model: nil)
     }
 }
 
