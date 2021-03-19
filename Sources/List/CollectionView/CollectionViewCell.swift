@@ -10,7 +10,8 @@ import Foundation
 public protocol CollectionViewCellPresentable: CellPresentable {
     typealias SizeEstimationHandler = (UICollectionViewLayout, UICollectionView) -> CGSize
 
-    func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize
+    var estimatedSize: CGSize? { get }
+    func size(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize
     var hasFixedSize: Bool { get }
 }
 
@@ -22,8 +23,8 @@ extension CollectionViewCell {
     public func eraseToAny() -> CollectionView.AnyCell { .init(self) }
 
     @inlinable
-    public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
-        (layout as? UICollectionViewFlowLayout)?.itemSize ?? .init(width: 50, height: 50)
+    public func size(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+        estimatedSize ?? (layout as? UICollectionViewFlowLayout)?.itemSize ?? .init(width: 50, height: 50)
     }
 }
 
@@ -34,6 +35,7 @@ extension CollectionView {
         public let type: CellType
         public let reuseIdentifier: String
         public let model: Model?
+        internal(set) public var estimatedSize: CGSize?
         internal(set) public var hasFixedSize: Bool
         @usableFromInline
         var bindingFunction: BindingFunction?
@@ -98,6 +100,12 @@ extension CollectionView {
             return other
         }
 
+        public func estimatedSize(_ size: CGSize?) -> Self {
+            var other = self
+            other.estimatedSize = size
+            return other
+        }
+
         @inlinable
         public func bind(_ bindingFunction: BindingFunction?) -> Self {
             var other = self
@@ -158,8 +166,8 @@ extension CollectionView {
         }
 
         @inlinable
-        public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
-            sizeEstimationHandler?(layout, collectionView) ?? (layout as? UICollectionViewFlowLayout)?.itemSize ?? CGSize(width: 50, height: 50)
+        public func size(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+            estimatedSize ?? sizeEstimationHandler?(layout, collectionView) ?? (layout as? UICollectionViewFlowLayout)?.itemSize ?? CGSize(width: 50, height: 50)
         }
 
         @inlinable
@@ -191,7 +199,7 @@ extension CollectionView {
         public let id: LoadingIdentifier
         public let type: CellType
         public let reuseIdentifier: String
-        public let size: CGSize
+        public let estimatedSize: CGSize?
         public let model: Model?
         public let hasFixedSize: Bool
         @usableFromInline
@@ -203,18 +211,13 @@ extension CollectionView {
             self.id = .init()
             self.type = .nib(nibName: "LoadingCollectionViewCell", bundle: Bundle(for: LoadingCollectionViewCell.classForCoder()))
             self.reuseIdentifier = type.identifier
-            self.size = size
+            self.estimatedSize = size
             self.model = nil
             self.hasFixedSize = true
         }
 
         @inlinable
         public func bind(model: Model?, to view: View, at indexPath: IndexPath) {}
-
-        @inlinable
-        public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
-            size
-        }
 
         @inlinable
         public func willDisplayHandler(_ willDisplayHandler: IndexPathInteractiveHandler?) -> Self {

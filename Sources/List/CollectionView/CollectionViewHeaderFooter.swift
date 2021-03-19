@@ -17,7 +17,10 @@ extension CollectionViewHeaderFooter {
     public func eraseToAny() -> CollectionView.AnyHeaderFooter { .init(self) }
 
     @inlinable
-    public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+    public func size(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+        if let size = estimatedSize {
+            return size
+        }
         switch position {
         case .header:
             return (layout as? UICollectionViewFlowLayout)?.headerReferenceSize ?? .zero
@@ -35,6 +38,7 @@ extension CollectionView {
         public let position: HeaderFooterPosition
         public let model: Model?
         internal(set) public var hasFixedSize: Bool
+        internal(set) public var estimatedSize: CGSize?
         @usableFromInline
         var bindingFunction: BindingFunction?
         @usableFromInline
@@ -100,6 +104,12 @@ extension CollectionView {
             return other
         }
 
+        public func estimatedSize(_ size: CGSize?) -> Self {
+            var other = self
+            other.estimatedSize = size
+            return other
+        }
+
         @inlinable
         public func bind(_ bindingFunction: BindingFunction?) -> Self {
             var other = self
@@ -144,8 +154,8 @@ extension CollectionView {
         }
 
         @inlinable
-        public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
-            if let size = sizeEstimationHandler?(layout, collectionView) {
+        public func size(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+            if let size = estimatedSize ?? sizeEstimationHandler?(layout, collectionView) {
                 return size
             }
             switch position {

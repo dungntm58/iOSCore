@@ -130,7 +130,7 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cell = differenceSections[indexPath.section].cells[indexPath.row]
         guard cell.hasFixedSize else {
-            return cell.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+            return cell.size(layout: collectionViewLayout, collectionView: collectionView)
         }
         let cellHashString = cell.hashString
         let size: CGSize
@@ -139,14 +139,14 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
             if let cachedSize = cachedCellSize[cellHashString] {
                 size = cachedSize
             } else {
-                size = cell.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+                size = cell.size(layout: collectionViewLayout, collectionView: collectionView)
                 cachedCellSize[cellHashString] = size
             }
         case .global:
             if let cachedSize = CollectionView.DI.cachedCellSize[cellHashString] {
                 size = cachedSize
             } else {
-                size = cell.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+                size = cell.size(layout: collectionViewLayout, collectionView: collectionView)
                 CollectionView.DI.cachedCellSize[cellHashString] = size
             }
         }
@@ -224,7 +224,7 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
             return .zero
         }
         guard headerFooter.hasFixedSize else {
-            return headerFooter.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+            return headerFooter.size(layout: collectionViewLayout, collectionView: collectionView)
         }
         let headerHashString = headerFooter.hashString
         let size: CGSize
@@ -233,14 +233,14 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
             if let cachedSize = cachedHeaderFooterSize[headerHashString] {
                 size = cachedSize
             } else {
-                size = headerFooter.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+                size = headerFooter.size(layout: collectionViewLayout, collectionView: collectionView)
                 cachedHeaderFooterSize[headerHashString] = size
             }
         case .global:
             if let cachedSize = CollectionView.DI.cachedHeaderFooterSize[headerHashString] {
                 size = cachedSize
             } else {
-                size = headerFooter.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+                size = headerFooter.size(layout: collectionViewLayout, collectionView: collectionView)
                 CollectionView.DI.cachedHeaderFooterSize[headerHashString] = size
             }
         }
@@ -252,7 +252,7 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
             return .zero
         }
         guard headerFooter.hasFixedSize else {
-            return headerFooter.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+            return headerFooter.size(layout: collectionViewLayout, collectionView: collectionView)
         }
         let headerHashString = headerFooter.hashString
         let size: CGSize
@@ -261,14 +261,14 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
             if let cachedSize = cachedHeaderFooterSize[headerHashString] {
                 size = cachedSize
             } else {
-                size = headerFooter.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+                size = headerFooter.size(layout: collectionViewLayout, collectionView: collectionView)
                 cachedHeaderFooterSize[headerHashString] = size
             }
         case .global:
             if let cachedSize = CollectionView.DI.cachedHeaderFooterSize[headerHashString] {
                 size = cachedSize
             } else {
-                size = headerFooter.estimateSize(layout: collectionViewLayout, collectionView: collectionView)
+                size = headerFooter.size(layout: collectionViewLayout, collectionView: collectionView)
                 CollectionView.DI.cachedHeaderFooterSize[headerHashString] = size
             }
         }

@@ -29,14 +29,15 @@ extension CollectionView {
         public var reuseIdentifier: String { box.reuseIdentifier }
         public var model: Model? { box.model }
         public var hasFixedSize: Bool { box.hasFixedSize }
+        public var estimatedSize: CGSize? { box.estimatedSize }
         var hashString: String { box.hashString }
 
         public func bind(model: Model?, to view: View, at indexPath: IndexPath) {
             box.bind(model: model?.base, to: view, at: indexPath)
         }
 
-        public func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
-            box.estimateSize(layout: layout, collectionView: collectionView)
+        public func size(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+            box.size(layout: layout, collectionView: collectionView)
         }
 
         public func willDisplay(view: View, at indexPath: IndexPath) {
@@ -64,9 +65,10 @@ private protocol AnyCollectionViewCellBox: CellInteractable {
     var model: AnyEquatable? { get }
     var hasFixedSize: Bool { get }
     var hashString: String { get }
+    var estimatedSize: CGSize? { get }
 
     func bind(model: Any?, to view: UICollectionViewCell, at indexPath: IndexPath)
-    func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize
+    func size(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize
     func willDisplay(view: UICollectionViewCell, at indexPath: IndexPath)
     func didEndDisplaying(view: UICollectionViewCell, at indexPath: IndexPath)
 }
@@ -117,6 +119,9 @@ private extension CollectionView.AnyCell {
         var hasFixedSize: Bool { _base.hasFixedSize }
 
         @inlinable
+        var estimatedSize: CGSize? { _base.estimatedSize }
+
+        @inlinable
         func bind(model: Any?, to view: UICollectionViewCell, at indexPath: IndexPath) {
             guard let view = view as? Base.View else {
                 preconditionFailure("Opaque cell must associate with view type \(String(describing: Base.View.self))")
@@ -125,8 +130,8 @@ private extension CollectionView.AnyCell {
         }
 
         @inlinable
-        func estimateSize(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
-            return _base.estimateSize(layout: layout, collectionView: collectionView)
+        func size(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
+            _base.size(layout: layout, collectionView: collectionView)
         }
 
         @inlinable
