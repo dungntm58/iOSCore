@@ -72,7 +72,7 @@ extension CollectionView {
         let cells: [AnyCell]
 
         @usableFromInline
-        init(header: Header?, cells: [AnyCell], footer: Footer?) {
+        init(header: Header?, cells: [AnyCell] = [], footer: Footer?) {
             precondition(header == nil || header?.position == .header)
             precondition(footer == nil || footer?.position == .footer)
 
@@ -85,7 +85,8 @@ extension CollectionView {
         public static func buildBlock(
             _ header: Header? = nil,
             _ cellBlock: CollectionViewCellBlock,
-            _ footer: Footer? = nil) -> SectionBuilder {
+            _ footer: Footer? = nil
+        ) -> Self {
             .init(header: header, cells: cellBlock.cells, footer: footer)
         }
 
@@ -94,7 +95,8 @@ extension CollectionView {
             _ header: Header? = nil,
             _ cellBlock1: CollectionViewCellBlock,
             _ cellBlock2: CollectionViewCellBlock,
-            _ footer: Footer? = nil) -> SectionBuilder {
+            _ footer: Footer? = nil
+        ) -> Self {
             .init(header: header,
                   cells: cellBlock1.cells + cellBlock2.cells,
                   footer: footer)
@@ -106,7 +108,8 @@ extension CollectionView {
             _ cellBlock1: CollectionViewCellBlock,
             _ cellBlock2: CollectionViewCellBlock,
             _ cellBlock3: CollectionViewCellBlock,
-            _ footer: Footer? = nil) -> SectionBuilder {
+            _ footer: Footer? = nil
+        ) -> Self {
             .init(header: header,
                   cells: cellBlock1.cells + cellBlock2.cells + cellBlock3.cells,
                   footer: footer)
@@ -119,7 +122,8 @@ extension CollectionView {
             _ cellBlock2: CollectionViewCellBlock,
             _ cellBlock3: CollectionViewCellBlock,
             _ cellBlock4: CollectionViewCellBlock,
-            _ footer: Footer? = nil) -> SectionBuilder {
+            _ footer: Footer? = nil
+        ) -> Self {
             let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
             return .init(header: header,
                          cells: cellBlocks0 + cellBlock4.cells,
@@ -134,7 +138,8 @@ extension CollectionView {
             _ cellBlock3: CollectionViewCellBlock,
             _ cellBlock4: CollectionViewCellBlock,
             _ cellBlock5: CollectionViewCellBlock,
-            _ footer: Footer? = nil) -> SectionBuilder {
+            _ footer: Footer? = nil
+        ) -> Self {
             let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
             return .init(header: header,
                          cells: cellBlocks0 + cellBlock4.cells + cellBlock5.cells,
@@ -150,7 +155,8 @@ extension CollectionView {
             _ cellBlock4: CollectionViewCellBlock,
             _ cellBlock5: CollectionViewCellBlock,
             _ cellBlock6: CollectionViewCellBlock,
-            _ footer: Footer? = nil) -> SectionBuilder {
+            _ footer: Footer? = nil
+        ) -> Self {
             let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
             let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
             return .init(header: header,
@@ -168,7 +174,8 @@ extension CollectionView {
             _ cellBlock5: CollectionViewCellBlock,
             _ cellBlock6: CollectionViewCellBlock,
             _ cellBlock7: CollectionViewCellBlock,
-            _ footer: Footer? = nil) -> SectionBuilder {
+            _ footer: Footer? = nil
+        ) -> Self {
             let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
             let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
             return .init(header: header,
@@ -187,7 +194,8 @@ extension CollectionView {
             _ cellBlock6: CollectionViewCellBlock,
             _ cellBlock7: CollectionViewCellBlock,
             _ cellBlock8: CollectionViewCellBlock,
-            _ footer: Footer? = nil) -> SectionBuilder {
+            _ footer: Footer? = nil
+        ) -> Self {
             let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
             let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
             let cellBlocks2 = cellBlock7.cells + cellBlock8.cells
@@ -208,7 +216,8 @@ extension CollectionView {
             _ cellBlock7: CollectionViewCellBlock,
             _ cellBlock8: CollectionViewCellBlock,
             _ cellBlock9: CollectionViewCellBlock,
-            _ footer: Footer? = nil) -> SectionBuilder {
+            _ footer: Footer? = nil
+        ) -> Self {
             let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
             let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
             let cellBlocks2 = cellBlock7.cells + cellBlock8.cells + cellBlock9.cells
@@ -216,5 +225,408 @@ extension CollectionView {
                          cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
                          footer: footer)
         }
+    }
+}
+
+extension CollectionView.SectionBuilder where Header == CollectionView.AnyHeaderFooter {
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock: CollectionViewCellBlock,
+        _ footer: Footer? = nil
+    ) -> Self {
+        .init(header: nil, cells: cellBlock.cells, footer: footer)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ footer: Footer? = nil
+    ) -> Self {
+        .init(header: nil,
+              cells: cellBlock1.cells + cellBlock2.cells,
+              footer: footer)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ footer: Footer? = nil
+    ) -> Self {
+        .init(header: nil,
+              cells: cellBlock1.cells + cellBlock2.cells + cellBlock3.cells,
+              footer: footer)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ footer: Footer? = nil
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        return .init(header: nil,
+                     cells: cellBlocks0 + cellBlock4.cells,
+                     footer: footer)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ footer: Footer? = nil
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        return .init(header: nil,
+                     cells: cellBlocks0 + cellBlock4.cells + cellBlock5.cells,
+                     footer: footer)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ cellBlock6: CollectionViewCellBlock,
+        _ footer: Footer? = nil
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
+        return .init(header: nil,
+                     cells: cellBlocks0 + cellBlocks1,
+                     footer: footer)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ cellBlock6: CollectionViewCellBlock,
+        _ cellBlock7: CollectionViewCellBlock,
+        _ footer: Footer? = nil
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
+        return .init(header: nil,
+                     cells: cellBlocks0 + cellBlocks1 + cellBlock7.cells,
+                     footer: footer)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ cellBlock6: CollectionViewCellBlock,
+        _ cellBlock7: CollectionViewCellBlock,
+        _ cellBlock8: CollectionViewCellBlock,
+        _ footer: Footer? = nil
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
+        let cellBlocks2 = cellBlock7.cells + cellBlock8.cells
+        return .init(header: nil,
+                     cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
+                     footer: footer)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ cellBlock6: CollectionViewCellBlock,
+        _ cellBlock7: CollectionViewCellBlock,
+        _ cellBlock8: CollectionViewCellBlock,
+        _ cellBlock9: CollectionViewCellBlock,
+        _ footer: Footer? = nil
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
+        let cellBlocks2 = cellBlock7.cells + cellBlock8.cells + cellBlock9.cells
+        return .init(header: nil,
+                     cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
+                     footer: footer)
+    }
+}
+
+extension CollectionView.SectionBuilder where Footer == CollectionView.AnyHeaderFooter {
+    @inlinable
+    public static func buildBlock(
+        _ header: Header? = nil,
+        _ cellBlock: CollectionViewCellBlock
+    ) -> Self {
+        .init(header: header, cells: cellBlock.cells, footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ header: Header? = nil,
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock
+    ) -> Self {
+        .init(header: header,
+              cells: cellBlock1.cells + cellBlock2.cells,
+              footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ header: Header? = nil,
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock
+    ) -> Self {
+        .init(header: header,
+              cells: cellBlock1.cells + cellBlock2.cells + cellBlock3.cells,
+              footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ header: Header? = nil,
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        return .init(header: header,
+                     cells: cellBlocks0 + cellBlock4.cells,
+                     footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ header: Header? = nil,
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        return .init(header: header,
+                     cells: cellBlocks0 + cellBlock4.cells + cellBlock5.cells,
+                     footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ header: Header? = nil,
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ cellBlock6: CollectionViewCellBlock
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
+        return .init(header: header,
+                     cells: cellBlocks0 + cellBlocks1,
+                     footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ header: Header? = nil,
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ cellBlock6: CollectionViewCellBlock,
+        _ cellBlock7: CollectionViewCellBlock
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
+        return .init(header: header,
+                     cells: cellBlocks0 + cellBlocks1 + cellBlock7.cells,
+                     footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ header: Header? = nil,
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ cellBlock6: CollectionViewCellBlock,
+        _ cellBlock7: CollectionViewCellBlock,
+        _ cellBlock8: CollectionViewCellBlock
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
+        let cellBlocks2 = cellBlock7.cells + cellBlock8.cells
+        return .init(header: header,
+                     cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
+                     footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ header: Header? = nil,
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ cellBlock6: CollectionViewCellBlock,
+        _ cellBlock7: CollectionViewCellBlock,
+        _ cellBlock8: CollectionViewCellBlock,
+        _ cellBlock9: CollectionViewCellBlock
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
+        let cellBlocks2 = cellBlock7.cells + cellBlock8.cells + cellBlock9.cells
+        return .init(header: header,
+                     cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
+                     footer: nil)
+    }
+}
+
+extension CollectionView.SectionBuilder where Header == CollectionView.AnyHeaderFooter, Footer == CollectionView.AnyHeaderFooter {
+    @inlinable
+    public static func buildBlock(_ cellBlock: CollectionViewCellBlock) -> Self {
+        .init(header: nil, cells: cellBlock.cells, footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock
+    ) -> Self {
+        .init(header: nil,
+              cells: cellBlock1.cells + cellBlock2.cells,
+              footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock
+    ) -> Self {
+        .init(header: nil,
+              cells: cellBlock1.cells + cellBlock2.cells + cellBlock3.cells,
+              footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        return .init(header: nil,
+                     cells: cellBlocks0 + cellBlock4.cells,
+                     footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        return .init(header: nil,
+                     cells: cellBlocks0 + cellBlock4.cells + cellBlock5.cells,
+                     footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ cellBlock6: CollectionViewCellBlock
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
+        return .init(header: nil,
+                     cells: cellBlocks0 + cellBlocks1,
+                     footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ cellBlock6: CollectionViewCellBlock,
+        _ cellBlock7: CollectionViewCellBlock
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
+        return .init(header: nil,
+                     cells: cellBlocks0 + cellBlocks1 + cellBlock7.cells,
+                     footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ cellBlock6: CollectionViewCellBlock,
+        _ cellBlock7: CollectionViewCellBlock,
+        _ cellBlock8: CollectionViewCellBlock
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
+        let cellBlocks2 = cellBlock7.cells + cellBlock8.cells
+        return .init(header: nil,
+                     cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
+                     footer: nil)
+    }
+
+    @inlinable
+    public static func buildBlock(
+        _ cellBlock1: CollectionViewCellBlock,
+        _ cellBlock2: CollectionViewCellBlock,
+        _ cellBlock3: CollectionViewCellBlock,
+        _ cellBlock4: CollectionViewCellBlock,
+        _ cellBlock5: CollectionViewCellBlock,
+        _ cellBlock6: CollectionViewCellBlock,
+        _ cellBlock7: CollectionViewCellBlock,
+        _ cellBlock8: CollectionViewCellBlock,
+        _ cellBlock9: CollectionViewCellBlock
+    ) -> Self {
+        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
+        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
+        let cellBlocks2 = cellBlock7.cells + cellBlock8.cells + cellBlock9.cells
+        return .init(header: nil,
+                     cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
+                     footer: nil)
     }
 }
