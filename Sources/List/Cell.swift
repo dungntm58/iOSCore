@@ -8,7 +8,24 @@
 import Foundation
 
 @frozen
-public enum CellType {
+public enum CellType: Equatable {
+
+    public static func == (lhs: CellType, rhs: CellType) -> Bool {
+        switch lhs {
+        case .default:
+            return rhs == .default
+        case .class(let `lhsClass`):
+            if case .class(let rhsClass) = rhs {
+                return lhsClass === rhsClass
+            }
+        case .nib(let nibName, let bundle):
+            if case .nib(let rNibName, let rBundle) = rhs {
+                return nibName == rNibName && bundle == rBundle
+            }
+        }
+        return false
+    }
+
     case `default`
     case nib(nibName: String, bundle: Bundle?)
     case `class`(`class`: AnyClass)

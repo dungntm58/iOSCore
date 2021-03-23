@@ -15,6 +15,8 @@ extension CollectionView.AnyCell: Differentiable {
     public func isContentEqual(to source: CollectionView.AnyCell) -> Bool {
         model == source.model
             && reuseIdentifier == source.reuseIdentifier
+            && type == source.type
+            && estimatedSize == source.estimatedSize
     }
 }
 

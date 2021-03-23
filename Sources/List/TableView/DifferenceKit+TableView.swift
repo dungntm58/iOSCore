@@ -15,6 +15,7 @@ extension TableView.AnyCell: Differentiable {
     public func isContentEqual(to source: TableView.AnyCell) -> Bool {
         model == source.model
             && reuseIdentifier == source.reuseIdentifier
+            && type == source.type
             && height == source.height
     }
 }
