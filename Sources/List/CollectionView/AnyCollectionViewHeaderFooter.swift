@@ -139,12 +139,14 @@ private extension CollectionView.AnyHeaderFooter {
 
         @inlinable
         func willDisplay(view: UICollectionReusableView, at indexPath: IndexPath) {
-            _base.willDisplay(view: view as! Base.View, at: indexPath)
+            guard let view = view as? Base.View else { return }
+            _base.willDisplay(view: view, at: indexPath)
         }
 
         @inlinable
         func didEndDisplaying(view: UICollectionReusableView, at indexPath: IndexPath) {
-            _base.didEndDisplaying(view: view as! Base.View, at: indexPath)
+            guard let view = view as? Base.View else { return }
+            _base.didEndDisplaying(view: view, at: indexPath)
         }
     }
 }

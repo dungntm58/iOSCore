@@ -106,12 +106,14 @@ private extension TableView.AnyHeaderFooter {
 
         @inlinable
         func willDisplay(view: UITableViewHeaderFooterView, at section: Int) {
-            _base.willDisplay(view: view as! Base.View, at: section)
+            guard let view = view as? Base.View else { return }
+            _base.willDisplay(view: view, at: section)
         }
 
         @inlinable
         func didEndDisplaying(view: UITableViewHeaderFooterView, at section: Int) {
-            _base.didEndDisplaying(view: view as! Base.View, at: section)
+            guard let view = view as? Base.View else { return }
+            _base.didEndDisplaying(view: view, at: section)
         }
     }
 }
