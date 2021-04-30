@@ -66,7 +66,7 @@ class TodoListViewController: BaseViewController {
     func createViewSourceProvider() -> TableView.ViewSourceProvider<TodoViewModel> {
         return .init(tableView: tableView, store: .init()) {
             tableView, viewModel in
-            ForEach(viewModel.todos) { index, todo in
+            for (index, todo) in viewModel.todos.enumerated() {
                 TableView.Cell(id: index, cellType: TodoTableViewCell.self, model: todo)
                     .handlers { model, view, _ in
                         view.lbTime.text = model?.createdAt.toString()

@@ -64,7 +64,7 @@ class TodoList2ViewController: BaseViewController {
     func createViewSourceProvider() -> CollectionView.ViewSourceProvider<TodoViewModel> {
         return .init(collectionView: collectionView, store: .init()) {
             collectionView, viewModel in
-            ForEach(viewModel.todos) { index, todo in
+            for (index, todo) in viewModel.todos.enumerated() {
                 CollectionView.Cell(id: index, cellType: TodoCollectionViewCell.self, model: todo)
                     .hasFixedSize(true)
                     .handlers { model, view, _ in

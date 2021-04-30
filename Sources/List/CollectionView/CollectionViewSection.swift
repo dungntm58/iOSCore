@@ -189,6 +189,7 @@ extension Array: CollectionViewSectionBlock where Element: CollectionViewSection
     public var sections: [CollectionView.AnySection] { flatMap { $0.sections } }
 }
 
+@available(*, deprecated)
 extension ForEach: CollectionViewSectionBlock where Content == CollectionViewSectionBlock {
     @inlinable
     public var sections: [CollectionView.AnySection] { elements.flatMap { $0.sections } }

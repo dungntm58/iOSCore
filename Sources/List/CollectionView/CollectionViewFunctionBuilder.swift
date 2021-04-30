@@ -8,10 +8,15 @@
 import Foundation
 
 extension CollectionView {
-    @_functionBuilder
+    @resultBuilder
     public struct CellBlockBuilder {
         @inlinable
         public static func buildBlock(_ content: CollectionViewCellBlock...) -> CollectionViewCellBlock {
+            content.flatMap { $0.cells }
+        }
+
+        @inlinable
+        public static func buildArray(_ content: [CollectionViewCellBlock]) -> CollectionViewCellBlock {
             content.flatMap { $0.cells }
         }
 
@@ -35,10 +40,15 @@ extension CollectionView {
         }
     }
 
-    @_functionBuilder
+    @resultBuilder
     public struct SectionBlockBuilder {
         @inlinable
         public static func buildBlock(_ content: CollectionViewSectionBlock...) -> CollectionViewSectionBlock {
+            content.flatMap { $0.sections }
+        }
+
+        @inlinable
+        public static func buildArray(_ content: [CollectionViewSectionBlock]) -> CollectionViewSectionBlock {
             content.flatMap { $0.sections }
         }
 
@@ -62,7 +72,7 @@ extension CollectionView {
         }
     }
 
-    @_functionBuilder
+    @resultBuilder
     public struct SectionBuilder<Header, Footer> where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
         @usableFromInline
         let header: Header?

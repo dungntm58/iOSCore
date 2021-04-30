@@ -31,7 +31,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.platform = :ios
   s.ios.deployment_target = '10.0'
   s.module_name = 'CoreList'
-  s.swift_version = "5.2"
+  s.swift_version = "5.4"
   s.framework = "Foundation"
   s.ios.framework = "UIKit"
   

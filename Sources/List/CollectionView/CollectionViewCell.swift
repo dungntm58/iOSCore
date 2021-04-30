@@ -338,6 +338,7 @@ extension Array: CollectionViewCellBlock where Element: CollectionViewCellBlock 
     public var cells: [CollectionView.AnyCell] { flatMap { $0.cells } }
 }
 
+@available(*, deprecated)
 extension ForEach: CollectionViewCellBlock where Content == CollectionViewCellBlock {
     @inlinable
     public var cells: [CollectionView.AnyCell] { elements.flatMap { $0.cells } }

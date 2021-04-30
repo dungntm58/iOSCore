@@ -155,6 +155,7 @@ extension Array: TableViewSectionBlock where Element: TableViewSectionBlock {
     public var sections: [TableView.AnySection] { flatMap { $0.sections } }
 }
 
+@available(*, deprecated)
 extension ForEach: TableViewSectionBlock where Content == TableViewSectionBlock {
     @inlinable
     public var sections: [TableView.AnySection] { elements.flatMap { $0.sections } }

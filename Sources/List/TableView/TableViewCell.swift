@@ -305,6 +305,7 @@ extension Array: TableViewCellBlock where Element: TableViewCellBlock {
     public var cells: [TableView.AnyCell] { flatMap { $0.cells } }
 }
 
+@available(*, deprecated)
 extension ForEach: TableViewCellBlock where Content == TableViewCellBlock {
     @inlinable
     public var cells: [TableView.AnyCell] { elements.flatMap { $0.cells } }

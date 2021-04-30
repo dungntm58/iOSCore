@@ -7,6 +7,7 @@
 
 import Foundation
 
+@available(*, deprecated)
 @frozen
 public struct ForEach<Data, Content> where Data: RandomAccessCollection {
     public let data: Data
