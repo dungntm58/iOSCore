@@ -11,19 +11,28 @@ extension TableView {
     @resultBuilder
     public struct CellBlockBuilder {
         @inlinable
-        public static func buildBlock(_ content: TableViewCellBlock...) -> TableViewCellBlock {
-            content.flatMap { $0.cells }
+        public static func buildBlock(_ component: TableViewCellBlock...) -> TableViewCellBlock {
+            component.flatMap { $0.cells }
         }
 
         @inlinable
-        public static func buildArray(_ content: [TableViewCellBlock]) -> TableViewCellBlock {
-            content.flatMap { $0.cells }
+        public static func buildExpression<Cell>(_ expression: Cell?) -> TableViewCellBlock where Cell: TableViewCell {
+            if let component = expression {
+                return [component]
+            } else {
+                return [TableView.AnyCell]()
+            }
         }
 
         @inlinable
-        public static func buildIf(_ content: TableViewCellBlock?) -> TableViewCellBlock {
-            if let content = content {
-                return content
+        public static func buildArray(_ component: [TableViewCellBlock]) -> TableViewCellBlock {
+            component.flatMap { $0.cells }
+        }
+
+        @inlinable
+        public static func buildIf(_ component: TableViewCellBlock?) -> TableViewCellBlock {
+            if let component = component {
+                return component
             } else {
                 return [TableView.AnyCell]()
             }
@@ -38,24 +47,42 @@ extension TableView {
         public static func buildEither(second: TableViewCellBlock) -> TableViewCellBlock {
             second
         }
+
+        @inlinable
+        public static func buildOptional(_ component: TableViewCellBlock?) -> TableViewCellBlock {
+            if let component = component {
+                return component
+            } else {
+                return [TableView.AnyCell]()
+            }
+        }
     }
 
     @resultBuilder
     public struct SectionBlockBuilder {
         @inlinable
-        public static func buildBlock(_ content: TableViewSectionBlock...) -> TableViewSectionBlock {
-            content.flatMap { $0.sections }
-        }
-        
-        @inlinable
-        public static func buildArray(_ content: [TableViewSectionBlock]) -> TableViewSectionBlock {
-            content.flatMap { $0.sections }
+        public static func buildBlock(_ component: TableViewSectionBlock...) -> TableViewSectionBlock {
+            component.flatMap { $0.sections }
         }
 
         @inlinable
-        public static func buildIf(_ content: TableViewSectionBlock?) -> TableViewSectionBlock {
-            if let content = content {
-                return content
+        public static func buildExpression<Section>(_ expression: Section?) -> TableViewSectionBlock where Section: TableViewSection {
+            if let component = expression {
+                return [component]
+            } else {
+                return [TableView.AnySection]()
+            }
+        }
+
+        @inlinable
+        public static func buildArray(_ component: [TableViewSectionBlock]) -> TableViewSectionBlock {
+            component.flatMap { $0.sections }
+        }
+
+        @inlinable
+        public static func buildIf(_ component: TableViewSectionBlock?) -> TableViewSectionBlock {
+            if let component = component {
+                return component
             } else {
                 return [TableView.AnySection]()
             }
@@ -69,6 +96,15 @@ extension TableView {
         @inlinable
         public static func buildEither(second: TableViewSectionBlock) -> TableViewSectionBlock {
             second
+        }
+
+        @inlinable
+        public static func buildOptional(_ component: TableViewSectionBlock?) -> TableViewSectionBlock {
+            if let component = component {
+                return component
+            } else {
+                return [TableView.AnySection]()
+            }
         }
     }
 

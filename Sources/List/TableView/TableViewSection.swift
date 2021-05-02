@@ -52,7 +52,7 @@ extension TableViewSection {
 
 extension TableView {
     @frozen
-    public struct Section<ID>: TableViewSection, TableViewSectionBlock where ID: Hashable {
+    public struct Section<ID>: TableViewSection where ID: Hashable {
         public let id: ID
         public internal(set) var header: AnyHeaderFooter?
         public internal(set) var footer: AnyHeaderFooter?
@@ -150,21 +150,9 @@ extension TableViewSectionBlock where Self: TableViewSection {
     public var sections: [TableView.AnySection] { [eraseToAny()] }
 }
 
-extension Optional: TableViewSectionBlock where Wrapped: TableViewSection {
+extension Array: TableViewSectionBlock where Element: TableViewSection {
     @inlinable
-    public var sections: [TableView.AnySection] {
-        switch self {
-        case .none:
-            return []
-        case .some(let section):
-            return [section.eraseToAny()]
-        }
-    }
-}
-
-extension Array: TableViewSectionBlock where Element: TableViewSectionBlock {
-    @inlinable
-    public var sections: [TableView.AnySection] { flatMap { $0.sections } }
+    public var sections: [TableView.AnySection] { map { $0.eraseToAny() } }
 }
 
 @available(*, deprecated)

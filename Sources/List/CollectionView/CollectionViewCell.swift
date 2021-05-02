@@ -192,7 +192,7 @@ extension CollectionView {
     }
 
     @frozen
-    public struct LoadingCell: CollectionViewCell, CollectionViewCellBlock, CellPresentable {
+    public struct LoadingCell: CollectionViewCell, CellPresentable {
         public typealias Model = AnyEquatable
         public typealias View = LoadingCollectionViewCell
 
@@ -321,21 +321,9 @@ extension CollectionViewCellBlock where Self: CollectionViewCell {
     public var cells: [CollectionView.AnyCell] { [eraseToAny()] }
 }
 
-extension Optional: CollectionViewCellBlock where Wrapped: CollectionViewCell {
+extension Array: CollectionViewCellBlock where Element: CollectionViewCell {
     @inlinable
-    public var cells: [CollectionView.AnyCell] {
-        switch self {
-        case .none:
-            return []
-        case .some(let section):
-            return [section.eraseToAny()]
-        }
-    }
-}
-
-extension Array: CollectionViewCellBlock where Element: CollectionViewCellBlock {
-    @inlinable
-    public var cells: [CollectionView.AnyCell] { flatMap { $0.cells } }
+    public var cells: [CollectionView.AnyCell] { map { $0.eraseToAny() } }
 }
 
 @available(*, deprecated)

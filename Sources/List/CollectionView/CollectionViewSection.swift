@@ -59,7 +59,7 @@ extension CollectionViewSection {
 
 extension CollectionView {
     @frozen
-    public struct Section<ID>: CollectionViewSection, CollectionViewSectionBlock where ID: Hashable {
+    public struct Section<ID>: CollectionViewSection where ID: Hashable {
         public let id: ID
         public internal(set) var header: AnyHeaderFooter?
         public internal(set) var footer: AnyHeaderFooter?
@@ -184,21 +184,9 @@ extension CollectionViewSectionBlock where Self: CollectionViewSection {
     public var sections: [CollectionView.AnySection] { [eraseToAny()] }
 }
 
-extension Optional: CollectionViewSectionBlock where Wrapped: CollectionViewSection {
+extension Array: CollectionViewSectionBlock where Element: CollectionViewSection {
     @inlinable
-    public var sections: [CollectionView.AnySection] {
-        switch self {
-        case .none:
-            return []
-        case .some(let section):
-            return [section.eraseToAny()]
-        }
-    }
-}
-
-extension Array: CollectionViewSectionBlock where Element: CollectionViewSectionBlock {
-    @inlinable
-    public var sections: [CollectionView.AnySection] { flatMap { $0.sections } }
+    public var sections: [CollectionView.AnySection] { map { $0.eraseToAny() } }
 }
 
 @available(*, deprecated)

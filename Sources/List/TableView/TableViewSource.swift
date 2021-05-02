@@ -56,9 +56,10 @@ extension TableView {
 
         public init(tableView: UITableView, store: Store, @CellBlockBuilder generator: @escaping PrototypeSectionGenerateFunction) {
             self.sectionsGenerator = { tableView, store in
-                TableView.Section {
+                let section = TableView.Section {
                     generator(tableView, store)
                 }
+                return [section]
             }
             self.tableView = tableView
             self.viewHashValue = tableView.hashValue
@@ -69,7 +70,7 @@ extension TableView {
 
         public init<Header, Footer>(tableView: UITableView, store: Store, @SectionBuilder<Header, Footer> generator: @escaping PrototypeFullSectionGenerateFunction<Header, Footer>) where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
             self.sectionsGenerator = { tableView, store in
-                TableView.Section(builder: generator(tableView, store))
+                [TableView.Section(builder: generator(tableView, store))]
             }
             self.tableView = tableView
             self.viewHashValue = tableView.hashValue
@@ -277,7 +278,7 @@ private extension TableView.ViewSourceProvider {
         @inlinable
         func build() -> TableViewSectionBlock {
             guard let tableView = tableView else {
-                return TableView.Section()
+                return [TableView.Section()]
             }
             return sectionsGenerator(tableView, store)
         }

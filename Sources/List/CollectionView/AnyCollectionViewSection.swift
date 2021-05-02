@@ -8,7 +8,7 @@
 import Foundation
 
 extension CollectionView {
-    public struct AnySection: CollectionViewSection, CollectionViewSectionBlock {
+    public struct AnySection: CollectionViewSection {
         private var box: AnyCollectionViewSectionBox
 
         @usableFromInline

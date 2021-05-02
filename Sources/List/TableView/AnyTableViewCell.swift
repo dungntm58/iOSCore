@@ -8,7 +8,7 @@
 import Foundation
 
 extension TableView {
-    public struct AnyCell: TableViewCell, TableViewCellBlock, CellInteractable {
+    public struct AnyCell: TableViewCell, CellInteractable {
         public typealias ID = AnyHashable
         public typealias Model = AnyEquatable
         public typealias View = UITableViewCell

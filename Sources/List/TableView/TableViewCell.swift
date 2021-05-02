@@ -22,7 +22,7 @@ extension TableViewCell {
 
 extension TableView {
     @frozen
-    public struct Cell<ID, Model, View>: TableViewCell, TableViewCellBlock, CellInteractable where ID: Hashable, Model: Equatable, View: UITableViewCell {
+    public struct Cell<ID, Model, View>: TableViewCell, CellInteractable where ID: Hashable, Model: Equatable, View: UITableViewCell {
         public let id: ID
         public let type: CellType
         public let reuseIdentifier: String
@@ -162,7 +162,7 @@ extension TableView {
     }
 
     @frozen
-    public struct LoadingCell: TableViewCell, TableViewCellBlock, CellPresentable {
+    public struct LoadingCell: TableViewCell, CellPresentable {
         public typealias Model = AnyEquatable
         public typealias View = LoadingTableViewCell
 
@@ -288,21 +288,9 @@ extension TableViewCellBlock where Self: TableViewCell {
     public var cells: [TableView.AnyCell] { [eraseToAny()] }
 }
 
-extension Optional: TableViewCellBlock where Wrapped: TableViewCell {
+extension Array: TableViewCellBlock where Element: TableViewCell {
     @inlinable
-    public var cells: [TableView.AnyCell] {
-        switch self {
-        case .none:
-            return []
-        case .some(let section):
-            return [section.eraseToAny()]
-        }
-    }
-}
-
-extension Array: TableViewCellBlock where Element: TableViewCellBlock {
-    @inlinable
-    public var cells: [TableView.AnyCell] { flatMap { $0.cells } }
+    public var cells: [TableView.AnyCell] { map { $0.eraseToAny() } }
 }
 
 @available(*, deprecated)

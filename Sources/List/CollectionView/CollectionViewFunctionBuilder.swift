@@ -11,19 +11,28 @@ extension CollectionView {
     @resultBuilder
     public struct CellBlockBuilder {
         @inlinable
-        public static func buildBlock(_ content: CollectionViewCellBlock...) -> CollectionViewCellBlock {
-            content.flatMap { $0.cells }
+        public static func buildBlock(_ component: CollectionViewCellBlock...) -> CollectionViewCellBlock {
+            component.flatMap { $0.cells }
         }
 
         @inlinable
-        public static func buildArray(_ content: [CollectionViewCellBlock]) -> CollectionViewCellBlock {
-            content.flatMap { $0.cells }
+        public static func buildExpression<Cell>(_ expression: Cell?) -> CollectionViewCellBlock where Cell: CollectionViewCell {
+            if let component = expression {
+                return [component]
+            } else {
+                return [CollectionView.AnyCell]()
+            }
         }
 
         @inlinable
-        public static func buildIf(_ content: CollectionViewCellBlock?) -> CollectionViewCellBlock {
-            if let content = content {
-                return content
+        public static func buildArray(_ component: [CollectionViewCellBlock]) -> CollectionViewCellBlock {
+            component.flatMap { $0.cells }
+        }
+
+        @inlinable
+        public static func buildIf(_ component: CollectionViewCellBlock?) -> CollectionViewCellBlock {
+            if let component = component {
+                return component
             } else {
                 return [CollectionView.AnyCell]()
             }
@@ -38,24 +47,42 @@ extension CollectionView {
         public static func buildEither(second: CollectionViewCellBlock) -> CollectionViewCellBlock {
             second
         }
+
+        @inlinable
+        public static func buildOptional(_ component: CollectionViewCellBlock?) -> CollectionViewCellBlock {
+            if let component = component {
+                return component
+            } else {
+                return [CollectionView.AnyCell]()
+            }
+        }
     }
 
     @resultBuilder
     public struct SectionBlockBuilder {
         @inlinable
-        public static func buildBlock(_ content: CollectionViewSectionBlock...) -> CollectionViewSectionBlock {
-            content.flatMap { $0.sections }
+        public static func buildBlock(_ component: CollectionViewSectionBlock...) -> CollectionViewSectionBlock {
+            component.flatMap { $0.sections }
         }
 
         @inlinable
-        public static func buildArray(_ content: [CollectionViewSectionBlock]) -> CollectionViewSectionBlock {
-            content.flatMap { $0.sections }
+        public static func buildExpression<Section>(_ expression: Section?) -> CollectionViewSectionBlock where Section: CollectionViewSection {
+            if let component = expression {
+                return [component]
+            } else {
+                return [CollectionView.AnySection]()
+            }
         }
 
         @inlinable
-        public static func buildIf(_ content: CollectionViewSectionBlock?) -> CollectionViewSectionBlock {
-            if let content = content {
-                return content
+        public static func buildArray(_ component: [CollectionViewSectionBlock]) -> CollectionViewSectionBlock {
+            component.flatMap { $0.sections }
+        }
+
+        @inlinable
+        public static func buildIf(_ component: CollectionViewSectionBlock?) -> CollectionViewSectionBlock {
+            if let component = component {
+                return component
             } else {
                 return [CollectionView.AnySection]()
             }
@@ -69,6 +96,15 @@ extension CollectionView {
         @inlinable
         public static func buildEither(second: CollectionViewSectionBlock) -> CollectionViewSectionBlock {
             second
+        }
+
+        @inlinable
+        public static func buildOptional(_ component: CollectionViewSectionBlock?) -> CollectionViewSectionBlock {
+            if let component = component {
+                return component
+            } else {
+                return [CollectionView.AnySection]()
+            }
         }
     }
 
