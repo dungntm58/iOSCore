@@ -158,8 +158,20 @@ extension CollectionView.Section where ID == UniqueIdentifier {
     }
 
     @inlinable
+    public init<Header, Footer>(@CollectionView.SectionBuilder<Header, Footer> _ SectionBuilder: () -> CollectionView.SectionBuilder<Header, Footer>) where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
+        self.init(id: .init(), SectionBuilder)
+    }
+
+    @inlinable
     public init() {
         self.init(id: .init())
+    }
+
+    init<Header, Footer>(builder: CollectionView.SectionBuilder<Header, Footer>) where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
+        self.id = .init()
+        self.header = builder.header?.eraseToAny()
+        self.footer = builder.footer?.eraseToAny()
+        self.cells = builder.cells
     }
 }
 

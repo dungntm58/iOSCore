@@ -16,6 +16,7 @@ extension TableView {
     open class ViewSourceProvider<Store> {
         public typealias PrototypeSectionBlockGenerateFunction = (UITableView, Store) ->  TableViewSectionBlock
         public typealias PrototypeSectionGenerateFunction = (UITableView, Store) -> TableViewCellBlock
+        public typealias PrototypeFullSectionGenerateFunction<Header, Footer> = (UITableView, Store) -> TableView.SectionBuilder<Header, Footer> where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter
         public typealias RowAnimation = UITableView.RowAnimation
 
         private var sectionsGenerator: PrototypeSectionBlockGenerateFunction
@@ -58,6 +59,17 @@ extension TableView {
                 TableView.Section {
                     generator(tableView, store)
                 }
+            }
+            self.tableView = tableView
+            self.viewHashValue = tableView.hashValue
+            self.store = store
+            tableView.delegate = adapter
+            tableView.dataSource = adapter
+        }
+
+        public init<Header, Footer>(tableView: UITableView, store: Store, @SectionBuilder<Header, Footer> generator: @escaping PrototypeFullSectionGenerateFunction<Header, Footer>) where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
+            self.sectionsGenerator = { tableView, store in
+                TableView.Section(builder: generator(tableView, store))
             }
             self.tableView = tableView
             self.viewHashValue = tableView.hashValue

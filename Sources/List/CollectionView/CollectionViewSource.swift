@@ -18,6 +18,7 @@ extension CollectionView {
     open class ViewSourceProvider<Store> {
         public typealias PrototypeSectionBlockGenerateFunction = (UICollectionView, Store) -> CollectionViewSectionBlock
         public typealias PrototypeSectionGenerateFunction = (UICollectionView, Store) -> CollectionViewCellBlock
+        public typealias PrototypeFullSectionGenerateFunction<Header, Footer> = (UICollectionView, Store) -> CollectionView.SectionBuilder<Header, Footer> where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter
 
         private let sectionsGenerator: PrototypeSectionBlockGenerateFunction
         private weak var collectionView: UICollectionView?
@@ -59,6 +60,17 @@ extension CollectionView {
                 CollectionView.Section {
                     generator(collectionView, store)
                 }
+            }
+            self.collectionView = collectionView
+            self.viewHashValue = collectionView.hashValue
+            self.store = store
+            collectionView.delegate = adapter
+            collectionView.dataSource = adapter
+        }
+
+        public init<Header, Footer>(collectionView: UICollectionView, store: Store, @SectionBuilder<Header, Footer> generator: @escaping PrototypeFullSectionGenerateFunction<Header, Footer>) where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
+            self.sectionsGenerator = { collectionView, store in
+                CollectionView.Section(builder: generator(collectionView, store))
             }
             self.collectionView = collectionView
             self.viewHashValue = collectionView.hashValue

@@ -124,8 +124,20 @@ extension TableView.Section where ID == UniqueIdentifier {
     }
 
     @inlinable
+    public init<Header, Footer>(@TableView.SectionBuilder<Header, Footer> _ SectionBuilder: () -> TableView.SectionBuilder<Header, Footer>) where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
+        self.init(id: .init(), SectionBuilder)
+    }
+
+    @inlinable
     public init() {
         self.init(id: .init())
+    }
+
+    init<Header, Footer>(builder: TableView.SectionBuilder<Header, Footer>) where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
+        self.id = .init()
+        self.header = builder.header?.eraseToAny()
+        self.footer = builder.footer?.eraseToAny()
+        self.cells = builder.cells
     }
 }
 
