@@ -108,6 +108,8 @@ extension CollectionView {
         }
 
         var differenceSections: [AnySection] = []
+        var deferredEndDisplayingCellsWithIndexPath: [IndexPath: AnyCell] = [:]
+        var deferredEndDisplayingHeaderFootersWithIndexPath: [IndexPath: AnyHeaderFooter] = [:]
         var registeredCellReuseIdentifiers: Set<String> = .init()
         var registeredHeaderFooterReuseIdentifiers: Set<String> = .init()
 
@@ -197,6 +199,10 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
     }
 
     open func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cellBuilder = deferredEndDisplayingCellsWithIndexPath[indexPath] {
+            cellBuilder.didEndDisplaying(view: cell, at: indexPath)
+            return deferredEndDisplayingCellsWithIndexPath[indexPath] = nil
+        }
         guard indexPath.section < differenceSections.count, indexPath.row < differenceSections[indexPath.section].cells.count else { return }
         differenceSections[indexPath.section].cells[indexPath.row].didEndDisplaying(view: cell, at: indexPath)
     }
@@ -213,6 +219,10 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
     }
 
     open func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        if let headerFooter = deferredEndDisplayingHeaderFootersWithIndexPath[indexPath] {
+            headerFooter.didEndDisplaying(view: view, at: indexPath)
+            return deferredEndDisplayingHeaderFootersWithIndexPath[indexPath] = nil
+        }
         guard indexPath.section < differenceSections.count else { return }
         switch elementKind {
         case UICollectionView.elementKindSectionHeader:

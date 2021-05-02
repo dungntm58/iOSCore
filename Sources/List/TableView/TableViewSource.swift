@@ -131,6 +131,8 @@ extension TableView {
     @objc(TableViewAdapter)
     open class Adapter: NSObject {
         var differenceSections: [AnySection] = []
+        var deferredEndDisplayingCellsWithIndexPath: [IndexPath: AnyCell] = [:]
+        var deferredEndDisplayingHeaderFootersWithSection: [Int: AnyHeaderFooter] = [:]
     }
 }
 
@@ -233,6 +235,10 @@ extension TableView.Adapter: UITableViewDelegate {
     }
 
     open func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cellBuilder = deferredEndDisplayingCellsWithIndexPath[indexPath] {
+            cellBuilder.didEndDisplaying(view: cell, at: indexPath)
+            return deferredEndDisplayingCellsWithIndexPath[indexPath] = nil
+        }
         guard indexPath.section < differenceSections.count, indexPath.row < differenceSections[indexPath.section].cells.count else { return }
         differenceSections[indexPath.section].cells[indexPath.row].didEndDisplaying(view: cell, at: indexPath)
     }
@@ -242,16 +248,25 @@ extension TableView.Adapter: UITableViewDelegate {
     }
 
     open func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
+        if let headerFooter = deferredEndDisplayingHeaderFootersWithSection[section] {
+            headerFooter.didEndDisplaying(view: view as! TableView.AnyHeaderFooter.View, at: section)
+            return deferredEndDisplayingHeaderFootersWithSection[section] = nil
+        }
         guard section < differenceSections.count else { return }
-        differenceSections[section].header?.didEndDisplaying(view: view as! UITableViewHeaderFooterView, at: section)
+        differenceSections[section].header?.didEndDisplaying(view: view as! TableView.AnyHeaderFooter.View, at: section)
     }
 
     open func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        differenceSections[section].footer?.willDisplay(view: view as! UITableViewHeaderFooterView, at: section)
+        differenceSections[section].footer?.willDisplay(view: view as! TableView.AnyHeaderFooter.View, at: section)
     }
 
     open func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int) {
-        differenceSections[section].footer?.didEndDisplaying(view: view as! UITableViewHeaderFooterView, at: section)
+        if let headerFooter = deferredEndDisplayingHeaderFootersWithSection[section] {
+            headerFooter.didEndDisplaying(view: view as! TableView.AnyHeaderFooter.View, at: section)
+            return deferredEndDisplayingHeaderFootersWithSection[section] = nil
+        }
+        guard section < differenceSections.count else { return }
+        differenceSections[section].footer?.didEndDisplaying(view: view as! TableView.AnyHeaderFooter.View, at: section)
     }
 
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
