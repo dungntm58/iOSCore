@@ -8,7 +8,7 @@
 import Foundation
 
 extension CollectionView {
-    public struct AnyCell: CollectionViewCell, CollectionViewCellBlock, CellInteractable {
+    public struct AnyCell: CollectionViewCell, CellInteractable {
         public typealias ID = AnyHashable
         public typealias Model = AnyEquatable
         public typealias View = UICollectionViewCell

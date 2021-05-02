@@ -57,9 +57,13 @@ extension CollectionView {
 
         public init(collectionView: UICollectionView, store: Store, @CellBlockBuilder generator: @escaping PrototypeSectionGenerateFunction) {
             self.sectionsGenerator = { collectionView, store in
-                CollectionView.Section {
-                    generator(collectionView, store)
-                }
+                let builder = SectionBuilder(
+                    header: CollectionView.AnyHeaderFooter?.none,
+                    cellBlock: generator(collectionView, store),
+                    footer: CollectionView.AnyHeaderFooter?.none
+                )
+                let section = CollectionView.Section(builder: builder)
+                return [section]
             }
             self.collectionView = collectionView
             self.viewHashValue = collectionView.hashValue
@@ -70,7 +74,7 @@ extension CollectionView {
 
         public init<Header, Footer>(collectionView: UICollectionView, store: Store, @SectionBuilder<Header, Footer> generator: @escaping PrototypeFullSectionGenerateFunction<Header, Footer>) where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
             self.sectionsGenerator = { collectionView, store in
-                CollectionView.Section(builder: generator(collectionView, store))
+                [CollectionView.Section(builder: generator(collectionView, store))]
             }
             self.collectionView = collectionView
             self.viewHashValue = collectionView.hashValue
@@ -315,7 +319,7 @@ private extension CollectionView.ViewSourceProvider {
         @inlinable
         func build() -> CollectionViewSectionBlock {
             guard let collectionView = collectionView else {
-                return CollectionView.Section()
+                return [CollectionView.Section()]
             }
             return sectionsGenerator(collectionView, store)
         }

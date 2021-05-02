@@ -8,7 +8,7 @@
 import Foundation
 
 extension TableView {
-    public struct AnySection: TableViewSection, TableViewSectionBlock {
+    public struct AnySection: TableViewSection {
         private var box: AnyTableViewSectionBox
 
         @usableFromInline
