@@ -13,7 +13,12 @@ public enum CellType: Equatable {
     public static func == (lhs: CellType, rhs: CellType) -> Bool {
         switch lhs {
         case .default:
-            return rhs == .default
+            switch rhs {
+            case .default:
+                return true
+            default:
+                return false
+            }
         case .class(let `lhsClass`):
             if case .class(let rhsClass) = rhs {
                 return lhsClass === rhsClass
