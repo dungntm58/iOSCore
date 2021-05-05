@@ -105,33 +105,27 @@ extension RemoteLocalIdentifiableSingleRepository {
     }
 }
 
-extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
+extension RemoteLocalIdentifiableSingleRepository where Self: AnyObject, T: Expirable {
     @inlinable
-    public func refreshIfNeeded(_ list: ListDTO<T>, optionsGenerator: (T.ID) -> FetchOptions?) -> Observable<ListDTO<T>> {
-        if list.data.filter({ !$0.isValid }).isEmpty {
+    public func refreshIfNeeded(_ list: ListDTO<T>, optionsGenerator: @escaping (T.ID) -> RequestOption?) -> Observable<ListDTO<T>> {
+        if list.data.allSatisfy(\.isValid) {
             return .from(optional: list)
         }
-        let singleObservables = list.data.map {
-            item -> Observable<T> in
-            if item.isValid {
-                return .from(optional: item)
-            } else {
-                return self.get(id: item.id, options: optionsGenerator(item.id))
+        return Observable
+            .from(list.data.filter { !$0.isValid }.map(\.id).enumerated())
+            .withUnretained(self)
+            .flatMap { `self`, pair -> Observable<(Int, T)> in
+                self.singleRequest.get(id: pair.element, options: optionsGenerator(pair.element))
+                    .compactMap { $0.result }
+                    .withLatestFrom(Observable.just(pair.offset)) { ($1, $0) }
             }
-        }
-        let idsObservable = Observable.deferred { .just(list.data.map(\.id )) }
-        return .zip(
-            Observable.just(list.pagination),
-            idsObservable,
-            Observable.merge(singleObservables)
-                .toArray()
-                .asObservable()
-        ) {
-            pagination, ids, arr in
-            ListDTO<T>(
-                data: ids.compactMap { id in arr.first(where: { $0.id == id }) },
-                pagination: pagination
-            )
-        }
+            .scan(list.data) { result, newPair in
+                var newResult = result
+                newResult[newPair.0] = newPair.1
+                return newResult
+            }
+            .withLatestFrom(Observable.just(list.pagination)) {
+                ListDTO(data: $0, pagination: $1)
+            }
     }
 }

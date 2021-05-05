@@ -15,7 +15,6 @@ open class Scene: Scenable {
 
         Mirror(reflecting: self)
             .children
-            .filter { $0.value is SceneAssociated }
             .compactMap { $0.value as? SceneAssociated }
             .forEach { $0.associate(with: self) }
     }

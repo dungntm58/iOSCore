@@ -36,7 +36,6 @@ extension UIViewController {
     @objc dynamic func configAssociation() {
         Mirror(reflecting: self)
             .children
-            .filter { $0.value is ViewControllerAssociated }
             .compactMap { $0.value as? ViewControllerAssociated }
             .forEach { $0.associate(with: self) }
     }
