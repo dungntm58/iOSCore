@@ -17,8 +17,7 @@ extension CollectionView {
 
     open class ViewSourceProvider<Store> {
         public typealias PrototypeSectionBlockGenerateFunction = (UICollectionView, Store) -> CollectionViewSectionBlock
-        public typealias PrototypeSectionGenerateFunction = (UICollectionView, Store) -> CollectionViewCellBlock
-        public typealias PrototypeFullSectionGenerateFunction<Header, Footer> = (UICollectionView, Store) -> CollectionView.SectionBuilder<Header, Footer> where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter
+        public typealias PrototypeSectionGenerateFunction = (UICollectionView, Store) -> CollectionViewSectionComponent
 
         private let sectionsGenerator: PrototypeSectionBlockGenerateFunction
         private weak var collectionView: UICollectionView?
@@ -55,26 +54,15 @@ extension CollectionView {
             collectionView.dataSource = adapter
         }
 
-        public init(collectionView: UICollectionView, store: Store, @CellBlockBuilder generator: @escaping PrototypeSectionGenerateFunction) {
+        public init(collectionView: UICollectionView, store: Store, @SectionBuilder generator: @escaping PrototypeSectionGenerateFunction) {
             self.sectionsGenerator = { collectionView, store in
-                let builder = SectionBuilder(
+                let component = SectionComponent(
                     header: CollectionView.AnyHeaderFooter?.none,
                     cellBlock: generator(collectionView, store),
                     footer: CollectionView.AnyHeaderFooter?.none
                 )
-                let section = CollectionView.Section(builder: builder)
+                let section = CollectionView.Section(component: component)
                 return [section]
-            }
-            self.collectionView = collectionView
-            self.viewHashValue = collectionView.hashValue
-            self.store = store
-            collectionView.delegate = adapter
-            collectionView.dataSource = adapter
-        }
-
-        public init<Header, Footer>(collectionView: UICollectionView, store: Store, @SectionBuilder<Header, Footer> generator: @escaping PrototypeFullSectionGenerateFunction<Header, Footer>) where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
-            self.sectionsGenerator = { collectionView, store in
-                [CollectionView.Section(builder: generator(collectionView, store))]
             }
             self.collectionView = collectionView
             self.viewHashValue = collectionView.hashValue

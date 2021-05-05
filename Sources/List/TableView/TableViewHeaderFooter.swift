@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol TableViewHeaderFooter: CellRegisterable, HeaderFooterPresentable where View: UITableViewHeaderFooterView {
+public protocol TableViewHeaderFooter: TableViewSectionComponent, CellRegisterable, HeaderFooterPresentable where View: UITableViewHeaderFooterView {
     associatedtype Model
 
     typealias BindingFunction = (Model?, View, Int) -> Void
@@ -21,6 +21,20 @@ public protocol TableViewHeaderFooter: CellRegisterable, HeaderFooterPresentable
 }
 
 extension TableViewHeaderFooter {
+    @inlinable
+    public func asCells() -> [TableView.AnyCell] { [] }
+
+    @inlinable
+    public func asHeaderFooter() -> (TableView.AnyHeaderFooter?, TableView.AnyHeaderFooter?) {
+        let component = eraseToAny()
+        switch component.position {
+        case .header:
+            return (component, nil)
+        case .footer:
+            return (nil, component)
+        }
+    }
+
     @inlinable
     public func eraseToAny() -> TableView.AnyHeaderFooter { .init(self) }
 }

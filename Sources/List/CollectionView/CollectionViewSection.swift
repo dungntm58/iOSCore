@@ -75,53 +75,19 @@ extension CollectionView {
             self.cells = []
         }
 
-        public init(id: ID, @CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) {
-            self.id = id
-            self.header = nil
-            self.footer = nil
-            self.cells = CellBlockBuilder().cells
-        }
-
-        public init<Header, Footer>(id: ID, @SectionBuilder<Header, Footer> _ SectionBuilder: () -> SectionBuilder<Header, Footer>) where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
+        public init(id: ID, @SectionBuilder _ SectionBuilder: () -> CollectionViewSectionComponent) {
             self.id = id
             let builder = SectionBuilder()
-            self.header = builder.header?.eraseToAny()
-            self.footer = builder.footer?.eraseToAny()
-            self.cells = builder.cells
+            (self.header, self.footer) = builder.asHeaderFooter()
+            self.cells = builder.asCells()
         }
 
-        public func refine<Header, Footer>(header: Header?, footer: Footer?, @CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) -> Self where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
-            precondition(header == nil || header?.position == .header)
-            precondition(footer == nil || footer?.position == .footer)
-
-            var other = self
-            other.header = header?.eraseToAny()
-            other.footer = footer?.eraseToAny()
-            other.cells = CellBlockBuilder().cells
-            return other
-        }
-
-        @inlinable
-        public func refine<Header>(header: Header?, @CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) -> Self where Header: CollectionViewHeaderFooter {
-            refine(header: header, footer: footer, CellBlockBuilder)
-        }
-
-        @inlinable
-        public func refine<Footer>(footer: Footer?, @CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) -> Self where Footer: CollectionViewHeaderFooter {
-            refine(header: header, footer: footer, CellBlockBuilder)
-        }
-
-        @inlinable
-        public func refine(@CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) -> Self {
-            refine(header: header, footer: footer, CellBlockBuilder)
-        }
-
-        public func refine<Header, Footer>(@SectionBuilder<Header, Footer> _ SectionBuilder: () -> SectionBuilder<Header, Footer>) -> Self where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
+        public func refine(@SectionBuilder _ SectionBuilder: () -> CollectionViewSectionComponent) -> Self {
             var other = self
             let builder = SectionBuilder()
-            other.header = builder.header?.eraseToAny()
-            other.footer = builder.footer?.eraseToAny()
-            other.cells = builder.cells
+            let builtHeaderFooter = builder.asHeaderFooter()
+            (other.header, other.footer) = (header ?? builtHeaderFooter.0, footer ?? builtHeaderFooter.1)
+            other.cells = builder.asCells()
             return other
         }
 
@@ -153,12 +119,7 @@ extension CollectionView {
 
 extension CollectionView.Section where ID == UniqueIdentifier {
     @inlinable
-    public init(@CollectionView.CellBlockBuilder _ CellBlockBuilder: () -> CollectionViewCellBlock) {
-        self.init(id: .init(), CellBlockBuilder)
-    }
-
-    @inlinable
-    public init<Header, Footer>(@CollectionView.SectionBuilder<Header, Footer> _ SectionBuilder: () -> CollectionView.SectionBuilder<Header, Footer>) where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
+    public init(@CollectionView.SectionBuilder _ SectionBuilder: () -> CollectionViewSectionComponent) {
         self.init(id: .init(), SectionBuilder)
     }
 
@@ -167,11 +128,10 @@ extension CollectionView.Section where ID == UniqueIdentifier {
         self.init(id: .init())
     }
 
-    init<Header, Footer>(builder: CollectionView.SectionBuilder<Header, Footer>) where Header: CollectionViewHeaderFooter, Footer: CollectionViewHeaderFooter {
+    init(component: CollectionViewSectionComponent) {
         self.id = .init()
-        self.header = builder.header?.eraseToAny()
-        self.footer = builder.footer?.eraseToAny()
-        self.cells = builder.cells
+        (self.header, self.footer) = component.asHeaderFooter()
+        self.cells = component.asCells()
     }
 }
 

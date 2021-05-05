@@ -7,15 +7,27 @@
 
 import Foundation
 
-public protocol TableViewCell: CellRegisterable, CellBinding, CellPresentable, Identifiable where View: UITableViewCell, Model: Equatable {
+public protocol TableViewSectionComponent {
+    func asCells() -> [TableView.AnyCell]
+    func asHeaderFooter() -> (TableView.AnyHeaderFooter?, TableView.AnyHeaderFooter?)
+}
+
+public protocol TableViewCell: TableViewSectionComponent, CellRegisterable, CellBinding, CellPresentable, Identifiable where View: UITableViewCell, Model: Equatable {
     var height: CGFloat { get }
 }
 
 extension TableViewCell {
+    @inlinable
     public var height: CGFloat { UITableView.automaticDimension }
-}
 
-extension TableViewCell {
+    @inlinable
+    public func asCells() -> [TableView.AnyCell] { [eraseToAny()] }
+
+    @inlinable
+    public func asHeaderFooter() -> (TableView.AnyHeaderFooter?, TableView.AnyHeaderFooter?) {
+        (nil, nil)
+    }
+
     @inlinable
     public func eraseToAny() -> TableView.AnyCell { .init(self) }
 }
@@ -279,27 +291,26 @@ extension TableView.Cell where ID == UniqueIdentifier, Model == AnyEquatable {
     }
 }
 
-public protocol TableViewCellBlock {
-    var cells: [TableView.AnyCell] { get }
-}
-
-extension TableViewCellBlock where Self: TableViewCell {
+extension Array: TableViewSectionComponent where Element: TableViewCell {
     @inlinable
-    public var cells: [TableView.AnyCell] { [eraseToAny()] }
-}
+    public func asCells() -> [TableView.AnyCell] { map { $0.eraseToAny() } }
 
-extension Array: TableViewCellBlock where Element: TableViewCell {
     @inlinable
-    public var cells: [TableView.AnyCell] { map { $0.eraseToAny() } }
+    public func asHeaderFooter() -> (TableView.AnyHeaderFooter?, TableView.AnyHeaderFooter?) { (nil, nil) }
 }
 
 @available(*, deprecated)
-extension ForEach: TableViewCellBlock where Content == TableViewCellBlock {
+extension ForEach: TableViewSectionComponent where Content == TableViewSectionComponent {
     @inlinable
-    public var cells: [TableView.AnyCell] { elements.flatMap { $0.cells } }
+    public func asCells() -> [TableView.AnyCell] { elements.flatMap { $0.asCells() } }
 
     @inlinable
-    public init(_ data: Data, @TableView.CellBlockBuilder content: (Int, Data.Element) -> TableViewCellBlock) {
+    public func asHeaderFooter() -> (TableView.AnyHeaderFooter?, TableView.AnyHeaderFooter?) {
+        (nil, nil)
+    }
+
+    @inlinable
+    public init(_ data: Data, @TableView.SectionBuilder content: (Int, Data.Element) -> TableViewSectionComponent) {
         self.init(data, elements: data.enumerated().map(content))
     }
 }

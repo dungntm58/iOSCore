@@ -15,8 +15,7 @@ extension TableView {
 
     open class ViewSourceProvider<Store> {
         public typealias PrototypeSectionBlockGenerateFunction = (UITableView, Store) ->  TableViewSectionBlock
-        public typealias PrototypeSectionGenerateFunction = (UITableView, Store) -> TableViewCellBlock
-        public typealias PrototypeFullSectionGenerateFunction<Header, Footer> = (UITableView, Store) -> TableView.SectionBuilder<Header, Footer> where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter
+        public typealias PrototypeSectionGenerateFunction = (UITableView, Store) -> TableViewSectionComponent
         public typealias RowAnimation = UITableView.RowAnimation
 
         private var sectionsGenerator: PrototypeSectionBlockGenerateFunction
@@ -54,26 +53,15 @@ extension TableView {
             tableView.dataSource = adapter
         }
 
-        public init(tableView: UITableView, store: Store, @CellBlockBuilder generator: @escaping PrototypeSectionGenerateFunction) {
+        public init(tableView: UITableView, store: Store, @SectionBuilder generator: @escaping PrototypeSectionGenerateFunction) {
             self.sectionsGenerator = { tableView, store in
-                let builder = SectionBuilder(
+                let component = SectionComponent(
                     header: TableView.AnyHeaderFooter?.none,
                     cellBlock: generator(tableView, store),
                     footer: TableView.AnyHeaderFooter?.none
                 )
-                let section = TableView.Section(builder: builder)
+                let section = TableView.Section(component: component)
                 return [section]
-            }
-            self.tableView = tableView
-            self.viewHashValue = tableView.hashValue
-            self.store = store
-            tableView.delegate = adapter
-            tableView.dataSource = adapter
-        }
-
-        public init<Header, Footer>(tableView: UITableView, store: Store, @SectionBuilder<Header, Footer> generator: @escaping PrototypeFullSectionGenerateFunction<Header, Footer>) where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
-            self.sectionsGenerator = { tableView, store in
-                [TableView.Section(builder: generator(tableView, store))]
             }
             self.tableView = tableView
             self.viewHashValue = tableView.hashValue

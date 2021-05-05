@@ -7,6 +7,11 @@
 
 import Foundation
 
+public protocol CollectionViewSectionComponent {
+    func asCells() -> [CollectionView.AnyCell]
+    func asHeaderFooter() -> (CollectionView.AnyHeaderFooter?, CollectionView.AnyHeaderFooter?)
+}
+
 public protocol CollectionViewCellPresentable: CellPresentable {
     typealias SizeEstimationHandler = (UICollectionViewLayout, UICollectionView) -> CGSize
 
@@ -15,10 +20,18 @@ public protocol CollectionViewCellPresentable: CellPresentable {
     var hasFixedSize: Bool { get }
 }
 
-public protocol CollectionViewCell: CellRegisterable, CellBinding, CollectionViewCellPresentable, Identifiable where View: UICollectionViewCell, Model: Equatable {
+public protocol CollectionViewCell: CollectionViewSectionComponent, CellRegisterable, CellBinding, CollectionViewCellPresentable, Identifiable where View: UICollectionViewCell, Model: Equatable {
 }
 
 extension CollectionViewCell {
+    @inlinable
+    public func asCells() -> [CollectionView.AnyCell] { [eraseToAny()] }
+
+    @inlinable
+    public func asHeaderFooter() -> (CollectionView.AnyHeaderFooter?, CollectionView.AnyHeaderFooter?) {
+        (nil, nil)
+    }
+
     @inlinable
     public func eraseToAny() -> CollectionView.AnyCell { .init(self) }
 
@@ -30,7 +43,7 @@ extension CollectionViewCell {
 
 extension CollectionView {
     @frozen
-    public struct Cell<ID, Model, View>: CollectionViewCell, CollectionViewCellBlock, CellInteractable where ID: Hashable, Model: Equatable, View: UICollectionViewCell {
+    public struct Cell<ID, Model, View>: CollectionViewCell, CollectionViewSectionComponent, CellInteractable where ID: Hashable, Model: Equatable, View: UICollectionViewCell {
         public var id: ID
         public let type: CellType
         public let reuseIdentifier: String
@@ -311,28 +324,24 @@ extension CollectionView.Cell where ID == UniqueIdentifier, Model == AnyEquatabl
     }
 }
 
-public protocol CollectionViewCellBlock {
+extension Array: CollectionViewSectionComponent where Element: CollectionViewCell {
     @inlinable
-    var cells: [CollectionView.AnyCell] { get }
-}
+    public func asCells() -> [CollectionView.AnyCell] { map { $0.eraseToAny() } }
 
-extension CollectionViewCellBlock where Self: CollectionViewCell {
     @inlinable
-    public var cells: [CollectionView.AnyCell] { [eraseToAny()] }
-}
-
-extension Array: CollectionViewCellBlock where Element: CollectionViewCell {
-    @inlinable
-    public var cells: [CollectionView.AnyCell] { map { $0.eraseToAny() } }
+    public func asHeaderFooter() -> (CollectionView.AnyHeaderFooter?, CollectionView.AnyHeaderFooter?) { (nil, nil) }
 }
 
 @available(*, deprecated)
-extension ForEach: CollectionViewCellBlock where Content == CollectionViewCellBlock {
+extension ForEach: CollectionViewSectionComponent where Content == CollectionViewSectionComponent {
     @inlinable
-    public var cells: [CollectionView.AnyCell] { elements.flatMap { $0.cells } }
+    public func asCells() -> [CollectionView.AnyCell] { elements.flatMap { $0.asCells() } }
 
     @inlinable
-    public init(_ data: Data, @CollectionView.CellBlockBuilder content: (Int, Data.Element) -> CollectionViewCellBlock) {
+    public func asHeaderFooter() -> (CollectionView.AnyHeaderFooter?, CollectionView.AnyHeaderFooter?) { (nil, nil) }
+
+    @inlinable
+    public init(_ data: Data, @CollectionView.SectionBuilder content: (Int, Data.Element) -> CollectionViewSectionComponent) {
         self.init(data, elements: data.enumerated().map(content))
     }
 }

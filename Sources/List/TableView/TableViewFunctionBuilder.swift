@@ -8,55 +8,43 @@
 import Foundation
 
 extension TableView {
-    @resultBuilder
-    public struct CellBlockBuilder {
-        @inlinable
-        public static func buildBlock(_ component: TableViewCellBlock...) -> TableViewCellBlock {
-            component.flatMap { $0.cells }
+    @usableFromInline
+    struct SectionComponent: TableViewSectionComponent {
+        @usableFromInline
+        let header: AnyHeaderFooter?
+        @usableFromInline
+        let footer: AnyHeaderFooter?
+        @usableFromInline
+        let cells: [AnyCell]
+
+        @usableFromInline
+        init(header: AnyHeaderFooter? = nil, cells: [AnyCell] = [], footer: AnyHeaderFooter? = nil) {
+            assert(header == nil || header?.position == .header)
+            assert(footer == nil || footer?.position == .footer)
+
+            self.header = header
+            self.cells = cells
+            self.footer = footer
+        }
+
+        @usableFromInline
+        init(header: AnyHeaderFooter?, cellBlock: TableViewSectionComponent..., footer: AnyHeaderFooter?) {
+            self.init(header: header, cells: cellBlock.flatMap { $0.asCells() }, footer: footer)
+        }
+
+        @usableFromInline
+        init(header: AnyHeaderFooter?, cellBlocks: [TableViewSectionComponent], footer: AnyHeaderFooter?) {
+            self.init(header: header, cells: cellBlocks.flatMap { $0.asCells() }, footer: footer)
         }
 
         @inlinable
-        public static func buildExpression<Cell>(_ expression: Cell?) -> TableViewCellBlock where Cell: TableViewCell {
-            expression.map { [$0] } ?? []
+        func asCells() -> [TableView.AnyCell] {
+            cells
         }
 
         @inlinable
-        public static func buildExpression(_ expression: TableViewCellBlock?) -> TableViewCellBlock {
-            if let component = expression {
-                return component
-            }
-            return [TableView.AnyCell]()
-        }
-
-        @inlinable
-        public static func buildArray(_ component: [TableViewCellBlock]) -> TableViewCellBlock {
-            component.flatMap { $0.cells }
-        }
-
-        @inlinable
-        public static func buildIf(_ component: TableViewCellBlock?) -> TableViewCellBlock {
-            if let component = component {
-                return component
-            }
-            return [TableView.AnyCell]()
-        }
-
-        @inlinable
-        public static func buildEither(first: TableViewCellBlock) -> TableViewCellBlock {
-            first
-        }
-
-        @inlinable
-        public static func buildEither(second: TableViewCellBlock) -> TableViewCellBlock {
-            second
-        }
-
-        @inlinable
-        public static func buildOptional(_ component: TableViewCellBlock?) -> TableViewCellBlock {
-            if let component = component {
-                return component
-            }
-            return [TableView.AnyCell]()
+        func asHeaderFooter() -> (TableView.AnyHeaderFooter?, TableView.AnyHeaderFooter?) {
+            (header, footer)
         }
     }
 
@@ -77,7 +65,7 @@ extension TableView {
             if let component = expression {
                 return component
             }
-            return [TableView.AnySection]()
+            return [AnySection]()
         }
 
         @inlinable
@@ -90,7 +78,7 @@ extension TableView {
             if let component = component {
                 return component
             }
-            return [TableView.AnySection]()
+            return [AnySection]()
         }
 
         @inlinable
@@ -108,585 +96,92 @@ extension TableView {
             if let component = component {
                 return component
             }
-            return [TableView.AnySection]()
+            return [AnySection]()
         }
     }
 
     @resultBuilder
-    public struct SectionBuilder<Header, Footer> where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
-        @usableFromInline
-        let header: Header?
-        @usableFromInline
-        let footer: Footer?
-        @usableFromInline
-        let cells: [AnyCell]
-
-        @usableFromInline
-        init(header: Header?, cells: [AnyCell] = [], footer: Footer?) {
-            precondition(header == nil || header?.position == .header)
-            precondition(footer == nil || footer?.position == .footer)
-
-            self.header = header
-            self.cells = cells
-            self.footer = footer
-        }
-
-        @usableFromInline
-        init(header: Header?, cellBlock: TableViewCellBlock..., footer: Footer?) {
-            self.init(header: header, cells: cellBlock.flatMap { $0.cells }, footer: footer)
-        }
-
-        @usableFromInline
-        init(header: Header?, cellBlocks: [TableViewCellBlock], footer: Footer?) {
-            self.init(header: header, cells: cellBlocks.flatMap { $0.cells }, footer: footer)
+    public struct SectionBuilder {
+        @inlinable
+        public static func buildBlock(_ components: TableViewSectionComponent...) -> TableViewSectionComponent {
+            buildArray(components)
         }
 
         @inlinable
-        public static func buildBlock(
-            _ header: Header? = nil,
-            _ cellBlock: TableViewCellBlock,
-            _ footer: Footer? = nil
-        ) -> Self {
-            .init(header: header, cells: cellBlock.cells, footer: footer)
+        public static func buildExpression(_ expression: TableViewSectionComponent?) -> TableViewSectionComponent {
+            if let component = expression {
+                return component
+            }
+            return [AnyCell]()
         }
 
         @inlinable
-        public static func buildBlock(
-            _ header: Header? = nil,
-            _ cellBlock1: TableViewCellBlock,
-            _ cellBlock2: TableViewCellBlock,
-            _ footer: Footer? = nil
-        ) -> Self {
-            .init(header: header,
-                  cells: cellBlock1.cells + cellBlock2.cells,
-                  footer: footer)
+        public static func buildArray(_ components: [TableViewSectionComponent]) -> TableViewSectionComponent {
+            assert(validateSectionBuilder(components: components))
+            let header = components.first?.asHeaderFooter().0
+            let footer = components.last?.asHeaderFooter().1
+            if header == nil && footer == nil {
+                return components.flatMap { $0.asCells() }
+            }
+            let fromIndex = header == nil ? 0 : 1
+            let toIndex = components.count - 1 - (footer == nil ? 0 : 1)
+            return SectionComponent(
+                header: header,
+                cells: components[fromIndex...toIndex].flatMap { $0.asCells() },
+                footer: footer
+            )
         }
 
         @inlinable
-        public static func buildBlock(
-            _ header: Header? = nil,
-            _ cellBlock1: TableViewCellBlock,
-            _ cellBlock2: TableViewCellBlock,
-            _ cellBlock3: TableViewCellBlock,
-            _ footer: Footer? = nil
-        ) -> Self {
-            .init(header: header,
-                  cells: cellBlock1.cells + cellBlock2.cells + cellBlock3.cells,
-                  footer: footer)
+        public static func buildIf(_ component: TableViewSectionComponent?) -> TableViewSectionComponent {
+            if let component = component {
+                return component
+            }
+            return [AnyCell]()
         }
 
         @inlinable
-        public static func buildBlock(
-            _ header: Header? = nil,
-            _ cellBlock1: TableViewCellBlock,
-            _ cellBlock2: TableViewCellBlock,
-            _ cellBlock3: TableViewCellBlock,
-            _ cellBlock4: TableViewCellBlock,
-            _ footer: Footer? = nil
-        ) -> Self {
-            let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-            return .init(header: header,
-                         cells: cellBlocks0 + cellBlock4.cells,
-                         footer: footer)
+        public static func buildEither(first: TableViewSectionComponent) -> TableViewSectionComponent {
+            first
         }
 
         @inlinable
-        public static func buildBlock(
-            _ header: Header? = nil,
-            _ cellBlock1: TableViewCellBlock,
-            _ cellBlock2: TableViewCellBlock,
-            _ cellBlock3: TableViewCellBlock,
-            _ cellBlock4: TableViewCellBlock,
-            _ cellBlock5: TableViewCellBlock,
-            _ footer: Footer? = nil
-        ) -> Self {
-            let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-            return .init(header: header,
-                         cells: cellBlocks0 + cellBlock4.cells + cellBlock5.cells,
-                         footer: footer)
+        public static func buildEither(second: TableViewSectionComponent) -> TableViewSectionComponent {
+            second
         }
 
         @inlinable
-        public static func buildBlock(
-            _ header: Header? = nil,
-            _ cellBlock1: TableViewCellBlock,
-            _ cellBlock2: TableViewCellBlock,
-            _ cellBlock3: TableViewCellBlock,
-            _ cellBlock4: TableViewCellBlock,
-            _ cellBlock5: TableViewCellBlock,
-            _ cellBlock6: TableViewCellBlock,
-            _ footer: Footer? = nil
-        ) -> Self {
-            let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-            let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-            return .init(header: header,
-                         cells: cellBlocks0 + cellBlocks1,
-                         footer: footer)
-        }
-
-        @inlinable
-        public static func buildBlock(
-            _ header: Header? = nil,
-            _ cellBlock1: TableViewCellBlock,
-            _ cellBlock2: TableViewCellBlock,
-            _ cellBlock3: TableViewCellBlock,
-            _ cellBlock4: TableViewCellBlock,
-            _ cellBlock5: TableViewCellBlock,
-            _ cellBlock6: TableViewCellBlock,
-            _ cellBlock7: TableViewCellBlock,
-            _ footer: Footer? = nil
-        ) -> Self {
-            let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-            let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-            return .init(header: header,
-                         cells: cellBlocks0 + cellBlocks1 + cellBlock7.cells,
-                         footer: footer)
-        }
-
-        @inlinable
-        public static func buildBlock(
-            _ header: Header? = nil,
-            _ cellBlock1: TableViewCellBlock,
-            _ cellBlock2: TableViewCellBlock,
-            _ cellBlock3: TableViewCellBlock,
-            _ cellBlock4: TableViewCellBlock,
-            _ cellBlock5: TableViewCellBlock,
-            _ cellBlock6: TableViewCellBlock,
-            _ cellBlock7: TableViewCellBlock,
-            _ cellBlock8: TableViewCellBlock,
-            _ footer: Footer? = nil
-        ) -> Self {
-            let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-            let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-            let cellBlocks2 = cellBlock7.cells + cellBlock8.cells
-            return .init(header: header,
-                         cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
-                         footer: footer)
-        }
-
-        @inlinable
-        public static func buildBlock(
-            _ header: Header? = nil,
-            _ cellBlock1: TableViewCellBlock,
-            _ cellBlock2: TableViewCellBlock,
-            _ cellBlock3: TableViewCellBlock,
-            _ cellBlock4: TableViewCellBlock,
-            _ cellBlock5: TableViewCellBlock,
-            _ cellBlock6: TableViewCellBlock,
-            _ cellBlock7: TableViewCellBlock,
-            _ cellBlock8: TableViewCellBlock,
-            _ cellBlock9: TableViewCellBlock,
-            _ footer: Footer? = nil
-        ) -> Self {
-            let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-            let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-            let cellBlocks2 = cellBlock7.cells + cellBlock8.cells + cellBlock9.cells
-            return .init(header: header,
-                         cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
-                         footer: footer)
+        public static func buildOptional(_ component: TableViewSectionComponent?) -> TableViewSectionComponent {
+            if let component = component {
+                return component
+            }
+            return [AnyCell]()
         }
     }
 }
 
-extension TableView.SectionBuilder where Header == TableView.AnyHeaderFooter {
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock: TableViewCellBlock,
-        _ footer: Footer? = nil
-    ) -> Self {
-        .init(header: nil, cells: cellBlock.cells, footer: footer)
+@usableFromInline
+func validateSectionBuilder(components: [TableViewSectionComponent]) -> Bool {
+    let singleResponsibilityComponentCheck = components.allSatisfy {
+        let headerFooter = $0.asHeaderFooter()
+        return headerFooter.0 == nil || headerFooter.1 == nil || $0.asCells().isEmpty
     }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ footer: Footer? = nil
-    ) -> Self {
-        .init(header: nil,
-              cells: cellBlock1.cells + cellBlock2.cells,
-              footer: footer)
+    guard singleResponsibilityComponentCheck else { return false }
+    let headerPairs = components.enumerated()
+        .compactMap { index, element -> (Int, TableView.AnyHeaderFooter)? in
+            guard let c = element.asHeaderFooter().0, c.position == .header else { return nil }
+            return (index, c)
+        }
+    let footerPairs = components.enumerated()
+        .compactMap { index, element -> (Int, TableView.AnyHeaderFooter)? in
+            guard let c = element.asHeaderFooter().1, c.position == .footer else { return nil }
+            return (index, c)
+        }
+    guard headerPairs.isEmpty || headerPairs.count == 1 && headerPairs[0].0 == 0 else {
+        return false
     }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ footer: Footer? = nil
-    ) -> Self {
-        .init(header: nil,
-              cells: cellBlock1.cells + cellBlock2.cells + cellBlock3.cells,
-              footer: footer)
+    guard footerPairs.isEmpty || footerPairs.count == 1 && footerPairs[0].0 == components.count - 1 else {
+        return false
     }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ footer: Footer? = nil
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        return .init(header: nil,
-                     cells: cellBlocks0 + cellBlock4.cells,
-                     footer: footer)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ footer: Footer? = nil
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        return .init(header: nil,
-                     cells: cellBlocks0 + cellBlock4.cells + cellBlock5.cells,
-                     footer: footer)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ cellBlock6: TableViewCellBlock,
-        _ footer: Footer? = nil
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-        return .init(header: nil,
-                     cells: cellBlocks0 + cellBlocks1,
-                     footer: footer)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ cellBlock6: TableViewCellBlock,
-        _ cellBlock7: TableViewCellBlock,
-        _ footer: Footer? = nil
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-        return .init(header: nil,
-                     cells: cellBlocks0 + cellBlocks1 + cellBlock7.cells,
-                     footer: footer)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ cellBlock6: TableViewCellBlock,
-        _ cellBlock7: TableViewCellBlock,
-        _ cellBlock8: TableViewCellBlock,
-        _ footer: Footer? = nil
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-        let cellBlocks2 = cellBlock7.cells + cellBlock8.cells
-        return .init(header: nil,
-                     cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
-                     footer: footer)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ cellBlock6: TableViewCellBlock,
-        _ cellBlock7: TableViewCellBlock,
-        _ cellBlock8: TableViewCellBlock,
-        _ cellBlock9: TableViewCellBlock,
-        _ footer: Footer? = nil
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-        let cellBlocks2 = cellBlock7.cells + cellBlock8.cells + cellBlock9.cells
-        return .init(header: nil,
-                     cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
-                     footer: footer)
-    }
-}
-
-extension TableView.SectionBuilder where Footer == TableView.AnyHeaderFooter {
-    @inlinable
-    public static func buildBlock(
-        _ header: Header? = nil,
-        _ cellBlock: TableViewCellBlock
-    ) -> Self {
-        .init(header: header, cells: cellBlock.cells, footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ header: Header? = nil,
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock
-    ) -> Self {
-        .init(header: header,
-              cells: cellBlock1.cells + cellBlock2.cells,
-              footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ header: Header? = nil,
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock
-    ) -> Self {
-        .init(header: header,
-              cells: cellBlock1.cells + cellBlock2.cells + cellBlock3.cells,
-              footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ header: Header? = nil,
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        return .init(header: header,
-                     cells: cellBlocks0 + cellBlock4.cells,
-                     footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ header: Header? = nil,
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        return .init(header: header,
-                     cells: cellBlocks0 + cellBlock4.cells + cellBlock5.cells,
-                     footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ header: Header? = nil,
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ cellBlock6: TableViewCellBlock
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-        return .init(header: header,
-                     cells: cellBlocks0 + cellBlocks1,
-                     footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ header: Header? = nil,
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ cellBlock6: TableViewCellBlock,
-        _ cellBlock7: TableViewCellBlock
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-        return .init(header: header,
-                     cells: cellBlocks0 + cellBlocks1 + cellBlock7.cells,
-                     footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ header: Header? = nil,
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ cellBlock6: TableViewCellBlock,
-        _ cellBlock7: TableViewCellBlock,
-        _ cellBlock8: TableViewCellBlock
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-        let cellBlocks2 = cellBlock7.cells + cellBlock8.cells
-        return .init(header: header,
-                     cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
-                     footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ header: Header? = nil,
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ cellBlock6: TableViewCellBlock,
-        _ cellBlock7: TableViewCellBlock,
-        _ cellBlock8: TableViewCellBlock,
-        _ cellBlock9: TableViewCellBlock
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-        let cellBlocks2 = cellBlock7.cells + cellBlock8.cells + cellBlock9.cells
-        return .init(header: header,
-                     cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
-                     footer: nil)
-    }
-}
-
-extension TableView.SectionBuilder where Header == TableView.AnyHeaderFooter, Footer == TableView.AnyHeaderFooter {
-    @inlinable
-    public static func buildBlock(_ cellBlock: TableViewCellBlock) -> Self {
-        .init(header: nil, cells: cellBlock.cells, footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock
-    ) -> Self {
-        .init(header: nil,
-              cells: cellBlock1.cells + cellBlock2.cells,
-              footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock
-    ) -> Self {
-        .init(header: nil,
-              cells: cellBlock1.cells + cellBlock2.cells + cellBlock3.cells,
-              footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        return .init(header: nil,
-                     cells: cellBlocks0 + cellBlock4.cells,
-                     footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        return .init(header: nil,
-                     cells: cellBlocks0 + cellBlock4.cells + cellBlock5.cells,
-                     footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ cellBlock6: TableViewCellBlock
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-        return .init(header: nil,
-                     cells: cellBlocks0 + cellBlocks1,
-                     footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ cellBlock6: TableViewCellBlock,
-        _ cellBlock7: TableViewCellBlock
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-        return .init(header: nil,
-                     cells: cellBlocks0 + cellBlocks1 + cellBlock7.cells,
-                     footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ cellBlock6: TableViewCellBlock,
-        _ cellBlock7: TableViewCellBlock,
-        _ cellBlock8: TableViewCellBlock
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-        let cellBlocks2 = cellBlock7.cells + cellBlock8.cells
-        return .init(header: nil,
-                     cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
-                     footer: nil)
-    }
-
-    @inlinable
-    public static func buildBlock(
-        _ cellBlock1: TableViewCellBlock,
-        _ cellBlock2: TableViewCellBlock,
-        _ cellBlock3: TableViewCellBlock,
-        _ cellBlock4: TableViewCellBlock,
-        _ cellBlock5: TableViewCellBlock,
-        _ cellBlock6: TableViewCellBlock,
-        _ cellBlock7: TableViewCellBlock,
-        _ cellBlock8: TableViewCellBlock,
-        _ cellBlock9: TableViewCellBlock
-    ) -> Self {
-        let cellBlocks0 = cellBlock1.cells + cellBlock2.cells + cellBlock3.cells
-        let cellBlocks1 = cellBlock4.cells + cellBlock5.cells + cellBlock6.cells
-        let cellBlocks2 = cellBlock7.cells + cellBlock8.cells + cellBlock9.cells
-        return .init(header: nil,
-                     cells: cellBlocks0 + cellBlocks1 + cellBlocks2,
-                     footer: nil)
-    }
+    return true
 }

@@ -65,53 +65,19 @@ extension TableView {
             self.cells = []
         }
 
-        public init(id: ID, @CellBlockBuilder _ CellBlockBuilder: () -> TableViewCellBlock) {
-            self.id = id
-            self.header = nil
-            self.footer = nil
-            self.cells = CellBlockBuilder().cells
-        }
-
-        public init<Header, Footer>(id: ID, @SectionBuilder<Header, Footer> _ SectionBuilder: () -> SectionBuilder<Header, Footer>) where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
+        public init(id: ID, @SectionBuilder _ SectionBuilder: () -> TableViewSectionComponent) {
             self.id = id
             let builder = SectionBuilder()
-            self.header = builder.header?.eraseToAny()
-            self.footer = builder.footer?.eraseToAny()
-            self.cells = builder.cells
+            (self.header, self.footer) = builder.asHeaderFooter()
+            self.cells = builder.asCells()
         }
 
-        public func refine<Header, Footer>(header: Header?, footer: Footer?, @CellBlockBuilder _ CellBlockBuilder: () -> TableViewCellBlock) -> Self where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
-            precondition(header == nil || header?.position == .header)
-            precondition(footer == nil || footer?.position == .footer)
-
-            var other = self
-            other.header = header?.eraseToAny()
-            other.footer = footer?.eraseToAny()
-            other.cells = CellBlockBuilder().cells
-            return other
-        }
-
-        @inlinable
-        public func refine<Header>(header: Header?, @CellBlockBuilder _ CellBlockBuilder: () -> TableViewCellBlock) -> Self where Header: TableViewHeaderFooter {
-            refine(header: header, footer: footer, CellBlockBuilder)
-        }
-
-        @inlinable
-        public func refine<Footer>(footer: Footer?, @CellBlockBuilder _ CellBlockBuilder: () -> TableViewCellBlock) -> Self where Footer: TableViewHeaderFooter {
-            refine(header: header, footer: footer, CellBlockBuilder)
-        }
-
-        @inlinable
-        public func refine(@CellBlockBuilder _ CellBlockBuilder: () -> TableViewCellBlock) -> Self {
-            refine(header: header, footer: footer, CellBlockBuilder)
-        }
-
-        public func refine<Header, Footer>(@SectionBuilder<Header, Footer> _ SectionBuilder: () -> SectionBuilder<Header, Footer>) -> Self where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
+        public func refine(@SectionBuilder _ SectionBuilder: () -> TableViewSectionComponent) -> Self {
             var other = self
             let builder = SectionBuilder()
-            other.header = builder.header?.eraseToAny()
-            other.footer = builder.footer?.eraseToAny()
-            other.cells = builder.cells
+            let builtHeaderFooter = builder.asHeaderFooter()
+            (other.header, other.footer) = (header ?? builtHeaderFooter.0, footer ?? builtHeaderFooter.1)
+            other.cells = builder.asCells()
             return other
         }
     }
@@ -119,12 +85,7 @@ extension TableView {
 
 extension TableView.Section where ID == UniqueIdentifier {
     @inlinable
-    public init(@TableView.CellBlockBuilder _ CellBlockBuilder: () -> TableViewCellBlock) {
-        self.init(id: .init(), CellBlockBuilder)
-    }
-
-    @inlinable
-    public init<Header, Footer>(@TableView.SectionBuilder<Header, Footer> _ SectionBuilder: () -> TableView.SectionBuilder<Header, Footer>) where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
+    public init(@TableView.SectionBuilder _ SectionBuilder: () -> TableViewSectionComponent) {
         self.init(id: .init(), SectionBuilder)
     }
 
@@ -133,11 +94,10 @@ extension TableView.Section where ID == UniqueIdentifier {
         self.init(id: .init())
     }
 
-    init<Header, Footer>(builder: TableView.SectionBuilder<Header, Footer>) where Header: TableViewHeaderFooter, Footer: TableViewHeaderFooter {
+    init(component: TableViewSectionComponent) {
         self.id = .init()
-        self.header = builder.header?.eraseToAny()
-        self.footer = builder.footer?.eraseToAny()
-        self.cells = builder.cells
+        (self.header, self.footer) = component.asHeaderFooter()
+        self.cells = component.asCells()
     }
 }
 

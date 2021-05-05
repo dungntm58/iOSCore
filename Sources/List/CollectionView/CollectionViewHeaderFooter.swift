@@ -7,12 +7,26 @@
 
 import Foundation
 
-public protocol CollectionViewHeaderFooter: CellRegisterable, CellBinding, CollectionViewCellPresentable where View: UICollectionReusableView {
+public protocol CollectionViewHeaderFooter: CollectionViewSectionComponent, CellRegisterable, CellBinding, CollectionViewCellPresentable where View: UICollectionReusableView {
 
     var position: HeaderFooterPosition { get }
 }
 
 extension CollectionViewHeaderFooter {
+    @inlinable
+    public func asCells() -> [CollectionView.AnyCell] { [] }
+
+    @inlinable
+    public func asHeaderFooter() -> (CollectionView.AnyHeaderFooter?, CollectionView.AnyHeaderFooter?) {
+        let component = eraseToAny()
+        switch component.position {
+        case .header:
+            return (component, nil)
+        case .footer:
+            return (nil, component)
+        }
+    }
+
     @inlinable
     public func eraseToAny() -> CollectionView.AnyHeaderFooter { .init(self) }
 
