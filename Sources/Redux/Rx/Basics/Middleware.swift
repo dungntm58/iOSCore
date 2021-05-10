@@ -7,7 +7,11 @@
 
 import RxSwift
 
-public typealias EpicFunction<Action, State> = (_ dispatcher: Observable<Action>, _ actionStream: Observable<Action>, _ stateStream: Observable<State>) -> Observable<Action> where Action: Actionable, State: Stateable
+public typealias EpicFunction<Action, State> = (
+    _ dispatcher: Observable<Action>,
+    _ actionStream: Observable<Action>,
+    _ stateStream: Observable<State>
+) -> Observable<Action> where Action: Actionable, State: Stateable
 
 public protocol Epic {
     associatedtype Action: Actionable

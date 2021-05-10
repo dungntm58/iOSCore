@@ -20,7 +20,7 @@ public enum LifeCycle {
     @objc optional func retrieve(_ userInfo: Any?)
 }
 
-public protocol Scenable: class, MaybeRetrievable {
+public protocol Scenable: MaybeRetrievable {
     /// An object manages scene relationship and life cycle state
     var managedContext: ManagedSceneContext { get }
 

@@ -21,9 +21,9 @@ extension TableView.AnyCell: Differentiable {
 }
 
 extension TableView.AnySection: Differentiable, DifferentiableSection {
-    public init<C>(source: TableView.AnySection, elements: C) where C : Swift.Collection, C.Element == Self.Collection.Element {
+    public init<C>(source: TableView.AnySection, elements: C) where C: Swift.Collection, C.Element == Self.Collection.Element {
         switch elements {
-        case let cells as Array<TableView.AnyCell>:
+        case let cells as [TableView.AnyCell]:
             self.init(source, cells: cells)
         default:
             self.init(source, cells: Array(elements))

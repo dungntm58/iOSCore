@@ -9,7 +9,7 @@ import UIKit
 import DifferenceKit
 
 extension CollectionView {
-    enum DI {
+    enum DIC {
         static var generator: [Int: Any] = [:]
         static var cachedCellSize: [String: CGSize] = [:]
         static var cachedHeaderFooterSize: [String: CGSize] = [:]
@@ -24,7 +24,7 @@ extension CollectionView {
 
         private var viewHashValue: Int {
             didSet {
-                DI.generator[viewHashValue] = generator
+                DIC.generator[viewHashValue] = generator
             }
         }
 
@@ -32,17 +32,17 @@ extension CollectionView {
         open var store: Store
 
         fileprivate var generator: PrototypeGenerator {
-            if let generator = DI.generator[viewHashValue] as? PrototypeGenerator {
+            if let generator = DIC.generator[viewHashValue] as? PrototypeGenerator {
                 return generator
             }
             let generator = PrototypeGenerator(collectionView: collectionView, store: store, generator: sectionsGenerator)
             self.collectionView = nil
-            DI.generator[viewHashValue] = generator
+            DIC.generator[viewHashValue] = generator
             return generator
         }
 
         deinit {
-            DI.generator[viewHashValue] = nil
+            DIC.generator[viewHashValue] = nil
         }
 
         public init(collectionView: UICollectionView, store: Store, @SectionBlockBuilder generator: @escaping PrototypeSectionBlockGenerateFunction) {
@@ -147,11 +147,11 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
                 cachedCellSize[cellHashString] = size
             }
         case .global:
-            if let cachedSize = CollectionView.DI.cachedCellSize[cellHashString] {
+            if let cachedSize = CollectionView.DIC.cachedCellSize[cellHashString] {
                 size = cachedSize
             } else {
                 size = cell.size(layout: collectionViewLayout, collectionView: collectionView)
-                CollectionView.DI.cachedCellSize[cellHashString] = size
+                CollectionView.DIC.cachedCellSize[cellHashString] = size
             }
         }
         return size
@@ -166,7 +166,7 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
         case UICollectionView.elementKindSectionFooter:
             if let footer = differenceSections[indexPath.section].footer {
                 return dequeueHeaderFooter(in: collectionView, headerFooter: footer, for: indexPath)
-            }            
+            }
         default:
             break
         }
@@ -241,11 +241,11 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
                 cachedHeaderFooterSize[headerHashString] = size
             }
         case .global:
-            if let cachedSize = CollectionView.DI.cachedHeaderFooterSize[headerHashString] {
+            if let cachedSize = CollectionView.DIC.cachedHeaderFooterSize[headerHashString] {
                 size = cachedSize
             } else {
                 size = headerFooter.size(layout: collectionViewLayout, collectionView: collectionView)
-                CollectionView.DI.cachedHeaderFooterSize[headerHashString] = size
+                CollectionView.DIC.cachedHeaderFooterSize[headerHashString] = size
             }
         }
         return size
@@ -269,11 +269,11 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
                 cachedHeaderFooterSize[headerHashString] = size
             }
         case .global:
-            if let cachedSize = CollectionView.DI.cachedHeaderFooterSize[headerHashString] {
+            if let cachedSize = CollectionView.DIC.cachedHeaderFooterSize[headerHashString] {
                 size = cachedSize
             } else {
                 size = headerFooter.size(layout: collectionViewLayout, collectionView: collectionView)
-                CollectionView.DI.cachedHeaderFooterSize[headerHashString] = size
+                CollectionView.DIC.cachedHeaderFooterSize[headerHashString] = size
             }
         }
         return size

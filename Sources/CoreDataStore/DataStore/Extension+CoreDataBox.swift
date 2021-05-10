@@ -24,7 +24,11 @@ public extension CoreDataDataStore where T: ManagedObjectWrapper {
     }
 
     func getList(options: DataStoreFetchOption) throws -> ListDTO<T> {
-        let listResult = try Helper.instance.getList(of: T.Object.self, options: options, ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
+        let listResult = try Helper.instance.getList(
+            of: T.Object.self, options: options, ttl: ttl,
+            managedContext: configuration.managedObjectContext,
+            metaManagedContext: configuration.metaManagedObjectContext
+        )
 
         let before = listResult.previous.map(T.init)
         let after = listResult.next.map(T.init)

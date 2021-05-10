@@ -12,25 +12,25 @@ public class APNSConfig {
 
     lazy private(set) var authorizationOptions: UNAuthorizationOptions = []
 
-    lazy private var userNotificationCenterDelegate: UNUserNotificationCenterDelegate? = nil
+    lazy private var userNotificationCenterDelegateImpl: UNUserNotificationCenterDelegate? = nil
 
     init(options: UNAuthorizationOptions, userNotificationCenterDelegate: UNUserNotificationCenterDelegate?) {
         self.authorizationOptions = options
-        self.userNotificationCenterDelegate = userNotificationCenterDelegate
+        self.userNotificationCenterDelegateImpl = userNotificationCenterDelegate
     }
 
     func registerForRemoteNotifications(_ application: UIApplication) {
-        userNotificationCenter.requestAuthorization(options: authorizationOptions) {
-            granted, error in
-            if granted {
-                DispatchQueue.main.async {
-                    application.registerForRemoteNotifications()
+        userNotificationCenter
+            .requestAuthorization(options: authorizationOptions) { granted, _ in
+                if granted {
+                    DispatchQueue.main.async {
+                        application.registerForRemoteNotifications()
+                    }
                 }
             }
-        }
 
         // For iOS 10 display notification (sent via APNS)
-        userNotificationCenter.delegate = userNotificationCenterDelegate
+        userNotificationCenter.delegate = userNotificationCenterDelegateImpl
 
         application.registerForRemoteNotifications()
     }

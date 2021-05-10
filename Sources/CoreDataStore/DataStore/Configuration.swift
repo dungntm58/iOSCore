@@ -15,14 +15,14 @@ public protocol CoreDataConfiguration {
 public class DefaultCoreDataConfiguration: CoreDataConfiguration {
     static public let instance = DefaultCoreDataConfiguration()
 
-    var _backManagedObjectContext: NSManagedObjectContext?
-    let _mainManagedObjectContext: NSManagedObjectContext
+    var backManagedObjectContext: NSManagedObjectContext?
+    let mainManagedObjectContext: NSManagedObjectContext
 
-    var _backMetaManagedObjectContext: NSManagedObjectContext?
-    let _mainMetaManagedObjectContext: NSManagedObjectContext
+    var backMetaManagedObjectContext: NSManagedObjectContext?
+    let mainMetaManagedObjectContext: NSManagedObjectContext
 
     private init() {
-        _mainMetaManagedObjectContext = {
+        mainMetaManagedObjectContext = {
             guard let modelURL = Bundle(for: DefaultCoreDataConfiguration.self).url(forResource: "MetaModel", withExtension: "momd") else {
                 fatalError("Error loading model from bundle")
             }
@@ -40,7 +40,7 @@ public class DefaultCoreDataConfiguration: CoreDataConfiguration {
             return context
         }()
 
-        _mainManagedObjectContext = {
+        mainManagedObjectContext = {
             guard let modelURL = Bundle.main.url(forResource: "Model", withExtension: "momd") else {
                 fatalError("Error loading model from bundle")
             }
@@ -61,27 +61,27 @@ public class DefaultCoreDataConfiguration: CoreDataConfiguration {
 
     open var managedObjectContext: NSManagedObjectContext {
         if Thread.isMainThread {
-            return _mainManagedObjectContext
+            return mainManagedObjectContext
         }
-        if let context = _backManagedObjectContext {
+        if let context = backManagedObjectContext {
             return context
         }
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        context.parent = _mainManagedObjectContext
-        self._backManagedObjectContext = context
+        context.parent = mainManagedObjectContext
+        self.backManagedObjectContext = context
         return context
     }
 
     open var metaManagedObjectContext: NSManagedObjectContext {
         if Thread.isMainThread {
-            return _mainMetaManagedObjectContext
+            return mainMetaManagedObjectContext
         }
-        if let context = _backMetaManagedObjectContext {
+        if let context = backMetaManagedObjectContext {
             return context
         }
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        context.parent = _mainMetaManagedObjectContext
-        self._backMetaManagedObjectContext = context
+        context.parent = mainMetaManagedObjectContext
+        self.backMetaManagedObjectContext = context
         return context
     }
 }

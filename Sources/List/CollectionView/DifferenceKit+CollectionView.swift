@@ -21,9 +21,9 @@ extension CollectionView.AnyCell: Differentiable {
 }
 
 extension CollectionView.AnySection: Differentiable, DifferentiableSection {
-    public init<C>(source: CollectionView.AnySection, elements: C) where C : Swift.Collection, C.Element == Self.Collection.Element {
+    public init<C>(source: CollectionView.AnySection, elements: C) where C: Swift.Collection, C.Element == Self.Collection.Element {
         switch elements {
-        case let cells as Array<CollectionView.AnyCell>:
+        case let cells as [CollectionView.AnyCell]:
             self.init(source, cells: cells)
         default:
             self.init(source, cells: Array(elements))

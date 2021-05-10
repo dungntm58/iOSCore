@@ -30,7 +30,11 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
         _state.asObservable().distinctUntilChanged()
     }
 
-    public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler = SerialDispatchQueueScheduler(qos: .default)) where Reducer: Reducible, Reducer.Action == Action, Reducer.State == State {
+    public init<Reducer>(
+        reducer: Reducer,
+        initialState: State,
+        scheduler: StoreScheduler = SerialDispatchQueueScheduler(qos: .default)
+    ) where Reducer: Reducible, Reducer.Action == Action, Reducer.State == State {
         self._state = .init(value: initialState)
         self._action = .init()
         self._derivedAction = .init()
@@ -91,31 +95,28 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
     private func run() {
         #if !RELEASE && !PRODUCTION
         let actionToState = _derivedAction
-            .withLatestFrom(_state) {
-                [reducer] action, state -> (Action, State) in
+            .withLatestFrom(_state) { [reducer] action, state -> (Action, State) in
                 let newState = reducer(action, state)
                 Swift.print("Previous state:", String(describing: state))
                 Swift.print("Action:", String(describing: action))
                 Swift.print("Next state:", String(describing: newState))
                 return (action, newState)
-        }
-        .map(\.1)
-        .bind(to: _state)
+            }
+            .map(\.1)
+            .bind(to: _state)
         #else
         let actionToState = _derivedAction
-            .withLatestFrom(_state) {
-                [reducer] action, state -> State in
+            .withLatestFrom(_state) { [reducer] action, state -> State in
                 reducer(action, state)
-        }
-        .bind(to: _state)
+            }
+            .bind(to: _state)
         #endif
         let actionToDerivedAction = _action.bind(to: _derivedAction)
         // Handle epics
         let actionToAction = _action
             .observe(on: scheduler)
             .withUnretained(self)
-            .flatMap {
-                `self`, action -> Observable<Action> in
+            .flatMap { `self`, action -> Observable<Action> in
                 guard self.isActive, !self._epics.isEmpty else { return .empty() }
                 return .merge(self._epics.map { $0(.just(action), self._derivedAction.asObservable(), self._state.asObservable()).observe(on: self.scheduler) })
             }

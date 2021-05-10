@@ -7,5 +7,7 @@
 //
 
 public protocol ModelRepository {
+    // swiftlint:disable type_name
     associatedtype T
+    // swiftlint:enable type_name
 }

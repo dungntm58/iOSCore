@@ -17,7 +17,9 @@ public protocol PaginationRequestOptions: FetchOptions {}
  */
 
 public protocol ListDataWorker {
+    // swiftlint:disable type_name
     associatedtype T
+    // swiftlint:enable type_name
 
     func getList(options: PaginationRequestOptions?) -> AnyPublisher<ListDTO<T>, Error>
 }
@@ -39,8 +41,7 @@ open class BaseListEpic<Action, State, Worker>: Epic where
         dispatcher
             .of(type: .load)
             .map { $0.payload as? PayloadListRequestable }
-            .flatMap ({
-                payload -> AnyPublisher<Action, Never> in
+            .flatMap { payload -> AnyPublisher<Action, Never> in
                 Future<Payload.List.Response<Worker.T>, Error> { $0(.success(.init(isLoading: true))) }
                     .append(
                         self.worker
@@ -54,7 +55,7 @@ open class BaseListEpic<Action, State, Worker>: Epic where
                     .map { $0.toAction() }
                     .catch { Just($0.toAction()).eraseToAnyPublisher() }
                     .eraseToAnyPublisher()
-            })
+            }
             .eraseToAnyPublisher()
     }
 

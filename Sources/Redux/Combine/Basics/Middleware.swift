@@ -7,7 +7,11 @@
 
 import Combine
 
-public typealias EpicFunction<Action, State> = (_ dispatcher: AnyPublisher<Action, Never>, _ actionStream: AnyPublisher<Action, Never>, _ stateStream: AnyPublisher<State, Never>) -> AnyPublisher<Action, Never> where Action: Actionable, State: Stateable
+public typealias EpicFunction<Action, State> = (
+    _ dispatcher: AnyPublisher<Action, Never>,
+    _ actionStream: AnyPublisher<Action, Never>,
+    _ stateStream: AnyPublisher<State, Never>
+) -> AnyPublisher<Action, Never> where Action: Actionable, State: Stateable
 
 public protocol Epic {
     associatedtype Action: Actionable

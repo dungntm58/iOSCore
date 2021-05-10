@@ -9,7 +9,9 @@
 import RxSwift
 
 public protocol DataStore {
+    // swiftlint:disable type_name
     associatedtype T
+    // swiftlint:enable type_name
 
     var ttl: TimeInterval { get }
 

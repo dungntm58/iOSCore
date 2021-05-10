@@ -27,12 +27,12 @@ open class ViewManager: SceneAssociated {
 
 extension ViewManager: ViewManagable {
     private(set) public var currentViewController: UIViewController {
+        get { _currentViewController ?? rootViewController }
         set {
             if _currentViewController != nil {
                 _currentViewController = newValue
             }
         }
-        get { _currentViewController ?? rootViewController }
     }
 
     @inlinable

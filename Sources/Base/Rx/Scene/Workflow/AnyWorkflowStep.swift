@@ -51,10 +51,12 @@ private extension AnyWorkflowStep {
             self._base = base
         }
 
+        // swiftlint:disable force_cast
         @inlinable
         func perform(action: Any, with userInfo: Any?) {
             _base.perform(action: action as! Base.WorkflowStepAction, with: userInfo)
         }
+        // swiftlint:enable force_cast
 
         @inlinable
         func produceWorkflowItem() -> Observable<Any> {

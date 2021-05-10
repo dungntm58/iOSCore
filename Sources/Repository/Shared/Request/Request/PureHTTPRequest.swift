@@ -38,8 +38,8 @@ extension PureHTTPRequest {
     public func makeRequest(api: API, options: RequestOption?) throws -> URLRequestConvertible {
         var headers = defaultHeaders
         if let extraHeaders = api.extraHeaders {
-            if let _headers = headers {
-                headers = HTTPHeaders(_headers.dictionary + extraHeaders.dictionary)
+            if let defaultHeaders = headers {
+                headers = HTTPHeaders(defaultHeaders.dictionary + extraHeaders.dictionary)
             } else {
                 headers = extraHeaders
             }
@@ -47,8 +47,8 @@ extension PureHTTPRequest {
 
         var requestParams = options?.parameters
         if let extraParams = api.extraParams {
-            if let _requestParams = requestParams {
-                requestParams = _requestParams + extraParams
+            if let optionParams = requestParams {
+                requestParams = optionParams + extraParams
             } else {
                 requestParams = extraParams
             }

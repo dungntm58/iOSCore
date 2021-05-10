@@ -15,8 +15,8 @@ extension TableView {
 
         @usableFromInline
         init<Cell>(_ cell: Cell) where Cell: TableViewHeaderFooter {
-            if let _cell = cell as? AnyHeaderFooter {
-                self = _cell
+            if let instance = cell as? AnyHeaderFooter {
+                self = instance
             } else {
                 box = HeaderFooterBox(cell)
             }
@@ -77,7 +77,7 @@ private extension TableView.AnyHeaderFooter {
         init(_ base: Base) {
             self._base = base
         }
-        
+
         @inlinable
         var type: CellType { _base.type }
 

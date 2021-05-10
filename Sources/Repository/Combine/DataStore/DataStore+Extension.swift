@@ -14,8 +14,7 @@ extension DataStore {
     @inlinable
     public func saveAsync(_ value: T) -> AnyPublisher<T, Error> {
         Deferred {
-            Future {
-                promise in
+            Future { promise in
                 do {
                     try self.saveSync(value)
                     #if !RELEASE && !PRODUCTION
@@ -32,8 +31,7 @@ extension DataStore {
     @inlinable
     public func saveAsync(_ values: [T]) -> AnyPublisher<[T], Error> {
         Deferred {
-            Future {
-                promise in
+            Future { promise in
                 do {
                     try self.saveSync(values)
                     #if !RELEASE && !PRODUCTION
@@ -50,8 +48,7 @@ extension DataStore {
     @inlinable
     public func deleteAsync(_ value: T) -> AnyPublisher<Void, Error> {
         Deferred {
-            Future {
-                promise in
+            Future { promise in
                 do {
                     try self.deleteSync(value)
                     #if !RELEASE && !PRODUCTION
@@ -68,8 +65,7 @@ extension DataStore {
     @inlinable
     public func getListAsync(options: DataStoreFetchOption) -> AnyPublisher<ListDTO<T>, Error> {
         Deferred {
-            Future {
-                promise in
+            Future { promise in
                 do {
                     let results = try self.getList(options: options)
                     #if !RELEASE && !PRODUCTION
@@ -86,8 +82,7 @@ extension DataStore {
     @inlinable
     public func eraseAsync() -> AnyPublisher<Void, Error> {
         Deferred {
-            Future {
-                promise in
+            Future { promise in
                 do {
                     try self.eraseSync()
                     #if !RELEASE && !PRODUCTION
@@ -114,8 +109,7 @@ extension IdentifiableDataStore {
     @inlinable
     public func getAsync(_ id: T.ID, options: DataStoreFetchOption?) -> AnyPublisher<T, Error> {
         Deferred {
-            Future {
-                promise in
+            Future { promise in
                 do {
                     let value = try self.getSync(id, options: options)
                     #if !RELEASE && !PRODUCTION
@@ -132,8 +126,7 @@ extension IdentifiableDataStore {
     @inlinable
     public func deleteAsync(_ id: T.ID, options: DataStoreFetchOption?) -> AnyPublisher<Void, Error> {
         Deferred {
-            Future {
-                promise in
+            Future { promise in
                 do {
                     try self.deleteSync(id, options: options)
                     #if !RELEASE && !PRODUCTION

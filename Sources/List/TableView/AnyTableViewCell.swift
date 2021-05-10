@@ -17,8 +17,8 @@ extension TableView {
 
         @usableFromInline
         init<Cell>(_ cell: Cell) where Cell: TableViewCell {
-            if let _cell = cell as? AnyCell {
-                self = _cell
+            if let instance = cell as? AnyCell {
+                self = instance
             } else {
                 box = CellBox(cell)
             }

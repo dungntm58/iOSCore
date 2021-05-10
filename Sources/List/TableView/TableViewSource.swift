@@ -9,12 +9,12 @@ import UIKit
 import DifferenceKit
 
 extension TableView {
-    enum DI {
+    enum DIC {
         static var generator: [Int: Any] = [:]
     }
 
     open class ViewSourceProvider<Store> {
-        public typealias PrototypeSectionBlockGenerateFunction = (UITableView, Store) ->  TableViewSectionBlock
+        public typealias PrototypeSectionBlockGenerateFunction = (UITableView, Store) -> TableViewSectionBlock
         public typealias PrototypeSectionGenerateFunction = (UITableView, Store) -> TableViewSectionComponent
         public typealias RowAnimation = UITableView.RowAnimation
 
@@ -23,7 +23,7 @@ extension TableView {
 
         private var viewHashValue: Int {
             didSet {
-                DI.generator[viewHashValue] = generator
+                DIC.generator[viewHashValue] = generator
             }
         }
 
@@ -31,17 +31,17 @@ extension TableView {
         open var store: Store
 
         fileprivate var generator: PrototypeGenerator {
-            if let generator = DI.generator[viewHashValue] as? PrototypeGenerator {
+            if let generator = DIC.generator[viewHashValue] as? PrototypeGenerator {
                 return generator
             }
             let generator = PrototypeGenerator(tableView: tableView, store: store, generator: sectionsGenerator)
             self.tableView = nil
-            DI.generator[viewHashValue] = generator
+            DIC.generator[viewHashValue] = generator
             return generator
         }
 
         deinit {
-            DI.generator[viewHashValue] = nil
+            DIC.generator[viewHashValue] = nil
         }
 
         public init(tableView: UITableView, store: Store, @SectionBlockBuilder generator: @escaping PrototypeSectionBlockGenerateFunction) {
@@ -76,8 +76,9 @@ extension TableView {
         }
 
         @inlinable
-        final public func reload(animation: @autoclosure () -> RowAnimation,
-                           interrupt: ((Changeset<[AnySection]>) -> Bool)? = nil
+        final public func reload(
+            animation: @autoclosure () -> RowAnimation,
+            interrupt: ((Changeset<[AnySection]>) -> Bool)? = nil
         ) {
             reload(deleteSectionsAnimation: animation(),
                    insertSectionsAnimation: animation(),
@@ -88,13 +89,15 @@ extension TableView {
                    interrupt: interrupt)
         }
 
-        final public func reload(deleteSectionsAnimation: @autoclosure () -> RowAnimation,
-                    insertSectionsAnimation: @autoclosure () -> RowAnimation,
-                    reloadSectionsAnimation: @autoclosure () -> RowAnimation,
-                    deleteRowsAnimation: @autoclosure () -> RowAnimation,
-                    insertRowsAnimation: @autoclosure () -> RowAnimation,
-                    reloadRowsAnimation: @autoclosure () -> RowAnimation,
-                    interrupt: ((Changeset<[AnySection]>) -> Bool)? = nil
+        // swiftlint:disable function_parameter_count
+        final public func reload(
+            deleteSectionsAnimation: @autoclosure () -> RowAnimation,
+            insertSectionsAnimation: @autoclosure () -> RowAnimation,
+            reloadSectionsAnimation: @autoclosure () -> RowAnimation,
+            deleteRowsAnimation: @autoclosure () -> RowAnimation,
+            insertRowsAnimation: @autoclosure () -> RowAnimation,
+            reloadRowsAnimation: @autoclosure () -> RowAnimation,
+            interrupt: ((Changeset<[AnySection]>) -> Bool)? = nil
         ) {
             let stagedChangeset = StagedChangeset(source: adapter.differenceSections, target: generator.build().sections)
             generator.tableView?.reload(using: stagedChangeset,
@@ -106,6 +109,7 @@ extension TableView {
                               reloadRowsAnimation: reloadRowsAnimation(),
                               interrupt: interrupt) { self.adapter.differenceSections = $0 }
         }
+        // swiftlint:enable function_parameter_count
 
         final public func changeTarget(_ target: UITableView) {
             generator.tableView = target
@@ -137,8 +141,8 @@ extension TableView.Adapter: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = differenceSections[indexPath.section].cells[indexPath.row]
         let cellView: UITableViewCell
-        if let _cellView = tableView.dequeue(cell: cell) {
-            cellView = _cellView
+        if let view = tableView.dequeue(cell: cell) {
+            cellView = view
         } else {
             tableView.register(cell: cell)
             cellView = tableView.dequeue(cell: cell, for: indexPath)
@@ -158,33 +162,33 @@ extension TableView.Adapter: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let _section = differenceSections[section]
-        guard _section.hasHeader, let header = _section.header else { return nil }
+        let differenceSection = differenceSections[section]
+        guard differenceSection.hasHeader, let header = differenceSection.header else { return nil }
         let headerView: UITableViewHeaderFooterView?
-        if let _headerView = tableView.dequeue(headerFooter: header) {
-            headerView = _headerView
+        if let view = tableView.dequeue(headerFooter: header) {
+            headerView = view
         } else {
             tableView.register(headerFooter: header)
             headerView = tableView.dequeue(headerFooter: header)
         }
-        guard let _headerView = headerView else { return nil }
-        header.bind(model: header.model, to: _headerView, at: section)
-        return _headerView
+        guard let view = headerView else { return nil }
+        header.bind(model: header.model, to: view, at: section)
+        return view
     }
 
     public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let _section = differenceSections[section]
-        guard _section.hasFooter, let footer = _section.footer else { return nil }
+        let differenceSection = differenceSections[section]
+        guard differenceSection.hasFooter, let footer = differenceSection.footer else { return nil }
         let footerView: UITableViewHeaderFooterView?
-        if let _footerView = tableView.dequeue(headerFooter: footer) {
-            footerView = _footerView
+        if let view = tableView.dequeue(headerFooter: footer) {
+            footerView = view
         } else {
             tableView.register(headerFooter: footer)
             footerView = tableView.dequeue(headerFooter: footer)
         }
-        guard let _footerView = footerView else { return nil }
-        footer.bind(model: footer.model, to: _footerView, at: section)
-        return _footerView
+        guard let view = footerView else { return nil }
+        footer.bind(model: footer.model, to: view, at: section)
+        return view
     }
 
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -229,20 +233,24 @@ extension TableView.Adapter: UITableViewDelegate {
     }
 
     open func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        differenceSections[section].header?.willDisplay(view: view as! UITableViewHeaderFooterView, at: section)
+        guard let view = view as? UITableViewHeaderFooterView else { return }
+        differenceSections[section].header?.willDisplay(view: view, at: section)
     }
 
     open func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
-        guard section < differenceSections.count else { return }
-        differenceSections[section].header?.didEndDisplaying(view: view as! UITableViewHeaderFooterView, at: section)
+        guard section < differenceSections.count, let view = view as? UITableViewHeaderFooterView
+        else { return }
+        differenceSections[section].header?.didEndDisplaying(view: view, at: section)
     }
 
     open func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        differenceSections[section].footer?.willDisplay(view: view as! UITableViewHeaderFooterView, at: section)
+        guard let view = view as? UITableViewHeaderFooterView else { return }
+        differenceSections[section].footer?.willDisplay(view: view, at: section)
     }
 
     open func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int) {
-        differenceSections[section].footer?.didEndDisplaying(view: view as! UITableViewHeaderFooterView, at: section)
+        guard let view = view as? UITableViewHeaderFooterView else { return }
+        differenceSections[section].footer?.didEndDisplaying(view: view, at: section)
     }
 
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

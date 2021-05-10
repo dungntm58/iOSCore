@@ -48,6 +48,7 @@ extension UICollectionView {
         }
     }
 
+    // swiftlint:disable force_cast
     @inlinable
     public func dequeue<T, Cell>(of type: T.Type, cell: Cell, for indexPath: IndexPath) -> T where T: UICollectionViewCell, Cell: CollectionViewCell {
         switch cell.type {
@@ -60,12 +61,14 @@ extension UICollectionView {
         }
         return self.dequeueReusableCell(withReuseIdentifier: cell.reuseIdentifier, for: indexPath) as! T
     }
+    // swiftlint:enable force_cast
 
     @inlinable
     public func dequeue<Cell>(cell: Cell, for indexPath: IndexPath) -> UICollectionViewCell where Cell: CollectionViewCell {
         dequeueReusableCell(withReuseIdentifier: cell.reuseIdentifier, for: indexPath)
     }
 
+    // swiftlint:disable force_cast
     @inlinable
     public func dequeue<T, HeaderFooter>(of type: T.Type, headerFooter: HeaderFooter, for indexPath: IndexPath) -> T where T: UICollectionReusableView, HeaderFooter: CollectionViewHeaderFooter {
         switch headerFooter.type {
@@ -83,6 +86,7 @@ extension UICollectionView {
             return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: headerFooter.reuseIdentifier, for: indexPath) as! T
         }
     }
+    // swiftlint:enable force_cast
 
     @inlinable
     public func dequeue<HeaderFooter>(headerFooter: HeaderFooter, for indexPath: IndexPath) -> UICollectionReusableView where HeaderFooter: CollectionViewHeaderFooter {

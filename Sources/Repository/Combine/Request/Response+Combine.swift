@@ -8,6 +8,7 @@
 import Combine
 import Alamofire
 
+// swiftlint:disable force_try
 extension Publisher where Output == Data {
     public func map<D>(_ type: D.Type, atKeyPath keyPath: String? = nil, decoder: JSONDecoder = .init()) -> Publishers.Map<Self, D> where D: Decodable {
         Publishers.Map(upstream: self) {
@@ -49,3 +50,4 @@ extension Publisher where Output == AFDownloadResponse<Data> {
         }
     }
 }
+// swiftlint:enable force_try

@@ -13,8 +13,7 @@ extension DataStore {
 
     @inlinable
     public func saveAsync(_ value: T) -> Observable<T> {
-        .create {
-            subscribe in
+        .create { subscribe in
             do {
                 let value = try self.saveSync(value)
                 #if !RELEASE && !PRODUCTION
@@ -30,8 +29,7 @@ extension DataStore {
     }
 
     public func saveAsync(_ values: [T]) -> Observable<[T]> {
-        .create {
-            subscribe in
+        .create { subscribe in
             do {
                 let values = try self.saveSync(values)
                 #if !RELEASE && !PRODUCTION
@@ -48,8 +46,7 @@ extension DataStore {
 
     @inlinable
     public func deleteAsync(_ value: T) -> Observable<Void> {
-        .create {
-            subscribe in
+        .create { subscribe in
             do {
                 try self.deleteSync(value)
                 #if !RELEASE && !PRODUCTION
@@ -66,8 +63,7 @@ extension DataStore {
 
     @inlinable
     public func getListAsync(options: DataStoreFetchOption) -> Observable<ListDTO<T>> {
-        .create {
-            subscribe in
+        .create { subscribe in
             do {
                 let results = try self.getList(options: options)
                 #if !RELEASE && !PRODUCTION
@@ -84,8 +80,7 @@ extension DataStore {
 
     @inlinable
     public func eraseAsync() -> Observable<Void> {
-        .create {
-            subscribe in
+        .create { subscribe in
             do {
                 try self.eraseSync()
                 #if !RELEASE && !PRODUCTION
@@ -104,16 +99,13 @@ extension DataStore {
 extension IdentifiableDataStore {
     @inlinable
     public func deleteSync(_ id: T.ID, options: DataStoreFetchOption?) throws {
-        guard let value = try? getSync(id, options: options) else {
-            return
-        }
+        guard let value = try? getSync(id, options: options) else { return }
         try deleteSync(value)
     }
 
     @inlinable
     public func getAsync(_ id: T.ID, options: DataStoreFetchOption?) -> Observable<T> {
-        .create {
-            subscribe in
+        .create { subscribe in
             do {
                 let value = try self.getSync(id, options: options)
                 #if !RELEASE && !PRODUCTION
@@ -130,8 +122,7 @@ extension IdentifiableDataStore {
 
     @inlinable
     public func deleteAsync(_ id: T.ID, options: DataStoreFetchOption?) -> Observable<Void> {
-        .create {
-            subscribe in
+        .create { subscribe in
             do {
                 try self.deleteSync(id, options: options)
                 #if !RELEASE && !PRODUCTION

@@ -74,8 +74,7 @@ extension Scenable {
     @inlinable
     public func set(children: [Scenable], performAtIndex index: Int?, with userInfo: Any?) {
         self.children = children
-        children.forEach {
-            scene in
+        children.forEach { scene in
             scene.parent = self
             bindLifeCycle(to: scene)
         }
@@ -133,17 +132,28 @@ extension Scenable {
     }
 
     #if !RELEASE && !PRODUCTION
+    // swiftlint:disable force_cast
     @inlinable
     func printSceneHierachyDebug() {
         Swift.print("------- Scene hierachy -------")
         guard var currentScene = previous ?? parent else { return }
-        Swift.print("Scene", type(of: self), "\n    - Parent:", parent == nil ? "nil" : "\(type(of: parent as! Scene as Any))", "\n    - Previous:", previous == nil ? "nil" : "\(type(of: previous as! Scene as Any))")
+        Swift.print(
+            "Scene", type(of: self),
+            "\n    - Parent:", parent == nil ? "nil" : "\(type(of: parent as! Scene as Any))",
+            "\n    - Previous:",
+            previous == nil ? "nil" : "\(type(of: previous as! Scene as Any))"
+        )
         while let scene = currentScene.previous ?? currentScene.parent {
-            Swift.print("Scene", type(of: currentScene), "\n    - Parent:", currentScene.parent == nil ? "nil" : "\(type(of: currentScene.parent as! Scene as Any))", "\n    - Previous:", currentScene.previous == nil ? "nil" : "\(type(of: currentScene.previous as! Scene as Any))")
+            Swift.print(
+                "Scene", type(of: currentScene),
+                "\n    - Parent:", currentScene.parent == nil ? "nil" : "\(type(of: currentScene.parent as! Scene as Any))",
+                "\n    - Previous:", currentScene.previous == nil ? "nil" : "\(type(of: currentScene.previous as! Scene as Any))"
+            )
             currentScene = scene
         }
         Swift.print("-----------------------------")
     }
+    // swiftlint:enable force_cast
     #endif
 }
 
@@ -151,39 +161,39 @@ extension Scenable {
 extension Scenable {
     @inlinable
     internal(set) public var next: Scenable? {
-        set { managedContext.next = newValue }
         get { managedContext.next }
+        set { managedContext.next = newValue }
     }
 
     @inlinable
     internal(set) public var previous: Scenable? {
-        set { managedContext.previous = newValue }
         get { managedContext.previous }
+        set { managedContext.previous = newValue }
     }
 
     @inlinable
     internal(set) public var children: [Scenable] {
-        set { managedContext.children = newValue }
         get { managedContext.children }
+        set { managedContext.children = newValue }
     }
 
     @inlinable
     internal(set) public var parent: Scenable? {
-        set { managedContext.parent = newValue }
         get { managedContext.parent }
+        set { managedContext.parent = newValue }
     }
 
     @inlinable
     internal(set) public var isPerformed: Bool {
-        set { managedContext.isPerformed = newValue }
         get { managedContext.isPerformed }
+        set { managedContext.isPerformed = newValue }
     }
 
     /// The nearest child scene that has been performed
     @inlinable
     internal(set) public var current: Scenable? {
-        set { managedContext.current = newValue }
         get { managedContext.current }
+        set { managedContext.current = newValue }
     }
 }
 
@@ -262,8 +272,8 @@ extension Optional: Flattenable {
     @usableFromInline
     func flattened() -> Any? {
         switch self {
-        case .some(let x as Flattenable): return x.flattened()
-        case .some(let x): return x
+        case .some(let obj as Flattenable): return obj.flattened()
+        case .some(let obj): return obj
         case .none: return nil
         }
     }

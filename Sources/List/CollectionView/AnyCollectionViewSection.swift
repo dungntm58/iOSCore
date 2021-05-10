@@ -13,8 +13,8 @@ extension CollectionView {
 
         @usableFromInline
         init<Section>(_ section: Section) where Section: CollectionViewSection {
-            if let _section = section as? AnySection {
-                self = _section
+            if let instance = section as? AnySection {
+                self = instance
             } else {
                 self.box = SectionBox(section)
             }
@@ -22,8 +22,8 @@ extension CollectionView {
 
         @usableFromInline
         init<Section>(_ section: Section, cells: [AnyCell]) where Section: CollectionViewSection {
-            if let _section = section as? AnySection {
-                self = _section
+            if let instance = section as? AnySection {
+                self = instance
                 self.box.cells = cells
             } else {
                 self.box = SectionBox(section, cells: cells)
@@ -44,7 +44,7 @@ private protocol AnyCollectionViewSectionBox {
     var id: AnyHashable { get }
     var header: CollectionView.AnyHeaderFooter? { get }
     var footer: CollectionView.AnyHeaderFooter? { get }
-    var cells: [CollectionView.AnyCell] { set get }
+    var cells: [CollectionView.AnyCell] { get set }
     var inset: UIEdgeInsets { get }
     var minimumLineSpacing: CGFloat { get }
     var minimumInteritemSpacing: CGFloat { get }

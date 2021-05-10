@@ -11,10 +11,9 @@ import Combine
 // MARK: - Convenience
 extension PureHTTPRequest {
     @inlinable
-    public func pureExecute(api: API, options: RequestOption?) -> AnyPublisher<AFDataResponse<Data>, Error>{
+    public func pureExecute(api: API, options: RequestOption?) -> AnyPublisher<AFDataResponse<Data>, Error> {
         Deferred {
-            Future<AFDataResponse<Data>, Error> {
-                promise in
+            Future<AFDataResponse<Data>, Error> { promise in
                 var dataRequest: DataRequest!
                 let acceptableStatusCodes: [Int]
                 if api.acceptableStatusCodes.isEmpty {
@@ -25,8 +24,7 @@ extension PureHTTPRequest {
                 do {
                     let request = try self.makeRequest(api: api, options: options)
                     dataRequest = self.session.request(request).validate(statusCode: acceptableStatusCodes)
-                    dataRequest.responseData {
-                        response in
+                    dataRequest.responseData { response in
                         #if !RELEASE && !PRODUCTION
                         Swift.print(response)
                         if let data = response.data {
@@ -45,11 +43,11 @@ extension PureHTTPRequest {
         }.eraseToAnyPublisher()
     }
 
+    // swiftlint:disable function_body_length cyclomatic_complexity
     @inlinable
     public func pureUpload(api: API, options: UploadRequestOption) -> AnyPublisher<AFDataResponse<Data>, Error> {
         Deferred {
-            Future {
-                promise in
+            Future { promise in
                 var uploadRequest: UploadRequest!
                 let acceptableStatusCodes: [Int]
                 if api.acceptableStatusCodes.isEmpty {
@@ -70,8 +68,7 @@ extension PureHTTPRequest {
                         uploadRequest = self.session.upload(stream, with: request).validate(statusCode: acceptableStatusCodes)
                     case .multipart(let fileUploads, let key):
                         let request = try self.makeRequest(api: api, options: options)
-                        uploadRequest = self.session.upload(multipartFormData: {
-                            multipartFormData in
+                        uploadRequest = self.session.upload(multipartFormData: { multipartFormData in
                             for fileUpload in fileUploads {
                                 if let data = fileUpload.data {
                                     multipartFormData.append(data, withName: key, fileName: fileUpload.fileName, mimeType: fileUpload.mimeType)
@@ -93,8 +90,7 @@ extension PureHTTPRequest {
                     if let tracking = options.tracking {
                         uploadRequest = uploadRequest.uploadProgress(queue: tracking.queue, closure: tracking.handle)
                     }
-                    uploadRequest.responseData {
-                        response in
+                    uploadRequest.responseData { response in
                         #if !RELEASE && !PRODUCTION
                         Swift.print(response)
                         if let data = response.data {
@@ -112,14 +108,14 @@ extension PureHTTPRequest {
             }
         }.eraseToAnyPublisher()
     }
+    // swiftlint:enable function_body_length cyclomatic_complexity
 
     /// Download request
     /// Return an observable of raw DownloadResponse to keep data stable
     @inlinable
     public func pureDownload(api: API, options: DownloadRequestOption?) -> AnyPublisher<AFDownloadResponse<Data>, Error> {
         Deferred {
-            Future {
-                promise in
+            Future { promise in
                 var downloadRequest: DownloadRequest!
                 let acceptableStatusCodes: [Int]
                 if api.acceptableStatusCodes.isEmpty {
@@ -133,8 +129,7 @@ extension PureHTTPRequest {
                     if let tracking = options?.tracking {
                         downloadRequest.downloadProgress(queue: tracking.queue, closure: tracking.handle)
                     }
-                    downloadRequest.responseData {
-                        response in
+                    downloadRequest.responseData { response in
                         #if !RELEASE && !PRODUCTION
                         Swift.print(response)
                         if let data = response.value {
@@ -174,7 +169,7 @@ extension PureHTTPRequest where API: HTTPResponseTransformable {
     /// Common HTTP request
     /// Return an observable of HTTPResponse to keep data stable
     @inlinable
-    public func execute(api: API, options: RequestOption?) -> AnyPublisher<API.Response, Error>{
+    public func execute(api: API, options: RequestOption?) -> AnyPublisher<API.Response, Error> {
         pureExecute(api: api, options: options).tryMap(api.transform).eraseToAnyPublisher()
     }
 

@@ -65,16 +65,16 @@ extension TableView {
             self.cells = []
         }
 
-        public init(id: ID, @SectionBuilder _ SectionBuilder: () -> TableViewSectionComponent) {
+        public init(id: ID, @SectionBuilder _ sectionBuilder: () -> TableViewSectionComponent) {
             self.id = id
-            let builder = SectionBuilder()
+            let builder = sectionBuilder()
             (self.header, self.footer) = builder.asHeaderFooter()
             self.cells = builder.asCells()
         }
 
-        public func refine(@SectionBuilder _ SectionBuilder: () -> TableViewSectionComponent) -> Self {
+        public func refine(@SectionBuilder _ sectionBuilder: () -> TableViewSectionComponent) -> Self {
             var other = self
-            let builder = SectionBuilder()
+            let builder = sectionBuilder()
             let builtHeaderFooter = builder.asHeaderFooter()
             (other.header, other.footer) = (header ?? builtHeaderFooter.0, footer ?? builtHeaderFooter.1)
             other.cells = builder.asCells()
@@ -85,8 +85,8 @@ extension TableView {
 
 extension TableView.Section where ID == UniqueIdentifier {
     @inlinable
-    public init(@TableView.SectionBuilder _ SectionBuilder: () -> TableViewSectionComponent) {
-        self.init(id: .init(), SectionBuilder)
+    public init(@TableView.SectionBuilder _ sectionBuilder: () -> TableViewSectionComponent) {
+        self.init(id: .init(), sectionBuilder)
     }
 
     @inlinable

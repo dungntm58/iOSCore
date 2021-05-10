@@ -137,7 +137,13 @@ extension TableView {
         }
 
         @inlinable
-        public func handlers(bindingFunction: BindingFunction? = nil, willDisplayHandler: IndexPathInteractiveHandler? = nil, didEndDisplayingHandler: IndexPathInteractiveHandler? = nil, didSelectHandler: SelectionInteractiveHandler? = nil, didDeselectHandler: SelectionInteractiveHandler? = nil) -> Self {
+        public func handlers(
+            bindingFunction: BindingFunction? = nil,
+            willDisplayHandler: IndexPathInteractiveHandler? = nil,
+            didEndDisplayingHandler: IndexPathInteractiveHandler? = nil,
+            didSelectHandler: SelectionInteractiveHandler? = nil,
+            didDeselectHandler: SelectionInteractiveHandler? = nil
+        ) -> Self {
             var other = self
             other.bindingFunction = bindingFunction
             other.willDisplayHandler = willDisplayHandler

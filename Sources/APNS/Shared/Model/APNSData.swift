@@ -7,7 +7,9 @@
 //
 
 public protocol APNSEventProtocol {
+    // swiftlint:disable type_name
     associatedtype T
+    // swiftlint:enable type_name
 
     var event: String { get }
     var data: T? { get }

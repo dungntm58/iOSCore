@@ -8,34 +8,35 @@
 import RealmSwift
 import CoreRepository
 
-struct Helper {
-    struct ListResult<T> {
-        let previous: T?
-        let next: T?
-        let total: Int
-        let size: Int
-        let items: [T]
+struct ListResult<T> {
+    let previous: T?
+    let next: T?
+    let total: Int
+    let size: Int
+    let items: [T]
 
-        init() {
-            self.init(items: [], total: 0, size: 0)
-        }
-
-        init(items: [T], total: Int, size: Int) {
-            self.items = items
-            self.previous = nil
-            self.next = nil
-            self.total = total
-            self.size = size
-        }
-
-        init(items: [T], previous: T?, next: T?, total: Int, size: Int) {
-            self.items = items
-            self.previous = previous
-            self.next = next
-            self.total = total
-            self.size = size
-        }
+    init() {
+        self.init(items: [], total: 0, size: 0)
     }
+
+    init(items: [T], total: Int, size: Int) {
+        self.items = items
+        self.previous = nil
+        self.next = nil
+        self.total = total
+        self.size = size
+    }
+
+    init(items: [T], previous: T?, next: T?, total: Int, size: Int) {
+        self.items = items
+        self.previous = previous
+        self.next = next
+        self.total = total
+        self.size = size
+    }
+}
+
+struct Helper {
 
     static let instance = Helper()
 
@@ -67,6 +68,7 @@ struct Helper {
         }
     }
 
+    // swiftlint:disable function_body_length cyclomatic_complexity
     func getList<T>(of type: T.Type, options: DataStoreFetchOption, ttl: TimeInterval, realm: Realm) throws -> ListResult<T> where T: Object {
         var list: [T]
         let after: T?
@@ -185,6 +187,7 @@ struct Helper {
         }
         return .init(items: list, previous: before, next: after, total: totalItems, size: size)
     }
+    // swiftlint:enable function_body_length cyclomatic_complexity
 
     func eraseSync<T>(of type: T.Type, realm: Realm) throws where T: Object {
         try realm.write {
@@ -195,8 +198,7 @@ struct Helper {
 
 extension Array where Element == DataStoreFetchOption.Sorting {
     func toSortDescriptors() -> [SortDescriptor] {
-        compactMap {
-            sorting -> SortDescriptor? in
+        compactMap { sorting -> SortDescriptor? in
             switch sorting {
             case .asc(let property):
                 return .init(keyPath: property, ascending: true)

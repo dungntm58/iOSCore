@@ -32,7 +32,11 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
         cancellables.forEach { $0.cancel() }
     }
 
-    public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler, schedulerOptions: StoreScheduler.SchedulerOptions? = nil) where Reducer: Reducible, Reducer.Action == Action, Reducer.State == State {
+    public init<Reducer>(
+        reducer: Reducer,
+        initialState: State,
+        scheduler: StoreScheduler, schedulerOptions: StoreScheduler.SchedulerOptions? = nil
+    ) where Reducer: Reducible, Reducer.Action == Action, Reducer.State == State {
         self._state = .init(initialState)
         self._action = .init()
         self._derivedAction = .init()
@@ -90,8 +94,7 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
 
     private func run() {
         _derivedAction
-            .combineLatest(_state, {
-                [reducer] action, state -> (Action, State) in
+            .combineLatest(_state, { [reducer] action, state -> (Action, State) in
                 let newState = reducer(action, state)
                 #if !RELEASE && !PRODUCTION
                 Swift.print("Previous state:", String(describing: state))
@@ -107,8 +110,7 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
         // Handle epics
         _action
             .receive(on: scheduler, options: schedulerOptions)
-            .flatMap ({
-                [weak self] action -> AnyPublisher<Action, Never> in
+            .flatMap { [weak self] action -> AnyPublisher<Action, Never> in
                 guard let `self` = self, self.isActive, !self._epics.isEmpty else {
                     return Empty().eraseToAnyPublisher()
                 }
@@ -117,12 +119,12 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
                 let statePublisher = self._state.eraseToAnyPublisher()
                 return Publishers.MergeMany(
                     self._epics
-                        .map ({
+                        .map {
                             $0(dispatchPublisher, derivedActionPublisher, statePublisher)
                                 .receive(on: self.scheduler, options: self.schedulerOptions)
-                        })
+                        }
                 ).eraseToAnyPublisher()
-            })
+            }
             .sink(receiveValue: _action.send)
             .store(in: &cancellables)
     }

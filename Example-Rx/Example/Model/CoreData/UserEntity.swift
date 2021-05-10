@@ -11,7 +11,7 @@ import CoreRepository
 import CoreDataStore
 import CoreData
 
-class UserEntity: Decodable, ManagedObjectWrapper {
+class UserEntity: Identifiable, Decodable, ManagedObjectWrapper {
     let core: UserCoreEntity
     
     var id: String { core.id ?? "" }

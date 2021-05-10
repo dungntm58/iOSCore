@@ -13,8 +13,8 @@ public struct AnyEquatable {
 
     @usableFromInline
     init<E>(_ equatable: E) where E: Equatable {
-        if let _equatable = equatable as? AnyEquatable {
-            self = _equatable
+        if let instance = equatable as? AnyEquatable {
+            self = instance
         } else {
             box = Box(equatable)
         }

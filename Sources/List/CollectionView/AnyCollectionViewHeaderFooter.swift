@@ -14,9 +14,9 @@ extension CollectionView {
         private let box: AnyCollectionViewHeaderFooterBox
 
         @usableFromInline
-        init<Cell>(_ cell: Cell) where Cell: CollectionViewHeaderFooter  {
-            if let _cell = cell as? AnyHeaderFooter {
-                self = _cell
+        init<Cell>(_ cell: Cell) where Cell: CollectionViewHeaderFooter {
+            if let instance = cell as? AnyHeaderFooter {
+                self = instance
             } else {
                 box = HeaderFooterBox(cell)
             }

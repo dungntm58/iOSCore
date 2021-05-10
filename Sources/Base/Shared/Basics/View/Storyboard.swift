@@ -11,10 +11,12 @@ public protocol Storyboard {
 }
 
 extension Storyboard {
+    // swiftlint:disable force_cast
     @inlinable
     public func viewController<ViewController>(of type: ViewController.Type, with identifier: String? = nil) -> ViewController where ViewController: UIViewController {
         instantiate().instantiateViewController(withIdentifier: identifier ?? String(describing: ViewController.self)) as! ViewController
     }
+    // swiftlint:enable force_cast
 
     @inlinable
     public func instantiate() -> UIStoryboard { .init(name: name, bundle: bundle) }

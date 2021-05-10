@@ -169,13 +169,13 @@ func validateSectionBuilder(components: [CollectionViewSectionComponent]) -> Boo
     guard singleResponsibilityComponentCheck else { return false }
     let headerPairs = components.enumerated()
         .compactMap { index, element -> (Int, CollectionView.AnyHeaderFooter)? in
-            guard let c = element.asHeaderFooter().0, c.position == .header else { return nil }
-            return (index, c)
+            guard let headerFooter = element.asHeaderFooter().0, headerFooter.position == .header else { return nil }
+            return (index, headerFooter)
         }
     let footerPairs = components.enumerated()
         .compactMap { index, element -> (Int, CollectionView.AnyHeaderFooter)? in
-            guard let c = element.asHeaderFooter().1, c.position == .footer else { return nil }
-            return (index, c)
+            guard let headerFooter = element.asHeaderFooter().1, headerFooter.position == .footer else { return nil }
+            return (index, headerFooter)
         }
     guard headerPairs.isEmpty || headerPairs.count == 1 && headerPairs[0].0 == 0 else {
         return false

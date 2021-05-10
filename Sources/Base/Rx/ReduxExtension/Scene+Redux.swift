@@ -12,8 +12,7 @@ extension SceneAssociated where Self: Activating {
     @inlinable
     public func associate(with scene: Scenable) {
         let lifeCycleDiposable = scene.lifeCycle
-            .map {
-                state -> Bool in
+            .map { state -> Bool in
                 switch state {
                 case .didBecomeActive, .willResignActive, .willDetach:
                     return true

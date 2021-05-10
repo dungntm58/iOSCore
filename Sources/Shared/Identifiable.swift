@@ -29,8 +29,8 @@ public struct AnyIdentifiable: Identifiable {
 
     @usableFromInline
     init<Base>(_ base: Base) where Base: Identifiable {
-        if let _identifiable = base as? AnyIdentifiable {
-            self = _identifiable
+        if let instance = base as? AnyIdentifiable {
+            self = instance
         } else {
             box = IdentifiableBox(base)
         }

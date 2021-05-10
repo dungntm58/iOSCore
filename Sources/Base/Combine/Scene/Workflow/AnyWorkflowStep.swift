@@ -53,7 +53,10 @@ private extension AnyWorkflowStep {
 
         @inlinable
         func perform(action: Any, with object: Any?) {
-            _base.perform(action: action as! Base.WorkflowStepAction, with: object)
+            guard let action = action as? Base.WorkflowStepAction else {
+                return
+            }
+            _base.perform(action: action, with: object)
         }
 
         @inlinable

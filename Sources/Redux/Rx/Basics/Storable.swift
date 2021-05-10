@@ -7,7 +7,7 @@
 
 import RxSwift
 
-public protocol Storable: class, Activating {
+public protocol Storable: AnyObject, Activating {
     associatedtype State: Stateable
 
     var currentState: State { get }

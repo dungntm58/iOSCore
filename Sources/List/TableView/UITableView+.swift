@@ -32,6 +32,7 @@ extension UITableView {
         }
     }
 
+    // swiftlint:disable force_cast
     @inlinable
     public func dequeue<T, Cell>(of type: T.Type, cell: Cell, for indexPath: IndexPath) -> T where T: UITableViewCell, Cell: TableViewCell {
         switch cell.type {
@@ -44,6 +45,7 @@ extension UITableView {
         }
         return dequeueReusableCell(withIdentifier: cell.reuseIdentifier, for: indexPath) as! T
     }
+    // swiftlint:enable force_cast
 
     @inlinable
     public func dequeue<Cell>(cell: Cell, for indexPath: IndexPath) -> UITableViewCell where Cell: TableViewCell {

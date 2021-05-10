@@ -25,7 +25,12 @@ func trySerialize<D>(from data: Data, to type: D.Type, atKeyPath keyPath: String
     return try decoder.decode(type, from: jsonData)
 }
 
-func trySerialize<D, Failure>(from response: DataResponse<Data, Failure>, to type: D.Type, atKeyPath keyPath: String? = nil, decoder: JSONDecoder = .init()) throws -> D where D: Decodable, Failure: Error {
+func trySerialize<D, Failure>(
+    from response: DataResponse<Data, Failure>,
+    to type: D.Type,
+    atKeyPath keyPath: String? = nil,
+    decoder: JSONDecoder = .init()
+) throws -> D where D: Decodable, Failure: Error {
     switch response.result {
     case .success(let data):
         return try trySerialize(from: data, to: type, atKeyPath: keyPath, decoder: decoder)
@@ -34,7 +39,12 @@ func trySerialize<D, Failure>(from response: DataResponse<Data, Failure>, to typ
     }
 }
 
-func trySerialize<D, Failure>(from response: DownloadResponse<Data, Failure>, to type: D.Type, atKeyPath keyPath: String? = nil, decoder: JSONDecoder = .init()) throws -> D where D: Decodable, Failure: Error {
+func trySerialize<D, Failure>(
+    from response: DownloadResponse<Data, Failure>,
+    to type: D.Type,
+    atKeyPath keyPath: String? = nil,
+    decoder: JSONDecoder = .init()
+) throws -> D where D: Decodable, Failure: Error {
     switch response.result {
     case .success(let data):
         return try trySerialize(from: data, to: type, atKeyPath: keyPath, decoder: decoder)

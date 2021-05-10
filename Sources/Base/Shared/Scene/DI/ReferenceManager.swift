@@ -22,8 +22,8 @@ public protocol ViewControllerLookingForAssociatedScene where Self: UIViewContro
         if let scene = sceneDictionary[viewController.hashValue]?.value as? S {
             return scene
         }
-        if let vc = viewController as? ViewControllerLookingForAssociatedScene,
-            let associatedSceneViewController = vc.sceneAssociatedViewController(),
+        if let viewController = viewController as? ViewControllerLookingForAssociatedScene,
+            let associatedSceneViewController = viewController.sceneAssociatedViewController(),
             let scene = sceneDictionary[associatedSceneViewController.hashValue]?.value as? S {
             return scene
         }
@@ -45,6 +45,7 @@ public protocol ViewControllerLookingForAssociatedScene where Self: UIViewContro
         return nil
     }
 
+    // swiftlint:disable cyclomatic_complexity
     static func getAbstractScene(associatedWith viewController: UIViewController) -> Scenable? {
         if let scene = sceneDictionary[viewController.hashValue]?.value {
             if let scene = scene as? Scenable {
@@ -76,13 +77,12 @@ public protocol ViewControllerLookingForAssociatedScene where Self: UIViewContro
         }
         return nil
     }
+    // swiftlint:enable cyclomatic_complexity
 
     @usableFromInline
     static func setScene(_ scene: Scenable?, associatedViewController viewController: UIViewController) {
-        for (key, value) in sceneDictionary {
-            if value.canBePruned {
-                sceneDictionary[key] = nil
-            }
+        for (key, value) in sceneDictionary where value.canBePruned {
+            sceneDictionary[key] = nil
         }
         let weakScene = AnyWeak(value: scene)
         pureSetWeakScene(weakScene, associatedTopViewController: viewController)

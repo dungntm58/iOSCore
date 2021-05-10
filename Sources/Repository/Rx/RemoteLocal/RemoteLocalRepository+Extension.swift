@@ -27,7 +27,7 @@ extension RemoteLocalListRepository {
                 return .error(DataStoreError.storeFailure)
             }
             let remoteThenDataStore = remote
-                .do(onNext: { try self.store.saveSync($0.data) })
+                .do(onNext: { [store] in try store.saveSync($0.data) })
             return store
                 .getListAsync(options: cacheOptions)
                 .catch { _ in remoteThenDataStore }
@@ -35,12 +35,11 @@ extension RemoteLocalListRepository {
                 .ifEmpty(switchTo: remoteThenDataStore)
         case .forceRefresh(let ignoreDataStoreFailure):
             return remote
-                .do(onNext: {
-                    list in
+                .do(onNext: { [store] list in
                     if ignoreDataStoreFailure {
-                        _ = try? self.store.saveSync(list.data)
+                        _ = try? store.saveSync(list.data)
                     } else {
-                        try self.store.saveSync(list.data)
+                        try store.saveSync(list.data)
                     }
                 })
         case .ignoreDataStore:
@@ -70,7 +69,7 @@ extension RemoteLocalSingleRepository {
     public func delete(_ value: T, options: FetchOptions?) -> Observable<Void> {
         let cacheObservable = store.deleteAsync(value)
         let remote = singleRequest.delete(value, options: options?.requestOptions)
-        return .zip(remote, cacheObservable) { _,_ in }
+        return .zip(remote, cacheObservable) { _, _ in }
     }
 }
 
@@ -88,7 +87,7 @@ extension RemoteLocalIdentifiableSingleRepository {
                 return remote.map(store.saveSync)
             }
             return remote
-                .do(onNext: { _ = try? self.store.saveSync($0) })
+                .do(onNext: { [store] in _ = try? store.saveSync($0) })
         case .default:
             let cacheObservable = store.getAsync(id, options: options?.storeFetchOptions)
             return .first(cacheObservable, remote)
@@ -105,7 +104,7 @@ extension RemoteLocalIdentifiableSingleRepository {
     }
 }
 
-extension RemoteLocalIdentifiableSingleRepository where Self: AnyObject, T: Expirable {
+extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
     @inlinable
     public func refreshIfNeeded(_ list: ListDTO<T>, optionsGenerator: @escaping (T.ID) -> RequestOption?) -> Observable<ListDTO<T>> {
         if list.data.allSatisfy(\.isValid) {
@@ -113,13 +112,12 @@ extension RemoteLocalIdentifiableSingleRepository where Self: AnyObject, T: Expi
         }
         return Observable
             .from(list.data.filter { !$0.isValid }.map(\.id).enumerated())
-            .withUnretained(self)
-            .flatMap { `self`, pair -> Observable<(Int, T)> in
-                self.singleRequest.get(id: pair.element, options: optionsGenerator(pair.element))
+            .flatMap { [singleRequest] pair -> Observable<(Int, T)> in
+                singleRequest.get(id: pair.element, options: optionsGenerator(pair.element))
                     .compactMap { $0.result }
                     .withLatestFrom(Observable.just(pair.offset)) { ($1, $0) }
             }
-            .scan(list.data) { result, newPair in
+            .reduce(list.data) { result, newPair in
                 var newResult = result
                 newResult[newPair.0] = newPair.1
                 return newResult

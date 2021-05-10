@@ -13,7 +13,9 @@ public enum WorkflowSceneStepAction {
     case performChild(index: Int)
 
     case detach
+    // swiftlint:disable identifier_name
     case detachNTimes(n: Int)
+    // swiftlint:enable identifier_name
     case detachToSceneType(type: Scenable.Type)
     case detachToScene(scene: Scenable)
 
@@ -23,6 +25,7 @@ public enum WorkflowSceneStepAction {
 public protocol WorkflowSceneStepping: WorkflowStepping where WorkflowStepAction == WorkflowSceneStepAction {}
 
 extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowSceneStepAction {
+    // swiftlint:disable cyclomatic_complexity
     @inlinable
     public func perform(action: WorkflowStepAction, with userInfo: Any?) {
         switch action {
@@ -32,6 +35,7 @@ extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowS
             self.performChild(at: index, with: userInfo)
         case .detach:
             self.detach(with: userInfo)
+        // swiftlint:disable identifier_name
         case .detachNTimes(let n):
             var current: Scenable? = self
             for _ in 0..<n {
@@ -49,6 +53,7 @@ extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowS
             }
             guard isFound else { break }
             current?.detach(with: userInfo)
+        // swiftlint:enable identifier_name
         case .detachToScene(let scene):
             var current: Scenable? = parent
             var isFound = false
@@ -62,4 +67,5 @@ extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowS
             break
         }
     }
+    // swiftlint:enable cyclomatic_complexity
 }

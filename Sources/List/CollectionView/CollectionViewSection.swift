@@ -75,16 +75,16 @@ extension CollectionView {
             self.cells = []
         }
 
-        public init(id: ID, @SectionBuilder _ SectionBuilder: () -> CollectionViewSectionComponent) {
+        public init(id: ID, @SectionBuilder _ sectionBuilder: () -> CollectionViewSectionComponent) {
             self.id = id
-            let builder = SectionBuilder()
+            let builder = sectionBuilder()
             (self.header, self.footer) = builder.asHeaderFooter()
             self.cells = builder.asCells()
         }
 
-        public func refine(@SectionBuilder _ SectionBuilder: () -> CollectionViewSectionComponent) -> Self {
+        public func refine(@SectionBuilder _ sectionBuilder: () -> CollectionViewSectionComponent) -> Self {
             var other = self
-            let builder = SectionBuilder()
+            let builder = sectionBuilder()
             let builtHeaderFooter = builder.asHeaderFooter()
             (other.header, other.footer) = (header ?? builtHeaderFooter.0, footer ?? builtHeaderFooter.1)
             other.cells = builder.asCells()
@@ -119,8 +119,8 @@ extension CollectionView {
 
 extension CollectionView.Section where ID == UniqueIdentifier {
     @inlinable
-    public init(@CollectionView.SectionBuilder _ SectionBuilder: () -> CollectionViewSectionComponent) {
-        self.init(id: .init(), SectionBuilder)
+    public init(@CollectionView.SectionBuilder _ sectionBuilder: () -> CollectionViewSectionComponent) {
+        self.init(id: .init(), sectionBuilder)
     }
 
     @inlinable

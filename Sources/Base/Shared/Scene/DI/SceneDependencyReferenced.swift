@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol SceneAssociated: class {
+public protocol SceneAssociated: AnyObject {
     func associate(with scene: Scenable)
 }
 
@@ -37,6 +37,7 @@ final public class SceneDependency<S>: SceneAssociated where S: SceneAssociated 
     }
 
     public var wrappedValue: S? {
+        get { dependency }
         set {
             self.dependency = newValue
             guard let scene = scene, let dependency = newValue else { return }
@@ -44,7 +45,6 @@ final public class SceneDependency<S>: SceneAssociated where S: SceneAssociated 
             dependency.associate(with: scene)
             isSceneConfig = true
         }
-        get { dependency }
     }
 }
 
@@ -94,8 +94,7 @@ extension Scenable {
     func getDependency<Dependency>(keyPath: String?) -> Dependency? {
         let children = Mirror(reflecting: self).children
         if keyPath == nil {
-            let dependencyChildren = children.compactMap {
-                child -> Dependency? in
+            let dependencyChildren = children.compactMap { child -> Dependency? in
                 if let viewManager = child.value as? Dependency {
                     return viewManager
                 }

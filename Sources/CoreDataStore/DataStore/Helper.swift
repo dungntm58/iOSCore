@@ -8,35 +8,36 @@
 import CoreData
 import CoreRepository
 
-struct Helper {
-    struct ListResult<T> {
-        let previous: T?
-        let next: T?
-        let total: Int
-        let size: Int
-        let items: [T]
+struct ListResult<T> {
+    let previous: T?
+    let next: T?
+    let total: Int
+    let size: Int
+    let items: [T]
 
-        init() {
-            self.init(items: [], total: 0, size: 0)
-        }
-
-        init(items: [T], total: Int, size: Int) {
-            self.items = items
-            self.previous = nil
-            self.next = nil
-            self.total = total
-            self.size = size
-        }
-
-        init(items: [T], previous: T?, next: T?, total: Int, size: Int) {
-            self.items = items
-            self.previous = previous
-            self.next = next
-            self.total = total
-            self.size = size
-        }
+    init() {
+        self.init(items: [], total: 0, size: 0)
     }
 
+    init(items: [T], total: Int, size: Int) {
+        self.items = items
+        self.previous = nil
+        self.next = nil
+        self.total = total
+        self.size = size
+    }
+
+    init(items: [T], previous: T?, next: T?, total: Int, size: Int) {
+        self.items = items
+        self.previous = previous
+        self.next = next
+        self.total = total
+        self.size = size
+    }
+}
+
+// swiftlint:disable type_body_length
+struct Helper {
     static let instance = Helper()
 
     private init() {}
@@ -58,7 +59,13 @@ struct Helper {
         }
         let urlRepresentation = value.objectID.uriRepresentation().absoluteString
         let metaFetchRequest = NSFetchRequest<MetaObjectEntity>(entityName: "MetaObjectEntity")
-        metaFetchRequest.predicate = NSPredicate(format: "%K = %@ AND %K = %@", #keyPath(MetaObjectEntity.objectClassName), value.objectID.entity.managedObjectClassName, #keyPath(MetaObjectEntity.entityObjectID), urlRepresentation)
+        metaFetchRequest.predicate = NSPredicate(
+            format: "%K = %@ AND %K = %@",
+            #keyPath(MetaObjectEntity.objectClassName),
+            value.objectID.entity.managedObjectClassName,
+            #keyPath(MetaObjectEntity.entityObjectID),
+            urlRepresentation
+        )
         let result = try metaManagedContext.fetch(metaFetchRequest)
         if let result = result.first {
             result.ttl = ttl
@@ -88,7 +95,13 @@ struct Helper {
         for value in values {
             let urlRepresentation = value.objectID.uriRepresentation().absoluteString
             let metaFetchRequest = NSFetchRequest<MetaObjectEntity>(entityName: "MetaObjectEntity")
-            metaFetchRequest.predicate = NSPredicate(format: "%K = %@ AND %K = %@", #keyPath(MetaObjectEntity.objectClassName), value.objectID.entity.managedObjectClassName, #keyPath(MetaObjectEntity.entityObjectID), urlRepresentation)
+            metaFetchRequest.predicate = NSPredicate(
+                format: "%K = %@ AND %K = %@",
+                #keyPath(MetaObjectEntity.objectClassName),
+                value.objectID.entity.managedObjectClassName,
+                #keyPath(MetaObjectEntity.entityObjectID),
+                urlRepresentation
+            )
             let result = try metaManagedContext.fetch(metaFetchRequest)
             if let result = result.first {
                 result.ttl = ttl
@@ -123,7 +136,13 @@ struct Helper {
         try metaManagedContext.save()
     }
 
-    func getList<T>(of type: T.Type, options: DataStoreFetchOption, ttl: TimeInterval, managedContext: NSManagedObjectContext, metaManagedContext: NSManagedObjectContext) throws -> ListResult<T> where T: NSManagedObject {
+    // swiftlint:disable function_body_length cyclomatic_complexity
+    func getList<T>(
+        of type: T.Type,
+        options: DataStoreFetchOption,
+        ttl: TimeInterval,
+        managedContext: NSManagedObjectContext, metaManagedContext: NSManagedObjectContext
+    ) throws -> ListResult<T> where T: NSManagedObject {
         var list: [T]
         let after: T?
         let before: T?
@@ -143,7 +162,13 @@ struct Helper {
                 #if !RELEASE && !PRODUCTION
                 Swift.print("Expired Object IDs:", expiredObjectIDs)
                 #endif
-                let ejectionPredicate = NSPredicate(format: "NOT (SELF IN %@)", expiredObjectIDs.compactMap { managedContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: URL(string: $0)!) })
+                let ejectionPredicate = NSPredicate(
+                    format: "NOT (SELF IN %@)",
+                    expiredObjectIDs.compactMap {
+                        managedContext.persistentStoreCoordinator?
+                            .managedObjectID(forURIRepresentation: URL(string: $0)!)
+                    }
+                )
                 fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate, ejectionPredicate].compactMap { $0 })
             } else {
                 expiredObjectIDs = []
@@ -183,7 +208,13 @@ struct Helper {
                 #if !RELEASE && !PRODUCTION
                 Swift.print("Expired Object IDs:", expiredObjectIDs)
                 #endif
-                let ejectionPredicate = NSPredicate(format: "NOT (SELF IN %@)", expiredObjectIDs.compactMap { managedContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: URL(string: $0)!) })
+                let ejectionPredicate = NSPredicate(
+                    format: "NOT (SELF IN %@)",
+                    expiredObjectIDs.compactMap {
+                        managedContext.persistentStoreCoordinator?
+                            .managedObjectID(forURIRepresentation: URL(string: $0)!)
+                    }
+                )
                 fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate, ejectionPredicate].compactMap { $0 })
             } else {
                 expiredObjectIDs = []
@@ -242,7 +273,13 @@ struct Helper {
                 #if !RELEASE && !PRODUCTION
                 Swift.print("Expired Object IDs:", expiredObjectIDs)
                 #endif
-                let ejectionPredicate = NSPredicate(format: "NOT (SELF IN %@)", expiredObjectIDs.compactMap { managedContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: URL(string: $0)!) })
+                let ejectionPredicate = NSPredicate(
+                    format: "NOT (SELF IN %@)",
+                    expiredObjectIDs.compactMap {
+                        managedContext.persistentStoreCoordinator?
+                            .managedObjectID(forURIRepresentation: URL(string: $0)!)
+                    }
+                )
                 fetchRequest.predicate = ejectionPredicate
             } else {
                 expiredObjectIDs = []
@@ -266,6 +303,7 @@ struct Helper {
 
         return .init(items: list, previous: before, next: after, total: totalItems, size: size)
     }
+    // swiftlint:enable function_body_length cyclomatic_complexity
 
     func eraseSync<T>(of type: T.Type, managedContext: NSManagedObjectContext, metaManagedContext: NSManagedObjectContext) throws where T: NSManagedObject {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: type))
@@ -310,7 +348,13 @@ struct Helper {
     func getMeta(forObject object: NSManagedObject, metaManagedContext: NSManagedObjectContext) throws -> MetaObjectEntity {
         let urlRepresentation = object.objectID.uriRepresentation().absoluteString
         let metaFetchRequest = NSFetchRequest<MetaObjectEntity>(entityName: "MetaObjectEntity")
-        metaFetchRequest.predicate = NSPredicate(format: "%K = %@ AND %K = %@", #keyPath(MetaObjectEntity.objectClassName), object.objectID.entity.managedObjectClassName, #keyPath(MetaObjectEntity.entityObjectID), urlRepresentation)
+        metaFetchRequest.predicate = NSPredicate(
+            format: "%K = %@ AND %K = %@",
+            #keyPath(MetaObjectEntity.objectClassName),
+            object.objectID.entity.managedObjectClassName,
+            #keyPath(MetaObjectEntity.entityObjectID),
+            urlRepresentation
+        )
         let result = try metaManagedContext.fetch(metaFetchRequest)
         if let result = result.first {
             return result
@@ -322,17 +366,23 @@ struct Helper {
     func getExpiredObjectIDs(ttl: TimeInterval, of type: AnyClass, metaManagedContext: NSManagedObjectContext) throws -> [String] {
         let metaFetchRequest = NSFetchRequest<MetaObjectEntity>(entityName: "MetaObjectEntity")
         let timestamp = Date().timeIntervalSince1970 - ttl
-        metaFetchRequest.predicate = NSPredicate(format: "%K = %@ AND %K < %f", #keyPath(MetaObjectEntity.objectClassName), String(describing: type), #keyPath(MetaObjectEntity.localUpdatedTimestamp), timestamp)
+        metaFetchRequest.predicate = NSPredicate(
+            format: "%K = %@ AND %K < %f",
+            #keyPath(MetaObjectEntity.objectClassName),
+            String(describing: type),
+            #keyPath(MetaObjectEntity.localUpdatedTimestamp),
+            timestamp
+        )
         let result = try metaManagedContext.fetch(metaFetchRequest)
         return result.compactMap(\.entityObjectID)
     }
 }
+// swiftlint:enable type_body_length
 
 extension Array where Element == DataStoreFetchOption.Sorting {
     @inlinable
     func toSortDescriptors() -> [NSSortDescriptor] {
-        compactMap {
-            sorting -> NSSortDescriptor? in
+        compactMap { sorting -> NSSortDescriptor? in
             switch sorting {
             case .asc(let property):
                 return .init(key: property, ascending: true)

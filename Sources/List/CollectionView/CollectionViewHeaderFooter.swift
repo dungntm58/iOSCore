@@ -153,7 +153,12 @@ extension CollectionView {
         }
 
         @inlinable
-        public func handlers(bindingFunction: BindingFunction? = nil, sizeEstimationHandler: SizeEstimationHandler? = nil, willDisplayHandler: IndexPathInteractiveHandler? = nil, didEndDisplayingHandler: IndexPathInteractiveHandler? = nil) -> Self {
+        public func handlers(
+            bindingFunction: BindingFunction? = nil,
+            sizeEstimationHandler: SizeEstimationHandler? = nil,
+            willDisplayHandler: IndexPathInteractiveHandler? = nil,
+            didEndDisplayingHandler: IndexPathInteractiveHandler? = nil
+        ) -> Self {
             var other = self
             other.bindingFunction = bindingFunction
             other.sizeEstimationHandler = sizeEstimationHandler

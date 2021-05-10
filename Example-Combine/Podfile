@@ -11,6 +11,7 @@ abstract_target 'Abstract_Example' do
   pod 'SwiftDate'
   pod 'Toaster', :git => 'https://github.com/devxoul/Toaster.git', :branch => 'master'
   pod 'Valet'
+  pod 'SwiftLint'
   
   target 'Example' do
   end

@@ -11,9 +11,8 @@ import RxSwift
 // MARK: - Convenience
 extension PureHTTPRequest {
     @inlinable
-    public func pureExecute(api: API, options: RequestOption?) -> Observable<AFDataResponse<Data>>{
-        .create {
-            subscribe in
+    public func pureExecute(api: API, options: RequestOption?) -> Observable<AFDataResponse<Data>> {
+        .create { subscribe in
             var dataRequest: DataRequest!
             let acceptableStatusCodes: [Int]
             if api.acceptableStatusCodes.isEmpty {
@@ -24,8 +23,7 @@ extension PureHTTPRequest {
             do {
                 let request = try self.makeRequest(api: api, options: options)
                 dataRequest = self.session.request(request).validate(statusCode: acceptableStatusCodes)
-                dataRequest.responseData {
-                    response in
+                dataRequest.responseData { response in
                     #if !RELEASE && !PRODUCTION
                     Swift.print(response)
                     if let data = response.data {
@@ -50,10 +48,10 @@ extension PureHTTPRequest {
         }
     }
 
+    // swiftlint:disable function_body_length cyclomatic_complexity
     @inlinable
     public func pureUpload(api: API, options: UploadRequestOption) -> Observable<AFDataResponse<Data>> {
-        .create {
-            subscribe in
+        .create { subscribe in
             var uploadRequest: UploadRequest!
             let acceptableStatusCodes: [Int]
             if api.acceptableStatusCodes.isEmpty {
@@ -74,8 +72,7 @@ extension PureHTTPRequest {
                     uploadRequest = self.session.upload(stream, with: request).validate(statusCode: acceptableStatusCodes)
                 case .multipart(let fileUploads, let key):
                     let request = try self.makeRequest(api: api, options: options)
-                    uploadRequest = self.session.upload(multipartFormData: {
-                        multipartFormData in
+                    uploadRequest = self.session.upload(multipartFormData: { multipartFormData in
                         for fileUpload in fileUploads {
                             if let data = fileUpload.data {
                                 multipartFormData.append(data, withName: key, fileName: fileUpload.fileName, mimeType: fileUpload.mimeType)
@@ -97,8 +94,7 @@ extension PureHTTPRequest {
                 if let tracking = options.tracking {
                     uploadRequest = uploadRequest.uploadProgress(queue: tracking.queue, closure: tracking.handle)
                 }
-                uploadRequest.responseData {
-                    response in
+                uploadRequest.responseData { response in
                     #if !RELEASE && !PRODUCTION
                     Swift.print(response)
                     if let data = response.data {
@@ -122,13 +118,13 @@ extension PureHTTPRequest {
             }
         }
     }
+    // swiftlint:enable function_body_length cyclomatic_complexity
 
     /// Download request
     /// Return an observable of raw DownloadResponse to keep data stable
     @inlinable
     public func pureDownload(api: API, options: DownloadRequestOption?) -> Observable<AFDownloadResponse<Data>> {
-        .create {
-            subscribe in
+        .create { subscribe in
             var downloadRequest: DownloadRequest!
             let acceptableStatusCodes: [Int]
             if api.acceptableStatusCodes.isEmpty {
@@ -142,8 +138,7 @@ extension PureHTTPRequest {
                 if let tracking = options?.tracking {
                     downloadRequest.downloadProgress(queue: tracking.queue, closure: tracking.handle)
                 }
-                downloadRequest.responseData {
-                    response in
+                downloadRequest.responseData { response in
                     #if !RELEASE && !PRODUCTION
                     Swift.print(response)
                     if let data = response.value {
@@ -173,7 +168,7 @@ extension PureHTTPRequest where Self: HTTPResponseTransformable {
     /// Common HTTP request
     /// Return an observable of HTTPResponse to keep data stable
     @inlinable
-    public func execute(api: API, options: RequestOption?) -> Observable<Response>{
+    public func execute(api: API, options: RequestOption?) -> Observable<Response> {
         pureExecute(api: api, options: options).map(transform)
     }
 
@@ -189,7 +184,7 @@ extension PureHTTPRequest where API: HTTPResponseTransformable {
     /// Common HTTP request
     /// Return an observable of HTTPResponse to keep data stable
     @inlinable
-    public func execute(api: API, options: RequestOption?) -> Observable<API.Response>{
+    public func execute(api: API, options: RequestOption?) -> Observable<API.Response> {
         pureExecute(api: api, options: options).map(api.transform)
     }
 

@@ -32,4 +32,4 @@ extension HTTPResponseTransformable where Self: Decoding, Response: Decodable {
     }
 }
 
-public protocol HTTPRequest: class, PureHTTPRequest, HTTPResponseTransformable {}
+public protocol HTTPRequest: AnyObject, PureHTTPRequest, HTTPResponseTransformable {}

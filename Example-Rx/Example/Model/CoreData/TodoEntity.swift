@@ -6,13 +6,13 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import CoreList
 import CoreRepository
 import CoreDataStore
 import CoreBase
 import CoreData
 
-class TodoEntity: NSObject, Decodable, ManagedObjectWrapper {
+class TodoEntity: NSObject, Decodable, ManagedObjectWrapper, Identifiable {
+    
     let core: TodoCoreEntity
     
     var id: String { core.id ?? "" }

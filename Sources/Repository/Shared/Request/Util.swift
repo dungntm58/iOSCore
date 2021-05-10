@@ -6,15 +6,15 @@
 //
 
 @usableFromInline
-func += <K, V> ( left: inout [K:V], right: [K:V]) {
-    for (k, v) in right {
-        left.updateValue(v, forKey: k)
+func += <K, V> ( left: inout [K: V], right: [K: V]) {
+    for (key, value) in right {
+        left.updateValue(value, forKey: key)
     }
 }
 
 @usableFromInline
-func + <K, V>(lhs: [K:V], rhs: [K:V]) -> [K:V] {
-    var res: [K:V] = lhs
+func + <K, V>(lhs: [K: V], rhs: [K: V]) -> [K: V] {
+    var res: [K: V] = lhs
     res += rhs
     return res
 }
@@ -27,7 +27,7 @@ func printDebug(data: Data) {
         switch serialization {
         case let dict as [String: Any]:
             Swift.print("Response represents", dict)
-        case let array as Array<Any>:
+        case let array as [Any]:
             Swift.print("Response represents", array)
         default:
             Swift.print("Response string represents", String(data: data, encoding: .utf8) as Any)

@@ -162,7 +162,14 @@ extension CollectionView {
         }
 
         @inlinable
-        public func handlers(bindingFunction: BindingFunction? = nil, sizeEstimationHandler: SizeEstimationHandler? = nil, willDisplayHandler: IndexPathInteractiveHandler? = nil, didEndDisplayingHandler: IndexPathInteractiveHandler? = nil, didSelectHandler: SelectionInteractiveHandler? = nil, didDeselectHandler: SelectionInteractiveHandler? = nil) -> Self {
+        public func handlers(
+            bindingFunction: BindingFunction? = nil,
+            sizeEstimationHandler: SizeEstimationHandler? = nil,
+            willDisplayHandler: IndexPathInteractiveHandler? = nil,
+            didEndDisplayingHandler: IndexPathInteractiveHandler? = nil,
+            didSelectHandler: SelectionInteractiveHandler? = nil,
+            didDeselectHandler: SelectionInteractiveHandler? = nil
+        ) -> Self {
             var other = self
             other.bindingFunction = bindingFunction
             other.sizeEstimationHandler = sizeEstimationHandler

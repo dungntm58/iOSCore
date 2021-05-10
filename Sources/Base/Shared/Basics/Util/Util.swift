@@ -6,6 +6,7 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
+// swiftlint:disable force_cast
 @frozen
 public enum Util {
     @inlinable
@@ -18,3 +19,4 @@ public enum Util {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
     }
 }
+// swiftlint:enable force_cast

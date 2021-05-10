@@ -13,8 +13,8 @@ extension TableView {
 
         @usableFromInline
         init<Section>(_ section: Section) where Section: TableViewSection {
-            if let _section = section as? AnySection {
-                self = _section
+            if let instance = section as? AnySection {
+                self = instance
             } else {
                 self.box = SectionBox(section)
             }
@@ -22,8 +22,8 @@ extension TableView {
 
         @usableFromInline
         init<Section>(_ section: Section, cells: [AnyCell]) where Section: TableViewSection {
-            if let _section = section as? AnySection {
-                self = _section
+            if let instance = section as? AnySection {
+                self = instance
                 self.box.cells = cells
             } else {
                 self.box = SectionBox(section, cells: cells)
@@ -41,7 +41,7 @@ private protocol AnyTableViewSectionBox {
     var id: AnyHashable { get }
     var header: TableView.AnyHeaderFooter? { get }
     var footer: TableView.AnyHeaderFooter? { get }
-    var cells: [TableView.AnyCell] { set get }
+    var cells: [TableView.AnyCell] { get set }
 }
 
 private extension TableView {

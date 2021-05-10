@@ -13,8 +13,17 @@ public protocol WorkflowItemProducible {
     func produceWorkflowItem() -> Observable<WorkflowItem>
 }
 
-public typealias WorkflowStepGeneratorObservable<PreviousStep, NextStep> = (_ previousStepItem: PreviousStep.WorkflowItem, _ previousStep: PreviousStep) -> Observable<(PreviousStep.WorkflowStepAction, NextStep)> where PreviousStep: WorkflowStepping, NextStep: WorkflowStepping
-public typealias WorkflowStepGenerator<PreviousStep, NextStep> = (_ previousStepItem: PreviousStep.WorkflowItem, _ previousStep: PreviousStep) -> (PreviousStep.WorkflowStepAction, NextStep) where PreviousStep: WorkflowStepping, NextStep: WorkflowStepping
+public typealias WorkflowStepGeneratorObservable<PreviousStep, NextStep> = (
+    _ previousStepItem: PreviousStep.WorkflowItem,
+    _ previousStep: PreviousStep
+) -> Observable<(PreviousStep.WorkflowStepAction, NextStep)>
+where PreviousStep: WorkflowStepping, NextStep: WorkflowStepping
+
+public typealias WorkflowStepGenerator<PreviousStep, NextStep> = (
+    _ previousStepItem: PreviousStep.WorkflowItem,
+    _ previousStep: PreviousStep
+) -> (PreviousStep.WorkflowStepAction, NextStep)
+where PreviousStep: WorkflowStepping, NextStep: WorkflowStepping
 
 @inlinable
 public func createWorkflow<FirstStep>(from firstStep: FirstStep) -> Observable<FirstStep> where FirstStep: Launchable & WorkflowStepping {
@@ -28,9 +37,9 @@ extension Observable where Element: WorkflowStepping {
     public func next<NextStep>(handler: @escaping WorkflowStepGeneratorObservable<Element, NextStep>) -> Observable<NextStep> where NextStep: WorkflowStepping {
         flatMap { step in
             step.produceWorkflowItem()
-                .flatMap ({ item in
+                .flatMap { item in
                     handler(item, step).do(onNext: { step.perform(action: $0.0, with: item) })
-                })
+                }
         }
         .map { $0.1 }
     }
@@ -39,11 +48,11 @@ extension Observable where Element: WorkflowStepping {
     public func next<NextStep>(handler: @escaping WorkflowStepGenerator<Element, NextStep>) -> Observable<NextStep> where NextStep: WorkflowStepping {
         flatMap { step in
             step.produceWorkflowItem()
-                .map ({ item -> (Element.WorkflowStepAction, NextStep) in
-                    let r = handler(item, step)
-                    step.perform(action: r.0, with: item)
-                    return r
-                })
+                .map { item -> (Element.WorkflowStepAction, NextStep) in
+                    let result = handler(item, step)
+                    step.perform(action: result.0, with: item)
+                    return result
+                }
         }
         .map { $0.1 }
     }

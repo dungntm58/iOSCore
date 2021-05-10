@@ -24,7 +24,11 @@ public extension CoreDataDataStore where T: NSManagedObject {
     }
 
     func getList(options: DataStoreFetchOption) throws -> ListDTO<T> {
-        let listResult = try Helper.instance.getList(of: T.self, options: options, ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
+        let listResult = try Helper.instance.getList(
+            of: T.self, options: options, ttl: ttl,
+            managedContext: configuration.managedObjectContext,
+            metaManagedContext: configuration.metaManagedObjectContext
+        )
         let pagination = make(total: listResult.total, size: listResult.size, previous: listResult.previous, next: listResult.next)
         return .init(data: listResult.items, pagination: pagination)
     }

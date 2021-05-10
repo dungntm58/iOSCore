@@ -685,6 +685,7 @@
 				13D6083722C31FF80084BBC6 /* Frameworks */,
 				13D6083822C31FF80084BBC6 /* Resources */,
 				3D7F43FF2056E956F8C7F0FB /* [CP] Embed Pods Frameworks */,
+				E18B810926490C1E0092BD95 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -704,6 +705,7 @@
 				13D6085022C321DE0084BBC6 /* Frameworks */,
 				13D6085122C321DE0084BBC6 /* Resources */,
 				90D1F38B3BB1330488DA761E /* [CP] Embed Pods Frameworks */,
+				E18B810A26490C300092BD95 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -723,6 +725,7 @@
 				13D6086622C321F30084BBC6 /* Frameworks */,
 				13D6086722C321F30084BBC6 /* Resources */,
 				F54B348255DFF062B3F0A44B /* [CP] Embed Pods Frameworks */,
+				E18B810B26490C3D0092BD95 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -977,6 +980,60 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Abstract_Example-Example_Realm/Pods-Abstract_Example-Example_Realm-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		E18B810926490C1E0092BD95 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		E18B810A26490C300092BD95 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		E18B810B26490C3D0092BD95 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		F54B348255DFF062B3F0A44B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
