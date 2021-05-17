@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint CoreRealm.podspec' to ensure this is a
+# Be sure to run `pod lib lint CoreRequest.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'CoreRealmDataStore-Combine'
+  s.name             = 'FoundationExt_R'
   s.version          = '0.1.0'
   s.summary          = 'Clean Architecture'
 
@@ -29,13 +29,8 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform = :ios
-  s.module_name = 'CoreRealmDataStore'
+  s.module_name = 'FoundationExt_R'
   s.swift_version = "5.2"
-  s.prefix_header_file = false
-  s.source_files = 'Sources/RealmDataStore/**/*'
-  s.ios.deployment_target = '13.0'
-  s.framework = 'Combine'
-  s.dependency 'Realm'
-  s.dependency 'RealmSwift'
-  s.dependency 'CoreRepository-Combine/DataStore'
+  s.framework = "Foundation"
+  s.source_files = 'Sources/Shared/**/*.swift'
 end

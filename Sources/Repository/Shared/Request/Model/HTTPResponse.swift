@@ -26,3 +26,10 @@ public protocol ListHTTPResponse: HTTPResponse {
     var pagination: PaginationDTO? { get }
     var results: [ValueType]? { get }
 }
+
+extension ListDTO {
+    public init<Response>(response: Response) where Response: ListHTTPResponse, Response.ValueType == T {
+        self.data = response.results ?? []
+        self.pagination = response.pagination
+    }
+}

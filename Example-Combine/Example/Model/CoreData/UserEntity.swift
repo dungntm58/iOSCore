@@ -10,6 +10,7 @@ import CoreBase
 import CoreRepository
 import CoreDataStore
 import CoreData
+import FoundationExt_R
 
 class UserEntity: Identifiable, Decodable, ManagedObjectWrapper {
     let core: UserCoreEntity
@@ -51,5 +52,5 @@ class UserEntity: Identifiable, Decodable, ManagedObjectWrapper {
 extension UserEntity: CoreDataIdentifiable {
     typealias IDType = String
     
-    static func keyPathForID() -> String { #keyPath(UserCoreEntity.id) }
+    static func keyPathForID() -> String { "id" }
 }

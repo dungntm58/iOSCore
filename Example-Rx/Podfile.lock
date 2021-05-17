@@ -18,6 +18,7 @@ PODS:
     - CoreRepository-Rx/DataStore
   - CoreList (0.1.0):
     - DifferenceKit
+    - FoundationExt_R
   - CoreRealmDataStore-Rx (0.1.0):
     - CoreRepository-Rx/DataStore
     - RealmSwift
@@ -37,6 +38,7 @@ PODS:
     - CoreRepository-Rx/RemoteLocal (= 0.1.0)
     - CoreRepository-Rx/Request (= 0.1.0)
   - CoreRepository-Rx/Basics (0.1.0):
+    - FoundationExt_R
     - RxSwift (~> 6.0.0)
   - CoreRepository-Rx/DataStore (0.1.0):
     - CoreRepository-Rx/Basics
@@ -58,6 +60,7 @@ PODS:
   - DifferenceKit/Core (1.1.5)
   - DifferenceKit/UIKitExtension (1.1.5):
     - DifferenceKit/Core
+  - FoundationExt_R (0.1.0)
   - Realm (10.7.5):
     - Realm/Headers (= 10.7.5)
   - Realm/Headers (10.7.5)
@@ -84,6 +87,7 @@ DEPENDENCIES:
   - CoreRedux-Rx (from `../`)
   - CoreRedux-Rx/List (from `../`)
   - CoreRepository-Rx (from `../`)
+  - FoundationExt_R (from `../`)
   - SwiftDate
   - SwiftLint
   - Toaster (from `https://github.com/devxoul/Toaster.git`, branch `master`)
@@ -117,6 +121,8 @@ EXTERNAL SOURCES:
     :path: "../"
   CoreRepository-Rx:
     :path: "../"
+  FoundationExt_R:
+    :path: "../"
   Toaster:
     :branch: master
     :git: https://github.com/devxoul/Toaster.git
@@ -131,11 +137,12 @@ SPEC CHECKSUMS:
   CoreAPNS-Rx: 2b483941cbf8a35f42375aa6b33744f2b99e25b4
   CoreBase-Rx: 593865b7dd6983b2b6908c3b0f9589744abc4653
   CoreDataStore-Rx: 536f03c290e6584987c4f57b21619655a031e17f
-  CoreList: 991dc226ec1cd5c321da95eb85124056b65e1db0
+  CoreList: 1b187e528a182f99a1f74560ef4df97dba0d0190
   CoreRealmDataStore-Rx: 1bf361885c2fa545e4a5bf2d22080d373087e968
   CoreRedux-Rx: 3cb78a8a5095c3028d6521539d5433bb1190b0a8
-  CoreRepository-Rx: 5560f195edecc549ae6835c5ad1f0f7eadb2073d
+  CoreRepository-Rx: 506e37b172b6f894cfc9d3de989baa6fcaecdbbb
   DifferenceKit: 516f12e336ed65a3a0665847b5c3cb5cad4bd4ea
+  FoundationExt_R: e1a55581144ae8be50e756debba52eadcb8b92d9
   Realm: 06f5c67f87cb8c5f27b122218ce22e9a77314517
   RealmSwift: b46535b52e69b9ed33912f0fcb3182ab0a5743ee
   RxCocoa: 3f79328fafa3645b34600f37c31e64c73ae3a80e
@@ -146,6 +153,6 @@ SPEC CHECKSUMS:
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
   Valet: 11ab0e318b7284888a81392e36136563b4af5deb
 
-PODFILE CHECKSUM: a06e8e3ebbb0734a768da3ad818fb6e32e59aae9
+PODFILE CHECKSUM: eeab52768c00c1816fc91dff3c69d662f2904c9e
 
 COCOAPODS: 1.10.1

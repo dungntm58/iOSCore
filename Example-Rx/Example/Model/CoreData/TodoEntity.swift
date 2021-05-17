@@ -10,6 +10,7 @@ import CoreRepository
 import CoreDataStore
 import CoreBase
 import CoreData
+import FoundationExt_R
 
 class TodoEntity: NSObject, Decodable, ManagedObjectWrapper, Identifiable {
     

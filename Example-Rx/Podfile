@@ -1,6 +1,7 @@
 use_frameworks!
 
 abstract_target 'Abstract_Example' do
+  pod 'FoundationExt_R', :path => '../'
   pod 'CoreRedux-Rx', :path => '../'
   pod 'CoreRedux-Rx/List', :path => '../'
   pod 'CoreBase-Rx', :path => '../'

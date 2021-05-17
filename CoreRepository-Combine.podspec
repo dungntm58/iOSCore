@@ -36,10 +36,10 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.default_subspecs = 'Basics', 'DataStore', 'Request', 'Remote', 'Local', 'RemoteLocal'
   
   s.subspec 'Basics' do |ss|
-    ss.source_files = 'Sources/Repository/Shared/Basics/**/*', 'Sources/Repository/Combine/Basics/**/*', 'Sources/Shared/**/*.swift'
-    ss.exclude_files = 'Sources/Repository/Shared/Basics/Shared/**/*'
+    ss.source_files = 'Sources/Repository/Shared/Basics/**/*', 'Sources/Repository/Combine/Basics/**/*'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
+    ss.dependency 'FoundationExt_R'
   end
 
   s.subspec 'DataStore' do |ss|

@@ -15,9 +15,4 @@ public struct ListDTO<T> {
         self.data = data
         self.pagination = pagination
     }
-
-    public init<Response>(response: Response) where Response: ListHTTPResponse, Response.ValueType == T {
-        self.data = response.results ?? []
-        self.pagination = response.pagination
-    }
 }

@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import FoundationExt_R
 
 public protocol DataStore {
     // swiftlint:disable type_name

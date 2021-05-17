@@ -11,6 +11,7 @@ import CoreRepository
 import CoreDataStore
 import CoreBase
 import CoreData
+import FoundationExt_R
 
 class TodoEntity: NSObject, Decodable, ManagedObjectWrapper {
     let core: TodoCoreEntity
@@ -72,5 +73,5 @@ class TodoEntity: NSObject, Decodable, ManagedObjectWrapper {
 extension TodoEntity: CoreDataIdentifiable {
     typealias ID = String
     
-    static func keyPathForID() -> String { #keyPath(TodoCoreEntity.id) }
+    static func keyPathForID() -> String { "id" }
 }

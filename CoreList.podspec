@@ -35,7 +35,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.framework = "Foundation"
   s.ios.framework = "UIKit"
   
-  s.source_files = 'Sources/List/**/*', 'Sources/Shared/**/*.swift'
-  s.exclude_files = 'Sources/List/Shared/**/*'
+  s.source_files = 'Sources/List/**/*'
+  s.dependency 'FoundationExt_R'
   s.dependency 'DifferenceKit'
 end

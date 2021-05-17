@@ -5,7 +5,7 @@
 //  Created by Robert on 4/5/20.
 //
 
-import Foundation
+import FoundationExt_R
 
 public protocol TableViewHeaderFooter: TableViewSectionComponent, CellRegisterable, HeaderFooterPresentable where View: UITableViewHeaderFooterView {
     associatedtype Model
