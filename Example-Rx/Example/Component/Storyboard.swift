@@ -11,8 +11,4 @@ import CoreBase
 
 enum AppStoryboard: String, Storyboard {
     case main = "Main"
-    
-    var name: String { rawValue }
-    
-    var bundle: Bundle? { nil }
 }

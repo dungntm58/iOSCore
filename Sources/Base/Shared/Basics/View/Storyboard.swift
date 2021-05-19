@@ -11,6 +11,14 @@ public protocol Storyboard {
 }
 
 extension Storyboard {
+    public var bundle: Bundle? { nil }
+}
+
+extension Storyboard where Self: RawRepresentable, Self.RawValue == String {
+    public var name: String { rawValue }
+}
+
+extension Storyboard {
     // swiftlint:disable force_cast
     @inlinable
     public func viewController<ViewController>(of type: ViewController.Type, with identifier: String? = nil) -> ViewController where ViewController: UIViewController {
