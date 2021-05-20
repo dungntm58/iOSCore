@@ -13,6 +13,7 @@ PODS:
     - FoundationExt_R
   - CoreRealmDataStore-Combine (0.1.0):
     - CoreRepository-Combine/DataStore
+    - Realm
     - RealmSwift
   - CoreRedux-Combine/Basics (0.1.0)
   - CoreRedux-Combine/List (0.1.0):
@@ -109,7 +110,7 @@ SPEC CHECKSUMS:
   CoreBase-Combine: d36ef904ceff52ea9e62ee88e84605d0391d6fe6
   CoreDataStore-Combine: c67521187ffa05f41aa4a0dfb387080a3a68a84b
   CoreList: 1b187e528a182f99a1f74560ef4df97dba0d0190
-  CoreRealmDataStore-Combine: 5d91573cf97e95df8fd73a80623fb3112d6aaa2f
+  CoreRealmDataStore-Combine: 2e86479d70a22785e1af2bed56b30b63fc811b51
   CoreRedux-Combine: ceeb6fd0ae72b00855f2e699826ee7f66a68da7a
   CoreRepository-Combine: 0cd329efa635d85db1f5123a55b91b645ff2ba1a
   DifferenceKit: 516f12e336ed65a3a0665847b5c3cb5cad4bd4ea
