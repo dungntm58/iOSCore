@@ -21,6 +21,7 @@ public protocol DataStore {
     @discardableResult
     func saveSync(_ values: [T]) throws -> [T]
     func deleteSync(_ value: T) throws
+    func deleteSync(_ values: [T]) throws
     func eraseSync() throws
     func getList(options: DataStoreFetchOption) throws -> ListDTO<T>
 
@@ -29,6 +30,7 @@ public protocol DataStore {
     func saveAsync(_ value: T) -> Observable<T>
     func saveAsync(_ values: [T]) -> Observable<[T]>
     func deleteAsync(_ value: T) -> Observable<Void>
+    func deleteAsync(_ values: [T]) -> Observable<Void>
     func eraseAsync() -> Observable<Void>
     func getListAsync(options: DataStoreFetchOption) -> Observable<ListDTO<T>>
 }

@@ -63,6 +63,23 @@ extension DataStore {
     }
 
     @inlinable
+    public func deleteAsync(_ values: [T]) -> AnyPublisher<Void, Error> {
+        Deferred {
+            Future { promise in
+                do {
+                    try self.deleteSync(values)
+                    #if !RELEASE && !PRODUCTION
+                    Swift.print("Delete \(values.count) items of type \(T.self) successfully!!!")
+                    #endif
+                    promise(.success(()))
+                } catch {
+                    promise(.failure(error))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
+
+    @inlinable
     public func getListAsync(options: DataStoreFetchOption) -> AnyPublisher<ListDTO<T>, Error> {
         Deferred {
             Future { promise in

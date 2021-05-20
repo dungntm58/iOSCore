@@ -136,6 +136,26 @@ struct Helper {
         try metaManagedContext.save()
     }
 
+    func deleteSync(_ values: [NSManagedObject], managedContext: NSManagedObjectContext, metaManagedContext: NSManagedObjectContext) throws {
+        let urlRepresentations = values.map { $0.objectID.uriRepresentation().absoluteString }
+        let classNames = values.map { $0.objectID.entity.managedObjectClassName! }
+
+        values.forEach(managedContext.delete)
+        try managedContext.save()
+
+        let metaFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "MetaObjectEntity")
+        metaFetchRequest.predicate = NSCompoundPredicate(
+            andPredicateWithSubpredicates: zip(classNames, urlRepresentations)
+                .map { className, url in
+                    NSPredicate(format: "%K = %@ AND %K = %@", #keyPath(MetaObjectEntity.objectClassName), className, #keyPath(MetaObjectEntity.entityObjectID), url)
+                }
+        )
+        let metaDeleteRequest = NSBatchDeleteRequest(fetchRequest: metaFetchRequest)
+
+        try metaManagedContext.execute(metaDeleteRequest)
+        try metaManagedContext.save()
+    }
+
     // swiftlint:disable function_body_length cyclomatic_complexity
     func getList<T>(
         of type: T.Type,

@@ -68,6 +68,12 @@ struct Helper {
         }
     }
 
+    func deleteSync(_ values: [Object], realm: Realm) throws {
+        try realm.write {
+            realm.delete(values)
+        }
+    }
+
     // swiftlint:disable function_body_length cyclomatic_complexity
     func getList<T>(of type: T.Type, options: DataStoreFetchOption, ttl: TimeInterval, realm: Realm) throws -> ListResult<T> where T: Object {
         var list: [T]

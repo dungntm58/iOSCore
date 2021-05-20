@@ -23,6 +23,10 @@ public extension CoreDataDataStore where T: ManagedObjectWrapper {
         try Helper.instance.deleteSync(value.toObject(), managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
     }
 
+    func deleteSync(_ values: [T]) throws {
+        try Helper.instance.deleteSync(values.map { $0.toObject() }, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
+    }
+
     func getList(options: DataStoreFetchOption) throws -> ListDTO<T> {
         let listResult = try Helper.instance.getList(
             of: T.Object.self, options: options, ttl: ttl,

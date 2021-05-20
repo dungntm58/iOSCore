@@ -62,6 +62,23 @@ extension DataStore {
     }
 
     @inlinable
+    public func deleteAsync(_ values: [T]) -> Observable<Void> {
+        .create { subscribe in
+            do {
+                try self.deleteSync(values)
+                #if !RELEASE && !PRODUCTION
+                Swift.print("Delete \(values.count) items of type \(T.self) successfully!!!")
+                #endif
+                subscribe.onNext(())
+                subscribe.onCompleted()
+            } catch {
+                subscribe.onError(error)
+            }
+            return Disposables.create()
+        }
+    }
+
+    @inlinable
     public func getListAsync(options: DataStoreFetchOption) -> Observable<ListDTO<T>> {
         .create { subscribe in
             do {

@@ -40,6 +40,10 @@ public struct AnyDataStore: DataStore {
         try box.deleteSync(value)
     }
 
+    public func deleteSync(_ values: [Any]) throws {
+        try box.deleteSync(values)
+    }
+
     public func eraseSync() throws {
         try box.eraseSync()
     }
@@ -57,6 +61,7 @@ private protocol AnyDataStoreBox {
     func saveSync(_ value: Any) throws -> Any
     func saveSync(_ values: [Any]) throws -> [Any]
     func deleteSync(_ value: Any) throws
+    func deleteSync(_ values: [Any]) throws
     func eraseSync() throws
     func getList(options: DataStoreFetchOption) throws -> ListDTO<Any>
     func make(total: Int, size: Int, previous: Any?, next: Any?) -> PaginationDTO
@@ -80,6 +85,10 @@ private struct Box<Base>: AnyDataStoreBox where Base: DataStore {
 
     func deleteSync(_ value: Any) throws {
         try base.deleteSync(value as! Base.T)
+    }
+
+    func deleteSync(_ values: [Any]) throws {
+        try base.deleteSync(values as! [Base.T])
     }
 
     func eraseSync() throws {

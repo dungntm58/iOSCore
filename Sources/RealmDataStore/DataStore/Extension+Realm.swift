@@ -28,6 +28,11 @@ public extension RealmDataStore where T: Object {
         try Helper.instance.deleteSync(value, realm: realm)
     }
 
+    func deleteSync(_ values: [T]) throws {
+        let realm = try Realm()
+        try Helper.instance.deleteSync(values, realm: realm)
+    }
+
     func getList(options: DataStoreFetchOption) throws -> ListDTO<T> {
         let realm = try Realm()
         let listResult = try Helper.instance.getList(of: T.self, options: options, ttl: ttl, realm: realm)
