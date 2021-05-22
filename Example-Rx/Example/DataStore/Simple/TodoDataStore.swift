@@ -61,4 +61,12 @@ class TodoDataStore: IdentifiableDataStore {
             array.remove(at: index)
         }
     }
+    
+    func deleteSync(_ values: [TodoEntity]) throws {
+        values.forEach {
+            if let index = array.firstIndex(of: $0) {
+                array.remove(at: index)
+            }
+        }
+    }
 }

@@ -8,6 +8,20 @@
 import RealmSwift
 import CoreRepository
 
+func threadSharedObject<T>(key: String, create: () throws -> T) rethrows -> T {
+    if let cachedObj = Thread.current.threadDictionary[key] as? T {
+        return cachedObj
+    } else {
+        let newObject = try create()
+        Thread.current.threadDictionary[key] = newObject
+        return newObject
+    }
+}
+
+func threadSharedRealm() throws -> Realm {
+    try threadSharedObject(key: "CoreRealm_Realm_instantiate") { try Realm() }
+}
+
 struct ListResult<T> {
     let previous: T?
     let next: T?

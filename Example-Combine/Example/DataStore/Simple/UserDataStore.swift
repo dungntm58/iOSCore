@@ -51,4 +51,10 @@ class UserDataStore: IdentifiableDataStore {
     func deleteSync(_ value: UserEntity) throws {
         userDefaults.set(nil, forKey: value.id)
     }
+    
+    func deleteSync(_ values: [UserEntity]) throws {
+        values.forEach {
+            userDefaults.setValue(nil, forKey: $0.id)
+        }
+    }
 }
