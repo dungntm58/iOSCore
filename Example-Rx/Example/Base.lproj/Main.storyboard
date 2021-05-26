@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,9 +35,6 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PV0-bk-gc4">
                                                 <rect key="frame" x="0.0" y="0.0" width="137.5" height="30"/>
                                                 <state key="normal" title="Sign in"/>
-                                                <connections>
-                                                    <action selector="onLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lkl-hD-thg"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjb-dF-qgG">
                                                 <rect key="frame" x="137.5" y="0.0" width="137.5" height="30"/>
@@ -64,6 +61,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Sign in" id="Lf6-Vv-1Qk"/>
                     <connections>
+                        <outlet property="btnLogin" destination="PV0-bk-gc4" id="rQB-Ax-TdJ"/>
                         <outlet property="lbPassword" destination="yQI-JO-XoB" id="B3p-WC-2xd"/>
                         <outlet property="lbUsername" destination="PZm-KR-NBh" id="OvI-lq-c5g"/>
                     </connections>

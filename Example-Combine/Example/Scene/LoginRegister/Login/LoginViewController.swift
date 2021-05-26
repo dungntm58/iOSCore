@@ -8,12 +8,14 @@
 
 import UIKit
 import Combine
+import CombineCocoa
 import CoreBase
 
 class LoginViewController: BaseViewController {
     
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!
+    @IBOutlet weak var btnLogin: UIButton!
     
     lazy var cancellables: Set<AnyCancellable> = .init()
     
@@ -44,14 +46,23 @@ class LoginViewController: BaseViewController {
                 self?.onError(error)
             })
             .store(in: &cancellables)
-    }
-    
-    @IBAction func onLogin(_ sender: UIButton) {
-        guard let userName = lbUsername.text, let password = lbPassword.text else {
-            return
-        }
         
-        store?.dispatch(type: .login, payload: (userName, password))
+        btnLogin.tapPublisher
+            .combineLatest(
+                lbUsername.textPublisher
+                    .map { $0?.isEmpty ?? true }
+                    .filter(!)
+            )
+            .map { $1 }
+            .combineLatest(
+                lbPassword.textPublisher
+                    .map { $0?.isEmpty ?? true }
+                    .filter(!)
+            )
+            .sink { [weak self] payload in
+                self?.store?.dispatch(type: .login, payload: payload)
+            }
+            .store(in: &cancellables)
     }
     
     func onError(_ error: Error) {

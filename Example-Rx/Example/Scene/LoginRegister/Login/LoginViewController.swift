@@ -14,6 +14,7 @@ class LoginViewController: BaseViewController {
     
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!
+    @IBOutlet weak var btnLogin: UIButton!
     
     @SceneReferenced var scene: LoginScene?
     @SceneDependencyReferenced var store: LoginStore?
@@ -36,14 +37,18 @@ class LoginViewController: BaseViewController {
             .withUnretained(self)
             .subscribe(onNext: { $0.onError($1) })
             .disposed(by: rx.disposeBag)
-    }
-    
-    @IBAction func onLogin(_ sender: UIButton) {
-        guard let userName = lbUsername.text, let password = lbPassword.text else {
-            return
-        }
         
-        store?.dispatch(type: .login, payload: (userName, password))
+        btnLogin.rx.tap
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .withLatestFrom(lbUsername.rx.text.orEmpty.filter { !$0.isEmpty })
+                { _, text in text }
+            .withLatestFrom(lbPassword.rx.text.orEmpty.filter { !$0.isEmpty })
+                { ($0, $1) }
+            .withUnretained(self)
+            .subscribe(onNext: { `self`, payload in
+                self.store?.dispatch(type: .login, payload: payload)
+            })
+            .disposed(by: rx.disposeBag)
     }
     
     func onError(_ error: Error) {

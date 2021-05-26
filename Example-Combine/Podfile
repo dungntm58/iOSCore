@@ -13,6 +13,7 @@ abstract_target 'Abstract_Example' do
   pod 'Toaster', :git => 'https://github.com/devxoul/Toaster.git', :branch => 'master'
   pod 'Valet'
   pod 'SwiftLint'
+  pod 'CombineCocoa'
   
   target 'Example' do
   end

@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.4.0)
+  - CombineCocoa (0.2.2)
   - CoreAPNS-Combine (0.1.0)
   - CoreBase-Combine/Basics (0.1.0)
   - CoreBase-Combine/ReduxExtension (0.1.0):
@@ -53,6 +54,7 @@ PODS:
   - Valet (3.2.8)
 
 DEPENDENCIES:
+  - CombineCocoa
   - CoreAPNS-Combine (from `../`)
   - CoreBase-Combine/Basics (from `../`)
   - CoreBase-Combine/ReduxExtension (from `../`)
@@ -71,6 +73,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - CombineCocoa
     - DifferenceKit
     - Realm
     - RealmSwift
@@ -106,6 +109,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
+  CombineCocoa: 66c79441761907c096ecbd0021cefd8566acaf06
   CoreAPNS-Combine: fa6386ea466292d229adcc4ced2c774b9734afc1
   CoreBase-Combine: d36ef904ceff52ea9e62ee88e84605d0391d6fe6
   CoreDataStore-Combine: c67521187ffa05f41aa4a0dfb387080a3a68a84b
@@ -122,6 +126,6 @@ SPEC CHECKSUMS:
   Toaster: 33d27524fb6829cdb6b247c924beab0cfa001b3e
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
-PODFILE CHECKSUM: bdd8af51c4d26f952e3fac990c2336edebf321ba
+PODFILE CHECKSUM: 8f95c2e176d968f4d6c23254fd6b73893dffd3ba
 
 COCOAPODS: 1.10.1
