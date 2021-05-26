@@ -19,37 +19,75 @@ extension SceneAssociated where Self: UIViewController {
 }
 
 @propertyWrapper
-final public class SceneDependency<S>: SceneAssociated where S: SceneAssociated {
+final public class SceneDependency<S> where S: SceneAssociated {
 
-    private weak var scene: Scenable?
+    private var isAssociated = false
     private var dependency: S?
-    private var isSceneConfig = false
+
+    public static subscript<EnclosingSelf>(
+        _enclosingInstance observed: EnclosingSelf,
+        wrapped wrappedKeyPath: ReferenceWritableKeyPath<EnclosingSelf, S?>,
+        storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, SceneDependency<S>>
+    ) -> S? where EnclosingSelf: Scenable {
+        get {
+            let sceneDependency = observed[keyPath: storageKeyPath]
+            if sceneDependency.isAssociated {
+                return sceneDependency.dependency
+            }
+            sceneDependency.dependency?.associate(with: observed)
+            sceneDependency.isAssociated = true
+            return sceneDependency.dependency
+        }
+        set {
+            let sceneDependency = observed[keyPath: storageKeyPath]
+            sceneDependency.dependency = newValue
+            newValue?.associate(with: observed)
+            sceneDependency.isAssociated = true
+        }
+    }
 
     public init(wrappedValue: S?) {
         self.dependency = wrappedValue
     }
 
-    public func associate(with scene: Scenable) {
-        guard let dependency = dependency else { return }
-        if isSceneConfig { return }
-        dependency.associate(with: scene)
-        isSceneConfig = true
-    }
-
+    @available(*, unavailable, message: "@SceneDependency is only available on properties of classes")
     public var wrappedValue: S? {
-        get { dependency }
-        set {
-            self.dependency = newValue
-            guard let scene = scene, let dependency = newValue else { return }
-            if isSceneConfig || self.dependency === dependency { return }
-            dependency.associate(with: scene)
-            isSceneConfig = true
-        }
+        get { fatalError() }
+        // swiftlint:disable unused_setter_value
+        set { fatalError() }
+        // swiftlint:enable unused_setter_value
     }
 }
 
 @propertyWrapper
-final public class SceneDependencyReferenced<S>: ViewControllerAssociated {
+final public class SceneDependencyReferenced<S> {
+
+    public static subscript<EnclosingSelf>(
+        _enclosingInstance observed: EnclosingSelf,
+        wrapped wrappedKeyPath: KeyPath<EnclosingSelf, S?>,
+        storage storageKeyPath: KeyPath<EnclosingSelf, SceneDependencyReferenced<S>>
+    ) -> S? where EnclosingSelf: UIViewController {
+        let sceneDependencyReferenced = observed[keyPath: storageKeyPath]
+        if S.self is AnyObject.Type, let dependency = sceneDependencyReferenced.dependency ?? sceneDependencyReferenced.weakDependency?.value as? S { return dependency }
+        guard let scene = sceneDependencyReferenced.scene else {
+            guard let scene = ReferenceManager.getAbstractScene(associatedWith: observed) else { return nil }
+            sceneDependencyReferenced.scene = scene
+            let dependency: S? = scene.getDependency(keyPath: sceneDependencyReferenced.keyPath)
+            if dependency as? UIViewController === observed {
+                sceneDependencyReferenced.weakDependency = AnyWeak(value: observed)
+            } else {
+                sceneDependencyReferenced.dependency = dependency
+            }
+            return dependency
+        }
+        let dependency: S? = scene.getDependency(keyPath: sceneDependencyReferenced.keyPath)
+        if dependency as? UIViewController === observed {
+            sceneDependencyReferenced.weakDependency = AnyWeak(value: observed)
+        } else {
+            sceneDependencyReferenced.dependency = dependency
+        }
+        return dependency
+    }
 
     public init(keyPath: String? = nil) {
         self.keyPath = keyPath
@@ -57,36 +95,12 @@ final public class SceneDependencyReferenced<S>: ViewControllerAssociated {
 
     private let keyPath: String?
     private weak var scene: Scenable?
-    private weak var viewController: UIViewController?
     private var dependency: S?
     private var weakDependency: AnyWeak?
 
-    public func associate(with viewController: UIViewController) {
-        self.viewController = viewController
-        self.scene = ReferenceManager.getAbstractScene(associatedWith: viewController)
-    }
-
+    @available(*, unavailable, message: "@SceneDependencyReferenced is only available on properties of UIViewController")
     public var wrappedValue: S? {
-        if let dependency = dependency ?? weakDependency?.value as? S { return dependency }
-        guard let scene = scene else {
-            guard let viewController = viewController,
-                let scene = ReferenceManager.getAbstractScene(associatedWith: viewController) else { return nil }
-            self.scene = scene
-            let dependency: S? = scene.getDependency(keyPath: keyPath)
-            if dependency as? UIViewController === viewController {
-                self.weakDependency = AnyWeak(value: viewController)
-            } else {
-                self.dependency = dependency
-            }
-            return dependency
-        }
-        let dependency: S? = scene.getDependency(keyPath: keyPath)
-        if dependency as? UIViewController === viewController {
-            self.weakDependency = AnyWeak(value: viewController)
-        } else {
-            self.dependency = dependency
-        }
-        return dependency
+        fatalError()
     }
 }
 

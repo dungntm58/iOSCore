@@ -8,7 +8,26 @@
 import Foundation
 
 @propertyWrapper
-final public class ParentSceneDependencyReferenced<S>: ViewControllerAssociated where S: SceneAssociated {
+final public class ParentSceneDependencyReferenced<S> {
+
+    public static subscript<EnclosingSelf>(
+        _enclosingInstance observed: EnclosingSelf,
+        wrapped wrappedKeyPath: KeyPath<EnclosingSelf, S?>,
+        storage storageKeyPath: KeyPath<EnclosingSelf, ParentSceneDependencyReferenced<S>>
+    ) -> S? where EnclosingSelf: UIViewController {
+        let sceneDependencyReferenced = observed[keyPath: storageKeyPath]
+        if S.self is AnyObject.Type, let dependency = sceneDependencyReferenced.dependency { return dependency }
+        guard let scene = sceneDependencyReferenced.scene else {
+            guard let scene = ReferenceManager.getAbstractScene(associatedWith: observed)?.parent else { return nil }
+            sceneDependencyReferenced.scene = scene
+            let dependency: S? = scene.getDependency(keyPath: sceneDependencyReferenced.keyPath)
+            sceneDependencyReferenced.dependency = dependency
+            return dependency
+        }
+        let dependency: S? = scene.getDependency(keyPath: sceneDependencyReferenced.keyPath)
+        sceneDependencyReferenced.dependency = dependency
+        return dependency
+    }
 
     public init(keyPath: String? = nil) {
         self.keyPath = keyPath
@@ -16,24 +35,10 @@ final public class ParentSceneDependencyReferenced<S>: ViewControllerAssociated 
 
     private let keyPath: String?
     private weak var scene: Scenable?
-    private weak var viewController: UIViewController?
     private var dependency: S?
 
-    public func associate(with viewController: UIViewController) {
-        self.viewController = viewController
-        self.scene = ReferenceManager.getAbstractScene(associatedWith: viewController)?.parent
-    }
-
+    @available(*, unavailable, message: "@ParentSceneDependencyReferenced is only available on properties of UIViewController")
     public var wrappedValue: S? {
-        if let dependency = dependency { return dependency }
-        guard let scene = scene else {
-            guard let viewController = viewController,
-                let scene = ReferenceManager.getAbstractScene(associatedWith: viewController)?.parent else { return nil }
-            self.scene = scene
-            self.dependency = scene.getDependency(keyPath: keyPath)
-            return dependency
-        }
-        self.dependency = scene.getDependency(keyPath: keyPath)
-        return dependency
+        fatalError()
     }
 }

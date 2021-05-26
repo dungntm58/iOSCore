@@ -12,11 +12,6 @@ open class Scene: Scenable {
     public init(managedContext: ManagedSceneContext = .init()) {
         self.managedContext = managedContext
         self.id = UUID().uuidString
-
-        Mirror(reflecting: self)
-            .children
-            .compactMap { $0.value as? SceneAssociated }
-            .forEach { $0.associate(with: self) }
     }
 
     open func perform(with userInfo: Any?) {

@@ -5,38 +5,27 @@
 //  Created by Robert on 8/15/19.
 //
 
-public protocol ViewControllerAssociated {
-    func associate(with viewController: UIViewController)
-}
-
 @propertyWrapper
-final public class SceneReferenced<S>: ViewControllerAssociated {
+final public class SceneReferenced<S> {
+
+    public static subscript<EnclosingSelf>(
+        _enclosingInstance observed: EnclosingSelf,
+        wrapped wrappedKeyPath: KeyPath<EnclosingSelf, S?>,
+        storage storageKeyPath: KeyPath<EnclosingSelf, SceneReferenced<S>>
+    ) -> S? where EnclosingSelf: UIViewController {
+        let sceneReferenced = observed[keyPath: storageKeyPath]
+        if let scene = sceneReferenced.scene as? S { return scene }
+        let scene: S? = ReferenceManager.getScene(associatedWith: observed)
+        sceneReferenced.scene = scene as? Scenable
+        return scene
+    }
 
     public init() {}
 
-    private weak var viewController: UIViewController?
-    private var weakScene: AnyWeak?
+    private weak var scene: Scenable?
 
-    public func associate(with viewController: UIViewController) {
-        self.viewController = viewController
-        guard weakScene == nil else { return }
-        weakScene = ReferenceManager.getScene(associatedWith: viewController).map(AnyWeak.init(value:))
-    }
-
+    @available(*, unavailable, message: "@SceneDependency is only available on properties of UIViewController")
     public var wrappedValue: S? {
-        if let scene = weakScene?.value as? S { return scene }
-        guard let viewController = viewController else { return nil }
-        let scene: S? = ReferenceManager.getScene(associatedWith: viewController)
-        weakScene = (scene as AnyObject?).map(AnyWeak.init(value:))
-        return scene
-    }
-}
-
-extension UIViewController {
-    @objc dynamic func configAssociation() {
-        Mirror(reflecting: self)
-            .children
-            .compactMap { $0.value as? ViewControllerAssociated }
-            .forEach { $0.associate(with: self) }
+        fatalError()
     }
 }
