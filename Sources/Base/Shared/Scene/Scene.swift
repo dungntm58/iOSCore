@@ -14,6 +14,12 @@ open class Scene: Scenable {
         self.id = UUID().uuidString
     }
 
+    #if !RELEASE && !PRODUCTION
+    deinit {
+        print("Deinit", String(describing: Self.self))
+    }
+    #endif
+
     open func perform(with userInfo: Any?) {
         // No-op
     }

@@ -30,6 +30,9 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
 
     deinit {
         cancellables.forEach { $0.cancel() }
+        #if !RELEASE && !PRODUCTION
+        print("Deinit", String(describing: Self.self))
+        #endif
     }
 
     public init<Reducer>(

@@ -30,6 +30,12 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
         _state.asObservable().distinctUntilChanged()
     }
 
+    #if !RELEASE && !PRODUCTION
+    deinit {
+        print("Deinit", String(describing: Self.self))
+    }
+    #endif
+
     public init<Reducer>(
         reducer: Reducer,
         initialState: State,

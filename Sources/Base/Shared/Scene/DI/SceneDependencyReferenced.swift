@@ -68,7 +68,10 @@ final public class SceneDependencyReferenced<S> {
         storage storageKeyPath: KeyPath<EnclosingSelf, SceneDependencyReferenced<S>>
     ) -> S? where EnclosingSelf: UIViewController {
         let sceneDependencyReferenced = observed[keyPath: storageKeyPath]
-        if S.self is AnyObject.Type, let dependency = sceneDependencyReferenced.dependency ?? sceneDependencyReferenced.weakDependency?.value as? S { return dependency }
+        if S.self is AnyObject.Type,
+           let dependency = sceneDependencyReferenced.dependency ?? sceneDependencyReferenced.weakDependency?.value as? S {
+            return dependency
+        }
         guard let scene = sceneDependencyReferenced.scene else {
             guard let scene = ReferenceManager.getAbstractScene(associatedWith: observed) else { return nil }
             sceneDependencyReferenced.scene = scene

@@ -16,7 +16,10 @@ final public class ParentSceneDependencyReferenced<S> {
         storage storageKeyPath: KeyPath<EnclosingSelf, ParentSceneDependencyReferenced<S>>
     ) -> S? where EnclosingSelf: UIViewController {
         let sceneDependencyReferenced = observed[keyPath: storageKeyPath]
-        if S.self is AnyObject.Type, let dependency = sceneDependencyReferenced.dependency { return dependency }
+        if S.self is AnyObject.Type,
+           let dependency = sceneDependencyReferenced.dependency {
+            return dependency
+        }
         guard let scene = sceneDependencyReferenced.scene else {
             guard let scene = ReferenceManager.getAbstractScene(associatedWith: observed)?.parent else { return nil }
             sceneDependencyReferenced.scene = scene
