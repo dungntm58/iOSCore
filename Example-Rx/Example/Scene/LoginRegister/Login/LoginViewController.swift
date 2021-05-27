@@ -16,8 +16,8 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var lbPassword: UITextField!
     @IBOutlet weak var btnLogin: UIButton!
     
-    @SceneReferenced var scene: LoginScene?
-    @SceneDependencyReferenced var store: LoginStore?
+    @SceneReferenced var scene: LoginSceneProtocol?
+    @SceneDependencyReferenced(keyPath: \LoginSceneProtocol.store) var store: LoginStore?
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -8,7 +8,11 @@
 
 import CoreBase
 
-class LoginScene: Scene {
+protocol LoginSceneProtocol: Scenable {
+    var store: LoginStore? { get }
+}
+
+class LoginScene: Scene, LoginSceneProtocol {
     
     @SceneDependency var store = LoginStore()
     @SceneDependency var viewManager = ViewManager()

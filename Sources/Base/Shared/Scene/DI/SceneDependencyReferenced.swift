@@ -59,6 +59,11 @@ final public class SceneDependency<S> where S: SceneAssociated {
     }
 }
 
+enum KeyPathValue {
+    case string(_ value: String)
+    case concrete(_ value: AnyKeyPath)
+}
+
 @propertyWrapper
 final public class SceneDependencyReferenced<S> {
 
@@ -93,10 +98,14 @@ final public class SceneDependencyReferenced<S> {
     }
 
     public init(keyPath: String? = nil) {
-        self.keyPath = keyPath
+        self.keyPath = keyPath.map { KeyPathValue.string($0) }
     }
 
-    private let keyPath: String?
+    public init(keyPath: AnyKeyPath) {
+        self.keyPath = .concrete(keyPath)
+    }
+
+    private let keyPath: KeyPathValue?
     private weak var scene: Scenable?
     private var dependency: S?
     private var weakDependency: AnyWeak?
@@ -108,7 +117,18 @@ final public class SceneDependencyReferenced<S> {
 }
 
 extension Scenable {
-    func getDependency<Dependency>(keyPath: String?) -> Dependency? {
+    func getDependency<Dependency>(keyPath: KeyPathValue?) -> Dependency? {
+        switch keyPath {
+        case .string(let keyPath):
+            return getDependencyWithPropertyName(keyPath: keyPath)
+        case .concrete(let keyPath):
+            return self[keyPath: keyPath] as? Dependency
+        case .none:
+            return getDependencyWithPropertyName(keyPath: nil)
+        }
+    }
+
+    private func getDependencyWithPropertyName<Dependency>(keyPath: String?) -> Dependency? {
         let children = Mirror(reflecting: self).children
         if keyPath == nil {
             let dependencyChildren = children.compactMap { child -> Dependency? in

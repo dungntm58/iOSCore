@@ -33,10 +33,14 @@ final public class ParentSceneDependencyReferenced<S> {
     }
 
     public init(keyPath: String? = nil) {
-        self.keyPath = keyPath
+        self.keyPath = keyPath.map { KeyPathValue.string($0) }
     }
 
-    private let keyPath: String?
+    public init(keyPath: AnyKeyPath) {
+        self.keyPath = .concrete(keyPath)
+    }
+
+    private let keyPath: KeyPathValue?
     private weak var scene: Scenable?
     private var dependency: S?
 
