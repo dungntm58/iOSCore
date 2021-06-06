@@ -56,12 +56,7 @@ extension CollectionView {
 
         public init(collectionView: UICollectionView, store: Store, @SectionBuilder generator: @escaping PrototypeSectionGenerateFunction) {
             self.sectionsGenerator = { collectionView, store in
-                let component = SectionComponent(
-                    header: CollectionView.AnyHeaderFooter?.none,
-                    cellBlock: generator(collectionView, store),
-                    footer: CollectionView.AnyHeaderFooter?.none
-                )
-                let section = CollectionView.Section(component: component)
+                let section = CollectionView.Section(component: generator(collectionView, store))
                 return [section]
             }
             self.collectionView = collectionView

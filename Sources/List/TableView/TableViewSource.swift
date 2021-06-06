@@ -55,12 +55,7 @@ extension TableView {
 
         public init(tableView: UITableView, store: Store, @SectionBuilder generator: @escaping PrototypeSectionGenerateFunction) {
             self.sectionsGenerator = { tableView, store in
-                let component = SectionComponent(
-                    header: TableView.AnyHeaderFooter?.none,
-                    cellBlock: generator(tableView, store),
-                    footer: TableView.AnyHeaderFooter?.none
-                )
-                let section = TableView.Section(component: component)
+                let section = TableView.Section(component: generator(tableView, store))
                 return [section]
             }
             self.tableView = tableView

@@ -27,16 +27,6 @@ extension TableView {
             self.footer = footer
         }
 
-        @usableFromInline
-        init(header: AnyHeaderFooter?, cellBlock: TableViewSectionComponent..., footer: AnyHeaderFooter?) {
-            self.init(header: header, cells: cellBlock.flatMap { $0.asCells() }, footer: footer)
-        }
-
-        @usableFromInline
-        init(header: AnyHeaderFooter?, cellBlocks: [TableViewSectionComponent], footer: AnyHeaderFooter?) {
-            self.init(header: header, cells: cellBlocks.flatMap { $0.asCells() }, footer: footer)
-        }
-
         @inlinable
         func asCells() -> [TableView.AnyCell] {
             cells

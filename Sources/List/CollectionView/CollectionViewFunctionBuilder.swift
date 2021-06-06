@@ -27,16 +27,6 @@ extension CollectionView {
             self.footer = footer
         }
 
-        @usableFromInline
-        init(header: AnyHeaderFooter?, cellBlock: CollectionViewSectionComponent..., footer: AnyHeaderFooter?) {
-            self.init(header: header, cells: cellBlock.flatMap { $0.asCells() }, footer: footer)
-        }
-
-        @usableFromInline
-        init(header: AnyHeaderFooter?, cellBlocks: [CollectionViewSectionComponent], footer: AnyHeaderFooter?) {
-            self.init(header: header, cells: cellBlocks.flatMap { $0.asCells() }, footer: footer)
-        }
-
         @inlinable
         func asCells() -> [CollectionView.AnyCell] {
             cells
