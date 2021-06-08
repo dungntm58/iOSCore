@@ -99,7 +99,8 @@ private extension TableView.AnyHeaderFooter {
         @inlinable
         func bind(model: Any?, to view: UITableViewHeaderFooterView, at section: Int) {
             guard let view = view as? Base.View else {
-                preconditionFailure("Opaque cell must associate with view type \(String(describing: Base.View.self))")
+                assertionFailure("Opaque cell must associate with view type \(String(describing: Base.View.self))")
+                return
             }
             _base.bind(model: model as? Base.Model, to: view, at: section)
         }

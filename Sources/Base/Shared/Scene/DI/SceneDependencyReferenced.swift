@@ -144,6 +144,7 @@ extension Scenable {
             if dependencyChildren.count == 1 {
                 return dependencyChildren.first
             }
+            assertionFailure("Ambiguous reference to member of type \(Dependency.self)")
             return nil
         }
         if let dependency = children.first(where: { $0.label == keyPath })?.value as? Dependency {
