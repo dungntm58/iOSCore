@@ -53,5 +53,8 @@ public protocol Scenable: MaybeRetrievable {
     /// Dismiss this scene, release all resources
     /// Once this scene is detached, it cannot be reused.
     func detach(with userInfo: Any?)
+
+    /// Determine actions the scene should do while detaching
+    /// Do not call viewManager's dismiss or goBack
     func onDetach()
 }

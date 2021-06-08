@@ -55,10 +55,6 @@ class TodoScene: Scene, TodoSceneProtocol {
     override func perform(with object: Any?) {
         viewManager?.show()
     }
-    
-    override func onDetach() {
-        viewManager?.dismiss()
-    }
 }
 
 extension TodoScene {

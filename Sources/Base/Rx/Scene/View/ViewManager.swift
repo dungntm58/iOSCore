@@ -67,14 +67,17 @@ extension ViewManager: ViewManagable {
         Swift.print("Dismiss root view controller")
         #endif
         internalDismiss(from: rootViewController, animated: flag, completion: completion)
+        scene?.detach()
     }
 
-    @inlinable
     public func goBack(animated flag: Bool = true, completion: (() -> Void)? = nil) {
         #if !RELEASE && !PRODUCTION
         Swift.print("Dismiss current view controller")
         #endif
         internalDismiss(from: currentViewController, animated: flag, completion: completion)
+        if currentViewController == rootViewController {
+            scene?.detach()
+        }
     }
 }
 
@@ -95,7 +98,7 @@ extension ViewManager {
         }
     }
 
-    @usableFromInline
+    @inlinable
     func internalDismiss(from viewController: UIViewController, animated flag: Bool = true, completion: (() -> Void)? = nil) {
         if let naviViewController = viewController.navigationController {
             if naviViewController.viewControllers.first == viewController {

@@ -11,7 +11,7 @@ import CoreBase
 class TodoDetailViewController: UIViewController {
     @IBOutlet weak var lbTitle: UILabel!
     
-    @SceneReferenced var scene: TodoScene?
+    @SceneDependencyReferenced var viewManager: ViewManagable?
     @SceneDependencyReferenced var viewModel: TodoStore?
     
     override func viewDidLoad() {
@@ -22,6 +22,6 @@ class TodoDetailViewController: UIViewController {
     }
     
     @IBAction func onBack(_ sender: UIButton) {
-        scene?.detach()
+        viewManager?.dismiss()
     }
 }
