@@ -187,7 +187,7 @@ extension CollectionView {
 
         @inlinable
         public func size(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
-            estimatedSize ?? sizeEstimationHandler?(layout, collectionView) ?? (layout as? UICollectionViewFlowLayout)?.itemSize ?? CGSize(width: 50, height: 50)
+            estimatedSize ?? sizeEstimationHandler?(layout, collectionView) ?? (layout as? UICollectionViewFlowLayout)?.itemSize ?? UICollectionViewFlowLayout.automaticSize
         }
 
         @inlinable
