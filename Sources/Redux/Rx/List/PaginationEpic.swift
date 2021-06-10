@@ -11,19 +11,6 @@ import CoreRepository
 
 public protocol PaginationRequestOptions: FetchOptions {}
 
-/* Some convenience methods to get list of objects
- * Catch event from any repository
- * Not constraint to any lower-level class
- */
-
-public protocol ListDataWorker {
-    // swiftlint:disable type_name
-    associatedtype T
-    // swiftlint:enable type_name
-
-    func getList(options: PaginationRequestOptions?) -> Observable<ListDTO<T>>
-}
-
 open class BaseListEpic<Action, State, Worker>: Epic where
     Action: Actionable,
     Action.ActionType: ListActionType,
