@@ -5,7 +5,7 @@
 //  Created by Robert on 8/10/19.
 //
 
-open class Scene: Scenable {
+open class Scene: Scened {
     public let managedContext: ManagedSceneContext
     public let id: String
 
@@ -24,7 +24,7 @@ open class Scene: Scenable {
         // No-op
     }
 
-    open func prepare(for scene: Scenable) {
+    open func prepare(for scene: Scened) {
         // No-op
     }
 

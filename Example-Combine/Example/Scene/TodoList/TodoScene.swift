@@ -9,7 +9,8 @@
 import CoreBase
 import CoreRedux
 
-class TodoScene: Scene {
+class TodoScene: Scene, _HasViewManagable {
+    var __viewManager: ViewManagable? { viewManager }
     
     @SceneDependency var store = TodoStore()
     @SceneDependency var viewManager = ViewManager()

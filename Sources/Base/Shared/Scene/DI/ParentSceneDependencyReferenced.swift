@@ -41,7 +41,7 @@ final public class ParentSceneDependencyReferenced<S> {
     }
 
     private let keyPath: KeyPathValue?
-    private weak var scene: Scenable?
+    private weak var scene: Scened?
     private var dependency: S?
 
     @available(*, unavailable, message: "@ParentSceneDependencyReferenced is only available on properties of UIViewController")

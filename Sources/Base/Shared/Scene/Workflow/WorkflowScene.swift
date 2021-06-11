@@ -9,22 +9,22 @@ import Foundation
 
 @frozen
 public enum WorkflowSceneStepAction {
-    case switchToNewScene(scene: Scenable)
+    case switchToNewScene(scene: Scened)
     case performChild(index: Int)
 
     case detach
     // swiftlint:disable identifier_name
     case detachNTimes(n: Int)
     // swiftlint:enable identifier_name
-    case detachToSceneType(type: Scenable.Type)
-    case detachToScene(scene: Scenable)
+    case detachToSceneType(type: Scened.Type)
+    case detachToScene(scene: Scened)
 
     case none
 }
 
 public protocol WorkflowSceneStepping: WorkflowStepping where WorkflowStepAction == WorkflowSceneStepAction {}
 
-extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowSceneStepAction {
+extension WorkflowStepping where Self: Scened, WorkflowStepAction == WorkflowSceneStepAction {
     // swiftlint:disable cyclomatic_complexity
     @inlinable
     public func perform(action: WorkflowStepAction, with userInfo: Any?) {
@@ -37,7 +37,7 @@ extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowS
             self.detach(with: userInfo)
         // swiftlint:disable identifier_name
         case .detachNTimes(let n):
-            var current: Scenable? = self
+            var current: Scened? = self
             for _ in 0..<n {
                 let previous = current?.previous
                 if previous == nil { break }
@@ -45,7 +45,7 @@ extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowS
             }
             current?.detach(with: userInfo)
         case .detachToSceneType(let t):
-            var current: Scenable? = parent
+            var current: Scened? = parent
             var isFound = false
             while current != nil && type(of: parent) != t {
                 current = current?.parent
@@ -55,7 +55,7 @@ extension WorkflowStepping where Self: Scenable, WorkflowStepAction == WorkflowS
             current?.detach(with: userInfo)
         // swiftlint:enable identifier_name
         case .detachToScene(let scene):
-            var current: Scenable? = parent
+            var current: Scened? = parent
             var isFound = false
             while parent === scene {
                 current = current?.parent

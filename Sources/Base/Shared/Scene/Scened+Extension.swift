@@ -1,5 +1,5 @@
 //
-//  Scenable+Extension.swift
+//  Scened+Extension.swift
 //  CoreBase
 //
 //  Created by Robert on 8/10/19.
@@ -7,25 +7,25 @@
 
 import Foundation
 
-extension Scenable {
+extension Scened {
 
     @inlinable
-    public func set(children: [Scenable], performAtIndex index: Int?) {
+    public func set(children: [Scened], performAtIndex index: Int?) {
         set(children: children, performAtIndex: index, with: nil)
     }
 
     @inlinable
-    public func set(children: [Scenable]) {
+    public func set(children: [Scened]) {
         set(children: children, performAtIndex: nil, with: nil)
     }
 
     @inlinable
-    public func attach(child scene: Scenable) {
+    public func attach(child scene: Scened) {
         attach(child: scene, with: nil)
     }
 
     @inlinable
-    public func `switch`(to scene: Scenable) {
+    public func `switch`(to scene: Scened) {
         `switch`(to: scene, with: nil)
     }
 
@@ -35,7 +35,7 @@ extension Scenable {
     }
 
     @inlinable
-    public func `switch`(to scene: Scenable, with userInfo: Any?) {
+    public func `switch`(to scene: Scened, with userInfo: Any?) {
         updateLifeCycle(.willResignActive)
         next = scene
         prepare(for: scene)
@@ -46,7 +46,7 @@ extension Scenable {
     }
 
     @inlinable
-    public func attach(child scene: Scenable, with userInfo: Any?) {
+    public func attach(child scene: Scened, with userInfo: Any?) {
         if children.contains(where: { scene as AnyObject === $0 as AnyObject }) {
             #if !RELEASE && !PRODUCTION
             Swift.print("This scene has been already attached")
@@ -72,7 +72,7 @@ extension Scenable {
     }
 
     @inlinable
-    public func set(children: [Scenable], performAtIndex index: Int?, with userInfo: Any?) {
+    public func set(children: [Scened], performAtIndex index: Int?, with userInfo: Any?) {
         self.children = children
         children.forEach { scene in
             scene.parent = self
@@ -158,27 +158,27 @@ extension Scenable {
 }
 
 // MARK: - Shortcut
-extension Scenable {
+extension Scened {
     @inlinable
-    internal(set) public var next: Scenable? {
+    internal(set) public var next: Scened? {
         get { managedContext.next }
         set { managedContext.next = newValue }
     }
 
     @inlinable
-    internal(set) public var previous: Scenable? {
+    internal(set) public var previous: Scened? {
         get { managedContext.previous }
         set { managedContext.previous = newValue }
     }
 
     @inlinable
-    internal(set) public var children: [Scenable] {
+    internal(set) public var children: [Scened] {
         get { managedContext.children }
         set { managedContext.children = newValue }
     }
 
     @inlinable
-    internal(set) public var parent: Scenable? {
+    internal(set) public var parent: Scened? {
         get { managedContext.parent }
         set { managedContext.parent = newValue }
     }
@@ -191,36 +191,18 @@ extension Scenable {
 
     /// The nearest child scene that has been performed
     @inlinable
-    internal(set) public var current: Scenable? {
+    internal(set) public var current: Scened? {
         get { managedContext.current }
         set { managedContext.current = newValue }
     }
 }
 
 // MARK: - Convenience
-extension Scenable {
-
-    @inlinable
-    public var anyViewManager: ViewManagable? {
-        Mirror(reflecting: self)
-            .children
-            .compactMap {
-                if let viewManager = $0.value as? ViewManagable {
-                    return viewManager
-                }
-                let dependency = Mirror(reflecting: $0.value)
-                    .children
-                    .first { $0.label == "dependency" }?
-                    .value
-                return dependency.flattened() as? ViewManagable
-            }
-            .first
-    }
-
+extension Scened {
     /// The most leaf child scene that has been performed
     @inlinable
-    public var visible: Scenable {
-        var currentScene: Scenable = self
+    public var visible: Scened {
+        var currentScene: Scened = self
         while let scene = currentScene.current {
             currentScene = scene
         }
@@ -229,7 +211,7 @@ extension Scenable {
 
     /// The parent or one of its ancestor
     @inlinable
-    public var ancestor: Scenable? {
+    public var ancestor: Scened? {
         guard var currentScene = parent else { return nil }
 
         while let scene = currentScene.parent {
@@ -239,7 +221,7 @@ extension Scenable {
     }
 
     @inlinable
-    public var root: Scenable? {
+    public var root: Scened? {
         guard var currentScene = previous ?? parent else { return nil }
 
         while let scene = currentScene.previous ?? currentScene.parent {
@@ -251,11 +233,11 @@ extension Scenable {
     @inlinable
     public var presentedViewManager: ViewManagable? {
         guard var currentScene = previous ?? parent else { return nil }
-        if let viewManager = currentScene.anyViewManager {
+        if let viewManager = (currentScene as? _HasViewManagable)?.__viewManager {
             return viewManager
         }
         while let scene = currentScene.previous ?? currentScene.parent {
-            if let viewManager = currentScene.anyViewManager {
+            if let viewManager = (currentScene as? _HasViewManagable)?.__viewManager {
                 return viewManager
             }
             currentScene = scene

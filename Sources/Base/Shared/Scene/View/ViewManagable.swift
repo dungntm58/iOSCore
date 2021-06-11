@@ -5,6 +5,15 @@
 //  Created by Robert on 8/28/19.
 //
 
+// swiftlint:disable identifier_name
+// Consider being a part of compiler function
+// Synthesize whether a class contains a property of type ViewManagable implicitly
+public protocol _HasViewManagable {
+    // It could be an ugly name, but replaceable in the future
+    var __viewManager: ViewManagable? { get }
+}
+// swiftlint:enable identifier_name
+
 public protocol ViewManagable {
     /// The current view controller that scene presents
     var currentViewController: UIViewController { get }

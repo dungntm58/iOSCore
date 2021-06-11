@@ -46,9 +46,9 @@ public protocol ViewControllerLookingForAssociatedScene where Self: UIViewContro
     }
 
     // swiftlint:disable cyclomatic_complexity
-    static func getAbstractScene(associatedWith viewController: UIViewController) -> Scenable? {
+    static func getAbstractScene(associatedWith viewController: UIViewController) -> Scened? {
         if let scene = sceneDictionary[viewController.hashValue]?.value {
-            if let scene = scene as? Scenable {
+            if let scene = scene as? Scened {
                 return scene
             }
         }
@@ -80,7 +80,7 @@ public protocol ViewControllerLookingForAssociatedScene where Self: UIViewContro
     // swiftlint:enable cyclomatic_complexity
 
     @usableFromInline
-    static func setScene(_ scene: Scenable?, associatedViewController viewController: UIViewController) {
+    static func setScene(_ scene: Scened?, associatedViewController viewController: UIViewController) {
         for (key, value) in sceneDictionary where value.canBePruned {
             sceneDictionary[key] = nil
         }

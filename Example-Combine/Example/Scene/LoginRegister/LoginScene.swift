@@ -8,7 +8,8 @@
 
 import CoreBase
 
-class LoginScene: Scene {
+class LoginScene: Scene, _HasViewManagable {
+    var __viewManager: ViewManagable? { viewManager }
     
     @SceneDependency var store = LoginStore()
     @SceneDependency var viewManager = ViewManager()

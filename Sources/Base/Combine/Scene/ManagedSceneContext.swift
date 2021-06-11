@@ -9,18 +9,18 @@ import Combine
 
 open class ManagedSceneContext {
     @usableFromInline
-    var next: Scenable?
+    var next: Scened?
     @usableFromInline
-    var previous: Scenable?
+    var previous: Scened?
     @usableFromInline
     var cancellables: Set<AnyCancellable>
 
     @usableFromInline
-    weak var parent: Scenable?
+    weak var parent: Scened?
     @usableFromInline
-    var children: [Scenable]
+    var children: [Scened]
     @usableFromInline
-    var current: Scenable?
+    var current: Scened?
 
     @usableFromInline
     var lifeCycle: CurrentValueSubject<LifeCycle, Never>
@@ -31,7 +31,7 @@ open class ManagedSceneContext {
         cancellables.forEach { $0.cancel() }
     }
 
-    public init(children: [Scenable] = []) {
+    public init(children: [Scened] = []) {
         self.children = children
         self.lifeCycle = .init(.inital)
         self.cancellables = .init()

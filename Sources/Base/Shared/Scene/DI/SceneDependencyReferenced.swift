@@ -8,12 +8,12 @@
 import UIKit
 
 public protocol SceneAssociated: AnyObject {
-    func associate(with scene: Scenable)
+    func associate(with scene: Scened)
 }
 
 extension SceneAssociated where Self: UIViewController {
     @inlinable
-    public func associate(with scene: Scenable) {
+    public func associate(with scene: Scened) {
         ReferenceManager.setScene(scene, associatedViewController: self)
     }
 }
@@ -28,7 +28,7 @@ final public class SceneDependency<S> where S: SceneAssociated {
         _enclosingInstance observed: EnclosingSelf,
         wrapped wrappedKeyPath: ReferenceWritableKeyPath<EnclosingSelf, S?>,
         storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, SceneDependency<S>>
-    ) -> S? where EnclosingSelf: Scenable {
+    ) -> S? where EnclosingSelf: Scened {
         get {
             let sceneDependency = observed[keyPath: storageKeyPath]
             if sceneDependency.isAssociated {
@@ -106,7 +106,7 @@ final public class SceneDependencyReferenced<S> {
     }
 
     private let keyPath: KeyPathValue?
-    private weak var scene: Scenable?
+    private weak var scene: Scened?
     private var dependency: S?
     private var weakDependency: AnyWeak?
 
@@ -116,7 +116,7 @@ final public class SceneDependencyReferenced<S> {
     }
 }
 
-extension Scenable {
+extension Scened {
     func getDependency<Dependency>(keyPath: KeyPathValue?) -> Dependency? {
         switch keyPath {
         case .string(let keyPath):

@@ -10,7 +10,7 @@ import RxSwift
 import CoreBase
 import CoreRedux
 
-protocol TodoSceneProtocol: Scenable {
+protocol TodoSceneProtocol: Scened {
     
 }
 
@@ -18,7 +18,8 @@ protocol TodoViewManagable {
     func showTodoDetail()
 }
 
-class TodoScene: Scene, TodoSceneProtocol {
+class TodoScene: Scene, TodoSceneProtocol, _HasViewManagable {
+    var __viewManager: ViewManagable? { viewManager }
     
     @SceneDependency var store = TodoStore()
     @SceneDependency var viewManager = ViewManager()

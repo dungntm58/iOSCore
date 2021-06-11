@@ -10,14 +10,14 @@ import Combine
 open class ViewManager: SceneAssociated {
     private var _currentViewController: UIViewController?
     private var rootViewController: UIViewController
-    fileprivate(set) public weak var scene: Scenable?
+    fileprivate(set) public weak var scene: Scened?
 
     public init(viewController: UIViewController) {
         self.rootViewController = viewController
         addHook(viewController)
     }
 
-    public func associate(with scene: Scenable) {
+    public func associate(with scene: Scened) {
         self.scene = scene
         ReferenceManager.setScene(scene, associatedViewController: currentViewController)
     }

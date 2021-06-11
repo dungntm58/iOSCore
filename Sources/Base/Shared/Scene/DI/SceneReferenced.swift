@@ -16,13 +16,13 @@ final public class SceneReferenced<S> {
         let sceneReferenced = observed[keyPath: storageKeyPath]
         if let scene = sceneReferenced.scene as? S { return scene }
         let scene: S? = ReferenceManager.getScene(associatedWith: observed)
-        sceneReferenced.scene = scene as? Scenable
+        sceneReferenced.scene = scene as? Scened
         return scene
     }
 
     public init() {}
 
-    private weak var scene: Scenable?
+    private weak var scene: Scened?
 
     @available(*, unavailable, message: "@SceneDependency is only available on properties of UIViewController")
     public var wrappedValue: S? {

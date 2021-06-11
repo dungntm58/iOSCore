@@ -9,18 +9,18 @@ import RxSwift
 
 open class ManagedSceneContext {
     @usableFromInline
-    var next: Scenable?
+    var next: Scened?
     @usableFromInline
-    weak var previous: Scenable?
+    weak var previous: Scened?
     @usableFromInline
     let disposables: CompositeDisposable
 
     @usableFromInline
-    weak var parent: Scenable?
+    weak var parent: Scened?
     @usableFromInline
-    var children: [Scenable]
+    var children: [Scened]
     @usableFromInline
-    var current: Scenable?
+    var current: Scened?
 
     @usableFromInline
     var lifeCycle: BehaviorSubject<LifeCycle>
@@ -32,7 +32,7 @@ open class ManagedSceneContext {
         lifeCycle.dispose()
     }
 
-    public init(children: [Scenable] = []) {
+    public init(children: [Scened] = []) {
         self.children = children
         self.lifeCycle = .init(value: .inital)
         self.disposables = .init()

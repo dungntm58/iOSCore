@@ -8,7 +8,8 @@
 
 import CoreBase
 
-class SwitchScene: Scene, Launchable {
+class SwitchScene: Scene, Launchable, _HasViewManagable {
+    var __viewManager: ViewManagable? { viewManager }
     
     @SceneDependency var viewManager = ViewManager()
 

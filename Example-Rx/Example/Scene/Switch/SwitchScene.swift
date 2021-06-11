@@ -9,7 +9,8 @@
 import CoreBase
 import RxSwift
 
-class SwitchScene: Scene, Launchable, WorkflowSceneStepping {
+class SwitchScene: Scene, Launchable, WorkflowSceneStepping, _HasViewManagable {
+    var __viewManager: ViewManagable? { viewManager }
     
     @SceneDependency var viewManager = ViewManager()
     
