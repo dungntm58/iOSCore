@@ -19,7 +19,7 @@ extension SceneAssociated where Self: UIViewController {
 }
 
 @propertyWrapper
-final public class SceneDependency<S> where S: SceneAssociated {
+final public class SceneDependency<S> {
 
     private var isAssociated = false
     private var dependency: S?
@@ -34,14 +34,14 @@ final public class SceneDependency<S> where S: SceneAssociated {
             if sceneDependency.isAssociated {
                 return sceneDependency.dependency
             }
-            sceneDependency.dependency?.associate(with: observed)
+            (sceneDependency.dependency as? SceneAssociated)?.associate(with: observed)
             sceneDependency.isAssociated = true
             return sceneDependency.dependency
         }
         set {
             let sceneDependency = observed[keyPath: storageKeyPath]
             sceneDependency.dependency = newValue
-            newValue?.associate(with: observed)
+            (newValue as? SceneAssociated)?.associate(with: observed)
             sceneDependency.isAssociated = true
         }
     }
