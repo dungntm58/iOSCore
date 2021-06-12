@@ -26,26 +26,29 @@ struct ListResult<T> {
     let previous: T?
     let next: T?
     let total: Int
+    let page: Int
     let size: Int
     let items: [T]
 
     init() {
-        self.init(items: [], total: 0, size: 0)
+        self.init(items: [], total: 0, page: 0, size: 0)
     }
 
-    init(items: [T], total: Int, size: Int) {
+    init(items: [T], total: Int, page: Int, size: Int) {
         self.items = items
         self.previous = nil
         self.next = nil
         self.total = total
+        self.page = page
         self.size = size
     }
 
-    init(items: [T], previous: T?, next: T?, total: Int, size: Int) {
+    init(items: [T], previous: T?, next: T?, total: Int, page: Int, size: Int) {
         self.items = items
         self.previous = previous
         self.next = next
         self.total = total
+        self.page = page
         self.size = size
     }
 }
@@ -95,6 +98,7 @@ struct Helper {
         let before: T?
         let totalItems: Int
         let size: Int
+        let currentPage: Int
 
         var results = realm.objects(T.self)
         if results.isEmpty {
@@ -113,6 +117,7 @@ struct Helper {
             }
             before = nil
             size = count
+            currentPage = 0
 
             results = results.sorted(by: sorting.toSortDescriptors())
 
@@ -134,6 +139,7 @@ struct Helper {
                 after = nil
             }
         case .page(let page, let count, let predicate, let sorting, let validate):
+            currentPage = page
             if type is Expirable, ttl > 0, validate {
                 results = results.filter("%K >= %@", #keyPath(ExpirableObject.localUpdatedDate), Date().addingTimeInterval(-ttl) as NSDate)
             }
@@ -193,6 +199,7 @@ struct Helper {
             size = 10
             before = nil
             totalItems = results.count
+            currentPage = 0
             if totalItems == 0 {
                 return .init()
             }
@@ -205,7 +212,7 @@ struct Helper {
                 after = outOfBoundResult.last
             }
         }
-        return .init(items: list, previous: before, next: after, total: totalItems, size: size)
+        return .init(items: list, previous: before, next: after, total: totalItems, page: currentPage, size: size)
     }
     // swiftlint:enable function_body_length cyclomatic_complexity
 

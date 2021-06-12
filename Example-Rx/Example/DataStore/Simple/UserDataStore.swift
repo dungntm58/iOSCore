@@ -12,8 +12,8 @@ import CoreRepository
 class UserDataStore: IdentifiableDataStore {
     let userDefaults: UserDefaults
     
-    func make(total: Int, size: Int, previous: UserEntity?, next: UserEntity?) -> PaginationDTO {
-        AppPaginationDTO(total: total, pageSize: size, next: next?.id as Any, previous: previous?.id as Any)
+    func make(total: Int, page: Int, size: Int, previous: UserEntity?, next: UserEntity?) -> Paginated {
+        AppPaginationDTO(total: total, page: page, pageSize: size, next: next?.id as Any, previous: previous?.id as Any)
     }
     
     init() {

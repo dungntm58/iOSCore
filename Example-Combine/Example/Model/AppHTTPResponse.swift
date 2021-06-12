@@ -9,15 +9,18 @@
 import CoreBase
 import CoreRepository
 
-struct AppPaginationDTO: PaginationDTO, Decodable {
+struct AppPaginationDTO: Paginated, Decodable {
     let total: Int
     let pageSize: Int
     let next: Any
     let previous: Any
+    let totalPage: Int
+    let page: Int
     
     enum CodingKeys: CodingKey {
         case total
         case pageSize
+        case page
         case next
         case previous
     }
@@ -25,16 +28,40 @@ struct AppPaginationDTO: PaginationDTO, Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         total = try container.decode(Int.self, forKey: .total)
+        page = try container.decode(Int.self, forKey: .page)
+        totalPage = 0
         pageSize = try container.decode(Int.self, forKey: .pageSize)
         next = (try? container.decode(Int.self, forKey: .next)) as Any
         previous = (try? container.decode(Int.self, forKey: .previous)) as Any
     }
     
-    init(total: Int, pageSize: Int, next: Any, previous: Any) {
+    init(total: Int, page: Int, pageSize: Int, next: Any, previous: Any) {
         self.total = total
+        self.page = page
         self.pageSize = pageSize
         self.next = next
         self.previous = previous
+        self.totalPage = 0
+    }
+}
+
+extension AppPaginationDTO {
+    @inlinable
+    public var hasNext: Bool {
+        if case Optional<Any>.none = next {
+            return false
+        } else {
+            return true
+        }
+    }
+
+    @inlinable
+    public var hasPrevious: Bool {
+        if case Optional<Any>.none = previous {
+            return false
+        } else {
+            return true
+        }
     }
 }
 
@@ -70,9 +97,9 @@ class AppHTTPResponse<ValueType>: ListHTTPResponse, SingleHTTPResponse, Decodabl
     }
     
     let errorCode: Int
-    let message: String
+    let message: String?
     let result: ValueType?
     let results: [ValueType]?
-    let pagination: PaginationDTO?
+    let pagination: Paginated?
     let success: Bool
 }

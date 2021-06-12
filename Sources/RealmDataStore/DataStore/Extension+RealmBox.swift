@@ -39,7 +39,7 @@ public extension RealmDataStore where T: RealmObjectWrapper {
 
         let before = listResult.previous.map(T.init)
         let after = listResult.next.map(T.init)
-        let pagination = make(total: listResult.total, size: listResult.size, previous: before, next: after)
+        let pagination = make(total: listResult.total, page: listResult.page, size: listResult.size, previous: before, next: after)
         return .init(data: listResult.items.map(T.init), pagination: pagination)
     }
 

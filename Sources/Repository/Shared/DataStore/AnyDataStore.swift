@@ -52,8 +52,8 @@ public struct AnyDataStore: DataStore {
         try box.getList(options: options)
     }
 
-    public func make(total: Int, size: Int, previous: Any?, next: Any?) -> PaginationDTO {
-        box.make(total: total, size: size, previous: previous, next: next)
+    public func make(total: Int, page: Int, size: Int, previous: Any?, next: Any?) -> Paginated {
+        box.make(total: total, page: page, size: size, previous: previous, next: next)
     }
 }
 
@@ -64,7 +64,7 @@ private protocol AnyDataStoreBox {
     func deleteSync(_ values: [Any]) throws
     func eraseSync() throws
     func getList(options: DataStoreFetchOption) throws -> ListDTO<Any>
-    func make(total: Int, size: Int, previous: Any?, next: Any?) -> PaginationDTO
+    func make(total: Int, page: Int, size: Int, previous: Any?, next: Any?) -> Paginated
 }
 
 // swiftlint:disable force_cast
@@ -100,8 +100,8 @@ private struct Box<Base>: AnyDataStoreBox where Base: DataStore {
         return .init(data: listDTO.data, pagination: listDTO.pagination)
     }
 
-    func make(total: Int, size: Int, previous: Any?, next: Any?) -> PaginationDTO {
-        base.make(total: total, size: size, previous: previous as? Base.T, next: next as? Base.T)
+    func make(total: Int, page: Int, size: Int, previous: Any?, next: Any?) -> Paginated {
+        base.make(total: total, page: page, size: size, previous: previous as? Base.T, next: next as? Base.T)
     }
 }
 // swiftlint:enable force_cast

@@ -33,7 +33,7 @@ public extension CoreDataDataStore where T: NSManagedObject {
             managedContext: configuration.managedObjectContext,
             metaManagedContext: configuration.metaManagedObjectContext
         )
-        let pagination = make(total: listResult.total, size: listResult.size, previous: listResult.previous, next: listResult.next)
+        let pagination = make(total: listResult.total, page: listResult.page, size: listResult.size, previous: listResult.previous, next: listResult.next)
         return .init(data: listResult.items, pagination: pagination)
     }
 

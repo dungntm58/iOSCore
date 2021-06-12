@@ -36,7 +36,7 @@ public extension RealmDataStore where T: Object {
     func getList(options: DataStoreFetchOption) throws -> ListDTO<T> {
         let realm = try threadSharedRealm()
         let listResult = try Helper.instance.getList(of: T.self, options: options, ttl: ttl, realm: realm)
-        let pagination = make(total: listResult.total, size: listResult.size, previous: listResult.previous, next: listResult.next)
+        let pagination = make(total: listResult.total, page: listResult.page, size: listResult.size, previous: listResult.previous, next: listResult.next)
         return .init(data: listResult.items, pagination: pagination)
     }
 

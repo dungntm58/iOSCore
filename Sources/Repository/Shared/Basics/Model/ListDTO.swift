@@ -8,10 +8,10 @@
 
 @frozen
 public struct ListDTO<T> {
-    public let pagination: PaginationDTO?
+    public let pagination: Paginated?
     public let data: [T]
 
-    public init(data: [T] = [], pagination: PaginationDTO? = nil) {
+    public init(data: [T] = [], pagination: Paginated? = nil) {
         self.data = data
         self.pagination = pagination
     }

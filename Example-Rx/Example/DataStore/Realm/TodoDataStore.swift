@@ -20,7 +20,7 @@ class TodoDataStore: RealmIdentifiableDataStore {
         self.updatePolicy = .all
     }
     
-    func make(total: Int, size: Int, previous: TodoEntity?, next: TodoEntity?) -> PaginationDTO {
-        AppPaginationDTO(total: total, pageSize: size, next: next?.id as Any, previous: previous?.id as Any)
+    func make(total: Int, page: Int, size: Int, previous: TodoEntity?, next: TodoEntity?) -> Paginated {
+        AppPaginationDTO(total: total, page: page, pageSize: size, next: next?.id as Any, previous: previous?.id as Any)
     }
 }

@@ -14,7 +14,7 @@ public protocol HTTPResponse {
     associatedtype ValueType
 
     var errorCode: Int { get }
-    var message: String { get }
+    var message: String? { get }
     var success: Bool { get }
 }
 
@@ -23,7 +23,7 @@ public protocol SingleHTTPResponse: HTTPResponse {
 }
 
 public protocol ListHTTPResponse: HTTPResponse {
-    var pagination: PaginationDTO? { get }
+    var pagination: Paginated? { get }
     var results: [ValueType]? { get }
 }
 

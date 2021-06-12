@@ -9,11 +9,11 @@
 @frozen
 public struct ResponseError: Error {
     public let httpCode: Int
-    public let message: String
+    public let message: String?
     public let code: Int
     public let data: Data?
 
-    public init(httpCode: Int, message: String, code: Int, data: Data?) {
+    public init(httpCode: Int, message: String?, code: Int, data: Data?) {
         self.httpCode = httpCode
         self.message = message
         self.code = code
@@ -21,5 +21,5 @@ public struct ResponseError: Error {
     }
 
     @inlinable
-    public var localizedDescription: String { message }
+    public var localizedDescription: String { message ?? "" }
 }

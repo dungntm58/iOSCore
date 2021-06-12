@@ -11,7 +11,7 @@ public enum Payload {
     public enum List {
         public struct Response<T>: Stateable where T: Equatable {
             public let data: [T]
-            public let pagination: PaginationDTO?
+            public let pagination: Paginated?
             public let currentPage: Int
             public let pageSize: Int
             public let hasNext: Bool
@@ -33,7 +33,7 @@ public enum Payload {
                 self.isLoading = false
             }
 
-            public init(data: [T] = [], pagination: PaginationDTO? = nil, currentPage: Int = 0, pageSize: Int = 0, hasNext: Bool = false, hasPrevious: Bool = false, isLoading: Bool = false) {
+            public init(data: [T] = [], pagination: Paginated? = nil, currentPage: Int = 0, pageSize: Int = 0, hasNext: Bool = false, hasPrevious: Bool = false, isLoading: Bool = false) {
                 self.data = data
                 self.pagination = pagination
                 self.currentPage = currentPage

@@ -148,7 +148,7 @@ extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
             }
         let mergePublishers = Publishers.MergeMany(singlePublishers).collect()
         return Publishers.Zip3(
-            Future<PaginationDTO?, Error> { $0(.success(list.pagination)) },
+            Future<Paginated?, Error> { $0(.success(list.pagination)) },
             Future<[T.ID], Error> { $0(.success(list.data.map(\.id))) },
             mergePublishers
         ).map { pagination, ids, arr in

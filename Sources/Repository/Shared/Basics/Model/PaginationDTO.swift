@@ -5,29 +5,16 @@
 //  Created by Robert on 8/10/19.
 //
 
-public protocol PaginationDTO {
+public protocol Paginated {
     var total: Int { get }
+    var page: Int { get }
+    var totalPage: Int { get }
     var pageSize: Int { get }
-    var next: Any { get }
-    var previous: Any { get }
+    var hasNext: Bool { get }
+    var hasPrevious: Bool { get }
 }
 
-extension PaginationDTO {
+extension Paginated {
     @inlinable
-    public var hasNext: Bool {
-        if case Optional<Any>.none = next {
-            return false
-        } else {
-            return true
-        }
-    }
-
-    @inlinable
-    public var hasPrevious: Bool {
-        if case Optional<Any>.none = previous {
-            return false
-        } else {
-            return true
-        }
-    }
+    public var hasNext: Bool { page < totalPage }
 }

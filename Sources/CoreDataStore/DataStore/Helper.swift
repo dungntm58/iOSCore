@@ -12,26 +12,29 @@ struct ListResult<T> {
     let previous: T?
     let next: T?
     let total: Int
+    let page: Int
     let size: Int
     let items: [T]
 
     init() {
-        self.init(items: [], total: 0, size: 0)
+        self.init(items: [], total: 0, page: 0, size: 0)
     }
 
-    init(items: [T], total: Int, size: Int) {
+    init(items: [T], total: Int, page: Int, size: Int) {
         self.items = items
         self.previous = nil
         self.next = nil
         self.total = total
+        self.page = page
         self.size = size
     }
 
-    init(items: [T], previous: T?, next: T?, total: Int, size: Int) {
+    init(items: [T], previous: T?, next: T?, total: Int, page: Int, size: Int) {
         self.items = items
         self.previous = previous
         self.next = next
         self.total = total
+        self.page = page
         self.size = size
     }
 }
@@ -168,11 +171,12 @@ struct Helper {
         let before: T?
         let totalItems: Int
         let size: Int
+        let currentPage: Int
         let expiredObjectIDs: [String]
 
         let fetchRequest = NSFetchRequest<T>(entityName: String(describing: T.self))
         if try managedContext.count(for: fetchRequest) <= 0 {
-            return .init(items: [], total: 0, size: 0)
+            return .init()
         }
 
         switch options {
@@ -197,6 +201,7 @@ struct Helper {
             fetchRequest.predicate = predicate
             size = count
             before = nil
+            currentPage = 0
 
             fetchRequest.sortDescriptors = sorting.toSortDescriptors()
 
@@ -223,6 +228,7 @@ struct Helper {
                 after = nil
             }
         case .page(let page, let count, let predicate, let sorting, let validate):
+            currentPage = page
             if ttl > 0, validate {
                 expiredObjectIDs = try getExpiredObjectIDs(ttl: ttl, of: type, metaManagedContext: metaManagedContext)
                 #if !RELEASE && !PRODUCTION
@@ -286,6 +292,7 @@ struct Helper {
                 after = list.removeLast()
             }
         case .automatic:
+            currentPage = 0
             before = nil
             size = 10
             if ttl > 0 {
@@ -321,7 +328,7 @@ struct Helper {
             }
         }
 
-        return .init(items: list, previous: before, next: after, total: totalItems, size: size)
+        return .init(items: list, previous: before, next: after, total: totalItems, page: currentPage, size: size)
     }
     // swiftlint:enable function_body_length cyclomatic_complexity
 
