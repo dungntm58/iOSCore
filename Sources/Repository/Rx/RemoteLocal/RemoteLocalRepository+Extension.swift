@@ -90,7 +90,7 @@ extension RemoteLocalIdentifiableSingleRepository {
                 .do(onNext: { [store] in _ = try? store.saveSync($0) })
         case .default:
             let cacheObservable = store.getAsync(id, options: options?.storeFetchOptions)
-            return .first(cacheObservable, remote)
+            return cacheObservable.catch { _ in remote }
         case .ignoreDataStore:
             return remote
         }

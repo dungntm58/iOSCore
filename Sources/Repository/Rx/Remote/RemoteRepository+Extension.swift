@@ -41,7 +41,7 @@ extension RemoteSingleRepository {
     public func delete(_ value: T, options: FetchOptions?) -> Observable<Void> {
         singleRequest
             .delete(value, options: options?.requestOptions)
-            .mapToVoid()
+            .map { _ in }
     }
 }
 
@@ -57,6 +57,6 @@ extension RemoteIdentifiableSingleRepository {
     public func delete(id: T.ID, options: FetchOptions?) -> Observable<Void> {
         singleRequest
             .delete(id: id, options: options?.requestOptions)
-            .mapToVoid()
+            .map { _ in }
     }
 }

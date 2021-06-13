@@ -14,7 +14,7 @@ class TodoDataStore: CoreDataIdentifiableDataStore {
     let configuration: CoreDataConfiguration
     let ttl: TimeInterval = 60
     
-    func make(total: Int, page: Int, size: Int, previous: TodoEntity?, next: TodoEntity?) -> Paginated {
+    func make(total: Int, page: Int, size: Int, previous: TodoEntity?, next: TodoEntity?) -> Paginated? {
         AppPaginationDTO(total: total, page: page, pageSize: size, next: next?.id as Any, previous: previous?.id as Any)
     }
     

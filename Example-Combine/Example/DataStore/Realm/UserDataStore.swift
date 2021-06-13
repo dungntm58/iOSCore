@@ -20,7 +20,7 @@ class UserDataStore: RealmIdentifiableDataStore {
         self.updatePolicy = .all
     }
     
-    func make(total: Int, page: Int, size: Int, previous: UserEntity?, next: UserEntity?) -> Paginated {
+    func make(total: Int, page: Int, size: Int, previous: UserEntity?, next: UserEntity?) -> Paginated? {
         AppPaginationDTO(total: total, page: page, pageSize: size, next: next?.id as Any, previous: previous?.id as Any)
     }
 }

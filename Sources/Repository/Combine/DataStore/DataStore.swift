@@ -25,7 +25,7 @@ public protocol DataStore {
     func eraseSync() throws
     func getList(options: DataStoreFetchOption) throws -> ListDTO<T>
 
-    func make(total: Int, page: Int, size: Int, previous: T?, next: T?) -> Paginated
+    func make(total: Int, page: Int, size: Int, previous: T?, next: T?) -> Paginated?
 
     func saveAsync(_ value: T) -> AnyPublisher<T, Error>
     func saveAsync(_ values: [T]) -> AnyPublisher<[T], Error>
