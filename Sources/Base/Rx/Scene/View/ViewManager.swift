@@ -16,6 +16,7 @@ open class ViewManager: SceneAssociated {
 
     public init(viewController: UIViewController) {
         self.rootViewController = viewController
+        self._currentViewController = viewController
         addHook(viewController)
     }
 
@@ -74,8 +75,9 @@ extension ViewManager: ViewManagable {
         #if !RELEASE && !PRODUCTION
         Swift.print("Dismiss current view controller")
         #endif
+        let currentIsRoot = currentViewController == rootViewController
         internalDismiss(from: currentViewController, animated: flag, completion: completion)
-        if currentViewController == rootViewController {
+        if currentIsRoot {
             scene?.detach()
         }
     }
@@ -84,6 +86,10 @@ extension ViewManager: ViewManagable {
 extension ViewManager {
     @usableFromInline
     func addHook(_ viewController: UIViewController) {
+        if let scene = scene {
+            ReferenceManager.setScene(scene, associatedViewController: viewController)
+        }
+
         Observable
             .combineLatest(
                 viewController.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))),
@@ -93,9 +99,36 @@ extension ViewManager {
             .subscribe(onNext: { $0.currentViewController = $1 })
             .disposed(by: disposeBag)
 
-        if let scene = scene {
-            ReferenceManager.setScene(scene, associatedViewController: viewController)
+        switch viewController.modalPresentationStyle {
+        case .fullScreen, .currentContext:
+            break
+        case .formSheet, .pageSheet:
+            if #available(iOS 13.0, *) {
+                addHookViewWillDisappear(viewController)
+            }
+        case .popover:
+            if #available(iOS 13.0, *) {
+                addHookViewWillDisappear(viewController)
+            } else if UIDevice.current.userInterfaceIdiom == .pad {
+                addHookViewWillDisappear(viewController)
+            }
+        default:
+            addHookViewWillDisappear(viewController)
         }
+    }
+
+    private func addHookViewWillDisappear(_ viewController: UIViewController) {
+        Observable
+            .combineLatest(
+                viewController.rx.methodInvoked(#selector(UIViewController.viewWillDisappear(_:))),
+                Observable.just(viewController)
+            ) { $1 }
+            .withUnretained(self)
+            .subscribe(onNext: {
+                guard let presentingViewController = $1.presentingViewController else { return }
+                $0._currentViewController = presentingViewController
+            })
+            .disposed(by: disposeBag)
     }
 
     @inlinable

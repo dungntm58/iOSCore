@@ -34,6 +34,15 @@ public protocol ViewManagable {
     /// Dismiss the root view controller
     /// Do not call without detaching the scene, it may cause some memory issues
     func dismiss(animated flag: Bool, completion: (() -> Void)?)
+
+    /// Present a view manager from the current view controller
+    func present(_ viewManager: ViewManagable, animated flag: Bool, completion: (() -> Void)?)
+
+    /// Push a view manager to the current navigation controller if possible
+    func pushViewController(_ viewManager: ViewManagable, animated flag: Bool)
+
+    /// Show a view manager from the current view controller
+    func show(_ viewManager: ViewManagable, sender: Any?)
 }
 
 extension ViewManagable {
@@ -76,6 +85,21 @@ extension ViewManagable {
     @inlinable
     public func dismiss() {
         dismiss(animated: true, completion: nil)
+    }
+
+    @inlinable
+    public func present(_ viewManager: ViewManagable, animated flag: Bool, completion: (() -> Void)?) {
+        currentViewController.present(viewManager.currentViewController, animated: flag, completion: completion)
+    }
+
+    @inlinable
+    public func pushViewController(_ viewManager: ViewManagable, animated flag: Bool) {
+        currentViewController.navigationController?.pushViewController(viewManager.currentViewController, animated: flag)
+    }
+
+    @inlinable
+    public func show(_ viewManager: ViewManagable, sender: Any?) {
+        currentViewController.show(viewManager.currentViewController, sender: sender)
     }
 }
 
