@@ -11,30 +11,30 @@ import CoreRepository
 public extension RealmDataStore where T: RealmObjectWrapper {
     @discardableResult
     func saveSync(_ value: T) throws -> T {
-        let realm = try threadSharedRealm()
+        let realm = try getRealm()
         try Helper.instance.saveSync(value.toObject(), ttl: ttl, realm: realm, update: self.updatePolicy)
         return value
     }
 
     @discardableResult
     func saveSync(_ values: [T]) throws -> [T] {
-        let realm = try threadSharedRealm()
+        let realm = try getRealm()
         try Helper.instance.saveSync(values.map { $0.toObject() }, ttl: ttl, realm: realm, update: self.updatePolicy)
         return values
     }
 
     func deleteSync(_ value: T) throws {
-        let realm = try threadSharedRealm()
+        let realm = try getRealm()
         try Helper.instance.deleteSync(value.toObject(), realm: realm)
     }
 
     func deleteSync(_ values: [T]) throws {
-        let realm = try threadSharedRealm()
+        let realm = try getRealm()
         try Helper.instance.deleteSync(values.map { $0.toObject() }, realm: realm)
     }
 
     func getList(options: DataStoreFetchOption) throws -> ListDTO<T> {
-        let realm = try threadSharedRealm()
+        let realm = try getRealm()
         let listResult = try Helper.instance.getList(of: T.RealmObject.self, options: options, ttl: ttl, realm: realm)
 
         let before = listResult.previous.map(T.init)
@@ -44,14 +44,14 @@ public extension RealmDataStore where T: RealmObjectWrapper {
     }
 
     func eraseSync() throws {
-        let realm = try threadSharedRealm()
+        let realm = try getRealm()
         try Helper.instance.eraseSync(of: T.RealmObject.self, realm: realm)
     }
 }
 
 public extension RealmIdentifiableDataStore where T: RealmObjectWrapper {
     func getSync(_ id: T.ID, options: DataStoreFetchOption?) throws -> T {
-        let realm = try threadSharedRealm()
+        let realm = try getRealm()
         guard let value = realm.object(ofType: T.RealmObject.self, forPrimaryKey: id) else {
             throw DataStoreError.notFound
         }
@@ -62,7 +62,7 @@ public extension RealmIdentifiableDataStore where T: RealmObjectWrapper {
     }
 
     func lastID() throws -> T.ID {
-        let realm = try threadSharedRealm()
+        let realm = try getRealm()
         if let value = realm.objects(T.RealmObject.self).last {
             return T(object: value).id
         }

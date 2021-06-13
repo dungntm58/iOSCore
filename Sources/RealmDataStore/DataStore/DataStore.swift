@@ -10,6 +10,13 @@ import CoreRepository
 
 public protocol RealmDataStore: DataStore {
     var updatePolicy: Realm.UpdatePolicy { get }
+    func getRealm() throws -> Realm
+}
+
+extension RealmDataStore {
+    public func getRealm() throws -> Realm {
+        try threadSharedRealm()
+    }
 }
 
 public protocol RealmIdentifiableDataStore: RealmDataStore, IdentifiableDataStore {}
