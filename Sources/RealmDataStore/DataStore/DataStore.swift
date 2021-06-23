@@ -14,6 +14,7 @@ public protocol RealmDataStore: DataStore {
 }
 
 extension RealmDataStore {
+    @inlinable
     public func getRealm() throws -> Realm {
         try threadSharedRealm()
     }

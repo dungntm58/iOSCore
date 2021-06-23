@@ -18,6 +18,7 @@ func threadSharedObject<T>(key: String, create: () throws -> T) rethrows -> T {
     }
 }
 
+@usableFromInline
 func threadSharedRealm() throws -> Realm {
     try threadSharedObject(key: "CoreRealm_Realm_instantiate") { try Realm() }
 }
