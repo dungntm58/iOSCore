@@ -149,11 +149,11 @@ extension TableView.Adapter: UITableViewDataSource {
 
 extension TableView.Adapter: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        differenceSections[indexPath.section].cells[indexPath.row].height
+        differenceSections[safe: indexPath.section]?.cells[safe: indexPath.row]?.height ?? UITableView.automaticDimension
     }
 
     public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        differenceSections[indexPath.section].cells[indexPath.row].height
+        differenceSections[safe: indexPath.section]?.cells[safe: indexPath.row]?.height ?? UITableView.automaticDimension
     }
 
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -187,7 +187,9 @@ extension TableView.Adapter: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let section = differenceSections[section]
+        guard let section = differenceSections[safe: section] else {
+            return tableView.leastOfHeaderFooterHeight
+        }
         guard section.hasHeader else {
             return tableView.leastOfHeaderFooterHeight
         }
@@ -195,7 +197,9 @@ extension TableView.Adapter: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        let section = differenceSections[section]
+        guard let section = differenceSections[safe: section] else {
+            return tableView.leastOfHeaderFooterHeight
+        }
         guard section.hasHeader else {
             return tableView.leastOfHeaderFooterHeight
         }
@@ -203,7 +207,9 @@ extension TableView.Adapter: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        let section = differenceSections[section]
+        guard let section = differenceSections[safe: section] else {
+            return tableView.leastOfHeaderFooterHeight
+        }
         guard section.hasFooter else {
             return tableView.leastOfHeaderFooterHeight
         }
@@ -211,7 +217,9 @@ extension TableView.Adapter: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
-        let section = differenceSections[section]
+        guard let section = differenceSections[safe: section] else {
+            return tableView.leastOfHeaderFooterHeight
+        }
         guard section.hasFooter else {
             return tableView.leastOfHeaderFooterHeight
         }
@@ -276,5 +284,11 @@ private extension TableView.ViewSourceProvider {
             }
             return sectionsGenerator(tableView, store)
         }
+    }
+}
+
+extension Collection {
+    subscript(safe index: Index) -> Self.Element? {
+        indices.contains(index) ? self[index] : nil
     }
 }
