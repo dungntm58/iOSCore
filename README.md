@@ -11,7 +11,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
-- Swift 5.1
+- Swift 5.2
 - XCode 11.3
 - iOS 10.0
 
@@ -27,10 +27,16 @@ pod 'CoreRedux', :git => 'https://github.com/dungntm58/iOSCore'
 Or you could install sub libraries like
 
 ```ruby
-pod 'CoreBase/BasicsRx', :git => 'https://github.com/dungntm58/iOSCore'
-pod 'CoreList/BasicsRx', :git => 'https://github.com/dungntm58/iOSCore'
-pod 'CoreRepository/BasicsRx', :git => 'https://github.com/dungntm58/iOSCore'
-pod 'CoreRepository/RequestRx', :git => 'https://github.com/dungntm58/iOSCore'
+pod 'CoreBase-Rx/Basics', :git => 'https://github.com/dungntm58/iOSCore'
+pod 'CoreList', :git => 'https://github.com/dungntm58/iOSCore'
+pod 'CoreRepository-Rx/Basics', :git => 'https://github.com/dungntm58/iOSCore'
+pod 'CoreRepository-Rx/Request', :git => 'https://github.com/dungntm58/iOSCore'
+```
+
+```ruby
+pod 'CoreBase-Combine/Basics', :git => 'https://github.com/dungntm58/iOSCore'
+pod 'CoreRepository-Combine/Basics', :git => 'https://github.com/dungntm58/iOSCore'
+pod 'CoreRepository-Combine/Request', :git => 'https://github.com/dungntm58/iOSCore'
 ```
 
 ## Overview
