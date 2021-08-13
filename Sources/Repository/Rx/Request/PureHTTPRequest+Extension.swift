@@ -8,6 +8,17 @@
 import Alamofire
 import RxSwift
 
+public struct PureResponseError: Error {
+    public let error: Error
+    public let data: Data?
+
+    @inlinable
+    init(error: Error, data: Data?) {
+        self.error = error
+        self.data = data
+    }
+}
+
 // MARK: - Convenience
 extension PureHTTPRequest {
     @inlinable
@@ -31,7 +42,7 @@ extension PureHTTPRequest {
                     }
                     #endif
                     if let error = response.error {
-                        return subscribe.onError(error)
+                        return subscribe.onError(PureResponseError(error: error, data: response.data))
                     }
                     subscribe.onNext(response)
                     subscribe.onCompleted()
