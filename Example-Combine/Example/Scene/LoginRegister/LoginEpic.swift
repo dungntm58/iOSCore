@@ -21,15 +21,25 @@ class LoginEpic: Epic {
     }
     
     func apply(dispatcher: AnyPublisher<Action, Never>, actionStream: AnyPublisher<Action, Never>, stateStream: AnyPublisher<State, Never>) -> AnyPublisher<Action, Never> {
-        dispatcher
-            .of(type: .login)
-            .map { $0.payload as! (String, String) }
-            .flatMap ({
-                self.worker.login(userName: $0.0, password: $0.1)
-                    .map { Action(type: .success, payload: $0) }
-                    .catch { Just($0.toAction()) }
-            })
-            .eraseToAnyPublisher()
+        if #available(iOS 14.0, *) {
+            return dispatcher
+                .of(type: .login)
+                .map { $0.payload as! (String, String) }
+                .flatMap { [worker] in worker.login(userName: $0.0, password: $0.1) }
+                .map { Action(type: .success, payload: $0) }
+                .`catch` { Just($0.toAction()) }
+                .eraseToAnyPublisher()
+        } else {
+            return dispatcher
+                .of(type: .login)
+                .map { $0.payload as! (String, String) }
+                .flatMap { [worker] in
+                    worker.login(userName: $0.0, password: $0.1)
+                        .map { Action(type: .success, payload: $0) }
+                        .`catch` { Just($0.toAction()) }
+                }
+                .eraseToAnyPublisher()
+        }
     }
 }
 
@@ -44,14 +54,24 @@ class RegisterEpic: Epic {
     }
     
     func apply(dispatcher: AnyPublisher<Action, Never>, actionStream: AnyPublisher<Action, Never>, stateStream: AnyPublisher<State, Never>) -> AnyPublisher<Action, Never> {
-        dispatcher
-            .of(type: .register)
-            .map { $0.payload as! (String, String) }
-            .flatMap ({
-                self.worker.signup(userName: $0.0, password: $0.1)
-                    .map { Action(type: .success, payload: $0) }
-                    .catch { Just($0.toAction()) }
-            })
-            .eraseToAnyPublisher()
+        if #available(iOS 14.0, *) {
+            return dispatcher
+                .of(type: .register)
+                .map { $0.payload as! (String, String) }
+                .flatMap { [worker] in worker.signup(userName: $0.0, password: $0.1) }
+                .map { Action(type: .success, payload: $0) }
+                .`catch` { Just($0.toAction()) }
+                .eraseToAnyPublisher()
+        } else {
+            return dispatcher
+                .of(type: .register)
+                .map { $0.payload as! (String, String) }
+                .flatMap { [worker] in
+                    worker.signup(userName: $0.0, password: $0.1)
+                        .map { Action(type: .success, payload: $0) }
+                        .`catch` { Just($0.toAction()) }
+                }
+                .eraseToAnyPublisher()
+        }
     }
 }

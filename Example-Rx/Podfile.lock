@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (5.4.1)
+  - Alamofire (5.4.4)
   - CoreAPNS-Rx (0.1.0):
     - RxRelay (~> 6.0.0)
     - RxSwift (~> 6.0.0)
@@ -55,18 +55,18 @@ PODS:
   - CoreRepository-Rx/Request (0.1.0):
     - Alamofire
     - CoreRepository-Rx/Basics
-  - DifferenceKit (1.1.5):
-    - DifferenceKit/Core (= 1.1.5)
-    - DifferenceKit/UIKitExtension (= 1.1.5)
-  - DifferenceKit/Core (1.1.5)
-  - DifferenceKit/UIKitExtension (1.1.5):
+  - DifferenceKit (1.2.0):
+    - DifferenceKit/Core (= 1.2.0)
+    - DifferenceKit/UIKitExtension (= 1.2.0)
+  - DifferenceKit/Core (1.2.0)
+  - DifferenceKit/UIKitExtension (1.2.0):
     - DifferenceKit/Core
   - FoundationExt_R (0.1.0)
-  - Realm (10.7.5):
-    - Realm/Headers (= 10.7.5)
-  - Realm/Headers (10.7.5)
-  - RealmSwift (10.7.5):
-    - Realm (= 10.7.5)
+  - Realm (10.15.1):
+    - Realm/Headers (= 10.15.1)
+  - Realm/Headers (10.15.1)
+  - RealmSwift (10.15.1):
+    - Realm (= 10.15.1)
   - RxCocoa (6.0.0):
     - RxRelay (= 6.0.0)
     - RxSwift (= 6.0.0)
@@ -74,7 +74,7 @@ PODS:
     - RxSwift (= 6.0.0)
   - RxSwift (6.0.0)
   - SwiftDate (6.3.1)
-  - SwiftLint (0.43.1)
+  - SwiftLint (0.44.0)
   - Toaster (2.3.0)
   - Valet (4.1.1)
 
@@ -130,11 +130,11 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Toaster:
-    :commit: 0fca711c4083cb921cc0893a7a47836358ebf96b
+    :commit: e9e62c023ef37719b6b6939ed26a99f577a3d88f
     :git: https://github.com/devxoul/Toaster.git
 
 SPEC CHECKSUMS:
-  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
   CoreAPNS-Rx: 2b483941cbf8a35f42375aa6b33744f2b99e25b4
   CoreBase-Rx: 593865b7dd6983b2b6908c3b0f9589744abc4653
   CoreDataStore-Rx: 536f03c290e6584987c4f57b21619655a031e17f
@@ -142,18 +142,18 @@ SPEC CHECKSUMS:
   CoreRealmDataStore-Rx: 803d58c0d4c29492d4f7430732d115d3a3618522
   CoreRedux-Rx: 3cb78a8a5095c3028d6521539d5433bb1190b0a8
   CoreRepository-Rx: 506e37b172b6f894cfc9d3de989baa6fcaecdbbb
-  DifferenceKit: 516f12e336ed65a3a0665847b5c3cb5cad4bd4ea
+  DifferenceKit: 5659c430bb7fe45876fa32ce5cba5d6167f0c805
   FoundationExt_R: e1a55581144ae8be50e756debba52eadcb8b92d9
-  Realm: 06f5c67f87cb8c5f27b122218ce22e9a77314517
-  RealmSwift: b46535b52e69b9ed33912f0fcb3182ab0a5743ee
+  Realm: fbcbde2620d51623cc5b18e28f5b165c39abef52
+  RealmSwift: e4bea8e42efad3d543aea23b56504069c6faaea2
   RxCocoa: 3f79328fafa3645b34600f37c31e64c73ae3a80e
   RxRelay: 8d593be109c06ea850df027351beba614b012ffb
   RxSwift: c14e798c59b9f6e9a2df8fd235602e85cc044295
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
-  SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
+  SwiftLint: e96c0a8c770c7ebbc4d36c55baf9096bb65c4584
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
   Valet: 11ab0e318b7284888a81392e36136563b4af5deb
 
-PODFILE CHECKSUM: eeab52768c00c1816fc91dff3c69d662f2904c9e
+PODFILE CHECKSUM: 022d77034eb9cbe0cdb6aef2857b39cab146ef1e
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

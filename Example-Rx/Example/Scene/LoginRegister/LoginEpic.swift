@@ -24,9 +24,9 @@ class LoginEpic: Epic {
         dispatcher
             .of(type: .login)
             .map { $0.payload as! (String, String) }
-            .flatMap { self.worker.login(userName: $0.0, password: $0.1) }
+            .flatMap { [worker] in worker.login(userName: $0.0, password: $0.1) }
             .map { Action(type: .success, payload: $0) }
-            .catch { .just($0.toAction()) }
+            .`catch` { .just($0.toAction()) }
     }
 }
 
@@ -44,8 +44,8 @@ class RegisterEpic: Epic {
         dispatcher
             .of(type: .register)
             .map { $0.payload as! (String, String) }
-            .flatMap { self.worker.signup(userName: $0.0, password: $0.1) }
+            .flatMap { [worker] in worker.signup(userName: $0.0, password: $0.1) }
             .map { Action(type: .success, payload: $0) }
-            .catch { .just($0.toAction()) }
+            .`catch` { .just($0.toAction()) }
     }
 }

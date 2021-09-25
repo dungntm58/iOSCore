@@ -225,8 +225,8 @@ struct Helper {
 }
 
 extension Array where Element == DataStoreFetchOption.Sorting {
-    func toSortDescriptors() -> [SortDescriptor] {
-        compactMap { sorting -> SortDescriptor? in
+    func toSortDescriptors() -> [RealmSwift.SortDescriptor] {
+        compactMap { sorting -> RealmSwift.SortDescriptor? in
             switch sorting {
             case .asc(let property):
                 return .init(keyPath: property, ascending: true)
