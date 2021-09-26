@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 @propertyWrapper
 final public class ParentSceneDependencyReferenced<S> {

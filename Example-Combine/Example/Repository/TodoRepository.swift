@@ -7,6 +7,7 @@
 //
 
 import CoreRepository
+import CoreRepositoryRemote
 
 class TodoRepository: RemoteIdentifiableSingleRepository, RemoteListRepository {
     typealias T = TodoEntity

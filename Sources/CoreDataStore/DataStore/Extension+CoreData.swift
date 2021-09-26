@@ -7,6 +7,9 @@
 
 import CoreData
 import CoreRepository
+#if canImport(CoreRepositoryDataStore)
+import CoreRepositoryDataStore
+#endif
 
 public extension CoreDataDataStore where T: NSManagedObject {
     func saveSync(_ value: T) throws -> T {

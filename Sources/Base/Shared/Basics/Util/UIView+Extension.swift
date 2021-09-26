@@ -5,6 +5,8 @@
 //  Created by Robert Nguyen on 3/31/19.
 //
 
+import UIKit
+
 extension UIView {
     @inlinable
     public func sendSelfBackToSuperview() {

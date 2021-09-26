@@ -6,6 +6,7 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
+import Foundation
 import CoreBase
 import CoreDataStore
 import CoreRepository

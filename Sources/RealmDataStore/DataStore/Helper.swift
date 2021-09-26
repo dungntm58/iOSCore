@@ -5,8 +5,12 @@
 //  Created by Robert Nguyen on 3/16/19.
 //
 
+import Foundation
 import RealmSwift
 import CoreRepository
+#if canImport(CoreRepositoryDataStore)
+import CoreRepositoryDataStore
+#endif
 
 func threadSharedObject<T>(key: String, create: () throws -> T) rethrows -> T {
     if let cachedObj = Thread.current.threadDictionary[key] as? T {

@@ -5,6 +5,9 @@
 //  Created by Robert Nguyen on 3/23/19.
 //
 
+import Foundation
+import UIKit
+
 public protocol Storyboard {
     var name: String { get }
     var bundle: Bundle? { get }

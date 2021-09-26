@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension CollectionView {
     public struct AnyHeaderFooter: CollectionViewHeaderFooter, CellPresentable {

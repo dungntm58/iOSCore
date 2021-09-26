@@ -5,6 +5,8 @@
 //  Created by Robert on 8/10/19.
 //
 
+import CoreRedux
+
 public protocol PayloadListRequestable {
     var page: Int { get }
     var count: Int { get }

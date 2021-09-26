@@ -5,8 +5,10 @@
 //  Created by Robert Nguyen on 5/13/19.
 //
 
+import Foundation
 import Alamofire
 import Combine
+import CoreRepository
 
 // MARK: - Convenience
 extension PureHTTPRequest {

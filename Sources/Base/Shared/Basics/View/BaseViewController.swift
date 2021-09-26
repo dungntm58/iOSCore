@@ -6,6 +6,8 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
+import UIKit
+
 open class BaseViewController: UIViewController {
     private(set) public var isViewAppeared: Bool = false
 

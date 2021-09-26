@@ -9,6 +9,7 @@
 import UIKit
 import CoreBase
 import CoreRedux
+import CoreReduxList
 import CoreList
 import SwiftDate
 import Combine
@@ -62,8 +63,7 @@ class TodoList2ViewController: BaseViewController {
     func createViewSourceProvider() -> CollectionView.ViewSourceProvider<TodoViewModel> {
         return .init(collectionView: collectionView, store: .init()) {
             collectionView, viewModel in
-            ForEach(viewModel.todos) {
-                index, todo in
+            for (index, todo) in viewModel.todos.enumerated() {
                 CollectionView.Cell(
                     id: index,
                     cellType: TodoCollectionViewCell.self,

@@ -5,6 +5,8 @@
 //  Created by Robert on 8/10/19.
 //
 
+import Foundation
+
 open class Scene: Scened {
     public let managedContext: ManagedSceneContext
     public let id: String

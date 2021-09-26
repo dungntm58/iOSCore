@@ -5,6 +5,7 @@
 //  Created by Robert on 4/5/20.
 //
 
+import UIKit
 import FoundationExtInternal
 
 public protocol TableViewSectionComponent {
@@ -73,7 +74,7 @@ extension TableView {
             if cellType === UITableViewCell.self {
                 type = .default
             } else {
-                type = .nib(nibName: String(describing: cellType), bundle: Bundle(for: View.classForCoder()))
+                type = .class(class: cellType)
             }
             self.type = type
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
@@ -87,7 +88,7 @@ extension TableView {
             if View.self === UITableViewCell.self {
                 type = .default
             } else {
-                type = .nib(nibName: String(describing: View.self), bundle: Bundle(for: View.classForCoder()))
+                type = .class(class: View.self)
             }
             self.type = type
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
@@ -196,7 +197,11 @@ extension TableView {
 
         public init() {
             self.id = .init()
+#if SWIFT_PACKAGE && swift(>=5.3)
+            self.type = .nib(nibName: "LoadingTableViewCell", bundle: .module)
+#else
             self.type = .nib(nibName: "LoadingTableViewCell", bundle: Bundle(for: LoadingTableViewCell.classForCoder()))
+#endif
             self.reuseIdentifier = type.identifier
             self.height = UITableView.automaticDimension
             self.model = nil

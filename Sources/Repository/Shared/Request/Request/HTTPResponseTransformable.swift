@@ -6,6 +6,7 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
+import Foundation
 import Alamofire
 
 public protocol HTTPResponseTransformable {

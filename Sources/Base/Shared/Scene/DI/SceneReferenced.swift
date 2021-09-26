@@ -5,6 +5,8 @@
 //  Created by Robert on 8/15/19.
 //
 
+import UIKit
+
 @propertyWrapper
 final public class SceneReferenced<S> {
 

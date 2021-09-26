@@ -6,6 +6,8 @@
 //  Copyright © 2018 Robert Nguyen. All rights reserved.
 //
 
+import CoreRedux
+
 open class BaseListReducer<T, Action>: Reducible where Action: Actionable, Action.ActionType: ListActionType, T: Equatable {
     public typealias State = Payload.List.Response<T>
 

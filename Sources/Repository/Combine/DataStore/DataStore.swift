@@ -6,8 +6,10 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
+import Foundation
 import Combine
 import FoundationExtInternal
+import CoreRepository
 
 public protocol DataStore {
     // swiftlint:disable type_name

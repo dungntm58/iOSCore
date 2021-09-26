@@ -6,6 +6,11 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
+import CoreRepository
+#if canImport(CoreRepositoryRequest)
+import CoreRepositoryRequest
+#endif
+
 public protocol RemoteListRepository: ListModelRepository where ListRequest.Response.ValueType == T {
     associatedtype ListRequest: ListModelHTTPRequest
 

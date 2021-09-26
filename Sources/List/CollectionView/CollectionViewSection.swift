@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 @frozen public enum CollectionView {
     public static var sectionInset: UIEdgeInsets = .zero

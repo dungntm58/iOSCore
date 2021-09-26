@@ -6,6 +6,7 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
+import UIKit
 import CoreBase
 
 class SwitchScene: Scene, Launchable, _HasViewManagable {

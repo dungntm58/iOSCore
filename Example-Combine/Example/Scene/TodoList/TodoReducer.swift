@@ -7,6 +7,7 @@
 //
 
 import CoreRedux
+import CoreReduxList
 import CoreList
 
 class TodoReducer: Reducible {

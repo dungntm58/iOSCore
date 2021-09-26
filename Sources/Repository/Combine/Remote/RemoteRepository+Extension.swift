@@ -6,6 +6,7 @@
 //
 
 import Combine
+import CoreRepository
 
 extension RemoteListRepository {
     @inlinable

@@ -5,6 +5,7 @@
 //  Created by Robert Nguyen on 3/31/19.
 //
 
+import UIKit
 import UserNotifications
 
 public class APNSConfig {

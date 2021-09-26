@@ -6,6 +6,7 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
+import Foundation
 import DifferenceKit
 import CoreRepository
 import CoreBase

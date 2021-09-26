@@ -7,6 +7,9 @@
 
 import CoreData
 import CoreRepository
+#if canImport(CoreRepositoryDataStore)
+import CoreRepositoryDataStore
+#endif
 
 struct ListResult<T> {
     let previous: T?

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension TableView {
     public struct AnyHeaderFooter: TableViewHeaderFooter {

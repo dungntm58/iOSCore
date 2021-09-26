@@ -6,9 +6,11 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
+import Foundation
 import Combine
 import CoreBase
 import CoreRepository
+import CoreRepositoryRequest
 import Alamofire
 
 class TodoSingleRequest: IdentifiableSingleHTTPRequest, Decoding {

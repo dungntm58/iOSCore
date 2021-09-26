@@ -6,7 +6,9 @@
 //  Copyright © 2019 Robert Nguyễn. All rights reserved.
 //
 
+import Foundation
 import CoreRedux
+import CoreReduxList
 import CoreList
 
 class TodoStore: Store<TodoReducer.Action, TodoReducer.State, DispatchQueue> {

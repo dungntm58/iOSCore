@@ -6,6 +6,7 @@
 //  Copyright © 2019 Robert Nguyen. All rights reserved.
 //
 
+import Foundation
 import CoreRedux
 import Combine
 

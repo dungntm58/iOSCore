@@ -6,6 +6,7 @@
 //
 
 import FoundationExtInternal
+import UIKit
 
 extension CollectionView {
     public struct AnyCell: CollectionViewCell, CellInteractable {

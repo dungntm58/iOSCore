@@ -6,6 +6,8 @@
 //  Copyright © 2016 Robert Nguyen. All rights reserved.
 //
 
+import Foundation
+
 @objc public protocol Apparent {
     @objc optional func didLoad()
     @objc optional func willAppear(_ animated: Bool)

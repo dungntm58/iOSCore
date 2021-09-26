@@ -6,6 +6,8 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
+import Foundation
+
 // swiftlint:disable force_cast
 @frozen
 public enum Util {

@@ -7,6 +7,9 @@
 
 import RealmSwift
 import CoreRepository
+#if canImport(CoreRepositoryDataStore)
+import CoreRepositoryDataStore
+#endif
 
 public protocol RealmDataStore: DataStore {
     var updatePolicy: Realm.UpdatePolicy { get }

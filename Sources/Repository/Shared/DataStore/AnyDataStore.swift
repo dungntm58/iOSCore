@@ -6,6 +6,7 @@
 //
 
 import FoundationExtInternal
+import CoreRepository
 
 extension DataStore {
     @inlinable

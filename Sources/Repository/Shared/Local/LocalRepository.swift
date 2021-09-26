@@ -6,6 +6,11 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
+import CoreRepository
+#if canImport(CoreRepositoryDataStore)
+import CoreRepositoryDataStore
+#endif
+
 public protocol LocalRepository: ModelRepository where T == Store.T {
     associatedtype Store: DataStore
 

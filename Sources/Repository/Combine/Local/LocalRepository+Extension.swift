@@ -6,6 +6,10 @@
 //
 
 import Combine
+import CoreRepository
+#if canImport(CoreRepositoryDataStore)
+import CoreRepositoryDataStore
+#endif
 
 extension LocalListRepository {
     @inlinable

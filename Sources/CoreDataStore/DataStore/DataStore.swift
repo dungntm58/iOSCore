@@ -7,6 +7,9 @@
 
 import CoreData
 import CoreRepository
+#if canImport(CoreRepositoryDataStore)
+import CoreRepositoryDataStore
+#endif
 
 public protocol CoreDataDataStore: DataStore {
     var configuration: CoreDataConfiguration { get }

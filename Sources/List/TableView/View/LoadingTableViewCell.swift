@@ -6,6 +6,8 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
+import UIKit
+
 public class LoadingTableViewCell: UITableViewCell, LoadingAnimatable {
     @IBOutlet weak var activityView: UIActivityIndicatorView!
 

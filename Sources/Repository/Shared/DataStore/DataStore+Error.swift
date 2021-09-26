@@ -5,6 +5,8 @@
 //  Created by Robert on 8/10/19.
 //
 
+import Foundation
+
 @frozen
 public enum DataStoreError: Error, LocalizedError {
     case storeFailure

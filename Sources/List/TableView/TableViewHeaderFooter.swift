@@ -5,6 +5,7 @@
 //  Created by Robert on 4/5/20.
 //
 
+import UIKit
 import FoundationExtInternal
 
 public protocol TableViewHeaderFooter: TableViewSectionComponent, CellRegisterable, HeaderFooterPresentable where View: UITableViewHeaderFooterView {

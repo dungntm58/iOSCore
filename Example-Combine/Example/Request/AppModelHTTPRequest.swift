@@ -6,9 +6,11 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
+import Foundation
 import Alamofire
 import Combine
 import CoreRepository
+import CoreRepositoryRequest
 import CoreBase
 
 extension HTTPRequest {

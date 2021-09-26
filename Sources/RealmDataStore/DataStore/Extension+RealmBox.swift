@@ -5,8 +5,12 @@
 //  Created by Robert Nguyen on 3/16/19.
 //
 
+import Foundation
 import RealmSwift
 import CoreRepository
+#if canImport(CoreRepositoryDataStore)
+import CoreRepositoryDataStore
+#endif
 
 public extension RealmDataStore where T: RealmObjectWrapper {
     @discardableResult

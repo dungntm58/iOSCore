@@ -5,6 +5,7 @@
 //  Created by Robert on 09/03/2021.
 //
 
+import Foundation
 import Alamofire
 
 func trySerialize<D>(from data: Data, to type: D.Type, atKeyPath keyPath: String? = nil, decoder: JSONDecoder = .init()) throws -> D where D: Decodable {

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 public protocol ViewControllerLookingForAssociatedScene where Self: UIViewController {
     func sceneAssociatedViewController() -> UIViewController?

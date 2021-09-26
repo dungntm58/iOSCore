@@ -7,6 +7,7 @@
 //
 
 import Combine
+import CoreRedux
 import CoreRepository
 
 public protocol PaginationRequestOptions: FetchOptions {}

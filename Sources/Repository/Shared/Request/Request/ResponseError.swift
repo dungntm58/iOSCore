@@ -6,6 +6,8 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
+import Foundation
+
 @frozen
 public struct ResponseError: Error {
     public let httpCode: Int

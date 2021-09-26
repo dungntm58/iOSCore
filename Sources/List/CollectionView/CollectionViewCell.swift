@@ -5,6 +5,7 @@
 //  Created by Robert on 4/5/20.
 //
 
+import UIKit
 import FoundationExtInternal
 
 public protocol CollectionViewSectionComponent {
@@ -85,7 +86,7 @@ extension CollectionView {
             if cellType === UICollectionViewCell.self {
                 type = .default
             } else {
-                type = .nib(nibName: String(describing: cellType), bundle: Bundle(for: View.classForCoder()))
+                type = .class(class: cellType)
             }
             self.type = type
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
@@ -99,7 +100,7 @@ extension CollectionView {
             if View.self === UICollectionViewCell.self {
                 type = .default
             } else {
-                type = .nib(nibName: String(describing: View.self), bundle: Bundle(for: View.classForCoder()))
+                type = .class(class: View.self)
             }
             self.type = type
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
@@ -229,7 +230,11 @@ extension CollectionView {
 
         public init(size: CGSize) {
             self.id = .init()
+#if SWIFT_PACKAGE && swift(>=5.3)
+            self.type = .nib(nibName: "LoadingCollectionViewCell", bundle: .module)
+#else
             self.type = .nib(nibName: "LoadingCollectionViewCell", bundle: Bundle(for: LoadingCollectionViewCell.classForCoder()))
+#endif
             self.reuseIdentifier = type.identifier
             self.estimatedSize = size
             self.model = nil

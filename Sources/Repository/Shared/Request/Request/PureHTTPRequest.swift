@@ -5,7 +5,9 @@
 //  Created by Robert on 3/15/19.
 //
 
+import Foundation
 import Alamofire
+import CoreRepository
 
 public protocol PureHTTPRequest: Request {
     associatedtype API: RequestAPI

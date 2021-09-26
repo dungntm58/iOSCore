@@ -10,6 +10,7 @@ import Alamofire
 import CoreRepository
 import CoreList
 import CoreRedux
+import CoreReduxList
 import DifferenceKit
 
 enum Todo {

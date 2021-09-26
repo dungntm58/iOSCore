@@ -6,6 +6,8 @@
 //  Copyright © 2019 Robert Nguyen. All rights reserved.
 //
 
+import Foundation
+
 public protocol RequestOption {
     var parameters: [String: Any]? { get }
 }

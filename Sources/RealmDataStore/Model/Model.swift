@@ -5,6 +5,7 @@
 //  Created by Robert Nguyen on 4/11/19.
 //
 
+import Foundation
 import RealmSwift
 import CoreRepository
 

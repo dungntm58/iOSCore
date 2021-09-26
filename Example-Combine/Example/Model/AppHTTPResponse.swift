@@ -8,6 +8,7 @@
 
 import CoreBase
 import CoreRepository
+import CoreRepositoryRequest
 
 struct AppPaginationDTO: Paginated, Decodable {
     let total: Int

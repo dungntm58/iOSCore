@@ -9,6 +9,7 @@
 import Combine
 import CoreBase
 import CoreRepository
+import CoreRepositoryDataStore
 
 class AuthRepository {
     private let request: AuthRequest

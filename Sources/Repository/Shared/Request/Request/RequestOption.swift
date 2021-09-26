@@ -5,7 +5,9 @@
 //  Created by Robert Nguyen on 4/8/19.
 //
 
+import Foundation
 import Alamofire
+import CoreRepository
 
 public protocol ProgressTrackable {
     var queue: DispatchQueue { get }

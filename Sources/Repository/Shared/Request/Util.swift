@@ -5,6 +5,8 @@
 //  Created by Robert on 8/15/19.
 //
 
+import Foundation
+
 @usableFromInline
 func += <K, V> ( left: inout [K: V], right: [K: V]) {
     for (key, value) in right {
