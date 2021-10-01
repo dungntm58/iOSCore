@@ -29,8 +29,8 @@ extension TableView {
         public var title: String? { box.title }
         public var model: Any? { box.model }
 
-        public func bind(model: Any?, to view: View, at section: Int) {
-            box.bind(model: model, to: view, at: section)
+        public func bind(to view: View, at section: Int) {
+            box.bind(to: view, at: section)
         }
 
         public func willDisplay(view: View, at section: Int) {
@@ -63,7 +63,7 @@ private protocol AnyTableViewHeaderFooterBox {
     var title: String? { get }
     var model: Any? { get }
 
-    func bind(model: Any?, to view: UITableViewHeaderFooterView, at section: Int)
+    func bind(to view: UITableViewHeaderFooterView, at section: Int)
     func willDisplay(view: UITableViewHeaderFooterView, at section: Int)
     func didEndDisplaying(view: UITableViewHeaderFooterView, at section: Int)
 }
@@ -97,12 +97,12 @@ private extension TableView.AnyHeaderFooter {
         var model: Any? { _base.model }
 
         @inlinable
-        func bind(model: Any?, to view: UITableViewHeaderFooterView, at section: Int) {
+        func bind(to view: UITableViewHeaderFooterView, at section: Int) {
             guard let view = view as? Base.View else {
                 assertionFailure("Opaque cell must associate with view type \(String(describing: Base.View.self))")
                 return
             }
-            _base.bind(model: model as? Base.Model, to: view, at: section)
+            _base.bind(to: view, at: section)
         }
 
         @inlinable

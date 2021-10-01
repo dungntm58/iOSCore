@@ -142,7 +142,7 @@ extension TableView.Adapter: UITableViewDataSource {
             tableView.register(cell: cell)
             cellView = tableView.dequeue(cell: cell, for: indexPath)
         }
-        cell.bind(model: cell.model, to: cellView, at: indexPath)
+        cell.bind(to: cellView, at: indexPath)
         return cellView
     }
 }
@@ -167,7 +167,7 @@ extension TableView.Adapter: UITableViewDelegate {
             headerView = tableView.dequeue(headerFooter: header)
         }
         guard let view = headerView else { return nil }
-        header.bind(model: header.model, to: view, at: section)
+        header.bind(to: view, at: section)
         return view
     }
 
@@ -182,7 +182,7 @@ extension TableView.Adapter: UITableViewDelegate {
             footerView = tableView.dequeue(headerFooter: footer)
         }
         guard let view = footerView else { return nil }
-        footer.bind(model: footer.model, to: view, at: section)
+        footer.bind(to: view, at: section)
         return view
     }
 

@@ -17,7 +17,7 @@ public protocol TableViewHeaderFooter: TableViewSectionComponent, CellRegisterab
     var title: String? { get }
     var model: Model? { get }
 
-    func bind(model: Model?, to view: View, at section: Int)
+    func bind(to view: View, at section: Int)
 }
 
 extension TableViewHeaderFooter {
@@ -142,7 +142,7 @@ extension TableView {
         }
 
         @inlinable
-        public func bind(model: Model?, to view: View, at section: Int) {
+        public func bind(to view: View, at section: Int) {
             bindingFunction?(model, view, section)
         }
 

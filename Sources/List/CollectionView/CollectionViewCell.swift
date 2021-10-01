@@ -181,7 +181,7 @@ extension CollectionView {
         }
 
         @inlinable
-        public func bind(model: Model?, to view: View, at indexPath: IndexPath) {
+        public func bind(to view: View, at indexPath: IndexPath) {
             bindingFunction?(model, view, indexPath)
         }
 
@@ -237,7 +237,7 @@ extension CollectionView {
         }
 
         @inlinable
-        public func bind(model: Model?, to view: View, at indexPath: IndexPath) {}
+        public func bind(to view: View, at indexPath: IndexPath) {}
 
         @inlinable
         public func willDisplayHandler(_ willDisplayHandler: IndexPathInteractiveHandler?) -> Self {

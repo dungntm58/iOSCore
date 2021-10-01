@@ -30,8 +30,8 @@ extension TableView {
         public var height: CGFloat { box.height }
         public var model: AnyEquatable? { box.model }
 
-        public func bind(model: AnyEquatable?, to view: View, at indexPath: IndexPath) {
-            box.bind(model: model?.base, to: view, at: indexPath)
+        public func bind(to view: View, at indexPath: IndexPath) {
+            box.bind(to: view, at: indexPath)
         }
 
         public func willDisplay(view: View, at indexPath: IndexPath) {
@@ -59,7 +59,7 @@ private protocol AnyTableViewCellBox: CellInteractable {
     var height: CGFloat { get }
     var model: AnyEquatable? { get }
 
-    func bind(model: Any?, to view: UITableViewCell, at indexPath: IndexPath)
+    func bind(to view: UITableViewCell, at indexPath: IndexPath)
     func willDisplay(view: UITableViewCell, at indexPath: IndexPath)
     func didEndDisplaying(view: UITableViewCell, at indexPath: IndexPath)
 }
@@ -90,12 +90,12 @@ private extension TableView.AnyCell {
         var model: AnyEquatable? { _base.model?.eraseToAny() }
 
         @inlinable
-        func bind(model: Any?, to view: UITableViewCell, at indexPath: IndexPath) {
+        func bind(to view: UITableViewCell, at indexPath: IndexPath) {
             guard let view = view as? Base.View else {
                 assertionFailure("Opaque cell must associate with view type \(String(describing: Base.View.self))")
                 return
             }
-            _base.bind(model: model as? Base.Model, to: view, at: indexPath)
+            _base.bind(to: view, at: indexPath)
         }
 
         @inlinable

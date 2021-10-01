@@ -168,7 +168,7 @@ extension CollectionView {
         }
 
         @inlinable
-        public func bind(model: Model?, to view: View, at indexPath: IndexPath) {
+        public func bind(to view: View, at indexPath: IndexPath) {
             bindingFunction?(model, view, indexPath)
         }
 

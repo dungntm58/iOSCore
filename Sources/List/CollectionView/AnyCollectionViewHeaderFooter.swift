@@ -30,8 +30,8 @@ extension CollectionView {
         public var estimatedSize: CGSize? { box.estimatedSize }
         var hashString: String { box.hashString }
 
-        public func bind(model: Any?, to view: View, at indexPath: IndexPath) {
-            box.bind(model: model, to: view, at: indexPath)
+        public func bind(to view: View, at indexPath: IndexPath) {
+            box.bind(to: view, at: indexPath)
         }
 
         public func size(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize {
@@ -67,7 +67,7 @@ private protocol AnyCollectionViewHeaderFooterBox {
     var hashString: String { get }
     var estimatedSize: CGSize? { get }
 
-    func bind(model: Any?, to view: UICollectionReusableView, at indexPath: IndexPath)
+    func bind(to view: UICollectionReusableView, at indexPath: IndexPath)
     func size(layout: UICollectionViewLayout, collectionView: UICollectionView) -> CGSize
     func willDisplay(view: UICollectionReusableView, at indexPath: IndexPath)
     func didEndDisplaying(view: UICollectionReusableView, at indexPath: IndexPath)
@@ -125,12 +125,12 @@ private extension CollectionView.AnyHeaderFooter {
         var estimatedSize: CGSize? { _base.estimatedSize }
 
         @inlinable
-        func bind(model: Any?, to view: UICollectionReusableView, at indexPath: IndexPath) {
+        func bind(to view: UICollectionReusableView, at indexPath: IndexPath) {
             guard let view = view as? Base.View else {
                 assertionFailure("Opaque cell must associate with view type \(String(describing: Base.View.self))")
                 return
             }
-            _base.bind(model: model as? Base.Model, to: view, at: indexPath)
+            _base.bind(to: view, at: indexPath)
         }
 
         @inlinable

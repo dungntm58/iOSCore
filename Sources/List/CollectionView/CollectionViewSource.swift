@@ -120,7 +120,7 @@ extension CollectionView.Adapter: UICollectionViewDataSource {
             registeredCellReuseIdentifiers.insert(cell.reuseIdentifier)
         }
         let cellView = collectionView.dequeue(cell: cell, for: indexPath)
-        cell.bind(model: cell.model, to: cellView, at: indexPath)
+        cell.bind(to: cellView, at: indexPath)
         return cellView
     }
 }
@@ -174,7 +174,7 @@ extension CollectionView.Adapter: UICollectionViewDelegate, UICollectionViewDele
             registeredHeaderFooterReuseIdentifiers.insert(headerFooter.reuseIdentifier)
         }
         let headerFooterView = collectionView.dequeue(headerFooter: headerFooter, for: indexPath)
-        headerFooter.bind(model: headerFooter.model, to: headerFooterView, at: indexPath)
+        headerFooter.bind(to: headerFooterView, at: indexPath)
         return headerFooterView
     }
 

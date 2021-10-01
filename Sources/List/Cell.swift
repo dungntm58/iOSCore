@@ -71,7 +71,7 @@ public protocol CellBinding: ViewAssociatable {
     typealias BindingFunction = (Model?, View, IndexPath) -> Void
 
     var model: Model? { get }
-    func bind(model: Model?, to view: View, at indexPath: IndexPath)
+    func bind(to view: View, at indexPath: IndexPath)
 }
 
 public protocol CellPresentable: ViewAssociatable {
