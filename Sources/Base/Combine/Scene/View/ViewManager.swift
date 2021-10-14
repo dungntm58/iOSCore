@@ -13,6 +13,7 @@ open class ViewManager: SceneAssociated {
     fileprivate(set) public weak var scene: Scened?
 
     public init(viewController: UIViewController) {
+        _ = UIViewController.swizzle
         self.rootViewController = viewController
         addHook(viewController)
     }
@@ -90,21 +91,13 @@ extension ViewManager: ViewManagable {
 extension ViewManager {
     @usableFromInline
     func addHook(_ viewController: UIViewController) {
-//        Observable
-//            .combineLatest(
-//                viewController.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))),
-//                Observable.just(viewController)
-//            ) { $1 }
-//            .sink(receiveValue: self.viewControllerWillAppear(_:))
-//            .disposed(by: disposeBag)
-//
-//        Observable
-//            .combineLatest(
-//                viewController.rx.methodInvoked(#selector(UIViewController.viewWillDisappear(_:))),
-//                Observable.just(viewController)
-//            ) { $1 }
-//            .sink(receiveValue: self.viewControllerWillDisappear(_:))
-//            .disposed(by: disposeBag)
+        viewController.whenWillAppear { [weak self] value in
+            self?.viewControllerWillAppear(viewController)
+        }
+
+        viewController.whenWillDisappear { [weak self] value in
+            self?.viewControllerWillDisappear(value)
+        }
 
         if let scene = scene {
             ReferenceManager.setScene(scene, associatedViewController: viewController)
