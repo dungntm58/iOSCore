@@ -14,11 +14,11 @@ open class Scene: Scened {
         self.id = UUID().uuidString
     }
 
-    #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
     deinit {
         print("Deinit", String(describing: Self.self))
     }
-    #endif
+#endif
 
     open func perform(with userInfo: Any?) {
         // No-op

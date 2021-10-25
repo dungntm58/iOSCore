@@ -10,15 +10,14 @@ import RxSwift
 extension RemoteListRepository {
     @inlinable
     public func getList(options: FetchOptions?) -> Observable<ListDTO<T>> {
-        var remote: Observable<ListDTO<T>> = listRequest
+        listRequest
             .getList(options: options?.requestOptions)
             .map(ListDTO.init)
-        #if !RELEASE && !PRODUCTION
-        remote = remote.do(onNext: {
-            Swift.print("Get \($0.data.count) items of type \(T.self) from remote successfully!!!")
-        })
-        #endif
-        return remote
+#if !RELEASE && !PRODUCTION
+            .do(onNext: {
+                Swift.print("Get \($0.data.count) items of type \(T.self) from remote successfully!!!")
+            })
+#endif
     }
 }
 

@@ -35,12 +35,12 @@ extension PureHTTPRequest {
                 let request = try self.makeRequest(api: api, options: options)
                 dataRequest = self.session.request(request).validate(statusCode: acceptableStatusCodes)
                 dataRequest.responseData { response in
-                    #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
                     Swift.print(response)
                     if let data = response.data {
                         printDebug(data: data)
                     }
-                    #endif
+#endif
                     if let error = response.error {
                         return subscribe.onError(PureResponseError(error: error, data: response.data))
                     }
@@ -48,9 +48,9 @@ extension PureHTTPRequest {
                     subscribe.onCompleted()
                 }
             } catch {
-                #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
                 Swift.print("Response error", error as NSError)
-                #endif
+#endif
                 subscribe.onError(error)
             }
             return Disposables.create {
@@ -106,12 +106,12 @@ extension PureHTTPRequest {
                     uploadRequest = uploadRequest.uploadProgress(queue: tracking.queue, closure: tracking.handle)
                 }
                 uploadRequest.responseData { response in
-                    #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
                     Swift.print(response)
                     if let data = response.data {
                         printDebug(data: data)
                     }
-                    #endif
+#endif
                     if let error = response.error {
                         return subscribe.onError(error)
                     }
@@ -119,9 +119,9 @@ extension PureHTTPRequest {
                     subscribe.onCompleted()
                 }
             } catch {
-                #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
                 Swift.print("Response error", error as NSError)
-                #endif
+#endif
                 subscribe.onError(error)
             }
             return Disposables.create {
@@ -150,12 +150,12 @@ extension PureHTTPRequest {
                     downloadRequest.downloadProgress(queue: tracking.queue, closure: tracking.handle)
                 }
                 downloadRequest.responseData { response in
-                    #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
                     Swift.print(response)
                     if let data = response.value {
                         printDebug(data: data)
                     }
-                    #endif
+#endif
                     if let error = response.error {
                         return subscribe.onError(error)
                     }
@@ -163,9 +163,9 @@ extension PureHTTPRequest {
                     subscribe.onCompleted()
                 }
             } catch {
-                #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
                 Swift.print("Response error", error as NSError)
-                #endif
+#endif
                 subscribe.onError(error)
             }
             return Disposables.create {

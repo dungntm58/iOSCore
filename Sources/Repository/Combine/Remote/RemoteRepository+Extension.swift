@@ -10,16 +10,15 @@ import Combine
 extension RemoteListRepository {
     @inlinable
     public func getList(options: FetchOptions?) -> AnyPublisher<ListDTO<T>, Error> {
-        let remote = listRequest
+        listRequest
             .getList(options: options?.requestOptions)
             .map(ListDTO.init)
-        #if !RELEASE && !PRODUCTION
-        return remote.handleEvents(receiveOutput: {
-            Swift.print("Get \($0.data.count) items of type \(T.self) from remote successfully!!!")
-        }).eraseToAnyPublisher()
-        #else
-        return remote.eraseToAnyPublisher()
-        #endif
+#if !RELEASE && !PRODUCTION
+            .handleEvents(receiveOutput: {
+                Swift.print("Get \($0.data.count) items of type \(T.self) from remote successfully!!!")
+            })
+#endif
+            .eraseToAnyPublisher()
     }
 }
 

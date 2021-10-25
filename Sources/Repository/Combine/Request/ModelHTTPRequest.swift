@@ -7,7 +7,7 @@
 //
 
 import Combine
-import FoundationExt_R
+import FoundationExtInternal
 
 public protocol SingleModelHTTPRequest: HTTPRequest where Response: SingleHTTPResponse {
     func create(_ value: Response.ValueType, options: RequestOption?) -> AnyPublisher<Response, Error>

@@ -22,10 +22,6 @@ class LoginViewController: BaseViewController {
     @SceneReferenced var scene: LoginScene?
     @SceneDependencyReferenced var store: LoginStore?
     
-    deinit {
-        cancellables.forEach { $0.cancel() }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

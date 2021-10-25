@@ -36,6 +36,6 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.ios.framework = "UIKit"
   
   s.source_files = 'Sources/List/**/*'
-  s.dependency 'FoundationExt_R'
+  s.dependency 'FoundationExtInternal'
   s.dependency 'DifferenceKit'
 end

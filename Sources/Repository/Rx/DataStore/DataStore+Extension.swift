@@ -15,9 +15,9 @@ extension DataStore {
     public func saveAsync(_ value: T) -> Observable<T> {
         .deferred {
             let value = try self.saveSync(value)
-            #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
             Swift.print("Save \(value) of type \(T.self) successfully!!!")
-            #endif
+#endif
             return .just(value)
         }
     }
@@ -25,9 +25,9 @@ extension DataStore {
     public func saveAsync(_ values: [T]) -> Observable<[T]> {
         .deferred {
             let values = try self.saveSync(values)
-            #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
             Swift.print("Save \(values.count) items of type \(T.self) successfully!!!")
-            #endif
+#endif
             return .just(values)
         }
     }
@@ -36,9 +36,9 @@ extension DataStore {
     public func deleteAsync(_ value: T) -> Observable<Void> {
         .deferred {
             try self.deleteSync(value)
-            #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
             Swift.print("Delete \(value) of type \(T.self) successfully!!!")
-            #endif
+#endif
             return .just(())
         }
     }
@@ -47,9 +47,9 @@ extension DataStore {
     public func deleteAsync(_ values: [T]) -> Observable<Void> {
         .deferred {
             try self.deleteSync(values)
-            #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
             Swift.print("Delete \(values.count) items of type \(T.self) successfully!!!")
-            #endif
+#endif
             return .just(())
         }
     }
@@ -58,9 +58,9 @@ extension DataStore {
     public func getListAsync(options: DataStoreFetchOption) -> Observable<ListDTO<T>> {
         .deferred {
             let results = try self.getList(options: options)
-            #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
             Swift.print("Get \(results.data.count) items of type \(T.self) from cache successfully!!!")
-            #endif
+#endif
             return .just(results)
         }
     }
@@ -69,9 +69,9 @@ extension DataStore {
     public func eraseAsync() -> Observable<Void> {
         .deferred {
             try self.eraseSync()
-            #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
             Swift.print("Erase all items of type \(T.self) successfully!!!")
-            #endif
+#endif
             return .just(())
         }
     }
@@ -88,9 +88,9 @@ extension IdentifiableDataStore {
     public func getAsync(_ id: T.ID, options: DataStoreFetchOption?) -> Observable<T> {
         .deferred {
             let value = try self.getSync(id, options: options)
-            #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
             Swift.print("Get \(value) of type \(T.self) with id \(id) successfully!!!")
-            #endif
+#endif
             return .just(value)
         }
     }
@@ -99,9 +99,9 @@ extension IdentifiableDataStore {
     public func deleteAsync(_ id: T.ID, options: DataStoreFetchOption?) -> Observable<Void> {
         .deferred {
             try self.deleteSync(id, options: options)
-            #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
             Swift.print("Delete item of type \(T.self) with id \(id) successfully!!!")
-            #endif
+#endif
             return .just(())
         }
     }

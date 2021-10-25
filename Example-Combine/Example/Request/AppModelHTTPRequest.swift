@@ -19,11 +19,12 @@ extension HTTPRequest {
     }
     
     var environment: RequestEnvironment {
-        #if !RELEASE && !PRODUCTION
-        return AppEnvironment.development
-        #else
-        return AppEnvironment.production
-        #endif
+        return AppEnvironment
+#if !RELEASE && !PRODUCTION
+            .development
+#else
+            .production
+#endif
     }
     
     var acceptableStatusCodes: [Int] { Array(200..<300) }

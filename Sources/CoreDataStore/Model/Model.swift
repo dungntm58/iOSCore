@@ -7,7 +7,7 @@
 
 import CoreData
 import CoreRepository
-import FoundationExt_R
+import FoundationExtInternal
 
 public protocol ManagedObjectWrapper {
     associatedtype Object: NSManagedObject

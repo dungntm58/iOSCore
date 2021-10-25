@@ -32,9 +32,9 @@ public class DefaultCoreDataConfiguration: CoreDataConfiguration {
                 let psc = try createPersistentStoreCoordinator(modelURL: modelURL, storeFileName: "defaultMeta.sqlite")
                 context.persistentStoreCoordinator = psc
             } catch {
-                #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
                 print("Failed to prepare sqlite storage, data will be loss")
-                #endif
+#endif
             }
 
             return context

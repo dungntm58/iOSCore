@@ -27,10 +27,6 @@ open class ManagedSceneContext {
     @usableFromInline
     var isPerformed: Bool
 
-    deinit {
-        cancellables.forEach { $0.cancel() }
-    }
-
     public init(children: [Scened] = []) {
         self.children = children
         self.lifeCycle = .init(.inital)

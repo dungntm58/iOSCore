@@ -183,9 +183,9 @@ struct Helper {
         case .predicate(let predicate, let count, let sorting, let validate):
             if ttl > 0, validate {
                 expiredObjectIDs = try getExpiredObjectIDs(ttl: ttl, of: type, metaManagedContext: metaManagedContext)
-                #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
                 Swift.print("Expired Object IDs:", expiredObjectIDs)
-                #endif
+#endif
                 let ejectionPredicate = NSPredicate(
                     format: "NOT (SELF IN %@)",
                     expiredObjectIDs.compactMap {
@@ -231,9 +231,9 @@ struct Helper {
             currentPage = page
             if ttl > 0, validate {
                 expiredObjectIDs = try getExpiredObjectIDs(ttl: ttl, of: type, metaManagedContext: metaManagedContext)
-                #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
                 Swift.print("Expired Object IDs:", expiredObjectIDs)
-                #endif
+#endif
                 let ejectionPredicate = NSPredicate(
                     format: "NOT (SELF IN %@)",
                     expiredObjectIDs.compactMap {
@@ -297,9 +297,9 @@ struct Helper {
             size = 10
             if ttl > 0 {
                 expiredObjectIDs = try getExpiredObjectIDs(ttl: ttl, of: type, metaManagedContext: metaManagedContext)
-                #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
                 Swift.print("Expired Object IDs:", expiredObjectIDs)
-                #endif
+#endif
                 let ejectionPredicate = NSPredicate(
                     format: "NOT (SELF IN %@)",
                     expiredObjectIDs.compactMap {

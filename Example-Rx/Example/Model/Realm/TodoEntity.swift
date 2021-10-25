@@ -11,7 +11,7 @@ import RealmSwift
 import CoreRepository
 import CoreRealmDataStore
 import CoreBase
-import FoundationExt_R
+import FoundationExtInternal
 
 class TodoEntity: ExpirableObject, Identifiable, Decodable {
     @objc dynamic var _id: String = ""

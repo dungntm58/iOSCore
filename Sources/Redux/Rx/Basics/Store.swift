@@ -30,11 +30,11 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
         _state.asObservable().distinctUntilChanged()
     }
 
-    #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
     deinit {
         print("Deinit", String(describing: Self.self))
     }
-    #endif
+#endif
 
     public init<Reducer>(
         reducer: Reducer,
@@ -99,8 +99,8 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
     }
 
     private func run() {
-        #if !RELEASE && !PRODUCTION
         let actionToState = _derivedAction
+#if !RELEASE && !PRODUCTION
             .withLatestFrom(_state) { [reducer] action, state -> (Action, State) in
                 let newState = reducer(action, state)
                 Swift.print("Previous state:", String(describing: state))
@@ -109,14 +109,10 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
                 return (action, newState)
             }
             .map(\.1)
+#else
+            .withLatestFrom(_state) { [reducer] action, state -> State in reducer(action, state) }
+#endif
             .bind(to: _state)
-        #else
-        let actionToState = _derivedAction
-            .withLatestFrom(_state) { [reducer] action, state -> State in
-                reducer(action, state)
-            }
-            .bind(to: _state)
-        #endif
         let actionToDerivedAction = _action.bind(to: _derivedAction)
         // Handle epics
         let actionToAction = _action

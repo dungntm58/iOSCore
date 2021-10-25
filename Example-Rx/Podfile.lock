@@ -18,7 +18,7 @@ PODS:
     - CoreRepository-Rx/DataStore
   - CoreList (0.1.0):
     - DifferenceKit
-    - FoundationExt_R
+    - FoundationExtInternal
   - CoreRealmDataStore-Rx (0.1.0):
     - CoreRepository-Rx/DataStore
     - Realm
@@ -39,7 +39,7 @@ PODS:
     - CoreRepository-Rx/RemoteLocal (= 0.1.0)
     - CoreRepository-Rx/Request (= 0.1.0)
   - CoreRepository-Rx/Basics (0.1.0):
-    - FoundationExt_R
+    - FoundationExtInternal
     - RxSwift (~> 6.0.0)
   - CoreRepository-Rx/DataStore (0.1.0):
     - CoreRepository-Rx/Basics
@@ -61,7 +61,7 @@ PODS:
   - DifferenceKit/Core (1.2.0)
   - DifferenceKit/UIKitExtension (1.2.0):
     - DifferenceKit/Core
-  - FoundationExt_R (0.1.0)
+  - FoundationExtInternal (0.1.0)
   - Realm (10.15.1):
     - Realm/Headers (= 10.15.1)
   - Realm/Headers (10.15.1)
@@ -88,7 +88,7 @@ DEPENDENCIES:
   - CoreRedux-Rx (from `../`)
   - CoreRedux-Rx/List (from `../`)
   - CoreRepository-Rx (from `../`)
-  - FoundationExt_R (from `../`)
+  - FoundationExtInternal (from `../`)
   - SwiftDate
   - SwiftLint
   - Toaster (from `https://github.com/devxoul/Toaster.git`, branch `master`)
@@ -122,7 +122,7 @@ EXTERNAL SOURCES:
     :path: "../"
   CoreRepository-Rx:
     :path: "../"
-  FoundationExt_R:
+  FoundationExtInternal:
     :path: "../"
   Toaster:
     :branch: master
@@ -138,12 +138,12 @@ SPEC CHECKSUMS:
   CoreAPNS-Rx: 2b483941cbf8a35f42375aa6b33744f2b99e25b4
   CoreBase-Rx: 593865b7dd6983b2b6908c3b0f9589744abc4653
   CoreDataStore-Rx: 536f03c290e6584987c4f57b21619655a031e17f
-  CoreList: 1b187e528a182f99a1f74560ef4df97dba0d0190
+  CoreList: dd6becf673110121504415d746f0995dc5677e69
   CoreRealmDataStore-Rx: 803d58c0d4c29492d4f7430732d115d3a3618522
   CoreRedux-Rx: 3cb78a8a5095c3028d6521539d5433bb1190b0a8
-  CoreRepository-Rx: 506e37b172b6f894cfc9d3de989baa6fcaecdbbb
+  CoreRepository-Rx: 3ce391fa2d9f70e702d11eec24d348779bf0f8d6
   DifferenceKit: 5659c430bb7fe45876fa32ce5cba5d6167f0c805
-  FoundationExt_R: e1a55581144ae8be50e756debba52eadcb8b92d9
+  FoundationExtInternal: 2e4e9080f29ee90add5db73acf37deadf6785596
   Realm: fbcbde2620d51623cc5b18e28f5b165c39abef52
   RealmSwift: e4bea8e42efad3d543aea23b56504069c6faaea2
   RxCocoa: 3f79328fafa3645b34600f37c31e64c73ae3a80e
@@ -154,6 +154,6 @@ SPEC CHECKSUMS:
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
   Valet: 11ab0e318b7284888a81392e36136563b4af5deb
 
-PODFILE CHECKSUM: 022d77034eb9cbe0cdb6aef2857b39cab146ef1e
+PODFILE CHECKSUM: ef1f476906f04a9b029a9b05b3f1400dd97ac94f
 
 COCOAPODS: 1.11.2

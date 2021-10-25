@@ -9,7 +9,7 @@
 import DifferenceKit
 import CoreRepository
 import CoreBase
-import FoundationExt_R
+import FoundationExtInternal
 
 struct TodoEntity: Identifiable, Decodable, Equatable {
     typealias IDType = String

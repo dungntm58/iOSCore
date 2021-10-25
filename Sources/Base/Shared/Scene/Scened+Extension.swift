@@ -48,9 +48,9 @@ extension Scened {
     @inlinable
     public func attach(child scene: Scened, with userInfo: Any?) {
         if children.contains(where: { scene as AnyObject === $0 as AnyObject }) {
-            #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
             Swift.print("This scene has been already attached")
-            #endif
+#endif
             if let retrieve = scene.retrieve {
                 scene.updateLifeCycle(.willBecomeActive)
                 retrieve(nil)
@@ -88,10 +88,10 @@ extension Scened {
 
     @inlinable
     public func detach(with userInfo: Any?) {
-        #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
         Swift.print("Detach scene", type(of: self))
         printSceneHierachyDebug()
-        #endif
+#endif
         if previous == nil {
             parent?.detach(with: userInfo)
             return
@@ -131,7 +131,7 @@ extension Scened {
         scene.updateLifeCycle(.didBecomeActive)
     }
 
-    #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
     // swiftlint:disable force_cast
     @inlinable
     func printSceneHierachyDebug() {
@@ -154,7 +154,7 @@ extension Scened {
         Swift.print("-----------------------------")
     }
     // swiftlint:enable force_cast
-    #endif
+#endif
 }
 
 // MARK: - Shortcut

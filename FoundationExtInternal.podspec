@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'FoundationExt_R'
+  s.name             = 'FoundationExtInternal'
   s.version          = '0.1.0'
   s.summary          = 'Clean Architecture'
 
@@ -29,7 +29,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform = :ios
-  s.module_name = 'FoundationExt_R'
+  s.module_name = 'FoundationExtInternal'
   s.swift_version = "5.2"
   s.framework = "Foundation"
   s.source_files = 'Sources/Shared/**/*.swift'

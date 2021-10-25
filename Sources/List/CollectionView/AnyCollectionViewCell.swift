@@ -5,7 +5,7 @@
 //  Created by Robert on 4/5/20.
 //
 
-import FoundationExt_R
+import FoundationExtInternal
 
 extension CollectionView {
     public struct AnyCell: CollectionViewCell, CellInteractable {

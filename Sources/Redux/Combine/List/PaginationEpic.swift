@@ -41,19 +41,22 @@ open class BaseListEpic<Action, State, Worker>: Epic where
         dispatcher
             .of(type: .load)
             .map { $0.payload as? PayloadListRequestable }
-            .flatMap { payload -> AnyPublisher<Action, Never> in
-                Future<Payload.List.Response<Worker.T>, Error> { $0(.success(.init(isLoading: true))) }
-                    .append(
-                        self.worker
-                            .getList(options: self.toPaginationRequestOptions(from: payload))
-                            .map { .init(from: $0, payload: payload) }
-                            .eraseToAnyPublisher())
-                    .prefix(untilOutputFrom: actionStream
-                        .of(type: .load)
-                        .compactMap { $0.payload as? PayloadListRequestable }
-                        .filter { $0.cancelRunning })
+            .flatMap { [weak self] payload -> AnyPublisher<Action, Never> in
+                guard let self = self else { return Empty().eraseToAnyPublisher() }
+                let requestPublisher = self.worker
+                    .getList(options: self.toPaginationRequestOptions(from: payload))
+                    .map { Payload.List.Response<Worker.T>(from: $0, payload: payload) }
+                    .eraseToAnyPublisher()
+                let cancelRunningPublisher = actionStream
+                    .of(type: .load)
+                    .compactMap { $0.payload as? PayloadListRequestable }
+                    .filter { $0.cancelRunning }
+                return Just(Payload.List.Response<Worker.T>(isLoading: true))
+                    .setFailureType(to: Error.self)
+                    .append(requestPublisher)
+                    .prefix(untilOutputFrom: cancelRunningPublisher)
                     .map { $0.toAction() }
-                    .catch { Just($0.toAction()).eraseToAnyPublisher() }
+                    .`catch` { Just($0.toAction()).eraseToAnyPublisher() }
                     .eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()

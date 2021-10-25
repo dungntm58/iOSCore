@@ -11,23 +11,18 @@ extension RemoteLocalListRepository {
     // swiftlint:disable function_body_length
     @inlinable
     public func getList(options: FetchOptions?) -> AnyPublisher<ListDTO<T>, Error> {
-        #if !RELEASE && !PRODUCTION
         let remote = listRequest
             .getList(options: options?.requestOptions)
             .filter { $0.results != nil }
             .map(ListDTO.init)
+#if !RELEASE && !PRODUCTION
             .handleEvents(receiveOutput: {
                 Swift.print("Get \($0.data.count) items of type \(T.self) from remote successfully!!!")
             })
-        #else
-        let remote = listRequest
-            .getList(options: options?.requestOptions)
-            .filter { $0.results != nil }
-            .map(ListDTO.init)
-        #endif
+#endif
         let repositoryOptions = options?.repositoryOptions ?? .default
         switch repositoryOptions {
-        case .default:
+        case .`default`:
             guard let cacheOptions = options?.storeFetchOptions else {
                 assertionFailure("DataStore options must be set")
                 return Empty().eraseToAnyPublisher()
@@ -45,7 +40,7 @@ extension RemoteLocalListRepository {
                     if list.data.isEmpty {
                         return remoteThenDataStore
                     } else {
-                        return Future<ListDTO<T>, Error> { $0(.success(list)) }.eraseToAnyPublisher()
+                        return Just(list).setFailureType(to: Error.self).eraseToAnyPublisher()
                     }
                 }
                 .eraseToAnyPublisher()
@@ -91,7 +86,7 @@ extension RemoteLocalSingleRepository {
         let cacheObservable = store.deleteAsync(value)
         let remote = singleRequest.delete(value, options: options?.requestOptions)
         return remote
-            .zip(cacheObservable) { _, _ in () }
+            .zip(cacheObservable) { _, _ in }
             .eraseToAnyPublisher()
     }
 }
@@ -116,7 +111,7 @@ extension RemoteLocalIdentifiableSingleRepository {
                 .eraseToAnyPublisher()
         case .default:
             let cacheObservable = store.getAsync(id, options: options?.storeFetchOptions)
-            return cacheObservable.catch { _ in remote}.eraseToAnyPublisher()
+            return cacheObservable.catch { _ in remote }.eraseToAnyPublisher()
         case .ignoreDataStore:
             return remote.eraseToAnyPublisher()
         }
@@ -126,7 +121,7 @@ extension RemoteLocalIdentifiableSingleRepository {
     public func delete(id: T.ID, options: FetchOptions?) -> AnyPublisher<Void, Error> {
         let cacheObservable = store.deleteAsync(id, options: options?.storeFetchOptions)
         let remote = singleRequest.delete(id: id, options: options?.requestOptions)
-        return remote.zip(cacheObservable) { _, _ in () }.eraseToAnyPublisher()
+        return remote.zip(cacheObservable) { _, _ in }.eraseToAnyPublisher()
     }
 }
 
@@ -134,22 +129,20 @@ extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
     @inlinable
     public func refreshIfNeeded(_ list: ListDTO<T>, optionsGenerator: (T.ID) -> FetchOptions?) -> AnyPublisher<ListDTO<T>, Error> {
         if list.data.filter({ !$0.isValid }).isEmpty {
-            return Future<ListDTO<T>, Error> { $0(.success(list)) }
-                .eraseToAnyPublisher()
+            return Just(list).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
         let singlePublishers = list.data
             .map { item -> AnyPublisher<T, Error> in
                 if item.isValid {
-                    return Future<T, Error> { $0(.success(item)) }
-                        .eraseToAnyPublisher()
+                    return Just(item).setFailureType(to: Error.self).eraseToAnyPublisher()
                 } else {
                     return self.get(id: item.id, options: optionsGenerator(item.id))
                 }
             }
         let mergePublishers = Publishers.MergeMany(singlePublishers).collect()
         return Publishers.Zip3(
-            Future<Paginated?, Error> { $0(.success(list.pagination)) },
-            Future<[T.ID], Error> { $0(.success(list.data.map(\.id))) },
+            Just(list.pagination).setFailureType(to: Error.self),
+            Just(list.data.map(\.id)).setFailureType(to: Error.self),
             mergePublishers
         ).map { pagination, ids, arr in
             ListDTO<T>(

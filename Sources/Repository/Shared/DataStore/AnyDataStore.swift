@@ -5,7 +5,7 @@
 //  Created by Robert on 20/05/2021.
 //
 
-import FoundationExt_R
+import FoundationExtInternal
 
 extension DataStore {
     @inlinable

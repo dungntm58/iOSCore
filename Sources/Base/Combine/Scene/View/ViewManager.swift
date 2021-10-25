@@ -22,14 +22,6 @@ open class ViewManager: SceneAssociated {
         self.scene = scene
         ReferenceManager.setScene(scene, associatedViewController: currentViewController)
     }
-
-    func viewControllerWillAppear(_ viewController: UIViewController) {
-        self.currentViewController = viewController
-    }
-
-    func viewControllerWillDisappear(_ viewController: UIViewController) {
-        self._currentViewController = nil
-    }
 }
 
 extension ViewManager: ViewManagable {
@@ -44,43 +36,43 @@ extension ViewManager: ViewManagable {
 
     @inlinable
     public func present(_ viewController: UIViewController, animated flag: Bool = true, completion: (() -> Void)? = nil) {
-        #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
         Swift.print("Present view controller", type(of: viewController))
-        #endif
+#endif
         addHook(viewController)
         self.currentViewController.present(viewController, animated: true, completion: completion)
     }
 
     @inlinable
     public func pushViewController(_ viewController: UIViewController, animated flag: Bool = true) {
-        #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
         Swift.print("Push view controller", type(of: viewController))
-        #endif
+#endif
         addHook(viewController)
         (self.currentViewController as? UINavigationController ?? self.currentViewController.navigationController)?.pushViewController(viewController, animated: true)
     }
 
     @inlinable
     public func show(_ viewController: UIViewController, sender: Any? = nil) {
-        #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
         Swift.print("Show view controller", type(of: viewController))
-        #endif
+#endif
         addHook(viewController)
         self.currentViewController.show(viewController, sender: sender)
     }
 
     public func dismiss(animated flag: Bool, completion: (() -> Void)?) {
-        #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
         Swift.print("Dismiss root view controller")
-        #endif
+#endif
         internalDismiss(from: rootViewController, animated: flag, completion: completion)
         scene?.detach()
     }
-
+    
     public func goBack(animated flag: Bool = true, completion: (() -> Void)? = nil) {
-        #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
         Swift.print("Dismiss current view controller")
-        #endif
+#endif
         internalDismiss(from: currentViewController, animated: flag, completion: completion)
         if currentViewController == rootViewController {
             scene?.detach()
@@ -92,15 +84,35 @@ extension ViewManager {
     @usableFromInline
     func addHook(_ viewController: UIViewController) {
         viewController.whenWillAppear { [weak self] value in
-            self?.viewControllerWillAppear(viewController)
+            self?.currentViewController = value
         }
 
-        viewController.whenWillDisappear { [weak self] value in
-            self?.viewControllerWillDisappear(value)
+        switch viewController.modalPresentationStyle {
+        case .fullScreen, .currentContext:
+            break
+        case .formSheet, .pageSheet:
+            if #available(iOS 13.0, *) {
+                addHookViewWillDisappear(viewController)
+            }
+        case .popover:
+            if #available(iOS 13.0, *) {
+                addHookViewWillDisappear(viewController)
+            } else if UIDevice.current.userInterfaceIdiom == .pad {
+                addHookViewWillDisappear(viewController)
+            }
+        default:
+            addHookViewWillDisappear(viewController)
         }
 
         if let scene = scene {
             ReferenceManager.setScene(scene, associatedViewController: viewController)
+        }
+    }
+
+    private func addHookViewWillDisappear(_ viewController: UIViewController) {
+        viewController.whenWillDisappear { [weak self] value in
+            guard let presentingViewController = value.presentingViewController else { return }
+            self?._currentViewController = presentingViewController
         }
     }
 

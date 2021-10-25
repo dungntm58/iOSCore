@@ -56,11 +56,11 @@ extension PureHTTPRequest {
 
         let urlString = environment.config.defaultServerURL.appendingPathComponent(api.endPoint)
 
-        #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
         Swift.print("URL", urlString)
         Swift.print("Headers", headers ?? [:])
         Swift.print("Params", requestParams ?? [:])
-        #endif
+#endif
 
         let rawRequest = try URLRequest(url: urlString, method: api.method, headers: headers)
         var request = try api.encoding.encode(rawRequest, with: requestParams)

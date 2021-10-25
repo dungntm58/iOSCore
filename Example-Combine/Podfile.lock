@@ -1,6 +1,7 @@
 PODS:
   - Alamofire (5.4.4)
   - CombineCocoa (0.3.0)
+  - CombineExt (1.5.1)
   - CoreAPNS-Combine (0.1.0)
   - CoreBase-Combine/Basics (0.1.0)
   - CoreBase-Combine/ReduxExtension (0.1.0):
@@ -11,17 +12,18 @@ PODS:
     - CoreRepository-Combine/DataStore
   - CoreList (0.1.0):
     - DifferenceKit
-    - FoundationExt_R
+    - FoundationExtInternal
   - CoreRealmDataStore-Combine (0.1.0):
     - CoreRepository-Combine/DataStore
     - Realm
     - RealmSwift
-  - CoreRedux-Combine/Basics (0.1.0)
+  - CoreRedux-Combine/Basics (0.1.0):
+    - CombineExt
   - CoreRedux-Combine/List (0.1.0):
     - CoreRedux-Combine/Basics
     - CoreRepository-Combine/Basics
   - CoreRepository-Combine/Basics (0.1.0):
-    - FoundationExt_R
+    - FoundationExtInternal
   - CoreRepository-Combine/DataStore (0.1.0):
     - CoreRepository-Combine/Basics
   - CoreRepository-Combine/Local (0.1.0):
@@ -42,7 +44,7 @@ PODS:
   - DifferenceKit/Core (1.2.0)
   - DifferenceKit/UIKitExtension (1.2.0):
     - DifferenceKit/Core
-  - FoundationExt_R (0.1.0)
+  - FoundationExtInternal (0.1.0)
   - Realm (10.15.1):
     - Realm/Headers (= 10.15.1)
   - Realm/Headers (10.15.1)
@@ -64,7 +66,7 @@ DEPENDENCIES:
   - CoreRedux-Combine/Basics (from `../`)
   - CoreRedux-Combine/List (from `../`)
   - CoreRepository-Combine/RemoteLocal (from `../`)
-  - FoundationExt_R (from `../`)
+  - FoundationExtInternal (from `../`)
   - SwiftDate
   - SwiftLint
   - Toaster (from `https://github.com/devxoul/Toaster.git`, branch `master`)
@@ -74,6 +76,7 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - CombineCocoa
+    - CombineExt
     - DifferenceKit
     - Realm
     - RealmSwift
@@ -96,7 +99,7 @@ EXTERNAL SOURCES:
     :path: "../"
   CoreRepository-Combine:
     :path: "../"
-  FoundationExt_R:
+  FoundationExtInternal:
     :path: "../"
   Toaster:
     :branch: master
@@ -110,15 +113,16 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
   CombineCocoa: f9d1b5b786156e25357a2cc394449b279b5afc09
+  CombineExt: e081b93f38f507660550e001531a049a6825f63e
   CoreAPNS-Combine: fa6386ea466292d229adcc4ced2c774b9734afc1
   CoreBase-Combine: d36ef904ceff52ea9e62ee88e84605d0391d6fe6
   CoreDataStore-Combine: c67521187ffa05f41aa4a0dfb387080a3a68a84b
-  CoreList: 1b187e528a182f99a1f74560ef4df97dba0d0190
+  CoreList: dd6becf673110121504415d746f0995dc5677e69
   CoreRealmDataStore-Combine: 2e86479d70a22785e1af2bed56b30b63fc811b51
-  CoreRedux-Combine: ceeb6fd0ae72b00855f2e699826ee7f66a68da7a
-  CoreRepository-Combine: 0cd329efa635d85db1f5123a55b91b645ff2ba1a
+  CoreRedux-Combine: e35178c188e7c5631294848469e46eb62dcacec5
+  CoreRepository-Combine: d60912b439c62095ecad131e3a3165e69dd22dc4
   DifferenceKit: 5659c430bb7fe45876fa32ce5cba5d6167f0c805
-  FoundationExt_R: e1a55581144ae8be50e756debba52eadcb8b92d9
+  FoundationExtInternal: 2e4e9080f29ee90add5db73acf37deadf6785596
   Realm: fbcbde2620d51623cc5b18e28f5b165c39abef52
   RealmSwift: e4bea8e42efad3d543aea23b56504069c6faaea2
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
@@ -126,6 +130,6 @@ SPEC CHECKSUMS:
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
   Valet: 11ab0e318b7284888a81392e36136563b4af5deb
 
-PODFILE CHECKSUM: 8bd3f5e08e073c5533017af8c0cccae314b5ac86
+PODFILE CHECKSUM: 9545bf6399aae9565bee06abaab737d40f3c1c9f
 
 COCOAPODS: 1.11.2

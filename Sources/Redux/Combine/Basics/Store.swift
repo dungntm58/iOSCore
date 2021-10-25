@@ -6,6 +6,7 @@
 //
 
 import Combine
+import CombineExt
 
 open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Action: Actionable, State: Stateable, StoreScheduler: Scheduler {
     private let _state: CurrentValueSubject<State, Never>
@@ -29,10 +30,9 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
     }
 
     deinit {
-        cancellables.forEach { $0.cancel() }
-        #if !RELEASE && !PRODUCTION
+#if !RELEASE && !PRODUCTION
         print("Deinit", String(describing: Self.self))
-        #endif
+#endif
     }
 
     public init<Reducer>(
@@ -97,16 +97,18 @@ open class Store<Action, State, StoreScheduler>: Storable, Dispatchable where Ac
 
     private func run() {
         _derivedAction
-            .combineLatest(_state, { [reducer] action, state -> (Action, State) in
+#if !RELEASE && !PRODUCTION
+            .withLatestFrom(_state) { [reducer] action, state -> (Action, State) in
                 let newState = reducer(action, state)
-                #if !RELEASE && !PRODUCTION
                 Swift.print("Previous state:", String(describing: state))
                 Swift.print("Action:", String(describing: action))
                 Swift.print("Next state:", String(describing: newState))
-                #endif
                 return (action, newState)
-            })
+            }
             .map(\.1)
+#else
+            .withLatestFrom(_state) { [reducer] action, state in reducer(action, state) }
+#endif
             .sink(receiveValue: _state.send)
             .store(in: &cancellables)
         _action.sink(receiveValue: _derivedAction.send).store(in: &cancellables)

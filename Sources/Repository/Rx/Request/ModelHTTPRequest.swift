@@ -6,7 +6,7 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
-import FoundationExt_R
+import FoundationExtInternal
 import RxSwift
 
 public protocol SingleModelHTTPRequest: HTTPRequest where Response: SingleHTTPResponse {

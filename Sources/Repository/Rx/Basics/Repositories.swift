@@ -6,7 +6,7 @@
 //  Copyright © 2016 Robert Nguyen. All rights reserved.
 //
 
-import FoundationExt_R
+import FoundationExtInternal
 import RxSwift
 
 public protocol SingleModelRepository: ModelRepository {

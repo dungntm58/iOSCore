@@ -10,7 +10,7 @@ import CoreBase
 import CoreRepository
 import CoreDataStore
 import CoreData
-import FoundationExt_R
+import FoundationExtInternal
 
 class UserEntity: Identifiable, Decodable, ManagedObjectWrapper {
     let core: UserCoreEntity

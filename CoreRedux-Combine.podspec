@@ -40,6 +40,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
     ss.source_files = 'Sources/Redux/Shared/Basics/**/*', 'Sources/Redux/Combine/Basics/**/*'
     ss.ios.deployment_target = '13.0'
     ss.framework = 'Combine'
+    ss.dependency 'CombineExt'
   end
   
   s.subspec 'List' do |ss|

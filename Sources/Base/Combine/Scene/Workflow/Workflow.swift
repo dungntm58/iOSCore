@@ -27,7 +27,7 @@ where PreviousStep: WorkflowStepping, NextStep: WorkflowStepping
 
 @inlinable
 public func createWorkflow<FirstStep>(from firstStep: FirstStep) -> AnyPublisher<FirstStep, Never> where FirstStep: Launchable & WorkflowStepping {
-    Future { $0(.success(firstStep)) }
+    Just(firstStep)
         .handleEvents(receiveOutput: { $0.launch() })
         .eraseToAnyPublisher()
 }
