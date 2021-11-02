@@ -63,14 +63,19 @@ class TodoListViewController: BaseViewController {
         return .init(tableView: tableView, store: .init()) {
             tableView, viewModel in
             for (index, todo) in viewModel.todos.enumerated() {
-                TableView.Cell(id: index, cellType: TodoTableViewCell.self, model: todo)
-                    .handlers { model, view, _ in
-                        view.lbTime.text = model?.createdAt.toString()
-                        view.lbTitle.text = model?.title
-                    }
-                    didSelectHandler: { [weak self] indexPath in
-                        self?.viewModel?.dispatch(type: .selectTodo, payload: indexPath.row)
-                    }
+                TableView.Cell(
+                    id: index,
+                    cellType: TodoTableViewCell.self,
+                    type: .nib(nibName: "TodoTableViewCell", bundle: nil),
+                    model: todo
+                )
+                .handlers { model, view, _ in
+                    view.lbTime.text = model?.createdAt.toString()
+                    view.lbTitle.text = model?.title
+                }
+                didSelectHandler: { [weak self] indexPath in
+                    self?.viewModel?.dispatch(type: .selectTodo, payload: indexPath.row)
+                }
             }
             if viewModel.isAnimatedLoading {
                 TableView.LoadingCell()

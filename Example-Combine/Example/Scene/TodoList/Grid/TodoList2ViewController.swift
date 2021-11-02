@@ -67,6 +67,7 @@ class TodoList2ViewController: BaseViewController {
                 CollectionView.Cell(
                     id: index,
                     cellType: TodoCollectionViewCell.self,
+                    type: .nib(nibName: "TodoCollectionViewCell", bundle: nil),
                     model: todo
                 )
                 .handlers { model, view, _ in

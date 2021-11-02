@@ -65,18 +65,23 @@ class TodoList2ViewController: BaseViewController {
         return .init(collectionView: collectionView, store: .init()) {
             collectionView, viewModel in
             for (index, todo) in viewModel.todos.enumerated() {
-                CollectionView.Cell(id: index, cellType: TodoCollectionViewCell.self, model: todo)
-                    .hasFixedSize(true)
-                    .handlers { model, view, _ in
-                        view.lbTime.text = model?.createdAt.toString()
-                        view.lbTitle.text = model?.title
-                    }
-                    sizeEstimationHandler: { _, collectionView in
-                        CGSize(width: collectionView.frame.width, height: 60)
-                    }
-                    didSelectHandler: { [weak self] indexPath in
-                        self?.viewModel?.selectTodo(at: indexPath.row)
-                    }
+                CollectionView.Cell(
+                    id: index,
+                    cellType: TodoCollectionViewCell.self,
+                    type: .nib(nibName: "TodoCollectionViewCell", bundle: nil),
+                    model: todo
+                )
+                .hasFixedSize(true)
+                .handlers { model, view, _ in
+                    view.lbTime.text = model?.createdAt.toString()
+                    view.lbTitle.text = model?.title
+                }
+                sizeEstimationHandler: { _, collectionView in
+                    CGSize(width: collectionView.frame.width, height: 60)
+                }
+                didSelectHandler: { [weak self] indexPath in
+                    self?.viewModel?.selectTodo(at: indexPath.row)
+                }
                 CollectionView.Cell()
             }
             if viewModel.isAnimatedLoading {
