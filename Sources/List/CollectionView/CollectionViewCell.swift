@@ -86,7 +86,11 @@ extension CollectionView {
             if cellType === UICollectionViewCell.self {
                 type = .default
             } else {
+#if SWIFT_PACKAGE && swift(>=5.3)
                 type = .class(class: cellType)
+#else
+                type = .nib(nibName: String(describing: cellType), bundle: Bundle(for: View.classForCoder()))
+#endif
             }
             self.type = type
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
@@ -100,7 +104,11 @@ extension CollectionView {
             if View.self === UICollectionViewCell.self {
                 type = .default
             } else {
+#if SWIFT_PACKAGE && swift(>=5.3)
                 type = .class(class: View.self)
+#else
+                type = .nib(nibName: String(describing: View.self), bundle: Bundle(for: View.classForCoder()))
+#endif
             }
             self.type = type
             self.reuseIdentifier = reuseIdentifier ?? type.identifier
