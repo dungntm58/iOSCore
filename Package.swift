@@ -290,7 +290,10 @@ let package = Package(
             ]),
         .target(
             name: "FoundationExtInternal",
-            path: "Sources/Shared")
+            path: "Sources/Shared",
+            exclude: [
+                "Identifiable.swift"
+            ])
     ],
     swiftLanguageVersions: [.v5]
 )
