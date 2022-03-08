@@ -8,7 +8,6 @@
 
 import CoreBase
 import CoreRepository
-import FoundationExtInternal
 
 struct UserEntity: Identifiable, Codable, Equatable {
     typealias IDType = String

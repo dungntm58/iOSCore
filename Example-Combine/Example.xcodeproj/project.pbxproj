@@ -104,6 +104,7 @@
 		13D6095A22C324380084BBC6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D6087E22C3232F0084BBC6 /* LaunchScreen.xib */; };
 		13D6095B22C3243F0084BBC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13D6084122C31FF80084BBC6 /* Main.storyboard */; };
 		13D6095C22C324400084BBC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13D6084122C31FF80084BBC6 /* Main.storyboard */; };
+		E10907FD27D7134E00B99665 /* CoreList in Frameworks */ = {isa = PBXBuildFile; productRef = E10907FC27D7134E00B99665 /* CoreList */; };
 		E10A3C4C2424874A00AF6CFA /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C4B2424874A00AF6CFA /* Storyboard.swift */; };
 		E10A3C4D2424874A00AF6CFA /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C4B2424874A00AF6CFA /* Storyboard.swift */; };
 		E10A3C4E2424874A00AF6CFA /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C4B2424874A00AF6CFA /* Storyboard.swift */; };
@@ -245,6 +246,7 @@
 				E199C84B27305A42001890B8 /* CoreRepositoryRequest in Frameworks */,
 				E199C83B27305A42001890B8 /* CoreBase in Frameworks */,
 				E199C84327305A42001890B8 /* CoreRepository in Frameworks */,
+				E10907FD27D7134E00B99665 /* CoreList in Frameworks */,
 				E199C83927305A42001890B8 /* CoreAPNS in Frameworks */,
 				E199C84127305A42001890B8 /* CoreReduxList in Frameworks */,
 				E199C83F27305A42001890B8 /* CoreRedux in Frameworks */,
@@ -634,6 +636,7 @@
 				E199C87927305D47001890B8 /* CombineCocoa */,
 				E199C87C27305D9F001890B8 /* SwiftDate */,
 				E199C88027305DF8001890B8 /* Toaster */,
+				E10907FC27D7134E00B99665 /* CoreList */,
 			);
 			productName = Example;
 			productReference = 13D6083A22C31FF80084BBC6 /* Example_Combine.app */;
@@ -742,6 +745,7 @@
 				E199C87827305D47001890B8 /* XCRemoteSwiftPackageReference "CombineCocoa" */,
 				E199C87B27305D9F001890B8 /* XCRemoteSwiftPackageReference "SwiftDate" */,
 				E199C87F27305DF8001890B8 /* XCRemoteSwiftPackageReference "Toaster" */,
+				E10907FB27D7134E00B99665 /* XCRemoteSwiftPackageReference "CoreList" */,
 			);
 			productRefGroup = 13D6083B22C31FF80084BBC6 /* Products */;
 			projectDirPath = "";
@@ -1268,6 +1272,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E10907FB27D7134E00B99665 /* XCRemoteSwiftPackageReference "CoreList" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dungntm58/CoreList";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.1;
+			};
+		};
 		E199C87827305D47001890B8 /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa";
@@ -1295,6 +1307,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E10907FC27D7134E00B99665 /* CoreList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E10907FB27D7134E00B99665 /* XCRemoteSwiftPackageReference "CoreList" */;
+			productName = CoreList;
+		};
 		E199C83827305A42001890B8 /* CoreAPNS */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CoreAPNS;

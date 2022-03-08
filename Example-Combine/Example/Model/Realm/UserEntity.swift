@@ -11,7 +11,6 @@ import CoreBase
 import CoreRepository
 import CoreRealmDataStore
 import RealmSwift
-import FoundationExtInternal
 
 class UserEntity: Object, Identifiable, Decodable {
     typealias IDType = String

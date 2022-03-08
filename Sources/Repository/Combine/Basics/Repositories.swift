@@ -7,7 +7,6 @@
 //
 
 import Combine
-import FoundationExtInternal
 
 public protocol SingleModelRepository: ModelRepository {
     func update(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error>

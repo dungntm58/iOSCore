@@ -18,9 +18,6 @@ let package = Package(
             name: "CoreDataStore",
             targets: ["CoreDataStore"]),
         .library(
-            name: "CoreList",
-            targets: ["CoreList"]),
-        .library(
             name: "CoreRealmDataStore",
             targets: ["CoreRealmDataStore"]),
         .library(
@@ -100,14 +97,6 @@ let package = Package(
             ]
         ),
         .target(
-            name: "CoreList",
-            dependencies: [
-                .product(name: "DifferenceKit", package: "DifferenceKit"),
-                .target(name: "FoundationExtInternal")
-            ],
-            path: "Sources/List"
-        ),
-        .target(
             name: "CoreRealmDataStore",
             dependencies: [
                 .product(name: "RealmSwift", package: "Realm"),
@@ -147,12 +136,10 @@ let package = Package(
             ]),
         .target(
             name: "CoreRepository",
-            dependencies: [
-                .target(name: "FoundationExtInternal")
-            ],
             path: "Sources/Repository",
             exclude: [
                 "Rx",
+                "Shared/Basics/Identifiable.swift",
                 "Shared/DataStore",
                 "Shared/Local",
                 "Shared/Remote",
@@ -287,12 +274,6 @@ let package = Package(
             sources: [
                 "Shared/Request",
                 "Combine/Request"
-            ]),
-        .target(
-            name: "FoundationExtInternal",
-            path: "Sources/Shared",
-            exclude: [
-                "Identifiable.swift"
             ])
     ],
     swiftLanguageVersions: [.v5]

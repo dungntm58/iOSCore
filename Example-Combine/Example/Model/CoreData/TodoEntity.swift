@@ -11,7 +11,6 @@ import CoreRepository
 import CoreDataStore
 import CoreBase
 import CoreData
-import FoundationExtInternal
 
 class TodoEntity: NSObject, Decodable, ManagedObjectWrapper {
     let core: TodoCoreEntity

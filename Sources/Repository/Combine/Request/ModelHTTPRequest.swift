@@ -8,7 +8,6 @@
 
 import Combine
 import CoreRepository
-import FoundationExtInternal
 
 public protocol SingleModelHTTPRequest: HTTPRequest where Response: SingleHTTPResponse {
     func create(_ value: Response.ValueType, options: RequestOption?) -> AnyPublisher<Response, Error>

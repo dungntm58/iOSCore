@@ -18,7 +18,6 @@ PODS:
     - CoreRepository-Rx/DataStore
   - CoreList (0.1.0):
     - DifferenceKit
-    - FoundationExtInternal
   - CoreRealmDataStore-Rx (0.1.0):
     - CoreRepository-Rx/DataStore
     - Realm
@@ -83,7 +82,7 @@ DEPENDENCIES:
   - CoreBase-Rx (from `../`)
   - CoreBase-Rx/ReduxExtension (from `../`)
   - CoreDataStore-Rx (from `../`)
-  - CoreList (from `../`)
+  - CoreList (from `https://github.com/dungntm58/CoreList.git`, branch `main`)
   - CoreRealmDataStore-Rx (from `../`)
   - CoreRedux-Rx (from `../`)
   - CoreRedux-Rx/List (from `../`)
@@ -115,7 +114,8 @@ EXTERNAL SOURCES:
   CoreDataStore-Rx:
     :path: "../"
   CoreList:
-    :path: "../"
+    :branch: main
+    :git: https://github.com/dungntm58/CoreList.git
   CoreRealmDataStore-Rx:
     :path: "../"
   CoreRedux-Rx:
@@ -129,6 +129,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/devxoul/Toaster.git
 
 CHECKOUT OPTIONS:
+  CoreList:
+    :commit: 2f06a6b58315e93545c7dd937a527cc6f59986f2
+    :git: https://github.com/dungntm58/CoreList.git
   Toaster:
     :commit: e9e62c023ef37719b6b6939ed26a99f577a3d88f
     :git: https://github.com/devxoul/Toaster.git
@@ -138,7 +141,7 @@ SPEC CHECKSUMS:
   CoreAPNS-Rx: 2b483941cbf8a35f42375aa6b33744f2b99e25b4
   CoreBase-Rx: 593865b7dd6983b2b6908c3b0f9589744abc4653
   CoreDataStore-Rx: 536f03c290e6584987c4f57b21619655a031e17f
-  CoreList: dd6becf673110121504415d746f0995dc5677e69
+  CoreList: 022513106f7ef8c3dacb51e9d4d61b3ec9ea51ed
   CoreRealmDataStore-Rx: 803d58c0d4c29492d4f7430732d115d3a3618522
   CoreRedux-Rx: 3cb78a8a5095c3028d6521539d5433bb1190b0a8
   CoreRepository-Rx: 3ce391fa2d9f70e702d11eec24d348779bf0f8d6
@@ -154,6 +157,6 @@ SPEC CHECKSUMS:
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
   Valet: 11ab0e318b7284888a81392e36136563b4af5deb
 
-PODFILE CHECKSUM: ef1f476906f04a9b029a9b05b3f1400dd97ac94f
+PODFILE CHECKSUM: 052b53b5c8ce7f9ca5358472debeffaf578e27b7
 
 COCOAPODS: 1.11.2
