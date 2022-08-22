@@ -21,7 +21,7 @@ open class ViewManager: SceneAssociated {
 
     public func associate(with scene: Scened) {
         self.scene = scene
-        ReferenceManager.setScene(scene, associatedViewController: currentViewController)
+        currentViewController.associate(with: scene)
     }
 }
 
@@ -106,7 +106,7 @@ extension ViewManager {
         }
 
         if let scene = scene {
-            ReferenceManager.setScene(scene, associatedViewController: viewController)
+            viewController.associate(with: scene)
         }
     }
 

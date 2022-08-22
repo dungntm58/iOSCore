@@ -42,7 +42,7 @@ struct ListResult<T> {
     }
 }
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length file_length
 struct Helper {
     static let instance = Helper()
 

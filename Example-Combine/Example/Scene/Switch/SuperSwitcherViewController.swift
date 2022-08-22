@@ -15,8 +15,6 @@ class SuperSwitcherViewController: UIViewController, ViewManagable {
         super.viewDidLoad()
     }
     
-    @SceneReferenced var scene: SwitchScene?
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         

@@ -19,7 +19,6 @@ class LoginViewController: BaseViewController {
     
     lazy var cancellables: Set<AnyCancellable> = .init()
     
-    @SceneReferenced var scene: LoginScene?
     @SceneDependencyReferenced var store: LoginStore?
     
     override func viewDidLoad() {

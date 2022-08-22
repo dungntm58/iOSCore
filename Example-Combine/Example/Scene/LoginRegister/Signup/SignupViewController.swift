@@ -15,7 +15,6 @@ class SignupViewController: BaseViewController {
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!
     
-    @SceneReferenced var scene: LoginScene?
     @SceneDependencyReferenced var store: LoginStore?
     
     lazy var cancellables: Set<AnyCancellable> = .init()

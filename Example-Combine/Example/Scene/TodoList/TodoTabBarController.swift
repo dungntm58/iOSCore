@@ -18,7 +18,6 @@ import Toaster
 
 class TodoTabBarController: UITabBarController {
     
-    @SceneReferenced var scene: TodoScene?
     @SceneDependencyReferenced var viewModel: TodoStore?
     @SceneDependencyReferenced var viewManager: TodoScene.ViewManager?
     

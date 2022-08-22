@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS, deprecated, message: "Use computed property `scene` instead")
 @propertyWrapper
 final public class SceneReferenced<S> {
 
@@ -14,12 +15,11 @@ final public class SceneReferenced<S> {
         _enclosingInstance observed: EnclosingSelf,
         wrapped wrappedKeyPath: KeyPath<EnclosingSelf, S?>,
         storage storageKeyPath: KeyPath<EnclosingSelf, SceneReferenced<S>>
-    ) -> S? where EnclosingSelf: UIViewController {
+    ) -> S? where EnclosingSelf: SceneAssociated {
         let sceneReferenced = observed[keyPath: storageKeyPath]
         if let scene = sceneReferenced.scene as? S { return scene }
-        let scene: S? = ReferenceManager.getScene(associatedWith: observed)
-        sceneReferenced.scene = scene as? Scened
-        return scene
+        sceneReferenced.scene = observed.scene
+        return sceneReferenced.scene as? S
     }
 
     public init() {}

@@ -8,134 +8,68 @@
 import Foundation
 import UIKit
 
-public protocol ViewControllerLookingForAssociatedScene where Self: UIViewController {
-    func sceneAssociatedViewController() -> UIViewController?
+extension UIViewController: SceneAssociated {
+    public func associate(with scene: Scened) {
+        self.scene = scene
+    }
+
+    private(set) public var scene: Scened? {
+        get {
+            objc_getAssociatedObject(self, &Keys.associatedScene) as? Scened
+        }
+        set {
+            if self.scene != nil {
+                return
+            }
+            objc_setAssociatedObject(self, &Keys.associatedScene, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            pureSetSceneTopDown(newValue)
+            pureSetSceneBottomUp(newValue)
+        }
+    }
 }
 
-@usableFromInline
-@frozen enum ReferenceManager {
-
-    // Key: view controller's hash value
-    // Value: weak ref of scenable instance
-    private static var sceneDictionary: [Int: AnyWeak] = [:]
-
-    static func getScene<S>(associatedWith viewController: UIViewController) -> S? {
-        if let scene = sceneDictionary[viewController.hashValue]?.value as? S {
-            return scene
-        }
-        if let viewController = viewController as? ViewControllerLookingForAssociatedScene,
-            let associatedSceneViewController = viewController.sceneAssociatedViewController(),
-            let scene = sceneDictionary[associatedSceneViewController.hashValue]?.value as? S {
-            return scene
-        }
-        if let scene: S = viewController.parent.flatMap(getScene(associatedWith:)) {
-            return scene
-        }
-        if let scene: S = viewController.presentedViewController.flatMap(getScene(associatedWith:)) {
-            return scene
-        }
-        if let scene: S = viewController.tabBarController.flatMap(getScene(associatedWith:)) {
-            return scene
-        }
-        if let scene: S = viewController.navigationController.flatMap(getScene(associatedWith:)) {
-            return scene
-        }
-        if let scene: S = viewController.splitViewController.flatMap(getScene(associatedWith:)) {
-            return scene
-        }
-        return nil
+private extension UIViewController {
+    enum Keys {
+        static var associatedScene: UInt8 = 0
     }
 
-    // swiftlint:disable cyclomatic_complexity
-    static func getAbstractScene(associatedWith viewController: UIViewController) -> Scened? {
-        if let scene = sceneDictionary[viewController.hashValue]?.value {
-            if let scene = scene as? Scened {
-                return scene
+    func pureSetSceneBottomUp(_ scene: Scened?) {
+        if let presentingViewController = presentingViewController {
+            presentingViewController.scene = scene
+        }
+        if let tabBarController = tabBarController {
+            tabBarController.scene = scene
+            tabBarController.viewControllers?.filter { $0 !== self }.forEach {
+                $0.scene = scene
+            }
+        } else if let navigationController = navigationController {
+            navigationController.scene = scene
+            navigationController.viewControllers.filter { $0 !== self }.forEach {
+                $0.scene = scene
+            }
+        } else if let splitController = splitViewController {
+            splitController.scene = scene
+            splitController.viewControllers.filter { $0 !== self }.forEach {
+                $0.scene = scene
             }
         }
-        if let parent = viewController.parent {
-            if let scene = getAbstractScene(associatedWith: parent) {
-                return scene
-            }
-        }
-        if let presentedViewController = viewController.presentedViewController {
-            if let scene = getAbstractScene(associatedWith: presentedViewController) {
-                return scene
-            }
-        }
-        if let tabBarController = viewController.tabBarController {
-            if let scene = getAbstractScene(associatedWith: tabBarController) {
-                return scene
-            }
-        } else if let navigationController = viewController.navigationController {
-            if let scene = getAbstractScene(associatedWith: navigationController) {
-                return scene
-            }
-        } else if let splitController = viewController.splitViewController {
-            if let scene = getAbstractScene(associatedWith: splitController) {
-                return scene
-            }
-        }
-        return nil
-    }
-    // swiftlint:enable cyclomatic_complexity
-
-    @usableFromInline
-    static func setScene(_ scene: Scened?, associatedViewController viewController: UIViewController) {
-        for (key, value) in sceneDictionary where value.canBePruned {
-            sceneDictionary[key] = nil
-        }
-        let weakScene = AnyWeak(value: scene)
-        pureSetWeakScene(weakScene, associatedTopViewController: viewController)
-        pureSetWeakScene(weakScene, associatedBottomViewController: viewController)
     }
 
-    private static func pureSetWeakScene(_ scene: AnyWeak, associatedTopViewController viewController: UIViewController) {
-        if !sceneDictionary.keys.contains(viewController.hashValue) {
-            sceneDictionary[viewController.hashValue] = scene
+    func pureSetSceneTopDown(_ scene: Scened?) {
+        if let presentedViewController = presentedViewController {
+            presentedViewController.scene = scene
         }
-        if let parent = viewController.parent {
-            pureSetWeakScene(scene, associatedTopViewController: parent)
-        }
-        if let presentedViewController = viewController.presentedViewController {
-            pureSetWeakScene(scene, associatedTopViewController: presentedViewController)
-        }
-        if let tabBarController = viewController.tabBarController {
+        if let tabBarController = self as? UITabBarController {
             tabBarController.viewControllers?.forEach {
-                pureSetWeakScene(scene, associatedTopViewController: $0)
+                $0.scene = scene
             }
-        } else if let navigationController = viewController.navigationController {
+        } else if let navigationController = self as? UINavigationController {
             navigationController.viewControllers.forEach {
-                pureSetWeakScene(scene, associatedTopViewController: $0)
+                $0.scene = scene
             }
-        } else if let splitController = viewController.splitViewController {
+        } else if let splitController = self.splitViewController {
             splitController.viewControllers.forEach {
-                pureSetWeakScene(scene, associatedTopViewController: $0)
-            }
-        }
-    }
-
-    private static func pureSetWeakScene(_ scene: AnyWeak, associatedBottomViewController viewController: UIViewController) {
-        if !sceneDictionary.keys.contains(viewController.hashValue) {
-            sceneDictionary[viewController.hashValue] = scene
-        }
-        viewController.children.forEach {
-            pureSetWeakScene(scene, associatedBottomViewController: $0)
-        }
-        if let presentingViewController = viewController.presentingViewController {
-            pureSetWeakScene(scene, associatedBottomViewController: presentingViewController)
-        }
-        if let tabBarController = viewController as? UITabBarController {
-            tabBarController.viewControllers?.forEach {
-                pureSetWeakScene(scene, associatedBottomViewController: $0)
-            }
-        } else if let navigationController = viewController as? UINavigationController {
-            navigationController.viewControllers.forEach {
-                pureSetWeakScene(scene, associatedBottomViewController: $0)
-            }
-        } else if let splitController = viewController.splitViewController {
-            splitController.viewControllers.forEach {
-                pureSetWeakScene(scene, associatedBottomViewController: $0)
+                $0.scene = scene
             }
         }
     }

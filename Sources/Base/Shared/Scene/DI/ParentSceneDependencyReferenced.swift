@@ -9,28 +9,25 @@ import Foundation
 import UIKit
 
 @propertyWrapper
-final public class ParentSceneDependencyReferenced<S> {
+final public class ParentSceneDependencyReferenced<S>: SceneDependencyObservable {
 
     public static subscript<EnclosingSelf>(
         _enclosingInstance observed: EnclosingSelf,
         wrapped wrappedKeyPath: KeyPath<EnclosingSelf, S?>,
         storage storageKeyPath: KeyPath<EnclosingSelf, ParentSceneDependencyReferenced<S>>
-    ) -> S? where EnclosingSelf: UIViewController {
+    ) -> S? where EnclosingSelf: SceneAssociated {
         let sceneDependencyReferenced = observed[keyPath: storageKeyPath]
+        sceneDependencyReferenced.observed = observed
         if S.self is AnyObject.Type,
            let dependency = sceneDependencyReferenced.dependency {
             return dependency
         }
-        guard let scene = sceneDependencyReferenced.scene else {
-            guard let scene = ReferenceManager.getAbstractScene(associatedWith: observed)?.parent else { return nil }
-            sceneDependencyReferenced.scene = scene
-            let dependency: S? = scene.getDependency(keyPath: sceneDependencyReferenced.keyPath)
-            sceneDependencyReferenced.dependency = dependency
+        if S.self is AnyObject.Type,
+           let dependency = sceneDependencyReferenced.dependency {
             return dependency
         }
-        let dependency: S? = scene.getDependency(keyPath: sceneDependencyReferenced.keyPath)
-        sceneDependencyReferenced.dependency = dependency
-        return dependency
+        sceneDependencyReferenced.retrieveDependency()
+        return sceneDependencyReferenced.dependency
     }
 
     public init(keyPath: String? = nil) {
@@ -41,12 +38,53 @@ final public class ParentSceneDependencyReferenced<S> {
         self.keyPath = .concrete(keyPath)
     }
 
+    private weak var observed: SceneAssociated?
     private let keyPath: KeyPathValue?
-    private weak var scene: Scened?
+    private weak var scene: Scened? {
+        didSet {
+            guard let scene = scene else {
+                return
+            }
+            DependencyObservationCenter.default.register(scene: scene, dependencyRef: self)
+        }
+    }
     private var dependency: S?
 
     @available(*, unavailable, message: "@ParentSceneDependencyReferenced is only available on properties of UIViewController")
     public var wrappedValue: S? {
         fatalError()
+    }
+
+    public func updateChange(keyPath: AnyKeyPath) {
+        guard let kValue = self.keyPath else {
+            return updateDependency(keyPath: keyPath)
+        }
+        switch kValue {
+        case .string:
+            retrieveDependency()
+        case .concrete(let value):
+            if value == keyPath {
+                updateDependency(keyPath: keyPath)
+            }
+        }
+    }
+
+    private func updateDependency(keyPath: AnyKeyPath) {
+        let dependency = scene?[keyPath: keyPath]
+        guard dependency is S? else {
+            return
+        }
+        self.dependency = dependency as? S
+    }
+
+    private func retrieveDependency() {
+        if let scene = self.scene {
+            let dependency: S? = scene.getDependency(keyPath: keyPath)
+            return self.dependency = dependency
+        }
+        guard let scene = observed?.scene?.parent else { return }
+        self.scene = scene
+        let dependency: S? = scene.getDependency(keyPath: keyPath)
+        self.dependency = dependency
     }
 }

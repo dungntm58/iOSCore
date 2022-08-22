@@ -9,13 +9,33 @@ import UIKit
 
 public protocol SceneAssociated: AnyObject {
     func associate(with scene: Scened)
+    var scene: Scened? { get }
 }
 
-extension SceneAssociated where Self: UIViewController {
-    @inlinable
-    public func associate(with scene: Scened) {
-        ReferenceManager.setScene(scene, associatedViewController: self)
+class DependencyObservationCenter {
+    private struct SceneDependencyObserver {
+        weak var scene: Scened?
+        weak var dependencyRef: SceneDependencyObservable?
     }
+
+    static let `default` = DependencyObservationCenter()
+
+    private var observers: [SceneDependencyObserver] = []
+
+    func register(scene: Scened, dependencyRef: SceneDependencyObservable) {
+        observers = observers.filter { $0.scene == nil || $0.dependencyRef == nil }
+        observers.append(.init(scene: scene, dependencyRef: dependencyRef))
+    }
+
+    func notifyChanges(scene: Scened, keyPath: AnyKeyPath) {
+        observers
+            .filter { $0.scene === scene }
+            .forEach { $0.dependencyRef?.updateChange(keyPath: keyPath) }
+    }
+}
+
+public protocol SceneDependencyObservable: AnyObject {
+    func updateChange(keyPath: AnyKeyPath)
 }
 
 @propertyWrapper
@@ -43,6 +63,7 @@ final public class SceneDependency<S> {
             sceneDependency.dependency = newValue
             (newValue as? SceneAssociated)?.associate(with: observed)
             sceneDependency.isAssociated = true
+            DependencyObservationCenter.default.notifyChanges(scene: observed, keyPath: wrappedKeyPath)
         }
     }
 
@@ -65,40 +86,25 @@ enum KeyPathValue {
 }
 
 @propertyWrapper
-final public class SceneDependencyReferenced<S> {
+final public class SceneDependencyReferenced<S>: SceneDependencyObservable {
 
     public static subscript<EnclosingSelf>(
         _enclosingInstance observed: EnclosingSelf,
         wrapped wrappedKeyPath: KeyPath<EnclosingSelf, S?>,
         storage storageKeyPath: KeyPath<EnclosingSelf, SceneDependencyReferenced<S>>
-    ) -> S? where EnclosingSelf: UIViewController {
+    ) -> S? where EnclosingSelf: SceneAssociated {
         let sceneDependencyReferenced = observed[keyPath: storageKeyPath]
+        sceneDependencyReferenced.observed = observed
         if S.self is AnyObject.Type,
-           let dependency = sceneDependencyReferenced.dependency ?? sceneDependencyReferenced.weakDependency?.value as? S {
+           let dependency = sceneDependencyReferenced.dependency ?? sceneDependencyReferenced.weakDependency as? S {
             return dependency
         }
-        guard let scene = sceneDependencyReferenced.scene else {
-            guard let scene = ReferenceManager.getAbstractScene(associatedWith: observed) else { return nil }
-            sceneDependencyReferenced.scene = scene
-            let dependency: S? = scene.getDependency(keyPath: sceneDependencyReferenced.keyPath)
-            if dependency as? UIViewController === observed {
-                sceneDependencyReferenced.weakDependency = AnyWeak(value: observed)
-            } else {
-                sceneDependencyReferenced.dependency = dependency
-            }
-            return dependency
-        }
-        let dependency: S? = scene.getDependency(keyPath: sceneDependencyReferenced.keyPath)
-        if dependency as? UIViewController === observed {
-            sceneDependencyReferenced.weakDependency = AnyWeak(value: observed)
-        } else {
-            sceneDependencyReferenced.dependency = dependency
-        }
-        return dependency
+        sceneDependencyReferenced.retrieveDependency()
+        return sceneDependencyReferenced.dependency ?? sceneDependencyReferenced.weakDependency as? S
     }
 
     public init(keyPath: String? = nil) {
-        self.keyPath = keyPath.map { KeyPathValue.string($0) }
+        self.keyPath = keyPath.map(KeyPathValue.string)
     }
 
     public init(keyPath: AnyKeyPath) {
@@ -106,13 +112,67 @@ final public class SceneDependencyReferenced<S> {
     }
 
     private let keyPath: KeyPathValue?
-    private weak var scene: Scened?
+    private weak var scene: Scened? {
+        didSet {
+            guard let scene = scene else {
+                return
+            }
+            DependencyObservationCenter.default.register(scene: scene, dependencyRef: self)
+        }
+    }
+    private weak var observed: SceneAssociated?
     private var dependency: S?
-    private var weakDependency: AnyWeak?
+    private weak var weakDependency: AnyObject?
 
-    @available(*, unavailable, message: "@SceneDependencyReferenced is only available on properties of UIViewController")
+    @available(*, unavailable, message: "@SceneDependencyReferenced is only available on properties of SceneAssociated")
     public var wrappedValue: S? {
         fatalError()
+    }
+
+    public func updateChange(keyPath: AnyKeyPath) {
+        guard let kValue = self.keyPath else {
+            return updateDependency(keyPath: keyPath)
+        }
+        switch kValue {
+        case .string:
+            retrieveDependency()
+        case .concrete(let value):
+            if value == keyPath {
+                updateDependency(keyPath: keyPath)
+            }
+        }
+    }
+
+    private func updateDependency(keyPath: AnyKeyPath) {
+        let dependency = scene?[keyPath: keyPath]
+        guard dependency is S? else {
+            return
+        }
+        if dependency as AnyObject === observed {
+            self.weakDependency = dependency as AnyObject?
+        } else {
+            self.dependency = dependency as? S
+        }
+    }
+
+    private func retrieveDependency() {
+        if let scene = scene {
+            let dependency: S? = scene.getDependency(keyPath: keyPath)
+            if dependency as AnyObject === observed {
+                self.weakDependency = dependency as AnyObject?
+            } else {
+                self.dependency = dependency
+            }
+            return
+        }
+        guard let scene = observed?.scene else { return }
+        self.scene = scene
+        let dependency: S? = scene.getDependency(keyPath: keyPath)
+        if dependency as AnyObject === observed {
+            self.weakDependency = dependency as AnyObject?
+        } else {
+            self.dependency = dependency
+        }
     }
 }
 
@@ -131,6 +191,7 @@ extension Scened {
     private func getDependencyWithPropertyName<Dependency>(keyPath: String?) -> Dependency? {
         let children = Mirror(reflecting: self).children
         if keyPath == nil {
+#if !RELEASE && !PRODUCTION
             let dependencyChildren = children.compactMap { child -> Dependency? in
                 if let viewManager = child.value as? Dependency {
                     return viewManager
@@ -142,10 +203,22 @@ extension Scened {
                 return dependency.flattened() as? Dependency
             }
             if dependencyChildren.count == 1 {
-                return dependencyChildren.first
+                return dependencyChildren[0]
             }
             assertionFailure("Ambiguous reference to member of type \(Dependency.self)")
             return nil
+#else
+            return children.first { child -> Dependency? in
+                if let viewManager = child.value as? Dependency {
+                    return viewManager
+                }
+                let dependency = Mirror(reflecting: child.value)
+                    .children
+                    .first { $0.label == "dependency" }?
+                    .value
+                return dependency.flattened() as? Dependency
+            }
+#endif
         }
         if let dependency = children.first(where: { $0.label == keyPath })?.value as? Dependency {
             return dependency
