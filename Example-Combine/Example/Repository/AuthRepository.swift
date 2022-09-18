@@ -33,7 +33,7 @@ class AuthRepository {
             .flatMap ({
                 auth -> AnyPublisher<UserEntity, Error> in
                 AppPreferences.instance.token = auth.token
-                return self.userDataStore.saveAsync(auth.user)
+                return self.userDataStore.save(auth.user)
             })
             .eraseToAnyPublisher()
     }
@@ -51,7 +51,7 @@ class AuthRepository {
             .flatMap ({
                 auth -> AnyPublisher<UserEntity, Error> in
                 AppPreferences.instance.token = auth.token
-                return self.userDataStore.saveAsync(auth.user)
+                return self.userDataStore.save(auth.user)
             })
             .eraseToAnyPublisher()
     }

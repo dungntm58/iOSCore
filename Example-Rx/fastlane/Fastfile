@@ -1,0 +1,186 @@
+fastlane_require 'dotenv'
+
+default_platform :ios
+
+before_all do
+  Dotenv.overload '.env'
+end
+
+platform :ios do
+  desc "Installs the distribution certificates and profiles locally"
+  lane :nuke_cert do |options|
+  end
+
+  private_lane :create_temporary_keychain do
+    create_keychain(
+      name: ENV["MATCH_KEYCHAIN_NAME"],
+      password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600,
+      add_to_search_list: true
+    )
+  end
+
+  private_lane :get_cert_branch do |options|
+    identifier = options[:identifier]
+    if identifier == "com.blue.ios.shopping" 
+      "masan"
+    elsif identifier == "com.blue.ios.shopping.staging" 
+      "masan"
+    elsif identifier == "vn.vnshop.ios.shopping"
+      "vnshop"
+    elsif identifier == "vn.vnshop.ios.shopping.staging"
+      "vnshop"
+    end
+  end
+
+  private_lane :get_team_id do |options|
+    identifier = options[:identifier]
+    if identifier == "com.blue.ios.shopping"
+      "ULM3BDKC5A"
+    elsif identifier == "com.blue.ios.shopping.staging" 
+      "ULM3BDKC5A"
+    elsif identifier == "vn.vnshop.ios.shopping"
+      "4299CL6M2Z"
+    elsif identifier == "vn.vnshop.ios.shopping.staging"
+      "4299CL6M2Z"
+    end
+  end
+
+  private_lane :get_all_identifiers do |options|
+    identifier = options[:identifier]
+    if identifier == "com.blue.ios.shopping"
+      "com.blue.ios.shopping,com.blue.ios.shopping.staging"
+    elsif identifier == "com.blue.ios.shopping.staging" 
+      "com.blue.ios.shopping,com.blue.ios.shopping.staging"
+    elsif identifier == "vn.vnshop.ios.shopping"
+      "vn.vnshop.ios.shopping,vn.vnshop.ios.shopping.staging"
+    elsif identifier == "vn.vnshop.ios.shopping.staging"
+      "vn.vnshop.ios.shopping,vn.vnshop.ios.shopping.staging"
+    end
+  end
+
+  private_lane :get_configuration do |options|
+    identifier = options[:identifier]
+    if identifier == "com.blue.ios.shopping"
+      "Release"
+    elsif identifier == "com.blue.ios.shopping.staging" 
+      "Staging"
+    elsif identifier == "vn.vnshop.ios.shopping"
+      "Release"
+    elsif identifier == "vn.vnshop.ios.shopping.staging"
+      "Staging"    
+    end
+  end
+
+  private_lane :get_team_name do |options|
+    identifier = options[:identifier]
+    if identifier == "com.blue.ios.shopping"
+      "MASAN GROUP CORPORATION"
+    elsif identifier == "com.blue.ios.shopping.staging" 
+      "MASAN GROUP CORPORATION"
+    elsif identifier == "vn.vnshop.ios.shopping"
+      "VNSHOP ECOMMERCE LTD"
+    elsif identifier == "vn.vnshop.ios.shopping.staging"
+      "VNSHOP ECOMMERCE LTD"
+    else
+      "TEKO VIETNAM TECHNOLOGY JOINT STOCK COMPANY"
+    end
+  end
+
+  ####################################################################################
+  ################################### Testing ########################################
+  ####################################################################################
+  desc "Runs all tests on simulator"
+  lane :simulator_tests do
+    scan(
+      workspace: "#{ENV["WORKSPACE"]}.xcworkspace",
+      scheme: ENV["MAIN_SCHEME"],
+      xcargs: "CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO",
+      devices: ["iPhone 12 Pro Max"],
+      clean: true
+    )
+  end
+
+  #####################################################################################
+  ################################### Builds ##########################################
+  #####################################################################################
+  desc "Submit a new build to TestFlight"
+  lane :release do |options|
+    begin
+      if options[:use_temporary_keychain]
+        create_temporary_keychain
+      end
+  
+      readonly = (options[:readonly] == "true" ? true : false)
+      identifier = options[:identifier]
+
+      # Sync code signing
+      match(
+        keychain_name: ENV["MATCH_KEYCHAIN_NAME"], 
+        keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],  
+        git_url: ENV["MATCH_GIT_URL"],
+        git_branch: get_cert_branch(identifier: identifier),         # git branch
+        app_identifier: get_all_identifiers(identifier: identifier), # app id
+        team_id: get_team_id(identifier: identifier),               # team id
+        username: "mobile.lab@teko.vn",
+        type: options[:type],
+        shallow_clone: false,
+        readonly: readonly,
+        verbose: true
+      )
+
+      last_build_number = latest_testflight_build_number(
+        username: "mobile.lab@teko.vn",
+        team_name: get_team_name(identifier: identifier),
+        app_identifier: identifier,
+        verbose: true,
+        initial_build_number: 1
+      )
+      
+      increment_build_number(
+        build_number: last_build_number + 1,
+        xcodeproj: "#{ENV["WORKSPACE"]}.xcodeproj",
+        verbose: true
+      )
+      
+      # Build the application
+      build_app(
+        scheme: ENV["MAIN_SCHEME"],
+        workspace: "#{ENV["WORKSPACE"]}.xcworkspace",
+        configuration: get_configuration(identifier: identifier)
+      )
+      
+      # Upload to test flight
+      upload_to_testflight(
+        skip_waiting_for_build_processing: true,
+        username: "mobile.lab@teko.vn",
+        team_name: get_team_name(identifier: identifier),
+        verbose: true
+      )
+
+      # Notify Slack
+      notify_slack(
+        message: "Submit build to TestFlight succeeded!!!",
+        success: true
+      )
+    rescue => exception
+      notify_slack(
+        message: "Submit build to TestFlight has failed!!!",
+        success: false
+      )
+    end
+  end
+
+  #####################################################################################
+  ################################### Addition ########################################
+  #####################################################################################
+  lane :notify_slack do |options|
+    # slack(
+    #  message: options[:message],
+    #  success: options[:success],
+    #  slack_url: ENV["SLACK_URL"]
+    # )
+  end
+end

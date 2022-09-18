@@ -28,28 +28,28 @@ public struct AnyDataStore: DataStore {
         }
     }
 
-    public func saveSync(_ value: Any) throws -> Any {
-        try box.saveSync(value)
+    public func save(_ value: Any) async throws -> Any {
+        try await box.save(value)
     }
 
-    public func saveSync(_ values: [Any]) throws -> [Any] {
-        try box.saveSync(values)
+    public func save(_ values: [Any]) async throws -> [Any] {
+        try await box.save(values)
     }
 
-    public func deleteSync(_ value: Any) throws {
-        try box.deleteSync(value)
+    public func delete(_ value: Any) async throws {
+        try await box.delete(value)
     }
 
-    public func deleteSync(_ values: [Any]) throws {
-        try box.deleteSync(values)
+    public func delete(_ values: [Any]) async throws {
+        try await box.delete(values)
     }
 
-    public func eraseSync() throws {
-        try box.eraseSync()
+    public func erase() async throws {
+        try await box.erase()
     }
 
-    public func getList(options: DataStoreFetchOption) throws -> ListDTO<Any> {
-        try box.getList(options: options)
+    public func getList(options: DataStoreFetchOption) async throws -> ListDTO<Any> {
+        try await box.getList(options: options)
     }
 
     public func make(total: Int, page: Int, size: Int, previous: Any?, next: Any?) -> Paginated? {
@@ -58,12 +58,12 @@ public struct AnyDataStore: DataStore {
 }
 
 private protocol AnyDataStoreBox {
-    func saveSync(_ value: Any) throws -> Any
-    func saveSync(_ values: [Any]) throws -> [Any]
-    func deleteSync(_ value: Any) throws
-    func deleteSync(_ values: [Any]) throws
-    func eraseSync() throws
-    func getList(options: DataStoreFetchOption) throws -> ListDTO<Any>
+    func save(_ value: Any) async throws -> Any
+    func save(_ values: [Any]) async throws -> [Any]
+    func delete(_ value: Any) async throws
+    func delete(_ values: [Any]) async throws
+    func erase() async throws
+    func getList(options: DataStoreFetchOption) async throws -> ListDTO<Any>
     func make(total: Int, page: Int, size: Int, previous: Any?, next: Any?) -> Paginated?
 }
 
@@ -75,28 +75,28 @@ private struct Box<Base>: AnyDataStoreBox where Base: DataStore {
         self.base = base
     }
 
-    func saveSync(_ value: Any) throws -> Any {
-        try base.saveSync(value as! Base.T)
+    func save(_ value: Any) async throws -> Any {
+        try await base.save(value as! Base.T)
     }
 
-    func saveSync(_ values: [Any]) throws -> [Any] {
-        try base.saveSync(values as! [Base.T])
+    func save(_ values: [Any]) async throws -> [Any] {
+        try await base.save(values as! [Base.T])
     }
 
-    func deleteSync(_ value: Any) throws {
-        try base.deleteSync(value as! Base.T)
+    func delete(_ value: Any) async throws {
+        try await base.delete(value as! Base.T)
     }
 
-    func deleteSync(_ values: [Any]) throws {
-        try base.deleteSync(values as! [Base.T])
+    func delete(_ values: [Any]) async throws {
+        try await base.delete(values as! [Base.T])
     }
 
-    func eraseSync() throws {
-        try base.eraseSync()
+    func erase() async throws {
+        try await base.erase()
     }
 
-    func getList(options: DataStoreFetchOption) throws -> ListDTO<Any> {
-        let listDTO = try base.getList(options: options)
+    func getList(options: DataStoreFetchOption) async throws -> ListDTO<Any> {
+        let listDTO = try await base.getList(options: options)
         return .init(data: listDTO.data, pagination: listDTO.pagination)
     }
 

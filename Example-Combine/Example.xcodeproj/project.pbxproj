@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13D6084322C31FF80084BBC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13D6084122C31FF80084BBC6 /* Main.storyboard */; };
-		13D6088022C3232F0084BBC6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D6087E22C3232F0084BBC6 /* LaunchScreen.xib */; };
+		13D6084322C31FF80084BBC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13D6084122C31FF80084BBC6 /* Main.storyboard */; platformFilter = ios; };
+		13D6088022C3232F0084BBC6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D6087E22C3232F0084BBC6 /* LaunchScreen.xib */; platformFilter = ios; };
 		13D608D622C323470084BBC6 /* UserWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088322C323460084BBC6 /* UserWorker.swift */; };
 		13D608D722C323470084BBC6 /* TodoWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088422C323460084BBC6 /* TodoWorker.swift */; };
 		13D608D822C323470084BBC6 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088622C323460084BBC6 /* Constant.swift */; };
@@ -33,14 +33,14 @@
 		13D608FF22C323470084BBC6 /* TodoEpic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608C122C323470084BBC6 /* TodoEpic.swift */; };
 		13D6090022C323470084BBC6 /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608C222C323470084BBC6 /* TodoStore.swift */; };
 		13D6090222C323470084BBC6 /* TodoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608C522C323470084BBC6 /* TodoTableViewCell.swift */; };
-		13D6090322C323470084BBC6 /* TodoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D608C622C323470084BBC6 /* TodoTableViewCell.xib */; };
+		13D6090322C323470084BBC6 /* TodoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D608C622C323470084BBC6 /* TodoTableViewCell.xib */; platformFilter = ios; };
 		13D6090422C323470084BBC6 /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608C722C323470084BBC6 /* TodoListViewController.swift */; };
 		13D6090622C323470084BBC6 /* TodoReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608C922C323470084BBC6 /* TodoReducer.swift */; };
 		13D6090722C323470084BBC6 /* TodoScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608CA22C323470084BBC6 /* TodoScene.swift */; };
 		13D6090822C323470084BBC6 /* TodoTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608CB22C323470084BBC6 /* TodoTabBarController.swift */; };
 		13D6090922C323470084BBC6 /* TodoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608CC22C323470084BBC6 /* TodoModel.swift */; };
 		13D6090B22C323470084BBC6 /* TodoList2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608CF22C323470084BBC6 /* TodoList2ViewController.swift */; };
-		13D6090D22C323470084BBC6 /* TodoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D608D122C323470084BBC6 /* TodoCollectionViewCell.xib */; };
+		13D6090D22C323470084BBC6 /* TodoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D608D122C323470084BBC6 /* TodoCollectionViewCell.xib */; platformFilter = ios; };
 		13D6090E22C323470084BBC6 /* TodoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D222C323470084BBC6 /* TodoCollectionViewCell.swift */; };
 		13D6090F22C323470084BBC6 /* SuperSwitcherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D422C323470084BBC6 /* SuperSwitcherViewController.swift */; };
 		13D6091022C323470084BBC6 /* SwitchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D522C323470084BBC6 /* SwitchScene.swift */; };
@@ -100,11 +100,10 @@
 		13D6095622C324210084BBC6 /* SwitchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D522C323470084BBC6 /* SwitchScene.swift */; };
 		13D6095722C324210084BBC6 /* SuperSwitcherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D422C323470084BBC6 /* SuperSwitcherViewController.swift */; };
 		13D6095822C324210084BBC6 /* SwitchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D522C323470084BBC6 /* SwitchScene.swift */; };
-		13D6095922C324380084BBC6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D6087E22C3232F0084BBC6 /* LaunchScreen.xib */; };
-		13D6095A22C324380084BBC6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D6087E22C3232F0084BBC6 /* LaunchScreen.xib */; };
-		13D6095B22C3243F0084BBC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13D6084122C31FF80084BBC6 /* Main.storyboard */; };
-		13D6095C22C324400084BBC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13D6084122C31FF80084BBC6 /* Main.storyboard */; };
-		E10907FD27D7134E00B99665 /* CoreList in Frameworks */ = {isa = PBXBuildFile; productRef = E10907FC27D7134E00B99665 /* CoreList */; };
+		13D6095922C324380084BBC6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D6087E22C3232F0084BBC6 /* LaunchScreen.xib */; platformFilter = ios; };
+		13D6095A22C324380084BBC6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D6087E22C3232F0084BBC6 /* LaunchScreen.xib */; platformFilter = ios; };
+		13D6095B22C3243F0084BBC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13D6084122C31FF80084BBC6 /* Main.storyboard */; platformFilter = ios; };
+		13D6095C22C324400084BBC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13D6084122C31FF80084BBC6 /* Main.storyboard */; platformFilter = ios; };
 		E10A3C4C2424874A00AF6CFA /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C4B2424874A00AF6CFA /* Storyboard.swift */; };
 		E10A3C4D2424874A00AF6CFA /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C4B2424874A00AF6CFA /* Storyboard.swift */; };
 		E10A3C4E2424874A00AF6CFA /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10A3C4B2424874A00AF6CFA /* Storyboard.swift */; };
@@ -137,7 +136,6 @@
 		E199C84B27305A42001890B8 /* CoreRepositoryRequest in Frameworks */ = {isa = PBXBuildFile; productRef = E199C84A27305A42001890B8 /* CoreRepositoryRequest */; };
 		E199C84D27305A54001890B8 /* CoreAPNS in Frameworks */ = {isa = PBXBuildFile; productRef = E199C84C27305A54001890B8 /* CoreAPNS */; };
 		E199C84F27305A54001890B8 /* CoreBase in Frameworks */ = {isa = PBXBuildFile; productRef = E199C84E27305A54001890B8 /* CoreBase */; };
-		E199C85127305A54001890B8 /* CoreList in Frameworks */ = {isa = PBXBuildFile; productRef = E199C85027305A54001890B8 /* CoreList */; };
 		E199C85327305A54001890B8 /* CoreRedux in Frameworks */ = {isa = PBXBuildFile; productRef = E199C85227305A54001890B8 /* CoreRedux */; };
 		E199C85527305A54001890B8 /* CoreReduxList in Frameworks */ = {isa = PBXBuildFile; productRef = E199C85427305A54001890B8 /* CoreReduxList */; };
 		E199C85727305A54001890B8 /* CoreRepository in Frameworks */ = {isa = PBXBuildFile; productRef = E199C85627305A54001890B8 /* CoreRepository */; };
@@ -147,7 +145,6 @@
 		E199C85F27305A54001890B8 /* CoreRepositoryRequest in Frameworks */ = {isa = PBXBuildFile; productRef = E199C85E27305A54001890B8 /* CoreRepositoryRequest */; };
 		E199C86127305A5A001890B8 /* CoreAPNS in Frameworks */ = {isa = PBXBuildFile; productRef = E199C86027305A5A001890B8 /* CoreAPNS */; };
 		E199C86327305A5A001890B8 /* CoreBase in Frameworks */ = {isa = PBXBuildFile; productRef = E199C86227305A5A001890B8 /* CoreBase */; };
-		E199C86527305A5A001890B8 /* CoreList in Frameworks */ = {isa = PBXBuildFile; productRef = E199C86427305A5A001890B8 /* CoreList */; };
 		E199C86727305A5A001890B8 /* CoreRedux in Frameworks */ = {isa = PBXBuildFile; productRef = E199C86627305A5A001890B8 /* CoreRedux */; };
 		E199C86927305A5A001890B8 /* CoreReduxList in Frameworks */ = {isa = PBXBuildFile; productRef = E199C86827305A5A001890B8 /* CoreReduxList */; };
 		E199C86B27305A5A001890B8 /* CoreRepository in Frameworks */ = {isa = PBXBuildFile; productRef = E199C86A27305A5A001890B8 /* CoreRepository */; };
@@ -157,16 +154,19 @@
 		E199C87327305A5A001890B8 /* CoreRepositoryRequest in Frameworks */ = {isa = PBXBuildFile; productRef = E199C87227305A5A001890B8 /* CoreRepositoryRequest */; };
 		E199C87527305A8F001890B8 /* CoreRealmDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = E199C87427305A8F001890B8 /* CoreRealmDataStore */; };
 		E199C87727305A96001890B8 /* CoreDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = E199C87627305A96001890B8 /* CoreDataStore */; };
-		E199C87A27305D47001890B8 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E199C87927305D47001890B8 /* CombineCocoa */; };
 		E199C87D27305D9F001890B8 /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = E199C87C27305D9F001890B8 /* SwiftDate */; };
-		E199C88127305DF8001890B8 /* Toaster in Frameworks */ = {isa = PBXBuildFile; productRef = E199C88027305DF8001890B8 /* Toaster */; };
+		E199C88127305DF8001890B8 /* Toaster in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = E199C88027305DF8001890B8 /* Toaster */; };
 		E1D59EE9245137D90035B29F /* TodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D59EE8245137D80035B29F /* TodoViewModel.swift */; };
-		E1D8B6B72731BCCD009CF2D6 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E1D8B6B62731BCCD009CF2D6 /* CombineCocoa */; };
-		E1D8B6B92731BCD5009CF2D6 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E1D8B6B82731BCD5009CF2D6 /* CombineCocoa */; };
-		E1D8B6BB2731BCED009CF2D6 /* Toaster in Frameworks */ = {isa = PBXBuildFile; productRef = E1D8B6BA2731BCED009CF2D6 /* Toaster */; };
+		E1D8B6BB2731BCED009CF2D6 /* Toaster in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = E1D8B6BA2731BCED009CF2D6 /* Toaster */; };
 		E1D8B6BD2731BCF2009CF2D6 /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = E1D8B6BC2731BCF2009CF2D6 /* SwiftDate */; };
 		E1D8B6BF2731BCF9009CF2D6 /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = E1D8B6BE2731BCF9009CF2D6 /* SwiftDate */; };
-		E1D8B6C12731BCFE009CF2D6 /* Toaster in Frameworks */ = {isa = PBXBuildFile; productRef = E1D8B6C02731BCFE009CF2D6 /* Toaster */; };
+		E1D8B6C12731BCFE009CF2D6 /* Toaster in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = E1D8B6C02731BCFE009CF2D6 /* Toaster */; };
+		E20B0B5C28D64D8B00A571BF /* CoreList in Frameworks */ = {isa = PBXBuildFile; productRef = E20B0B5B28D64D8B00A571BF /* CoreList */; };
+		E2C541BF28D61C8300C548B0 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E2C541BE28D61C8300C548B0 /* CombineCocoa */; };
+		E2C8623B28D7264500052E4F /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E2C8623A28D7264500052E4F /* CombineCocoa */; };
+		E2C8623D28D7264C00052E4F /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E2C8623C28D7264C00052E4F /* CombineCocoa */; };
+		E2C8623F28D7266400052E4F /* CoreList in Frameworks */ = {isa = PBXBuildFile; productRef = E2C8623E28D7266400052E4F /* CoreList */; };
+		E2C8624128D7266A00052E4F /* CoreList in Frameworks */ = {isa = PBXBuildFile; productRef = E2C8624028D7266A00052E4F /* CoreList */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -241,19 +241,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E199C87A27305D47001890B8 /* CombineCocoa in Frameworks */,
 				E199C84527305A42001890B8 /* CoreRepositoryDataStore in Frameworks */,
 				E199C84B27305A42001890B8 /* CoreRepositoryRequest in Frameworks */,
 				E199C83B27305A42001890B8 /* CoreBase in Frameworks */,
 				E199C84327305A42001890B8 /* CoreRepository in Frameworks */,
-				E10907FD27D7134E00B99665 /* CoreList in Frameworks */,
 				E199C83927305A42001890B8 /* CoreAPNS in Frameworks */,
+				E20B0B5C28D64D8B00A571BF /* CoreList in Frameworks */,
 				E199C84127305A42001890B8 /* CoreReduxList in Frameworks */,
 				E199C83F27305A42001890B8 /* CoreRedux in Frameworks */,
 				E199C87D27305D9F001890B8 /* SwiftDate in Frameworks */,
 				E199C83D27305A42001890B8 /* CoreList in Frameworks */,
 				E199C84927305A42001890B8 /* CoreRepositoryRemote in Frameworks */,
 				E199C88127305DF8001890B8 /* Toaster in Frameworks */,
+				E2C541BF28D61C8300C548B0 /* CombineCocoa in Frameworks */,
 				E199C84727305A42001890B8 /* CoreRepositoryLocal in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -264,16 +264,16 @@
 			files = (
 				E199C87527305A8F001890B8 /* CoreRealmDataStore in Frameworks */,
 				E199C85927305A54001890B8 /* CoreRepositoryDataStore in Frameworks */,
+				E2C8623B28D7264500052E4F /* CombineCocoa in Frameworks */,
 				E199C85F27305A54001890B8 /* CoreRepositoryRequest in Frameworks */,
 				E199C84F27305A54001890B8 /* CoreBase in Frameworks */,
+				E2C8623F28D7266400052E4F /* CoreList in Frameworks */,
 				E1D8B6BD2731BCF2009CF2D6 /* SwiftDate in Frameworks */,
 				E199C85727305A54001890B8 /* CoreRepository in Frameworks */,
 				E199C84D27305A54001890B8 /* CoreAPNS in Frameworks */,
 				E199C85527305A54001890B8 /* CoreReduxList in Frameworks */,
 				E199C85327305A54001890B8 /* CoreRedux in Frameworks */,
-				E199C85127305A54001890B8 /* CoreList in Frameworks */,
 				E199C85D27305A54001890B8 /* CoreRepositoryRemote in Frameworks */,
-				E1D8B6B72731BCCD009CF2D6 /* CombineCocoa in Frameworks */,
 				E1D8B6BB2731BCED009CF2D6 /* Toaster in Frameworks */,
 				E199C85B27305A54001890B8 /* CoreRepositoryLocal in Frameworks */,
 			);
@@ -285,17 +285,17 @@
 			files = (
 				E199C86D27305A5A001890B8 /* CoreRepositoryDataStore in Frameworks */,
 				E199C87327305A5A001890B8 /* CoreRepositoryRequest in Frameworks */,
+				E2C8623D28D7264C00052E4F /* CombineCocoa in Frameworks */,
 				E199C86327305A5A001890B8 /* CoreBase in Frameworks */,
 				E199C86B27305A5A001890B8 /* CoreRepository in Frameworks */,
+				E2C8624128D7266A00052E4F /* CoreList in Frameworks */,
 				E199C86127305A5A001890B8 /* CoreAPNS in Frameworks */,
 				E1D8B6C12731BCFE009CF2D6 /* Toaster in Frameworks */,
 				E199C87727305A96001890B8 /* CoreDataStore in Frameworks */,
 				E199C86927305A5A001890B8 /* CoreReduxList in Frameworks */,
 				E199C86727305A5A001890B8 /* CoreRedux in Frameworks */,
-				E199C86527305A5A001890B8 /* CoreList in Frameworks */,
 				E199C87127305A5A001890B8 /* CoreRepositoryRemote in Frameworks */,
 				E1D8B6BF2731BCF9009CF2D6 /* SwiftDate in Frameworks */,
-				E1D8B6B92731BCD5009CF2D6 /* CombineCocoa in Frameworks */,
 				E199C86F27305A5A001890B8 /* CoreRepositoryLocal in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -633,10 +633,10 @@
 				E199C84627305A42001890B8 /* CoreRepositoryLocal */,
 				E199C84827305A42001890B8 /* CoreRepositoryRemote */,
 				E199C84A27305A42001890B8 /* CoreRepositoryRequest */,
-				E199C87927305D47001890B8 /* CombineCocoa */,
 				E199C87C27305D9F001890B8 /* SwiftDate */,
 				E199C88027305DF8001890B8 /* Toaster */,
-				E10907FC27D7134E00B99665 /* CoreList */,
+				E2C541BE28D61C8300C548B0 /* CombineCocoa */,
+				E20B0B5B28D64D8B00A571BF /* CoreList */,
 			);
 			productName = Example;
 			productReference = 13D6083A22C31FF80084BBC6 /* Example_Combine.app */;
@@ -659,7 +659,6 @@
 			packageProductDependencies = (
 				E199C84C27305A54001890B8 /* CoreAPNS */,
 				E199C84E27305A54001890B8 /* CoreBase */,
-				E199C85027305A54001890B8 /* CoreList */,
 				E199C85227305A54001890B8 /* CoreRedux */,
 				E199C85427305A54001890B8 /* CoreReduxList */,
 				E199C85627305A54001890B8 /* CoreRepository */,
@@ -668,9 +667,10 @@
 				E199C85C27305A54001890B8 /* CoreRepositoryRemote */,
 				E199C85E27305A54001890B8 /* CoreRepositoryRequest */,
 				E199C87427305A8F001890B8 /* CoreRealmDataStore */,
-				E1D8B6B62731BCCD009CF2D6 /* CombineCocoa */,
 				E1D8B6BA2731BCED009CF2D6 /* Toaster */,
 				E1D8B6BC2731BCF2009CF2D6 /* SwiftDate */,
+				E2C8623A28D7264500052E4F /* CombineCocoa */,
+				E2C8623E28D7266400052E4F /* CoreList */,
 			);
 			productName = Example_Realm;
 			productReference = 13D6085322C321DE0084BBC6 /* Example_Combine_Realm.app */;
@@ -693,7 +693,6 @@
 			packageProductDependencies = (
 				E199C86027305A5A001890B8 /* CoreAPNS */,
 				E199C86227305A5A001890B8 /* CoreBase */,
-				E199C86427305A5A001890B8 /* CoreList */,
 				E199C86627305A5A001890B8 /* CoreRedux */,
 				E199C86827305A5A001890B8 /* CoreReduxList */,
 				E199C86A27305A5A001890B8 /* CoreRepository */,
@@ -702,9 +701,10 @@
 				E199C87027305A5A001890B8 /* CoreRepositoryRemote */,
 				E199C87227305A5A001890B8 /* CoreRepositoryRequest */,
 				E199C87627305A96001890B8 /* CoreDataStore */,
-				E1D8B6B82731BCD5009CF2D6 /* CombineCocoa */,
 				E1D8B6BE2731BCF9009CF2D6 /* SwiftDate */,
 				E1D8B6C02731BCFE009CF2D6 /* Toaster */,
+				E2C8623C28D7264C00052E4F /* CombineCocoa */,
+				E2C8624028D7266A00052E4F /* CoreList */,
 			);
 			productName = Example_CoreData;
 			productReference = 13D6086922C321F30084BBC6 /* Example_Combine_CoreData.app */;
@@ -742,10 +742,10 @@
 			);
 			mainGroup = 13D6083122C31FF80084BBC6;
 			packageReferences = (
-				E199C87827305D47001890B8 /* XCRemoteSwiftPackageReference "CombineCocoa" */,
 				E199C87B27305D9F001890B8 /* XCRemoteSwiftPackageReference "SwiftDate" */,
 				E199C87F27305DF8001890B8 /* XCRemoteSwiftPackageReference "Toaster" */,
-				E10907FB27D7134E00B99665 /* XCRemoteSwiftPackageReference "CoreList" */,
+				E2C541BD28D61C8300C548B0 /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+				E20B0B5A28D64D8B00A571BF /* XCRemoteSwiftPackageReference "CoreList" */,
 			);
 			productRefGroup = 13D6083B22C31FF80084BBC6 /* Products */;
 			projectDirPath = "";
@@ -1134,10 +1134,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.combine.Example;
 				PRODUCT_NAME = Example_Combine;
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,3";
 			};
 			name = Debug;
 		};
@@ -1156,9 +1159,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.combine.Example;
 				PRODUCT_NAME = Example_Combine;
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,3";
 			};
 			name = Release;
 		};
@@ -1174,8 +1180,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.core.Example-Realm";
 				PRODUCT_NAME = Example_Combine_Realm;
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,3";
 			};
 			name = Debug;
 		};
@@ -1191,8 +1200,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.core.Example-Realm";
 				PRODUCT_NAME = Example_Combine_Realm;
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,3";
 			};
 			name = Release;
 		};
@@ -1208,8 +1220,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.core.Example-CoreData";
 				PRODUCT_NAME = Example_Combine_CoreData;
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,3";
 			};
 			name = Debug;
 		};
@@ -1225,8 +1240,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.core.Example-CoreData";
 				PRODUCT_NAME = Example_Combine_CoreData;
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,3";
 			};
 			name = Release;
 		};
@@ -1272,22 +1290,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		E10907FB27D7134E00B99665 /* XCRemoteSwiftPackageReference "CoreList" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dungntm58/CoreList";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.1;
-			};
-		};
-		E199C87827305D47001890B8 /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.0;
-			};
-		};
 		E199C87B27305D9F001890B8 /* XCRemoteSwiftPackageReference "SwiftDate" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/malcommac/SwiftDate";
@@ -1304,14 +1306,25 @@
 				kind = branch;
 			};
 		};
+		E20B0B5A28D64D8B00A571BF /* XCRemoteSwiftPackageReference "CoreList" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dungntm58/CoreList";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		E2C541BD28D61C8300C548B0 /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RomanPodymov/CombineCocoa";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E10907FC27D7134E00B99665 /* CoreList */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E10907FB27D7134E00B99665 /* XCRemoteSwiftPackageReference "CoreList" */;
-			productName = CoreList;
-		};
 		E199C83827305A42001890B8 /* CoreAPNS */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CoreAPNS;
@@ -1360,10 +1373,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = CoreBase;
 		};
-		E199C85027305A54001890B8 /* CoreList */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CoreList;
-		};
 		E199C85227305A54001890B8 /* CoreRedux */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CoreRedux;
@@ -1399,10 +1408,6 @@
 		E199C86227305A5A001890B8 /* CoreBase */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CoreBase;
-		};
-		E199C86427305A5A001890B8 /* CoreList */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CoreList;
 		};
 		E199C86627305A5A001890B8 /* CoreRedux */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1440,11 +1445,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = CoreDataStore;
 		};
-		E199C87927305D47001890B8 /* CombineCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E199C87827305D47001890B8 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
-			productName = CombineCocoa;
-		};
 		E199C87C27305D9F001890B8 /* SwiftDate */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E199C87B27305D9F001890B8 /* XCRemoteSwiftPackageReference "SwiftDate" */;
@@ -1454,16 +1454,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E199C87F27305DF8001890B8 /* XCRemoteSwiftPackageReference "Toaster" */;
 			productName = Toaster;
-		};
-		E1D8B6B62731BCCD009CF2D6 /* CombineCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E199C87827305D47001890B8 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
-			productName = CombineCocoa;
-		};
-		E1D8B6B82731BCD5009CF2D6 /* CombineCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E199C87827305D47001890B8 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
-			productName = CombineCocoa;
 		};
 		E1D8B6BA2731BCED009CF2D6 /* Toaster */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1484,6 +1474,36 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E199C87F27305DF8001890B8 /* XCRemoteSwiftPackageReference "Toaster" */;
 			productName = Toaster;
+		};
+		E20B0B5B28D64D8B00A571BF /* CoreList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E20B0B5A28D64D8B00A571BF /* XCRemoteSwiftPackageReference "CoreList" */;
+			productName = CoreList;
+		};
+		E2C541BE28D61C8300C548B0 /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E2C541BD28D61C8300C548B0 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
+		E2C8623A28D7264500052E4F /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E2C541BD28D61C8300C548B0 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
+		E2C8623C28D7264C00052E4F /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E2C541BD28D61C8300C548B0 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
+		E2C8623E28D7266400052E4F /* CoreList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E20B0B5A28D64D8B00A571BF /* XCRemoteSwiftPackageReference "CoreList" */;
+			productName = CoreList;
+		};
+		E2C8624028D7266A00052E4F /* CoreList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E20B0B5A28D64D8B00A571BF /* XCRemoteSwiftPackageReference "CoreList" */;
+			productName = CoreList;
 		};
 /* End XCSwiftPackageProductDependency section */
 

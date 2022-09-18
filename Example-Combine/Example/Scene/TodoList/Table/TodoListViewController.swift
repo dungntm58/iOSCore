@@ -17,7 +17,9 @@ class TodoListViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+#if os(iOS)
     lazy var refreshControl = UIRefreshControl()
+#endif
     
     lazy var cancellables = Set<AnyCancellable>()
     
@@ -45,19 +47,25 @@ class TodoListViewController: BaseViewController {
                     } else {
                         self.viewSourceProvider.store.todos += response.data
                     }
+#if os(iOS)
                     self.refreshControl.endRefreshing()
+#endif
                 }
                 self.viewSourceProvider.reload()
             })
             .store(in: &cancellables)
         
+#if os(iOS)
         tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+#endif
     }
     
+#if os(iOS)
     @objc func refreshData(_ sender: UIRefreshControl) {
         self.viewModel?.dispatch(type: .load, payload: 0)
     }
+#endif
     
     func createViewSourceProvider() -> TableView.ViewSourceProvider<TodoViewModel> {
         return .init(tableView: tableView, store: .init()) {

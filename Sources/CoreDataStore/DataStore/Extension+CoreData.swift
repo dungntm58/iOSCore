@@ -12,25 +12,25 @@ import CoreRepositoryDataStore
 #endif
 
 public extension CoreDataDataStore where T: NSManagedObject {
-    func saveSync(_ value: T) throws -> T {
+    func save(_ value: T) async throws -> T {
         try Helper.instance.saveSync(value, ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
         return value
     }
 
-    func saveSync(_ values: [T]) throws -> [T] {
+    func save(_ values: [T]) async throws -> [T] {
         try Helper.instance.saveSync(values, ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
         return values
     }
 
-    func deleteSync(_ value: T) throws {
+    func delete(_ value: T) async throws {
         try Helper.instance.deleteSync(value, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
     }
 
-    func deleteSync(_ values: [T]) throws {
+    func delete(_ values: [T]) async throws {
         try Helper.instance.deleteSync(values, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
     }
 
-    func getList(options: DataStoreFetchOption) throws -> ListDTO<T> {
+    func getList(options: DataStoreFetchOption) async throws -> ListDTO<T> {
         let listResult = try Helper.instance.getList(
             of: T.self, options: options, ttl: ttl,
             managedContext: configuration.managedObjectContext,
@@ -40,19 +40,19 @@ public extension CoreDataDataStore where T: NSManagedObject {
         return .init(data: listResult.items, pagination: pagination)
     }
 
-    func eraseSync() throws {
+    func erase() async throws {
         try Helper.instance.eraseSync(of: T.self, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
     }
 }
 
 public extension CoreDataIdentifiableDataStore where T: NSManagedObject {
-    func lastID() throws -> T.ID {
+    func lastID() async throws -> T.ID {
         try Helper.instance.getLastObject(of: T.self, ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext).id
     }
 }
 
 public extension CoreDataIdentifiableDataStore where T: CoreDataIdentifiable, T: NSManagedObject {
-    func getSync(_ id: T.ID, options: DataStoreFetchOption?) throws -> T {
+    func get(_ id: T.ID, options: DataStoreFetchOption?) async throws -> T {
         guard let idArg = id as? CVarArg else {
             throw DataStoreError.lookForIDFailure
         }

@@ -23,47 +23,47 @@ class TodoDataStore: IdentifiableDataStore {
         array = []
     }
     
-    func getSync(_ id: String, options: DataStoreFetchOption?) throws -> TodoEntity {
+    func get(_ id: String, options: DataStoreFetchOption?) async throws -> TodoEntity {
         if let value = array.first(where: { $0.id == id }) {
             return value
         }
         throw DataStoreError.notFound
     }
     
-    func lastID() throws -> String {
+    func lastID() async throws -> String {
         if let value = array.last?.id {
             return value
         }
         throw DataStoreError.lookForIDFailure
     }
     
-    func saveSync(_ value: TodoEntity) throws -> TodoEntity {
+    func save(_ value: TodoEntity) async throws -> TodoEntity {
         if !array.contains(where: { $0.id == value.id }) {
             array.append(value)
         }
         return value
     }
     
-    func saveSync(_ values: [TodoEntity]) throws -> [TodoEntity] {
+    func save(_ values: [TodoEntity]) async throws -> [TodoEntity] {
         array.append(contentsOf: values)
         return values
     }
     
-    func eraseSync() throws {
+    func erase() async throws {
         array.removeAll()
     }
     
-    func getList(options: DataStoreFetchOption) throws -> ListDTO<TodoEntity> {
+    func getList(options: DataStoreFetchOption) async throws -> ListDTO<TodoEntity> {
         return ListDTO(data: array)
     }
     
-    func deleteSync(_ value: TodoEntity) throws {
+    func delete(_ value: TodoEntity) async throws {
         if let index = array.firstIndex(where: { $0.id == value.id }) {
             array.remove(at: index)
         }
     }
     
-    func deleteSync(_ values: [TodoEntity]) throws {
+    func delete(_ values: [TodoEntity]) async throws {
         values.forEach {
             if let index = array.firstIndex(of: $0) {
                 array.remove(at: index)

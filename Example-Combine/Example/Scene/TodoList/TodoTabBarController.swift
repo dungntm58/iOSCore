@@ -12,7 +12,9 @@ import CoreBase
 import CoreList
 import CoreRedux
 import CoreReduxList
+#if os(iOS)
 import Toaster
+#endif
 
 class TodoTabBarController: UITabBarController {
     
@@ -30,7 +32,9 @@ class TodoTabBarController: UITabBarController {
         let btnAdd = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showNewTodoAlert))
         let btnLogout = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
         self.navigationItem.rightBarButtonItems = [btnAdd, btnLogout]
+#if os(iOS)
         self.navigationItem.hidesBackButton = true
+#endif
         
         viewModel?.state
             .filter { !$0.isLogout }
@@ -88,7 +92,9 @@ class TodoTabBarController: UITabBarController {
     }
     
     func onError(_ error: Error) {
+#if os(iOS)
         Toast(text: error.localizedDescription).show()
+#endif
     }
     
     @objc func logout() {

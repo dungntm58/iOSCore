@@ -14,76 +14,86 @@ extension DataStore {
     public var ttl: TimeInterval { 0 }
 
     @inlinable
-    public func saveAsync(_ value: T) -> AnyPublisher<T, Error> {
+    public func save(_ value: T) -> AnyPublisher<T, Error> {
         Future { promise in
-            do {
-                try self.saveSync(value)
+            Task {
+                do {
+                    try await self.save(value)
 #if !RELEASE && !PRODUCTION
-                Swift.print("Save \(value) of type \(T.self) successfully!!!")
+                    Swift.print("Save \(value) of type \(T.self) successfully!!!")
 #endif
-                promise(.success(value))
-            } catch {
-                promise(.failure(error))
+                    promise(.success(value))
+                } catch {
+                    promise(.failure(error))
+                }
             }
         }.eraseToAnyPublisher()
     }
 
     @inlinable
-    public func saveAsync(_ values: [T]) -> AnyPublisher<[T], Error> {
+    public func save(_ values: [T]) -> AnyPublisher<[T], Error> {
         Future { promise in
-            do {
-                try self.saveSync(values)
+            Task {
+                do {
+                    try await self.save(values)
 #if !RELEASE && !PRODUCTION
-                Swift.print("Save \(values.count) items of type \(T.self) successfully!!!")
+                    Swift.print("Save \(values.count) items of type \(T.self) successfully!!!")
 #endif
-                promise(.success(values))
-            } catch {
-                promise(.failure(error))
+                    promise(.success(values))
+                } catch {
+                    promise(.failure(error))
+                }
             }
         }.eraseToAnyPublisher()
     }
 
     @inlinable
-    public func deleteAsync(_ value: T) -> AnyPublisher<Void, Error> {
+    public func delete(_ value: T) -> AnyPublisher<Void, Error> {
         Future { promise in
-            do {
-                try self.deleteSync(value)
+            Task {
+                do {
+                    try await self.delete(value)
 #if !RELEASE && !PRODUCTION
-                Swift.print("Delete \(value) of type \(T.self) successfully!!!")
+                    Swift.print("Delete \(value) of type \(T.self) successfully!!!")
 #endif
-                promise(.success(()))
-            } catch {
-                promise(.failure(error))
+                    promise(.success(()))
+                } catch {
+                    promise(.failure(error))
+                }
             }
         }.eraseToAnyPublisher()
     }
 
     @inlinable
-    public func deleteAsync(_ values: [T]) -> AnyPublisher<Void, Error> {
+    public func delete(_ values: [T]) -> AnyPublisher<Void, Error> {
         Future { promise in
-            do {
-                try self.deleteSync(values)
+            Task {
+                do {
+                    try await self.delete(values)
 #if !RELEASE && !PRODUCTION
-                Swift.print("Delete \(values.count) items of type \(T.self) successfully!!!")
+                    Swift.print("Delete \(values.count) items of type \(T.self) successfully!!!")
 #endif
-                promise(.success(()))
-            } catch {
-                promise(.failure(error))
+                    promise(.success(()))
+                } catch {
+                    promise(.failure(error))
+                }
             }
         }.eraseToAnyPublisher()
     }
 
     @inlinable
-    public func getListAsync(options: DataStoreFetchOption) -> AnyPublisher<ListDTO<T>, Error> {
+    public func getList(options: DataStoreFetchOption) -> AnyPublisher<ListDTO<T>, Error> {
         Future { promise in
-            do {
-                let results = try self.getList(options: options)
+            Task {
+                do {
+                    let results = try await self.getList(options: options)
 #if !RELEASE && !PRODUCTION
-                Swift.print("Get \(results.data.count) items of type \(T.self) from cache successfully!!!")
+                    Swift.print("Get \(results.data.count) items of type \(T.self) from cache successfully!!!")
 #endif
-                promise(.success(results))
-            } catch {
-                promise(.failure(error))
+                    promise(.success(results))
+                } catch {
+                    promise(.failure(error))
+                }
             }
         }.eraseToAnyPublisher()
     }
@@ -91,14 +101,16 @@ extension DataStore {
     @inlinable
     public func eraseAsync() -> AnyPublisher<Void, Error> {
         Future { promise in
-            do {
-                try self.eraseSync()
+            Task {
+                do {
+                    try await self.erase()
 #if !RELEASE && !PRODUCTION
-                Swift.print("Erase all items of type \(T.self) successfully!!!")
+                    Swift.print("Erase all items of type \(T.self) successfully!!!")
 #endif
-                promise(.success(()))
-            } catch {
-                promise(.failure(error))
+                    promise(.success(()))
+                } catch {
+                    promise(.failure(error))
+                }
             }
         }.eraseToAnyPublisher()
     }
@@ -106,39 +118,41 @@ extension DataStore {
 
 extension IdentifiableDataStore {
     @inlinable
-    public func deleteSync(_ id: T.ID, options: DataStoreFetchOption?) throws {
-        guard let value = try? getSync(id, options: options) else {
-            return
-        }
-        try deleteSync(value)
+    public func delete(_ id: T.ID, options: DataStoreFetchOption?) async throws {
+        let value = try await get(id, options: options)
+        try await delete(value)
     }
 
     @inlinable
-    public func getAsync(_ id: T.ID, options: DataStoreFetchOption?) -> AnyPublisher<T, Error> {
+    public func get(_ id: T.ID, options: DataStoreFetchOption?) -> AnyPublisher<T, Error> {
         Future { promise in
-            do {
-                let value = try self.getSync(id, options: options)
+            Task {
+                do {
+                    let value = try await self.get(id, options: options)
 #if !RELEASE && !PRODUCTION
-                Swift.print("Get \(value) of type \(T.self) with id \(id) successfully!!!")
+                    Swift.print("Get \(value) of type \(T.self) with id \(id) successfully!!!")
 #endif
-                promise(.success(value))
-            } catch {
-                promise(.failure(error))
+                    promise(.success(value))
+                } catch {
+                    promise(.failure(error))
+                }
             }
         }.eraseToAnyPublisher()
     }
 
     @inlinable
-    public func deleteAsync(_ id: T.ID, options: DataStoreFetchOption?) -> AnyPublisher<Void, Error> {
+    public func delete(_ id: T.ID, options: DataStoreFetchOption?) -> AnyPublisher<Void, Error> {
         Future { promise in
-            do {
-                try self.deleteSync(id, options: options)
+            Task {
+                do {
+                    try await self.delete(id, options: options)
 #if !RELEASE && !PRODUCTION
-                Swift.print("Delete item of type \(T.self) with id \(id) successfully!!!")
+                    Swift.print("Delete item of type \(T.self) with id \(id) successfully!!!")
 #endif
-                promise(.success(()))
-            } catch {
-                promise(.failure(error))
+                    promise(.success(()))
+                } catch {
+                    promise(.failure(error))
+                }
             }
         }.eraseToAnyPublisher()
     }

@@ -18,35 +18,35 @@ extension LocalListRepository {
             assertionFailure("DataStore options must be set")
             return Empty().eraseToAnyPublisher()
         }
-        return store.getListAsync(options: storeFetchOptions)
+        return store.getList(options: storeFetchOptions)
     }
 }
 
 extension LocalSingleRepository {
     @inlinable
     public func create(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
-        store.saveAsync(value)
+        store.save(value)
     }
 
     @inlinable
     public func update(_ value: T, options: FetchOptions?) -> AnyPublisher<T, Error> {
-        store.saveAsync(value)
+        store.save(value)
     }
 
     @inlinable
     public func delete(_ value: T, options: FetchOptions?) -> AnyPublisher<Void, Error> {
-        store.deleteAsync(value)
+        store.delete(value)
     }
 }
 
 extension LocalIdentifiableSingleRepository {
     @inlinable
     public func get(id: T.ID, options: FetchOptions?) -> AnyPublisher<T, Error> {
-        store.getAsync(id, options: options?.storeFetchOptions)
+        store.get(id, options: options?.storeFetchOptions)
     }
 
     @inlinable
     public func delete(id: T.ID, options: FetchOptions?) -> AnyPublisher<Void, Error> {
-        store.deleteAsync(id, options: options?.storeFetchOptions)
+        store.delete(id, options: options?.storeFetchOptions)
     }
 }
