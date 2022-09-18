@@ -30,7 +30,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
 
   s.platform = :ios
   s.module_name = 'CoreDataStore'
-  s.swift_version = "5.2"
+  s.swift_version = "5.5"
   s.prefix_header_file = false
   s.frameworks = "CoreData", 'Combine'
   s.source_files = 'Sources/CoreDataStore/**/*.{h,m,mm,swift,xcdatamodeld}'

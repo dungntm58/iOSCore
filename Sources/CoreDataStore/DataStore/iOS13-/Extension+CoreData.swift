@@ -46,7 +46,7 @@ public extension CoreDataDataStore where T: NSManagedObject {
 }
 
 public extension CoreDataIdentifiableDataStore where T: NSManagedObject {
-    func lastID() throws -> T.ID {
+    func lastID() async throws -> T.ID {
         try Helper.instance.getLastObject(of: T.self, ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext).id
     }
 }

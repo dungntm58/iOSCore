@@ -43,12 +43,14 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
 
   s.subspec 'DataStore' do |ss|
     ss.source_files = 'Sources/Repository/Shared/DataStore/**/*', 'Sources/Repository/Rx/DataStore/**/*'
+    ss.exclude_files = 'Sources/Repository/Shared/DataStore/iOS13/**/*'
     ss.ios.deployment_target = '10.0'
     ss.dependency 'CoreRepository-Rx/Basics'
   end
 
   s.subspec 'Request' do |ss|
     ss.source_files = 'Sources/Repository/Shared/Request/**/*', 'Sources/Repository/Rx/Request/**/*'
+    ss.exclude_files = 'Sources/Repository/Shared/Request/iOS13/**/*'
     ss.ios.deployment_target = '10.0'
     ss.dependency 'Alamofire'
     ss.dependency 'CoreRepository-Rx/Basics'
@@ -56,6 +58,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
 
   s.subspec 'Remote' do |ss|
     ss.source_files = 'Sources/Repository/Shared/Remote/**/*', 'Sources/Repository/Rx/Remote/**/*'
+    ss.exclude_files = 'Sources/Repository/Shared/Remote/iOS13/**/*'
     ss.ios.deployment_target = '10.0'
     ss.dependency 'CoreRepository-Rx/Basics'
     ss.dependency 'CoreRepository-Rx/Request'
@@ -63,6 +66,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
 
   s.subspec 'Local' do |ss|
     ss.source_files = 'Sources/Repository/Shared/Local/**/*', 'Sources/Repository/Rx/Local/**/*'
+    ss.exclude_files = 'Sources/Repository/Shared/Local/iOS13/**/*'
     ss.ios.deployment_target = '10.0'
     ss.dependency 'CoreRepository-Rx/Basics'
     ss.dependency 'CoreRepository-Rx/DataStore'
@@ -70,6 +74,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
 
   s.subspec 'RemoteLocal' do |ss|
     ss.source_files = 'Sources/Repository/Shared/RemoteLocal/**/*', 'Sources/Repository/Rx/RemoteLocal/**/*'
+    ss.exclude_files = 'Sources/Repository/Shared/RemoteLocal/iOS13/**/*'
     ss.ios.deployment_target = '10.0'
     ss.dependency 'CoreRepository-Rx/Remote'
     ss.dependency 'CoreRepository-Rx/Local'

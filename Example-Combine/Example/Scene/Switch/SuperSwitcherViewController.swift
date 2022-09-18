@@ -27,5 +27,7 @@ class SuperSwitcherViewController: UIViewController, ViewManagable {
         }
     }
     
+#if os(iOS)
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
+#endif
 }

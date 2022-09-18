@@ -34,6 +34,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.swift_version = "5.2"
   s.prefix_header_file = false
   s.source_files = 'Sources/RealmDataStore/**/*'
+  s.exclude_files = 'Sources/RealmDataStore/DataStore/iOS13/**/*'
   s.ios.deployment_target = '10.0'
   s.dependency 'Realm'
   s.dependency 'RealmSwift'

@@ -23,24 +23,24 @@ class TodoSingleRequest: IdentifiableSingleHTTPRequest, Decoding {
         self.decoder = Constant.Request.jsonDecoder
     }
     
-    func get(id: String, options: RequestOption? = nil) -> AnyPublisher<Response, Error> {
-        execute(api: .getTodos(id: id), options: options)
+    func get(id: String, options: RequestOption? = nil) async throws -> Response {
+        try await execute(api: .getTodos(id: id), options: options)
     }
     
-    func delete(id: String, options: RequestOption? = nil) -> AnyPublisher<Response, Error> {
-        execute(api: .delete(id: id), options: options)
+    func delete(id: String, options: RequestOption? = nil) async throws -> Response {
+        try await execute(api: .delete(id: id), options: options)
     }
     
-    func create(_ value: TodoEntity, options: RequestOption? = nil) -> AnyPublisher<Response, Error> {
-        execute(api: .createTodo, options: value.toLiteralDictionary())
+    func create(_ value: TodoEntity, options: RequestOption? = nil) async throws -> Response {
+        try await execute(api: .createTodo, options: value.toLiteralDictionary())
     }
     
-    func update(_ value: TodoEntity, options: RequestOption? = nil) -> AnyPublisher<Response, Error> {
-        execute(api: .updateTodo(id: value.id), options: value.toLiteralDictionary())
+    func update(_ value: TodoEntity, options: RequestOption? = nil) async throws -> Response {
+        try await execute(api: .updateTodo(id: value.id), options: value.toLiteralDictionary())
     }
     
-    func delete(_ value: TodoEntity, options: RequestOption? = nil) -> AnyPublisher<Response, Error> {
-        self.delete(id: value.id, options: options)
+    func delete(_ value: TodoEntity, options: RequestOption? = nil) async throws -> Response {
+        try await self.delete(id: value.id, options: options)
     }
     
     #if DEBUG
@@ -59,8 +59,8 @@ class TodoListRequest: ListModelHTTPRequest, Decoding {
     init() {
         self.decoder = Constant.Request.jsonDecoder
     }
-    
-    func getList(options: RequestOption?) -> AnyPublisher<Response, Error> {
-        execute(api: .getTodos(id: nil), options: options)
+
+    func getList(options: CoreRepository.RequestOption?) async throws -> AppHTTPResponse<TodoEntity> {
+        try await execute(api: .getTodos(id: nil), options: options)
     }
 }

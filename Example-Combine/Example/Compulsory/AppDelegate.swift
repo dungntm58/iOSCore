@@ -27,7 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         launcher.launch()
 
 //        Setup remote notifications
+#if os(iOS)
         APNSConfig.registerForRemoteNotifications(application, options: [.alert, .badge, .sound], userNotificationCenterDelegate: self)
+#endif
         
         return true
     }
@@ -65,10 +67,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+#if os(iOS)
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Swift.Void){
 //        let apns = APNSEvent(event: "", data: APNSData())
 //        APNSWorker<APNSEvent<APNSData> >().subscribe(apns)
     }
 }
+#endif

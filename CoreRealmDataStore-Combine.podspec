@@ -30,7 +30,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
 
   s.platform = :ios
   s.module_name = 'CoreRealmDataStore'
-  s.swift_version = "5.2"
+  s.swift_version = "5.5"
   s.prefix_header_file = false
   s.source_files = 'Sources/RealmDataStore/**/*'
   s.ios.deployment_target = '13.0'

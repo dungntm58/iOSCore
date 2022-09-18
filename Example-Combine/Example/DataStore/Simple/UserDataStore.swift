@@ -22,39 +22,39 @@ class UserDataStore: IdentifiableDataStore {
         userDefaults = .standard
     }
     
-    func getSync(_ id: String, options: DataStoreFetchOption?) throws -> UserEntity {
+    func get(_ id: String, options: DataStoreFetchOption?) async throws -> UserEntity {
         if let data = userDefaults.data(forKey: id) {
             return try Constant.Request.jsonDecoder.decode(UserEntity.self, from: data)
         }
         throw DataStoreError.notFound
     }
     
-    func lastID() throws -> String {
+    func lastID() async throws -> String {
         throw DataStoreError.notFound
     }
     
-    func saveSync(_ value: UserEntity) throws -> UserEntity {
+    func save(_ value: UserEntity) async throws -> UserEntity {
         let data = try JSONEncoder().encode(value)
         userDefaults.set(data, forKey: value.id)
         return value
     }
     
-    func saveSync(_ values: [UserEntity]) throws -> [UserEntity] {
+    func save(_ values: [UserEntity]) async throws -> [UserEntity] {
         throw DataStoreError.unknown
     }
     
-    func eraseSync() throws {
+    func erase() async throws {
     }
     
-    func getList(options: DataStoreFetchOption) throws -> ListDTO<UserEntity> {
+    func getList(options: DataStoreFetchOption) async throws -> ListDTO<UserEntity> {
         ListDTO(data: [])
     }
     
-    func deleteSync(_ value: UserEntity) throws {
+    func delete(_ value: UserEntity) async throws {
         userDefaults.set(nil, forKey: value.id)
     }
     
-    func deleteSync(_ values: [UserEntity]) throws {
+    func delete(_ values: [UserEntity]) async throws {
         values.forEach {
             userDefaults.setValue(nil, forKey: $0.id)
         }

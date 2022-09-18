@@ -34,6 +34,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
   s.prefix_header_file = false
   s.framework = "CoreData"
   s.source_files = 'Sources/CoreDataStore/**/*.{h,m,mm,swift,xcdatamodeld}'
+  s.exclude_files = 'Sources/CoreDataStore/DataStore/iOS13/**/*'
   s.resources = 'Sources/CoreDataStore/Model/MetaModel.xcdatamodeld'
   s.ios.deployment_target = '10.0'
   s.dependency 'CoreRepository-Rx/DataStore'

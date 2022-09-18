@@ -16,7 +16,7 @@ PODS:
     - RxSwift (~> 6.0.0)
   - CoreDataStore-Rx (0.1.0):
     - CoreRepository-Rx/DataStore
-  - CoreList (0.1.0):
+  - CoreList (0.0.4):
     - DifferenceKit
   - CoreRealmDataStore-Rx (0.1.0):
     - CoreRepository-Rx/DataStore
@@ -38,7 +38,6 @@ PODS:
     - CoreRepository-Rx/RemoteLocal (= 0.1.0)
     - CoreRepository-Rx/Request (= 0.1.0)
   - CoreRepository-Rx/Basics (0.1.0):
-    - FoundationExtInternal
     - RxSwift (~> 6.0.0)
   - CoreRepository-Rx/DataStore (0.1.0):
     - CoreRepository-Rx/Basics
@@ -54,13 +53,12 @@ PODS:
   - CoreRepository-Rx/Request (0.1.0):
     - Alamofire
     - CoreRepository-Rx/Basics
-  - DifferenceKit (1.2.0):
-    - DifferenceKit/Core (= 1.2.0)
-    - DifferenceKit/UIKitExtension (= 1.2.0)
-  - DifferenceKit/Core (1.2.0)
-  - DifferenceKit/UIKitExtension (1.2.0):
+  - DifferenceKit (1.3.0):
+    - DifferenceKit/Core (= 1.3.0)
+    - DifferenceKit/UIKitExtension (= 1.3.0)
+  - DifferenceKit/Core (1.3.0)
+  - DifferenceKit/UIKitExtension (1.3.0):
     - DifferenceKit/Core
-  - FoundationExtInternal (0.1.0)
   - Realm (10.15.1):
     - Realm/Headers (= 10.15.1)
   - Realm/Headers (10.15.1)
@@ -87,7 +85,6 @@ DEPENDENCIES:
   - CoreRedux-Rx (from `../`)
   - CoreRedux-Rx/List (from `../`)
   - CoreRepository-Rx (from `../`)
-  - FoundationExtInternal (from `../`)
   - SwiftDate
   - SwiftLint
   - Toaster (from `https://github.com/devxoul/Toaster.git`, branch `master`)
@@ -122,15 +119,13 @@ EXTERNAL SOURCES:
     :path: "../"
   CoreRepository-Rx:
     :path: "../"
-  FoundationExtInternal:
-    :path: "../"
   Toaster:
     :branch: master
     :git: https://github.com/devxoul/Toaster.git
 
 CHECKOUT OPTIONS:
   CoreList:
-    :commit: 2f06a6b58315e93545c7dd937a527cc6f59986f2
+    :commit: d8a4ac9950963ecf02c2958c039516552776b84a
     :git: https://github.com/dungntm58/CoreList.git
   Toaster:
     :commit: e9e62c023ef37719b6b6939ed26a99f577a3d88f
@@ -140,13 +135,12 @@ SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
   CoreAPNS-Rx: 2b483941cbf8a35f42375aa6b33744f2b99e25b4
   CoreBase-Rx: 593865b7dd6983b2b6908c3b0f9589744abc4653
-  CoreDataStore-Rx: 536f03c290e6584987c4f57b21619655a031e17f
-  CoreList: 022513106f7ef8c3dacb51e9d4d61b3ec9ea51ed
-  CoreRealmDataStore-Rx: 803d58c0d4c29492d4f7430732d115d3a3618522
+  CoreDataStore-Rx: bb3bb7599e8217b53d50508ac99834db46c83b32
+  CoreList: 9077dd2797fb58d9f6e8a65728aff9bc5e03bdfc
+  CoreRealmDataStore-Rx: 6e3b8cea3c1523f4e6b777b17250a43122e2d17f
   CoreRedux-Rx: 3cb78a8a5095c3028d6521539d5433bb1190b0a8
-  CoreRepository-Rx: 3ce391fa2d9f70e702d11eec24d348779bf0f8d6
-  DifferenceKit: 5659c430bb7fe45876fa32ce5cba5d6167f0c805
-  FoundationExtInternal: 2e4e9080f29ee90add5db73acf37deadf6785596
+  CoreRepository-Rx: d345781e198d8267b47666a7962e4bf24bd5be76
+  DifferenceKit: ab185c4d7f9cef8af3fcf593e5b387fb81e999ca
   Realm: fbcbde2620d51623cc5b18e28f5b165c39abef52
   RealmSwift: e4bea8e42efad3d543aea23b56504069c6faaea2
   RxCocoa: 3f79328fafa3645b34600f37c31e64c73ae3a80e
@@ -157,6 +151,6 @@ SPEC CHECKSUMS:
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
   Valet: 11ab0e318b7284888a81392e36136563b4af5deb
 
-PODFILE CHECKSUM: 052b53b5c8ce7f9ca5358472debeffaf578e27b7
+PODFILE CHECKSUM: 054ec527eb320b8a371bff65a24c4f2e24b1ede4
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
