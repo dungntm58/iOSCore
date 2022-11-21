@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol SceneAssociated: AnyObject {
+protocol SceneAssociated: AnyObject {
     func associate(with scene: Scened)
     var scene: Scened? { get }
 }
@@ -34,7 +34,7 @@ class DependencyObservationCenter {
     }
 }
 
-public protocol SceneDependencyObservable: AnyObject {
+protocol SceneDependencyObservable: AnyObject {
     func updateChange(keyPath: AnyKeyPath)
 }
 
