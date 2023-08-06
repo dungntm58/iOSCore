@@ -6,12 +6,36 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
+import Foundation
 import Combine
 import CoreBase
 import CoreRepository
 import CoreRepositoryDataStore
 
-class AuthRepository {
+protocol AuthRepository {
+    func login(_ options: RequestOption) -> AnyPublisher<UserEntity, Error>
+    func signup(_ options: RequestOption) -> AnyPublisher<UserEntity, Error>
+}
+
+class MockAuthRepository: AuthRepository {
+    func login(_ options: RequestOption) -> AnyPublisher<UserEntity, Error> {
+        Future { promise in
+            promise(.success(.init(_id: "1", email: options.parameters?["email"] as? String ?? "test@abc.com", name: options.parameters?["email"] as? String ?? "test@abc.com")))
+        }
+        .delay(for: 0.2, scheduler: DispatchQueue.global())
+        .eraseToAnyPublisher()
+    }
+
+    func signup(_ options: RequestOption) -> AnyPublisher<UserEntity, Error> {
+        Future { promise in
+            promise(.success(.init(_id: "1", email: options.parameters?["email"] as? String ?? "test@abc.com", name: options.parameters?["email"] as? String ?? "test@abc.com")))
+        }
+        .delay(for: 0.2, scheduler: DispatchQueue.global())
+        .eraseToAnyPublisher()
+    }
+}
+
+class ImplAuthRepository: AuthRepository {
     private let request: AuthRequest
     private let userDataStore: UserDataStore
     

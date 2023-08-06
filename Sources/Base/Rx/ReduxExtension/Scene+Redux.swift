@@ -6,10 +6,9 @@
 //
 
 import CoreRedux
+import CoreBase
 
-extension SceneAssociated where Self: Activating {
-
-    @inlinable
+extension Activating {
     public func associate(with scene: Scened) {
         let lifeCycleDiposable = scene.lifeCycle
             .map { state -> Bool in
@@ -25,6 +24,6 @@ extension SceneAssociated where Self: Activating {
             .subscribe(onNext: { `self`, shouldActiveStore in
                 shouldActiveStore ? self.activate() : self.deactivate()
             })
-        _ = scene.managedContext.collect(lifeCycleDiposable)
+        scene.managedContext.collect(lifeCycleDiposable)
     }
 }

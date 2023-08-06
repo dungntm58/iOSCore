@@ -19,6 +19,7 @@ class TodoStore: Store<TodoReducer.Action, TodoReducer.State, DispatchQueue> {
             TodoCreateEpic().apply,
             LogoutEpic().apply
         )
+        activate()
     }
 }
 

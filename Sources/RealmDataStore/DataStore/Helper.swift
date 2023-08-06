@@ -113,7 +113,7 @@ struct Helper {
         switch options {
         case .predicate(let predicate, let count, let sorting, let validate):
             if type is Expirable, ttl > 0, validate {
-                results = results.filter("%K >= %@", #keyPath(ExpirableObject.localUpdatedDate), Date().addingTimeInterval(-ttl) as NSDate)
+                results = results.filter("%K >= %@", "localUpdatedDate", Date().addingTimeInterval(-ttl) as NSDate)
             }
             results = results.filter(predicate)
             totalItems = results.count
@@ -146,7 +146,7 @@ struct Helper {
         case .page(let page, let count, let predicate, let sorting, let validate):
             currentPage = page
             if type is Expirable, ttl > 0, validate {
-                results = results.filter("%K >= %@", #keyPath(ExpirableObject.localUpdatedDate), Date().addingTimeInterval(-ttl) as NSDate)
+                results = results.filter("%K >= %@", "localUpdatedDate", Date().addingTimeInterval(-ttl) as NSDate)
             }
             if let predicate = predicate {
                 results = results.filter(predicate)
@@ -199,7 +199,7 @@ struct Helper {
             }
         case .automatic:
             if type is Expirable, ttl > 0 {
-                results = results.filter("%K >= %@", #keyPath(ExpirableObject.localUpdatedDate), Date().addingTimeInterval(-ttl) as NSDate)
+                results = results.filter("%K >= %@", "localUpdatedDate", Date().addingTimeInterval(-ttl) as NSDate)
             }
             size = 10
             before = nil

@@ -54,7 +54,7 @@ open class BaseViewController: UIViewController {
     }
 
     open override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidDisappear(animated)
         apparents.forEach {
             $0.didDisappear?(animated)
         }

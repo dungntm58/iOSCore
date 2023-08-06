@@ -12,7 +12,12 @@ import CoreBase
 class SwitchScene: Scene, Launchable, _HasViewManagable {
     var __viewManager: ViewManagable? { viewManager }
     
-    @SceneDependency var viewManager = ViewManager()
+    @SceneDependency var viewManager: ViewManager?
+
+    init(viewManager: ViewManager = ViewManager()) {
+        super.init()
+        self.viewManager = viewManager
+    }
 
     override func perform(with object: Any?) {
         viewManager?.show()

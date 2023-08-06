@@ -30,11 +30,11 @@ extension WorkflowStepping where Self: Scened, WorkflowStepAction == WorkflowSce
     public func perform(action: WorkflowStepAction, with userInfo: Any?) {
         switch action {
         case .switchToNewScene(let scene):
-            self.switch(to: scene, with: userInfo)
+            `switch`(to: scene, with: userInfo)
         case .performChild(let index):
-            self.performChild(at: index, with: userInfo)
+            performChild(at: index, with: userInfo)
         case .detach:
-            self.detach(with: userInfo)
+            detach(with: userInfo)
         // swiftlint:disable identifier_name
         case .detachNTimes(let n):
             var current: Scened? = self

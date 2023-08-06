@@ -47,18 +47,6 @@ class TodoTabBarController: UITabBarController {
         
         viewModel?
             .state
-            .filter { $0.error == nil }
-            .map(\.isLogout)
-            .filter { $0 }
-            .receive(on: DispatchQueue.main)
-            .sink(receiveValue: {
-                [weak self] _ in
-                self?.scene?.detach(with: nil)
-            })
-            .store(in: &cancellables)
-        
-        viewModel?
-            .state
             .filter { $0.error == nil && !$0.isLogout }
             .map(\.selectedTodoIndex)
             .filter { $0 >= 0 }

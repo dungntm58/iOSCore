@@ -6,10 +6,9 @@
 //
 
 import CoreRedux
+import CoreBase
 
-extension SceneAssociated where Self: Activating {
-
-    @inlinable
+extension Activating where Self: AnyObject {
     public func associate(with scene: Scened) {
         let lifeCycleCancellable = scene.lifeCycle
             .map { state -> Bool in

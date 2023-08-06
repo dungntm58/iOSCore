@@ -23,8 +23,14 @@ class DependencyObservationCenter {
     private var observers: [SceneDependencyObserver] = []
 
     func register(scene: Scened, dependencyRef: SceneDependencyObservable) {
-        observers = observers.filter { $0.scene == nil || $0.dependencyRef == nil }
+        observers.removeAll{ $0.scene == nil || $0.dependencyRef == nil }
         observers.append(.init(scene: scene, dependencyRef: dependencyRef))
+    }
+
+    func unregister(scene: Scened, dependencyRef: SceneDependencyObservable) {
+        observers.removeAll {
+            $0.scene === scene && ($0.dependencyRef === dependencyRef || $0.dependencyRef == nil)
+        }
     }
 
     func notifyChanges(scene: Scened, keyPath: AnyKeyPath) {
@@ -111,10 +117,17 @@ final public class SceneDependencyReferenced<S>: SceneDependencyObservable {
         self.keyPath = .concrete(keyPath)
     }
 
+    deinit {
+        guard let scene else {
+            return
+        }
+        DependencyObservationCenter.default.unregister(scene: scene, dependencyRef: self)
+    }
+
     private let keyPath: KeyPathValue?
     private weak var scene: Scened? {
         didSet {
-            guard let scene = scene else {
+            guard let scene else {
                 return
             }
             DependencyObservationCenter.default.register(scene: scene, dependencyRef: self)
@@ -134,12 +147,12 @@ final public class SceneDependencyReferenced<S>: SceneDependencyObservable {
             return updateDependency(keyPath: keyPath)
         }
         switch kValue {
-        case .string:
+        case .string(let value) where String(describing: keyPath).contains(value):
             retrieveDependency()
-        case .concrete(let value):
-            if value == keyPath {
-                updateDependency(keyPath: keyPath)
-            }
+        case .concrete(let value) where value == keyPath:
+            updateDependency(keyPath: keyPath)
+        default:
+            break
         }
     }
 
@@ -156,7 +169,7 @@ final public class SceneDependencyReferenced<S>: SceneDependencyObservable {
     }
 
     private func retrieveDependency() {
-        if let scene = scene {
+        if let scene {
             let dependency: S? = scene.getDependency(keyPath: keyPath)
             if dependency as AnyObject === observed {
                 self.weakDependency = dependency as AnyObject?

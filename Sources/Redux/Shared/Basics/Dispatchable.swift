@@ -9,7 +9,6 @@ public protocol Dispatchable {
     associatedtype Action: Actionable
 
     func dispatch(type: Action.ActionType, payload: Any?)
-    func dispatch(_ action: Action...)
     func dispatch(_ actions: [Action])
 }
 
@@ -17,6 +16,11 @@ extension Dispatchable {
     @inlinable
     public func dispatch(type: Action.ActionType) {
         dispatch(type: type, payload: nil)
+    }
+
+    @inlinable
+    public func dispatch(_ action: Action...) {
+        dispatch(action)
     }
 }
 

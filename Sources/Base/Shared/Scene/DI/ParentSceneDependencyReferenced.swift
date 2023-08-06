@@ -38,11 +38,18 @@ final public class ParentSceneDependencyReferenced<S>: SceneDependencyObservable
         self.keyPath = .concrete(keyPath)
     }
 
+    deinit {
+        guard let scene else {
+            return
+        }
+        DependencyObservationCenter.default.unregister(scene: scene, dependencyRef: self)
+    }
+
     private weak var observed: SceneAssociated?
     private let keyPath: KeyPathValue?
     private weak var scene: Scened? {
         didSet {
-            guard let scene = scene else {
+            guard let scene else {
                 return
             }
             DependencyObservationCenter.default.register(scene: scene, dependencyRef: self)
@@ -78,7 +85,7 @@ final public class ParentSceneDependencyReferenced<S>: SceneDependencyObservable
     }
 
     private func retrieveDependency() {
-        if let scene = self.scene {
+        if let scene {
             let dependency: S? = scene.getDependency(keyPath: keyPath)
             return self.dependency = dependency
         }

@@ -23,15 +23,6 @@ class SignupViewController: BaseViewController {
         super.viewDidLoad()
         
         store?.state
-            .compactMap(\.user)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveValue: {
-                [weak self] _ in
-                self?.scene?.switch(to: TodoScene(), with: nil)
-            })
-            .store(in: &cancellables)
-        
-        store?.state
             .compactMap(\.error)
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: {
@@ -45,7 +36,7 @@ class SignupViewController: BaseViewController {
         guard let userName = lbUsername.text, let password = lbPassword.text else {
             return
         }
-        
+
         store?.dispatch(type: .register, payload: (userName, password))
     }
     

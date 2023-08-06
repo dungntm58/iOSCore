@@ -18,7 +18,7 @@ public protocol _HasViewManagable {
 
 public protocol ViewManagable {
     /// The current view controller that scene presents
-    var currentViewController: UIViewController { get }
+    var currentViewController: UIViewController? { get }
 
     /// Present a view controller from the current view controller
     func present(_ viewController: UIViewController, animated flag: Bool, completion: (() -> Void)?)
@@ -91,28 +91,37 @@ extension ViewManagable {
 
     @inlinable
     public func present(_ viewManager: ViewManagable, animated flag: Bool, completion: (() -> Void)?) {
-        currentViewController.present(viewManager.currentViewController, animated: flag, completion: completion)
+        guard let destinationViewController = viewManager.currentViewController else {
+            return
+        }
+        currentViewController?.present(destinationViewController, animated: flag, completion: completion)
     }
 
     @inlinable
     public func pushViewController(_ viewManager: ViewManagable, animated flag: Bool) {
-        currentViewController.navigationController?.pushViewController(viewManager.currentViewController, animated: flag)
+        guard let destinationViewController = viewManager.currentViewController else {
+            return
+        }
+        currentViewController?.navigationController?.pushViewController(destinationViewController, animated: flag)
     }
 
     @inlinable
     public func show(_ viewManager: ViewManagable, sender: Any?) {
-        currentViewController.show(viewManager.currentViewController, sender: sender)
+        guard let destinationViewController = viewManager.currentViewController else {
+            return
+        }
+        currentViewController?.show(destinationViewController, sender: sender)
     }
 }
 
 extension ViewManagable where Self: UIViewController {
 
     @inlinable
-    public var currentViewController: UIViewController { self }
+    public var currentViewController: UIViewController? { self }
 
     @inlinable
     public func pushViewController(_ viewController: UIViewController, animated flag: Bool) {
-        (self.currentViewController as? UINavigationController ?? self.currentViewController.navigationController)?.pushViewController(viewController, animated: true)
+        (self as? UINavigationController ?? navigationController)?.pushViewController(viewController, animated: true)
     }
 
     @inlinable

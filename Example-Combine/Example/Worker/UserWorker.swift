@@ -13,7 +13,8 @@ class UserWorker {
     let authRepository: AuthRepository
     
     init() {
-        authRepository = AuthRepository()
+//        authRepository = ImplAuthRepository()
+        authRepository = MockAuthRepository()
     }
     
     struct RequestOption: CoreRepository.RequestOption {

@@ -17,5 +17,6 @@ class LoginStore: Store<LoginReducer.Action, LoginReducer.State, DispatchQueue> 
             LoginEpic().apply,
             RegisterEpic().apply
         )
+        activate()
     }
 }

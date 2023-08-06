@@ -17,7 +17,9 @@ extension UIView {
     public func bringSelfToFrontSuperview() {
         superview?.bringSubviewToFront(self)
     }
+}
 
+extension UIResponder {
     @inlinable
     public var viewController: UIViewController? {
         var parentResponder: UIResponder? = self

@@ -16,22 +16,15 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!
     @IBOutlet weak var btnLogin: UIButton!
+    @IBOutlet weak var btnSignup: UIButton!
     
     lazy var cancellables: Set<AnyCancellable> = .init()
     
     @SceneDependencyReferenced var store: LoginStore?
+    @SceneDependencyReferenced var viewManager: LoginScene.ViewManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        store?.state
-            .compactMap(\.user)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveValue: {
-                [weak self] _ in
-                self?.scene?.switch(to: TodoScene(), with: nil)
-            })
-            .store(in: &cancellables)
         
         store?.state
             .compactMap(\.error)
@@ -44,18 +37,20 @@ class LoginViewController: BaseViewController {
         
         btnLogin.tapPublisher
             .combineLatest(
-                lbUsername.textPublisher
-                    .map { $0?.isEmpty ?? true }
-                    .filter(!)
+                lbUsername.textPublisher.compactMap { $0 }.filter { !$0.isEmpty }
             )
             .map { $1 }
             .combineLatest(
-                lbPassword.textPublisher
-                    .map { $0?.isEmpty ?? true }
-                    .filter(!)
+                lbPassword.textPublisher.compactMap { $0 }.filter { !$0.isEmpty }
             )
             .sink { [weak self] payload in
                 self?.store?.dispatch(type: .login, payload: payload)
+            }
+            .store(in: &cancellables)
+
+        btnSignup.tapPublisher
+            .sink { [weak self] in
+                self?.viewManager?.navigateToSignUp()
             }
             .store(in: &cancellables)
     }

@@ -34,10 +34,10 @@ extension LoginScene {
         }
         
         func show() {
-            if let navigationController = scene?.presentedViewManager?.currentViewController.navigationController {
+            if let navigationController = scene?.presentedViewManager?.currentViewController?.navigationController, let currentViewController {
                 navigationController.pushViewController(currentViewController, animated: true)
-            } else {
-                scene?.presentedViewManager?.currentViewController.present(currentViewController, animated: true)
+            } else if let currentViewController {
+                scene?.presentedViewManager?.currentViewController?.present(currentViewController, animated: true)
             }
         }
     }

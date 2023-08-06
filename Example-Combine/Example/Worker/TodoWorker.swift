@@ -16,7 +16,8 @@ class TodoWorker: ListDataWorker {
     let todoRepository: TodoRepository
     
     init() {
-        todoRepository = TodoRepository()
+//        todoRepository = ImplTodoRepository()
+        todoRepository = MockTodoRepository()
     }
     
     func getList(options: PaginationRequestOptions?) -> AnyPublisher<ListDTO<TodoEntity>, Error> {

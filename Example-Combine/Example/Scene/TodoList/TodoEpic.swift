@@ -43,11 +43,11 @@ struct LogoutEpic: Epic {
     func apply(dispatcher: AnyPublisher<Action, Never>, actionStream: AnyPublisher<Action, Never>, stateStream: AnyPublisher<State, Never>) -> AnyPublisher<Action, Never> {
         dispatcher
             .of(type: .logout)
-            .map ({
-                _ in
+            .mapToVoid()
+            .handleEvents(receiveOutput: {
                 AppPreferences.instance.token = nil
-                return Action(type: .logoutSuccess, payload: 0)
             })
+            .map { Action(type: .logoutSuccess, payload: 0) }
             .eraseToAnyPublisher()
     }
 }
@@ -65,14 +65,13 @@ struct TodoCreateEpic: Epic {
         dispatcher
             .of(type: .createTodo)
             .compactMap { $0.payload as? String }
-            .flatMap ({
-                payload -> AnyPublisher<Action, Never> in
+            .flatMap { payload -> AnyPublisher<Action, Never> in
                 self.worker.createNew(payload)
                     .map { Payload.List.Response(data: [$0]) }
                     .map { res -> Action in res.toAction() }
                     .catch { Just($0.toAction()) }
                     .eraseToAnyPublisher()
-            })
+            }
             .eraseToAnyPublisher()
     }
 }
