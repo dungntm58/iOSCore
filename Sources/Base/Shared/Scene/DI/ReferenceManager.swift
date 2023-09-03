@@ -14,7 +14,7 @@ extension UIViewController: SceneAssociated {
         objc_setAssociatedObject(self, &Keys.associatedScene, scene, .OBJC_ASSOCIATION_ASSIGN)
     }
 
-    public var scene: Scened? {
+    var scene: Scened? {
         objc_getAssociatedObject(self, &Keys.associatedScene) as? Scened
     }
 }

@@ -48,6 +48,8 @@ class TodoScene: Scene, _HasViewManagable {
 
 extension TodoScene {
     class ViewManager: CoreBase.ViewManager {
+        lazy var window = UIWindow(frame: UIScreen.main.bounds)
+
         init() {
             super.init(viewController: {
                 let todoVC = AppStoryboard.main.viewController(of: TodoTabBarController.self)
@@ -63,8 +65,12 @@ extension TodoScene {
                 return vc
             }()
 
-            let visibleViewController = scene?.presentedViewManager?.currentViewController
-            visibleViewController?.present(navigationController, animated: true)
+            if let visibleViewController = scene?.presentedViewManager?.currentViewController {
+                visibleViewController.present(navigationController, animated: true)
+            } else {
+                window.rootViewController = navigationController
+                window.makeKeyAndVisible()
+            }
         }
         
         func showTodoDetail() {

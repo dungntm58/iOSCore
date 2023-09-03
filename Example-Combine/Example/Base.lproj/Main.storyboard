@@ -258,21 +258,6 @@
             </objects>
             <point key="canvasLocation" x="-161" y="92"/>
         </scene>
-        <!--Super Switcher View Controller-->
-        <scene sceneID="KI8-qN-Mkh">
-            <objects>
-                <viewController storyboardIdentifier="SuperSwitcherViewController" id="y7C-oU-4Fz" customClass="SuperSwitcherViewController" customModule="Example_Combine" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ZvT-Dr-tSz">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="wXh-Lo-eGh"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cd9-A0-aYN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2106" y="797"/>
-        </scene>
         <!--Todo Tab Bar Controller-->
         <scene sceneID="i1w-Qo-5Nf">
             <objects>

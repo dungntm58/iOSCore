@@ -8,38 +8,30 @@
 
 import UIKit
 import CoreBase
+import Combine
 
-class SwitchScene: Scene, Launchable, _HasViewManagable {
-    var __viewManager: ViewManagable? { viewManager }
-    
-    @SceneDependency var viewManager: ViewManager?
+class SwitchScene: Scene, Launchable {
+    @SceneDependency var viewModel: SwitchViewModel?
 
-    init(viewManager: ViewManager = ViewManager()) {
+    var cancellables = Set<AnyCancellable>()
+
+    init(viewModel: SwitchViewModel = SwitchViewModel()) {
         super.init()
-        self.viewManager = viewManager
+        self.viewModel = viewModel
+
+        viewModel.tokenAvailibilityPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isTokenValid in
+                if isTokenValid {
+                    self?.switch(to: TodoScene(), with: nil)
+                } else {
+                    self?.switch(to: LoginScene(), with: nil)
+                }
+            }
+            .store(in: &cancellables)
     }
 
     override func perform(with object: Any?) {
-        viewManager?.show()
-    }
-}
-
-extension SwitchScene {
-    class ViewManager: CoreBase.ViewManager {
-        
-        lazy var window = UIWindow(frame: UIScreen.main.bounds)
-        
-        init() {
-            super.init(viewController: {
-                let vc = AppStoryboard.main.viewController(of: SuperSwitcherViewController.self)
-                vc.modalPresentationStyle = .fullScreen
-                return vc
-            }())
-        }
-        
-        func show() {
-            window.rootViewController = currentViewController
-            window.makeKeyAndVisible()
-        }
+        viewModel?.checkToken()
     }
 }

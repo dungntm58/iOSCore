@@ -42,7 +42,6 @@
 		13D6090B22C323470084BBC6 /* TodoList2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608CF22C323470084BBC6 /* TodoList2ViewController.swift */; };
 		13D6090D22C323470084BBC6 /* TodoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D608D122C323470084BBC6 /* TodoCollectionViewCell.xib */; platformFilter = ios; };
 		13D6090E22C323470084BBC6 /* TodoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D222C323470084BBC6 /* TodoCollectionViewCell.swift */; };
-		13D6090F22C323470084BBC6 /* SuperSwitcherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D422C323470084BBC6 /* SuperSwitcherViewController.swift */; };
 		13D6091022C323470084BBC6 /* SwitchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D522C323470084BBC6 /* SwitchScene.swift */; };
 		13D6091122C3238A0084BBC6 /* UserWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088322C323460084BBC6 /* UserWorker.swift */; };
 		13D6091222C3238A0084BBC6 /* TodoWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6088422C323460084BBC6 /* TodoWorker.swift */; };
@@ -96,9 +95,7 @@
 		13D6095222C324180084BBC6 /* TodoScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608CA22C323470084BBC6 /* TodoScene.swift */; };
 		13D6095322C324180084BBC6 /* TodoTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608CB22C323470084BBC6 /* TodoTabBarController.swift */; };
 		13D6095422C324180084BBC6 /* TodoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608CC22C323470084BBC6 /* TodoModel.swift */; };
-		13D6095522C324210084BBC6 /* SuperSwitcherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D422C323470084BBC6 /* SuperSwitcherViewController.swift */; };
 		13D6095622C324210084BBC6 /* SwitchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D522C323470084BBC6 /* SwitchScene.swift */; };
-		13D6095722C324210084BBC6 /* SuperSwitcherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D422C323470084BBC6 /* SuperSwitcherViewController.swift */; };
 		13D6095822C324210084BBC6 /* SwitchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D608D522C323470084BBC6 /* SwitchScene.swift */; };
 		13D6095922C324380084BBC6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D6087E22C3232F0084BBC6 /* LaunchScreen.xib */; platformFilter = ios; };
 		13D6095A22C324380084BBC6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D6087E22C3232F0084BBC6 /* LaunchScreen.xib */; platformFilter = ios; };
@@ -162,6 +159,7 @@
 		E1D8B6BF2731BCF9009CF2D6 /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = E1D8B6BE2731BCF9009CF2D6 /* SwiftDate */; };
 		E1D8B6C12731BCFE009CF2D6 /* Toaster in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = E1D8B6C02731BCFE009CF2D6 /* Toaster */; };
 		E20B0B5C28D64D8B00A571BF /* CoreList in Frameworks */ = {isa = PBXBuildFile; productRef = E20B0B5B28D64D8B00A571BF /* CoreList */; };
+		E271EAF92AA44C9C0094D4FF /* SwitchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271EAF82AA44C9C0094D4FF /* SwitchViewModel.swift */; };
 		E2C541BF28D61C8300C548B0 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E2C541BE28D61C8300C548B0 /* CombineCocoa */; };
 		E2C8623B28D7264500052E4F /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E2C8623A28D7264500052E4F /* CombineCocoa */; };
 		E2C8623D28D7264C00052E4F /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E2C8623C28D7264C00052E4F /* CombineCocoa */; };
@@ -221,7 +219,6 @@
 		13D608CF22C323470084BBC6 /* TodoList2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoList2ViewController.swift; sourceTree = "<group>"; };
 		13D608D122C323470084BBC6 /* TodoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TodoCollectionViewCell.xib; sourceTree = "<group>"; };
 		13D608D222C323470084BBC6 /* TodoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoCollectionViewCell.swift; sourceTree = "<group>"; };
-		13D608D422C323470084BBC6 /* SuperSwitcherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuperSwitcherViewController.swift; sourceTree = "<group>"; };
 		13D608D522C323470084BBC6 /* SwitchScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchScene.swift; sourceTree = "<group>"; };
 		7029D1B5E0A0EA12C7BA65E7 /* Pods_Abstract_Example_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Abstract_Example_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CA6FE52E713ABED13FCB63E /* Pods_Abstract_Example_Example_CoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Abstract_Example_Example_CoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -234,6 +231,7 @@
 		E10A3C6024248C9300AF6CFA /* TodoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoDetailViewController.swift; sourceTree = "<group>"; };
 		E199C83727305A23001890B8 /* iOSCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iOSCore; path = ..; sourceTree = "<group>"; };
 		E1D59EE8245137D80035B29F /* TodoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoViewModel.swift; sourceTree = "<group>"; };
+		E271EAF82AA44C9C0094D4FF /* SwitchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -573,8 +571,8 @@
 		13D608D322C323470084BBC6 /* Switch */ = {
 			isa = PBXGroup;
 			children = (
-				13D608D422C323470084BBC6 /* SuperSwitcherViewController.swift */,
 				13D608D522C323470084BBC6 /* SwitchScene.swift */,
+				E271EAF82AA44C9C0094D4FF /* SwitchViewModel.swift */,
 			);
 			path = Switch;
 			sourceTree = "<group>";
@@ -860,7 +858,6 @@
 				13D6090222C323470084BBC6 /* TodoTableViewCell.swift in Sources */,
 				13D608DA22C323470084BBC6 /* Constant+Extension.swift in Sources */,
 				E1D59EE9245137D90035B29F /* TodoViewModel.swift in Sources */,
-				13D6090F22C323470084BBC6 /* SuperSwitcherViewController.swift in Sources */,
 				13D6091022C323470084BBC6 /* SwitchScene.swift in Sources */,
 				13D6090922C323470084BBC6 /* TodoModel.swift in Sources */,
 				E10A3C532424879C00AF6CFA /* LoginEpic.swift in Sources */,
@@ -875,6 +872,7 @@
 				13D608F022C323470084BBC6 /* AppHTTPResponse.swift in Sources */,
 				13D6090422C323470084BBC6 /* TodoListViewController.swift in Sources */,
 				13D608F622C323470084BBC6 /* LoginScene.swift in Sources */,
+				E271EAF92AA44C9C0094D4FF /* SwitchViewModel.swift in Sources */,
 				13D608FF22C323470084BBC6 /* TodoEpic.swift in Sources */,
 				13D608D722C323470084BBC6 /* TodoWorker.swift in Sources */,
 				13D608D822C323470084BBC6 /* Constant.swift in Sources */,
@@ -908,7 +906,6 @@
 				E10A3C572424879C00AF6CFA /* LoginStore.swift in Sources */,
 				13D6095622C324210084BBC6 /* SwitchScene.swift in Sources */,
 				13D6091222C3238A0084BBC6 /* TodoWorker.swift in Sources */,
-				13D6095522C324210084BBC6 /* SuperSwitcherViewController.swift in Sources */,
 				13D6092222C323C40084BBC6 /* UserDataStore.swift in Sources */,
 				13D6093222C323FC0084BBC6 /* TodoRequest.swift in Sources */,
 				13D6094922C324140084BBC6 /* TodoEpic.swift in Sources */,
@@ -971,7 +968,6 @@
 				13D6091D22C323A40084BBC6 /* AppDelegate.swift in Sources */,
 				13D6092A22C323DD0084BBC6 /* AuthDto.swift in Sources */,
 				13D6093022C323F80084BBC6 /* TodoRepository.swift in Sources */,
-				13D6095722C324210084BBC6 /* SuperSwitcherViewController.swift in Sources */,
 				13D6092622C323D40084BBC6 /* Model.xcdatamodeld in Sources */,
 				13D6093522C323FD0084BBC6 /* TodoRequest.swift in Sources */,
 				13D6095222C324180084BBC6 /* TodoScene.swift in Sources */,
