@@ -11,9 +11,7 @@ import Combine
 import CoreBase
 import CoreRedux
 
-class TodoScene: Scene, _HasViewManagable {
-    var __viewManager: ViewManagable? { viewManager }
-    
+class TodoScene: Scene, HasViewManagable {
     @SceneDependency var store: TodoStore?
     @SceneDependency var viewManager: ViewManager?
 

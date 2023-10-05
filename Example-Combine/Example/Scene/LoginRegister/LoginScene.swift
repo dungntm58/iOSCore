@@ -10,9 +10,7 @@ import UIKit
 import Combine
 import CoreBase
 
-class LoginScene: Scene, _HasViewManagable {
-    var __viewManager: ViewManagable? { viewManager }
-    
+class LoginScene: Scene, HasViewManagable {
     @SceneDependency var store: LoginStore?
     @SceneDependency var viewManager: ViewManager?
 

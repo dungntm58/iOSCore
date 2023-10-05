@@ -7,14 +7,16 @@
 
 import UIKit
 
-// swiftlint:disable identifier_name
-// Consider being a part of compiler function
-// Synthesize whether a class contains a property of type ViewManagable implicitly
-public protocol _HasViewManagable {
-    // It could be an ugly name, but replaceable in the future
-    var __viewManager: ViewManagable? { get }
+public protocol HasViewManagable {
+    associatedtype ViewManager where ViewManager: ViewManagable
+
+    var viewManager: ViewManager? { get }
 }
-// swiftlint:enable identifier_name
+
+extension HasViewManagable {
+    @inlinable
+    var anyViewManager: ViewManagable? { viewManager }
+}
 
 public protocol ViewManagable {
     /// The current view controller that scene presents

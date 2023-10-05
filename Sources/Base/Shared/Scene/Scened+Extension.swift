@@ -233,11 +233,11 @@ extension Scened {
     @inlinable
     public var presentedViewManager: ViewManagable? {
         guard var currentScene = previous ?? parent else { return nil }
-        if let viewManager = (currentScene as? _HasViewManagable)?.__viewManager {
+        if let viewManager = (currentScene as? (any HasViewManagable))?.anyViewManager {
             return viewManager
         }
         while let scene = currentScene.previous ?? currentScene.parent {
-            if let viewManager = (currentScene as? _HasViewManagable)?.__viewManager {
+            if let viewManager = (currentScene as? (any HasViewManagable))?.anyViewManager {
                 return viewManager
             }
             currentScene = scene

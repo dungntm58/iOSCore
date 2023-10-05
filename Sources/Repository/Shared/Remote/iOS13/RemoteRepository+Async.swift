@@ -6,6 +6,9 @@
 //
 
 import CoreRepository
+#if canImport(CoreRepositoryRequest)
+import CoreRepositoryRequest
+#endif
 
 extension RemoteListRepository {
     @inlinable
