@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -45,19 +45,12 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(
-            name: "Alamofire",
             url: "https://github.com/Alamofire/Alamofire",
             .upToNextMajor(from: "5.0.0")),
         .package(
-            name: "CombineExt",
             url: "https://github.com/CombineCommunity/CombineExt",
             .upToNextMajor(from: "1.5.1")),
         .package(
-            name: "DifferenceKit",
-            url: "https://github.com/ra1028/DifferenceKit",
-            .upToNextMajor(from: "1.2.0")),
-        .package(
-            name: "Realm",
             url: "https://github.com/realm/realm-cocoa",
             from: "10.18.0")
     ],
@@ -67,17 +60,19 @@ let package = Package(
         .target(
             name: "CoreAPNS",
             path: "Sources/APNS",
-            exclude: ["Rx"],
             sources: [
                 "Shared",
                 "Combine"
+            ],
+            linkerSettings: [
+                .linkedFramework("UIKit"),
+                .linkedFramework("UserNotifications")
             ]
         ),
         .target(
             name: "CoreBase",
             path: "Sources/Base",
             exclude: [
-                "Rx",
                 "Shared/ReduxExtension",
                 "Combine/ReduxExtension"
             ],
@@ -92,9 +87,6 @@ let package = Package(
                 .target(name: "CoreRepositoryDataStore")
             ],
             path: "Sources/CoreDataStore",
-            exclude: [
-                "DataStore/iOS13-"
-            ],
             resources: [
                 .process("Model/MetaModel.xcdatamodeld")
             ]
@@ -102,13 +94,10 @@ let package = Package(
         .target(
             name: "CoreRealmDataStore",
             dependencies: [
-                .product(name: "RealmSwift", package: "Realm"),
+                .product(name: "RealmSwift", package: "realm-cocoa"),
                 .target(name: "CoreRepositoryDataStore")
             ],
-            path: "Sources/RealmDataStore",
-            exclude: [
-                "DataStore/iOS13-"
-            ]
+            path: "Sources/RealmDataStore"
         ),
         .target(
             name: "CoreRedux",
@@ -117,7 +106,6 @@ let package = Package(
             ],
             path: "Sources/Redux",
             exclude: [
-                "Rx",
                 "Shared/List",
                 "Combine/List"
             ],
@@ -132,7 +120,6 @@ let package = Package(
             ],
             path: "Sources/Redux",
             exclude: [
-                "Rx",
                 "Shared/Basics",
                 "Combine/Basics"
             ],
@@ -144,7 +131,6 @@ let package = Package(
             name: "CoreRepository",
             path: "Sources/Repository",
             exclude: [
-                "Rx",
                 "Shared/Basics/Identifiable.swift",
                 "Shared/DataStore",
                 "Shared/Local",
@@ -168,7 +154,6 @@ let package = Package(
             ],
             path: "Sources/Repository",
             exclude: [
-                "Rx",
                 "Shared/Basics",
                 "Shared/Local",
                 "Shared/Remote",
@@ -192,7 +177,6 @@ let package = Package(
             ],
             path: "Sources/Repository",
             exclude: [
-                "Rx",
                 "Shared/Basics",
                 "Shared/DataStore",
                 "Shared/Remote",
@@ -216,7 +200,6 @@ let package = Package(
             ],
             path: "Sources/Repository",
             exclude: [
-                "Rx",
                 "Shared/Basics",
                 "Shared/DataStore",
                 "Shared/Local",
@@ -241,7 +224,6 @@ let package = Package(
             ],
             path: "Sources/Repository",
             exclude: [
-                "Rx",
                 "Shared/Basics",
                 "Shared/DataStore",
                 "Shared/Local",
@@ -265,7 +247,6 @@ let package = Package(
             ],
             path: "Sources/Repository",
             exclude: [
-                "Rx",
                 "Shared/Basics",
                 "Shared/DataStore",
                 "Shared/Local",

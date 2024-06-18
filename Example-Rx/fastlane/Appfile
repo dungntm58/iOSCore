@@ -1,7 +1,0 @@
-app_identifier(ENV["MATCH_DIS_APP_IDENTIFIER"]) # The bundle identifier of your app
-apple_id(ENV["FASTLANE_USER"]) # Your Apple email address
-team_id ENV["MATCH_DIS_TEAM_ID"]
-itc_team_id ""
-# itunes_connect_id ""
-# itc_team_name ""
-# itc_team_id ""
