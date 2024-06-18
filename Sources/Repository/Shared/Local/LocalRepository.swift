@@ -11,14 +11,14 @@ import CoreRepository
 import CoreRepositoryDataStore
 #endif
 
-public protocol LocalRepository: ModelRepository where T == Store.T {
+public protocol LocalRepository<T>: ModelRepository where T == Store.T {
     associatedtype Store: DataStore
 
     var store: Store { get }
 }
 
-public protocol LocalListRepository: LocalRepository, ListModelRepository {}
+public protocol LocalListRepository<T>: LocalRepository, ListModelRepository {}
 
-public protocol LocalSingleRepository: LocalRepository, SingleModelRepository {}
+public protocol LocalSingleRepository<T>: LocalRepository, SingleModelRepository {}
 
-public protocol LocalIdentifiableSingleRepository: IdentifiableSingleRepository, LocalSingleRepository where Store: IdentifiableDataStore {}
+public protocol LocalIdentifiableSingleRepository<T>: IdentifiableSingleRepository, LocalSingleRepository where Store: IdentifiableDataStore {}

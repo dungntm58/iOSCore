@@ -8,7 +8,7 @@
 import Foundation
 import CoreRepository
 
-public protocol DataStore {
+public protocol DataStore<T> {
     // swiftlint:disable type_name
     associatedtype T
     // swiftlint:enable type_name
@@ -27,7 +27,7 @@ public protocol DataStore {
     func make(total: Int, page: Int, size: Int, previous: T?, next: T?) -> Paginated?
 }
 
-public protocol IdentifiableDataStore: DataStore where T: Identifiable {
+public protocol IdentifiableDataStore<T>: DataStore where T: Identifiable {
     func get(_ id: T.ID, options: DataStoreFetchOption?) async throws -> T
     func delete(_ id: T.ID, options: DataStoreFetchOption?) async throws
 

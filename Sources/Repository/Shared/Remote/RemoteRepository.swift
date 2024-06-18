@@ -11,16 +11,16 @@ import CoreRepository
 import CoreRepositoryRequest
 #endif
 
-public protocol RemoteListRepository: ListModelRepository where ListRequest.Response.ValueType == T {
+public protocol RemoteListRepository<T>: ListModelRepository where ListRequest.Response.ValueType == T {
     associatedtype ListRequest: ListModelHTTPRequest
 
     var listRequest: ListRequest { get }
 }
 
-public protocol RemoteSingleRepository: SingleModelRepository where SingleRequest.Response.ValueType == T {
+public protocol RemoteSingleRepository<T>: SingleModelRepository where SingleRequest.Response.ValueType == T {
     associatedtype SingleRequest: SingleModelHTTPRequest
 
     var singleRequest: SingleRequest { get }
 }
 
-public protocol RemoteIdentifiableSingleRepository: RemoteSingleRepository, IdentifiableSingleRepository where SingleRequest: IdentifiableSingleHTTPRequest {}
+public protocol RemoteIdentifiableSingleRepository<T>: RemoteSingleRepository, IdentifiableSingleRepository where SingleRequest: IdentifiableSingleHTTPRequest {}

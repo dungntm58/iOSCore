@@ -17,7 +17,7 @@ public protocol PaginationRequestOptions: FetchOptions {}
  * Not constraint to any lower-level class
  */
 
-public protocol ListDataWorker {
+public protocol ListDataWorker<T> {
     // swiftlint:disable type_name
     associatedtype T
     // swiftlint:enable type_name

@@ -6,7 +6,7 @@
 //  Copyright © 2016 Robert Nguyen. All rights reserved.
 //
 
-public protocol ModelRepository {
+public protocol ModelRepository<T> {
     // swiftlint:disable type_name
     associatedtype T
     // swiftlint:enable type_name

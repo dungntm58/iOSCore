@@ -7,7 +7,7 @@
 
 public typealias ReduceFunction<Action, State> = (_ action: Action, _ currentState: State) -> State where Action: Actionable, State: Stateable
 
-public protocol Reducible {
+public protocol Reducible<Action, State> {
     associatedtype State: Stateable
     associatedtype Action: Actionable
 

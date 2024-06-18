@@ -10,7 +10,7 @@ public protocol Activating {
     func deactivate()
 }
 
-public protocol Connectable {
+public protocol Connectable<Store> {
     associatedtype Store: Storable
 
     var store: Store { get }

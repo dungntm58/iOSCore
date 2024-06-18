@@ -13,8 +13,8 @@ import CoreRepositoryRemote
 import CoreRepositoryLocal
 #endif
 
-public protocol RemoteLocalListRepository: RemoteListRepository, LocalListRepository {}
+public protocol RemoteLocalListRepository<T>: RemoteListRepository, LocalListRepository {}
 
-public protocol RemoteLocalSingleRepository: RemoteSingleRepository, LocalSingleRepository {}
+public protocol RemoteLocalSingleRepository<T>: RemoteSingleRepository, LocalSingleRepository {}
 
-public protocol RemoteLocalIdentifiableSingleRepository: RemoteLocalSingleRepository, RemoteIdentifiableSingleRepository, LocalIdentifiableSingleRepository {}
+public protocol RemoteLocalIdentifiableSingleRepository<T>: RemoteLocalSingleRepository, RemoteIdentifiableSingleRepository, LocalIdentifiableSingleRepository {}

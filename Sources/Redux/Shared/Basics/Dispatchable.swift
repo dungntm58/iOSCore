@@ -5,7 +5,7 @@
 //  Created by Robert on 8/10/19.
 //
 
-public protocol Dispatchable {
+public protocol Dispatchable<Action> {
     associatedtype Action: Actionable
 
     func dispatch(type: Action.ActionType, payload: Any?)

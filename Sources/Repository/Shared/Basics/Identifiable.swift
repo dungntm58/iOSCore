@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol Identifiable {
+public protocol Identifiable<ID> {
     associatedtype ID: Hashable
 
     var id: ID { get }

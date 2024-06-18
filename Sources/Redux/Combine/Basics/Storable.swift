@@ -7,7 +7,7 @@
 
 import Combine
 
-public protocol Storable: AnyObject, Activating {
+public protocol Storable<State>: AnyObject, Activating {
     associatedtype State: Stateable
 
     var currentState: State { get }

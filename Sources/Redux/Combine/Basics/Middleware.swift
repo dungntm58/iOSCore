@@ -13,7 +13,7 @@ public typealias EpicFunction<Action, State> = (
     _ stateStream: AnyPublisher<State, Never>
 ) -> AnyPublisher<Action, Never> where Action: Actionable, State: Stateable
 
-public protocol Epic {
+public protocol Epic<Action, State> {
     associatedtype Action: Actionable
     associatedtype State: Stateable
 
