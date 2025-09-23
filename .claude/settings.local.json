@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(swift build)",
+      "Bash(swift build:*)",
+      "Bash(swift package describe:*)",
+      "Bash(find:*)",
+      "Bash(mv:*)",
+      "Bash(mkdir:*)",
+      "Bash(xcodegen:*)",
+      "Bash(swift package init:*)",
+      "Bash(swift package:*)",
+      "Bash(open:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(swift:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

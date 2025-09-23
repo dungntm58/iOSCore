@@ -1,11 +1,12 @@
-// swift-tools-version:5.9
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import CompilerPluginSupport
 
 let package = Package(
     name: "Core",
-    platforms: [.iOS(.v13), .tvOS(.v13)],
+    platforms: [.iOS(.v13), .tvOS(.v13), .macOS(.v10_15)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -40,7 +41,16 @@ let package = Package(
             targets: ["CoreRepositoryRemote"]),
         .library(
             name: "CoreRepositoryRequest",
-            targets: ["CoreRepositoryRequest"])
+            targets: ["CoreRepositoryRequest"]),
+        .library(
+            name: "CoreMacros",
+            targets: ["CoreMacros"]),
+        .library(
+            name: "CoreMacrosClient",
+            targets: ["CoreMacrosClient"]),
+        .library(
+            name: "CoreMacroProtocols",
+            targets: ["CoreMacroProtocols"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -52,7 +62,10 @@ let package = Package(
             .upToNextMajor(from: "1.5.1")),
         .package(
             url: "https://github.com/realm/realm-cocoa",
-            from: "10.18.0")
+            from: "10.18.0"),
+        .package(
+            url: "https://github.com/apple/swift-syntax.git",
+            from: "510.0.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -64,6 +77,9 @@ let package = Package(
                 "Shared",
                 "Combine"
             ],
+            swiftSettings: [
+                .defaultIsolation(nil)
+            ],
             linkerSettings: [
                 .linkedFramework("UIKit"),
                 .linkedFramework("UserNotifications")
@@ -71,6 +87,10 @@ let package = Package(
         ),
         .target(
             name: "CoreBase",
+            dependencies: [
+                .target(name: "CoreMacrosClient"),
+                .target(name: "CoreMacroProtocols")
+            ],
             path: "Sources/Base",
             exclude: [
                 "Shared/ReduxExtension",
@@ -79,6 +99,9 @@ let package = Package(
             sources: [
                 "Shared",
                 "Combine"
+            ],
+            swiftSettings: [
+                .defaultIsolation(nil) // Disables default MainActor isolation
             ]
         ),
         .target(
@@ -89,6 +112,9 @@ let package = Package(
             path: "Sources/CoreDataStore",
             resources: [
                 .process("Model/MetaModel.xcdatamodeld")
+            ],
+            swiftSettings: [
+                .defaultIsolation(nil)
             ]
         ),
         .target(
@@ -97,7 +123,10 @@ let package = Package(
                 .product(name: "RealmSwift", package: "realm-cocoa"),
                 .target(name: "CoreRepositoryDataStore")
             ],
-            path: "Sources/RealmDataStore"
+            path: "Sources/RealmDataStore",
+            swiftSettings: [
+                .defaultIsolation(nil)
+            ]
         ),
         .target(
             name: "CoreRedux",
@@ -112,6 +141,9 @@ let package = Package(
             sources: [
                 "Shared/Basics",
                 "Combine/Basics"
+            ],
+            swiftSettings: [
+                .defaultIsolation(nil)
             ]),
         .target(
             name: "CoreReduxList",
@@ -126,6 +158,9 @@ let package = Package(
             sources: [
                 "Shared/List",
                 "Combine/List"
+            ],
+            swiftSettings: [
+                .defaultIsolation(nil)
             ]),
         .target(
             name: "CoreRepository",
@@ -146,6 +181,9 @@ let package = Package(
             sources: [
                 "Shared/Basics",
                 "Combine/Basics"
+            ],
+            swiftSettings: [
+                .defaultIsolation(nil)
             ]),
         .target(
             name: "CoreRepositoryDataStore",
@@ -168,6 +206,9 @@ let package = Package(
             sources: [
                 "Shared/DataStore",
                 "Combine/DataStore"
+            ],
+            swiftSettings: [
+                .defaultIsolation(nil)
             ]),
         .target(
             name: "CoreRepositoryLocal",
@@ -191,6 +232,9 @@ let package = Package(
             sources: [
                 "Shared/Local",
                 "Combine/Local"
+            ],
+            swiftSettings: [
+                .defaultIsolation(nil)
             ]),
         .target(
             name: "CoreRepositoryRemote",
@@ -214,6 +258,9 @@ let package = Package(
             sources: [
                 "Shared/Remote",
                 "Combine/Remote"
+            ],
+            swiftSettings: [
+                .defaultIsolation(nil)
             ]),
         .target(
             name: "CoreRepositoryRemoteLocal",
@@ -238,6 +285,9 @@ let package = Package(
             sources: [
                 "Shared/RemoteLocal",
                 "Combine/RemoteLocal"
+            ],
+            swiftSettings: [
+                .defaultIsolation(nil)
             ]),
         .target(
             name: "CoreRepositoryRequest",
@@ -261,7 +311,50 @@ let package = Package(
             sources: [
                 "Shared/Request",
                 "Combine/Request"
-            ])
+            ],
+            swiftSettings: [
+                .defaultIsolation(nil)
+            ]),
+        .macro(
+            name: "CoreMacrosPlugin",
+            dependencies: [
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+                .target(name: "CoreMacroProtocols")
+            ],
+            path: "Sources/CoreMacrosPlugin",
+            swiftSettings: [
+                .defaultIsolation(nil)
+            ]
+        ),
+        .target(
+            name: "CoreMacros",
+            dependencies: [
+                .target(name: "CoreMacrosPlugin"),
+                .target(name: "CoreMacroProtocols")
+            ],
+            path: "Sources/CoreMacros",
+            swiftSettings: [
+                .defaultIsolation(nil)
+            ]
+        ),
+        .target(
+            name: "CoreMacrosClient",
+            dependencies: [
+                .target(name: "CoreMacros")
+            ],
+            path: "Sources/CoreMacrosClient",
+            swiftSettings: [
+                .defaultIsolation(nil)
+            ]
+        ),
+        .target(
+            name: "CoreMacroProtocols",
+            path: "Sources/CoreMacroProtocols",
+            swiftSettings: [
+                .defaultIsolation(nil)
+            ]
+        )
     ],
     swiftLanguageVersions: [.v5]
 )

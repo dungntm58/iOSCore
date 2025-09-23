@@ -7,21 +7,6 @@
 
 import UIKit
 
-extension UINavigationController {
-
-    @discardableResult
-    @inlinable
-    public func popViewController(animated: Bool, completion: (() -> Void)?) -> UIViewController? {
-        CATransaction.begin()
-        CATransaction.setCompletionBlock(completion)
-        let viewController = self.popViewController(animated: animated)
-        CATransaction.commit()
-        CATransaction.setCompletionBlock(nil)
-        return viewController
-    }
-
-}
-
 extension UIViewController {
 
     @inlinable

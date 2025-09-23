@@ -6,5 +6,6 @@
 //
 
 import CoreRedux
+import CoreMacroProtocols
 
-extension Store: SceneAssociated {}
+extension Store: SceneReferecing {}

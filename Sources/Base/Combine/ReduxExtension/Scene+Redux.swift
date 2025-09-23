@@ -7,9 +7,10 @@
 
 import CoreRedux
 import CoreBase
+import CoreMacroProtocols
 
 extension Activating where Self: AnyObject {
-    public func associate(with scene: Scened) {
+    public func associate(with scene: Scene) {
         let lifeCycleCancellable = scene.lifeCycle
             .map { state -> Bool in
                 switch state {

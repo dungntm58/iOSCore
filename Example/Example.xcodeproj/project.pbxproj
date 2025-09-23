@@ -1,0 +1,1189 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E15559412E83BC9700F95173 /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = E15559402E83BC9700F95173 /* SwiftDate */; };
+		E15559442E83BCAB00F95173 /* CoreList in Frameworks */ = {isa = PBXBuildFile; productRef = E15559432E83BCAB00F95173 /* CoreList */; };
+		E155594D2E83BD2400F95173 /* Toaster in Frameworks */ = {isa = PBXBuildFile; productRef = E155594C2E83BD2400F95173 /* Toaster */; };
+		E1555B832E83BF7200F95173 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B822E83BF7200F95173 /* CombineCocoa */; };
+		E1555B852E83BF7200F95173 /* CoreAPNS in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B842E83BF7200F95173 /* CoreAPNS */; };
+		E1555B872E83BF7200F95173 /* CoreBase in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B862E83BF7200F95173 /* CoreBase */; };
+		E1555B8B2E83BF7300F95173 /* CoreMacros in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B8A2E83BF7300F95173 /* CoreMacros */; };
+		E1555B8D2E83BF7300F95173 /* CoreMacrosClient in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B8C2E83BF7300F95173 /* CoreMacrosClient */; };
+		E1555B912E83BF7300F95173 /* CoreRedux in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B902E83BF7300F95173 /* CoreRedux */; };
+		E1555B932E83BF7300F95173 /* CoreReduxList in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B922E83BF7300F95173 /* CoreReduxList */; };
+		E1555B952E83BF7300F95173 /* CoreRepository in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B942E83BF7300F95173 /* CoreRepository */; };
+		E1555B972E83BF7300F95173 /* CoreRepositoryDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B962E83BF7300F95173 /* CoreRepositoryDataStore */; };
+		E1555B992E83BF7300F95173 /* CoreRepositoryLocal in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B982E83BF7300F95173 /* CoreRepositoryLocal */; };
+		E1555B9B2E83BF7300F95173 /* CoreRepositoryRemote in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B9A2E83BF7300F95173 /* CoreRepositoryRemote */; };
+		E1555B9D2E83BF7300F95173 /* CoreRepositoryRequest in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B9C2E83BF7300F95173 /* CoreRepositoryRequest */; };
+		E1555B9F2E83BFB200F95173 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E1555B9E2E83BFB200F95173 /* CombineCocoa */; };
+		E1555BA12E83BFB200F95173 /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BA02E83BFB200F95173 /* SwiftDate */; };
+		E1555BA32E83BFB200F95173 /* CoreList in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BA22E83BFB200F95173 /* CoreList */; };
+		E1555BA52E83BFB200F95173 /* Toaster in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BA42E83BFB200F95173 /* Toaster */; };
+		E1555BA72E83BFB200F95173 /* CoreAPNS in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BA62E83BFB200F95173 /* CoreAPNS */; };
+		E1555BA92E83BFB200F95173 /* CoreBase in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BA82E83BFB200F95173 /* CoreBase */; };
+		E1555BAB2E83BFB200F95173 /* CoreDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BAA2E83BFB200F95173 /* CoreDataStore */; };
+		E1555BAD2E83BFB200F95173 /* CoreMacros in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BAC2E83BFB200F95173 /* CoreMacros */; };
+		E1555BAF2E83BFB200F95173 /* CoreMacrosClient in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BAE2E83BFB200F95173 /* CoreMacrosClient */; };
+		E1555BB12E83BFB200F95173 /* CoreRedux in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BB02E83BFB200F95173 /* CoreRedux */; };
+		E1555BB32E83BFB200F95173 /* CoreReduxList in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BB22E83BFB200F95173 /* CoreReduxList */; };
+		E1555BB52E83BFB200F95173 /* CoreRepository in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BB42E83BFB200F95173 /* CoreRepository */; };
+		E1555BB72E83BFB200F95173 /* CoreRepositoryDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BB62E83BFB200F95173 /* CoreRepositoryDataStore */; };
+		E1555BB92E83BFB200F95173 /* CoreRepositoryLocal in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BB82E83BFB200F95173 /* CoreRepositoryLocal */; };
+		E1555BBB2E83BFB200F95173 /* CoreRepositoryRemote in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BBA2E83BFB200F95173 /* CoreRepositoryRemote */; };
+		E1555BBD2E83BFB200F95173 /* CoreRepositoryRequest in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BBC2E83BFB200F95173 /* CoreRepositoryRequest */; };
+		E1555BBF2E83BFC000F95173 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BBE2E83BFC000F95173 /* CombineCocoa */; };
+		E1555BC12E83BFC000F95173 /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BC02E83BFC000F95173 /* SwiftDate */; };
+		E1555BC32E83BFC000F95173 /* CoreList in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BC22E83BFC000F95173 /* CoreList */; };
+		E1555BC52E83BFC000F95173 /* Toaster in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BC42E83BFC000F95173 /* Toaster */; };
+		E1555BC72E83BFC000F95173 /* CoreAPNS in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BC62E83BFC000F95173 /* CoreAPNS */; };
+		E1555BC92E83BFC000F95173 /* CoreBase in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BC82E83BFC000F95173 /* CoreBase */; };
+		E1555BCB2E83BFC000F95173 /* CoreMacros in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BCA2E83BFC000F95173 /* CoreMacros */; };
+		E1555BCD2E83BFC000F95173 /* CoreMacrosClient in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BCC2E83BFC000F95173 /* CoreMacrosClient */; };
+		E1555BCF2E83BFC000F95173 /* CoreRealmDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BCE2E83BFC000F95173 /* CoreRealmDataStore */; };
+		E1555BD12E83BFC000F95173 /* CoreRedux in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BD02E83BFC000F95173 /* CoreRedux */; };
+		E1555BD32E83BFC000F95173 /* CoreReduxList in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BD22E83BFC000F95173 /* CoreReduxList */; };
+		E1555BD52E83BFC000F95173 /* CoreRepository in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BD42E83BFC000F95173 /* CoreRepository */; };
+		E1555BD72E83BFC000F95173 /* CoreRepositoryDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BD62E83BFC000F95173 /* CoreRepositoryDataStore */; };
+		E1555BD92E83BFC000F95173 /* CoreRepositoryLocal in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BD82E83BFC000F95173 /* CoreRepositoryLocal */; };
+		E1555BDB2E83BFC000F95173 /* CoreRepositoryRemote in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BDA2E83BFC000F95173 /* CoreRepositoryRemote */; };
+		E1555BDD2E83BFC000F95173 /* CoreRepositoryRequest in Frameworks */ = {isa = PBXBuildFile; productRef = E1555BDC2E83BFC000F95173 /* CoreRepositoryRequest */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E15559302E83BC4100F95173 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1555AF72E83BE5000F95173 /* Example-CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Example-CoreData.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1555B132E83BE6400F95173 /* Example-Realm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Example-Realm.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E1555B292E83BE7900F95173 /* Exceptions for "Example" folder in "Example" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Compulsory/CoreData/Constant+Extension.swift",
+				"Compulsory/Realm/Constant+Extension.swift",
+				DataStore/CoreData/TodoDataStore.swift,
+				DataStore/CoreData/UserDataStore.swift,
+				DataStore/Realm/TodoDataStore.swift,
+				DataStore/Realm/UserDataStore.swift,
+				Model/CoreData/Entity.swift,
+				Model/CoreData/Model.xcdatamodeld,
+				Model/CoreData/TodoEntity.swift,
+				Model/CoreData/UserEntity.swift,
+				Model/Realm/TodoEntity.swift,
+				Model/Realm/UserEntity.swift,
+			);
+			target = E155592F2E83BC4100F95173 /* Example */;
+		};
+		E1555B2A2E83BE7900F95173 /* Exceptions for "Example" folder in "Example-CoreData" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: LaunchScreen.xib",
+				"/Localized: Main.storyboard",
+				AppPreferences.swift,
+				Assets.xcassets,
+				Compulsory/AppDelegate.swift,
+				Compulsory/Constant.swift,
+				"Compulsory/CoreData/Constant+Extension.swift",
+				DataStore/CoreData/TodoDataStore.swift,
+				DataStore/CoreData/UserDataStore.swift,
+				Model/APNS.swift,
+				Model/AppHTTPResponse.swift,
+				Model/AuthDto.swift,
+				Model/CoreData/Entity.swift,
+				Model/CoreData/Model.xcdatamodeld,
+				Model/CoreData/TodoEntity.swift,
+				Model/CoreData/UserEntity.swift,
+				Repository/AuthRepository.swift,
+				Repository/TodoRepository.swift,
+				Request/AppModelHTTPRequest.swift,
+				Request/AuthRequest.swift,
+				Request/TodoRequest.swift,
+				Scene/LoginRegister/Login/LoginViewController.swift,
+				Scene/LoginRegister/LoginEpic.swift,
+				Scene/LoginRegister/LoginModel.swift,
+				Scene/LoginRegister/LoginReducer.swift,
+				Scene/LoginRegister/LoginScene.swift,
+				Scene/LoginRegister/LoginStore.swift,
+				Scene/LoginRegister/Signup/SignupViewController.swift,
+				Scene/Switch/SwitchScene.swift,
+				Scene/Switch/SwitchViewModel.swift,
+				Scene/TodoList/Detail/TodoDetailViewController.swift,
+				Scene/TodoList/Grid/TodoCollectionViewCell.swift,
+				Scene/TodoList/Grid/TodoCollectionViewCell.xib,
+				Scene/TodoList/Grid/TodoList2ViewController.swift,
+				Scene/TodoList/Table/TodoListViewController.swift,
+				Scene/TodoList/Table/TodoTableViewCell.swift,
+				Scene/TodoList/Table/TodoTableViewCell.xib,
+				Scene/TodoList/TodoEpic.swift,
+				Scene/TodoList/TodoModel.swift,
+				Scene/TodoList/TodoReducer.swift,
+				Scene/TodoList/TodoScene.swift,
+				Scene/TodoList/TodoStore.swift,
+				Scene/TodoList/TodoTabBarController.swift,
+				Scene/TodoList/TodoViewModel.swift,
+				Worker/TodoWorker.swift,
+				Worker/UserWorker.swift,
+			);
+			target = E1555AF62E83BE5000F95173 /* Example-CoreData */;
+		};
+		E1555B2C2E83BE8100F95173 /* Exceptions for "Example" folder in "Example-Realm" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: LaunchScreen.xib",
+				"/Localized: Main.storyboard",
+				AppPreferences.swift,
+				Assets.xcassets,
+				Compulsory/AppDelegate.swift,
+				Compulsory/Constant.swift,
+				"Compulsory/Realm/Constant+Extension.swift",
+				DataStore/Realm/TodoDataStore.swift,
+				DataStore/Realm/UserDataStore.swift,
+				Model/APNS.swift,
+				Model/AppHTTPResponse.swift,
+				Model/AuthDto.swift,
+				Model/Realm/TodoEntity.swift,
+				Model/Realm/UserEntity.swift,
+				Repository/AuthRepository.swift,
+				Repository/TodoRepository.swift,
+				Request/AppModelHTTPRequest.swift,
+				Request/AuthRequest.swift,
+				Request/TodoRequest.swift,
+				Scene/LoginRegister/Login/LoginViewController.swift,
+				Scene/LoginRegister/LoginEpic.swift,
+				Scene/LoginRegister/LoginModel.swift,
+				Scene/LoginRegister/LoginReducer.swift,
+				Scene/LoginRegister/LoginScene.swift,
+				Scene/LoginRegister/LoginStore.swift,
+				Scene/LoginRegister/Signup/SignupViewController.swift,
+				Scene/Switch/SwitchScene.swift,
+				Scene/Switch/SwitchViewModel.swift,
+				Scene/TodoList/Detail/TodoDetailViewController.swift,
+				Scene/TodoList/Grid/TodoCollectionViewCell.swift,
+				Scene/TodoList/Grid/TodoCollectionViewCell.xib,
+				Scene/TodoList/Grid/TodoList2ViewController.swift,
+				Scene/TodoList/Table/TodoListViewController.swift,
+				Scene/TodoList/Table/TodoTableViewCell.swift,
+				Scene/TodoList/Table/TodoTableViewCell.xib,
+				Scene/TodoList/TodoEpic.swift,
+				Scene/TodoList/TodoModel.swift,
+				Scene/TodoList/TodoReducer.swift,
+				Scene/TodoList/TodoScene.swift,
+				Scene/TodoList/TodoStore.swift,
+				Scene/TodoList/TodoTabBarController.swift,
+				Scene/TodoList/TodoViewModel.swift,
+				Worker/TodoWorker.swift,
+				Worker/UserWorker.swift,
+			);
+			target = E1555B122E83BE6400F95173 /* Example-Realm */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		E15559322E83BC4100F95173 /* Example */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E1555B292E83BE7900F95173 /* Exceptions for "Example" folder in "Example" target */,
+				E1555B2A2E83BE7900F95173 /* Exceptions for "Example" folder in "Example-CoreData" target */,
+				E1555B2C2E83BE8100F95173 /* Exceptions for "Example" folder in "Example-Realm" target */,
+			);
+			path = Example;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E155592D2E83BC4100F95173 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1555B952E83BF7300F95173 /* CoreRepository in Frameworks */,
+				E1555B8D2E83BF7300F95173 /* CoreMacrosClient in Frameworks */,
+				E1555B992E83BF7300F95173 /* CoreRepositoryLocal in Frameworks */,
+				E1555B8B2E83BF7300F95173 /* CoreMacros in Frameworks */,
+				E1555B872E83BF7200F95173 /* CoreBase in Frameworks */,
+				E155594D2E83BD2400F95173 /* Toaster in Frameworks */,
+				E15559412E83BC9700F95173 /* SwiftDate in Frameworks */,
+				E1555B852E83BF7200F95173 /* CoreAPNS in Frameworks */,
+				E1555B972E83BF7300F95173 /* CoreRepositoryDataStore in Frameworks */,
+				E1555B9B2E83BF7300F95173 /* CoreRepositoryRemote in Frameworks */,
+				E1555B832E83BF7200F95173 /* CombineCocoa in Frameworks */,
+				E1555B912E83BF7300F95173 /* CoreRedux in Frameworks */,
+				E15559442E83BCAB00F95173 /* CoreList in Frameworks */,
+				E1555B932E83BF7300F95173 /* CoreReduxList in Frameworks */,
+				E1555B9D2E83BF7300F95173 /* CoreRepositoryRequest in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1555AF42E83BE5000F95173 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1555BAF2E83BFB200F95173 /* CoreMacrosClient in Frameworks */,
+				E1555BBB2E83BFB200F95173 /* CoreRepositoryRemote in Frameworks */,
+				E1555BAD2E83BFB200F95173 /* CoreMacros in Frameworks */,
+				E1555BB12E83BFB200F95173 /* CoreRedux in Frameworks */,
+				E1555BB92E83BFB200F95173 /* CoreRepositoryLocal in Frameworks */,
+				E1555BA92E83BFB200F95173 /* CoreBase in Frameworks */,
+				E1555BA12E83BFB200F95173 /* SwiftDate in Frameworks */,
+				E1555BBD2E83BFB200F95173 /* CoreRepositoryRequest in Frameworks */,
+				E1555BA52E83BFB200F95173 /* Toaster in Frameworks */,
+				E1555BA72E83BFB200F95173 /* CoreAPNS in Frameworks */,
+				E1555BB52E83BFB200F95173 /* CoreRepository in Frameworks */,
+				E1555B9F2E83BFB200F95173 /* CombineCocoa in Frameworks */,
+				E1555BB32E83BFB200F95173 /* CoreReduxList in Frameworks */,
+				E1555BA32E83BFB200F95173 /* CoreList in Frameworks */,
+				E1555BAB2E83BFB200F95173 /* CoreDataStore in Frameworks */,
+				E1555BB72E83BFB200F95173 /* CoreRepositoryDataStore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1555B102E83BE6400F95173 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1555BC92E83BFC000F95173 /* CoreBase in Frameworks */,
+				E1555BDB2E83BFC000F95173 /* CoreRepositoryRemote in Frameworks */,
+				E1555BC12E83BFC000F95173 /* SwiftDate in Frameworks */,
+				E1555BD12E83BFC000F95173 /* CoreRedux in Frameworks */,
+				E1555BD92E83BFC000F95173 /* CoreRepositoryLocal in Frameworks */,
+				E1555BC52E83BFC000F95173 /* Toaster in Frameworks */,
+				E1555BC72E83BFC000F95173 /* CoreAPNS in Frameworks */,
+				E1555BDD2E83BFC000F95173 /* CoreRepositoryRequest in Frameworks */,
+				E1555BCF2E83BFC000F95173 /* CoreRealmDataStore in Frameworks */,
+				E1555BBF2E83BFC000F95173 /* CombineCocoa in Frameworks */,
+				E1555BD52E83BFC000F95173 /* CoreRepository in Frameworks */,
+				E1555BCD2E83BFC000F95173 /* CoreMacrosClient in Frameworks */,
+				E1555BD32E83BFC000F95173 /* CoreReduxList in Frameworks */,
+				E1555BCB2E83BFC000F95173 /* CoreMacros in Frameworks */,
+				E1555BC32E83BFC000F95173 /* CoreList in Frameworks */,
+				E1555BD72E83BFC000F95173 /* CoreRepositoryDataStore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E15559272E83BC4100F95173 = {
+			isa = PBXGroup;
+			children = (
+				E15559322E83BC4100F95173 /* Example */,
+				E1555B812E83BF7200F95173 /* Frameworks */,
+				E15559312E83BC4100F95173 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E15559312E83BC4100F95173 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E15559302E83BC4100F95173 /* Example.app */,
+				E1555AF72E83BE5000F95173 /* Example-CoreData.app */,
+				E1555B132E83BE6400F95173 /* Example-Realm.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1555B812E83BF7200F95173 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E155592F2E83BC4100F95173 /* Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E155593B2E83BC4200F95173 /* Build configuration list for PBXNativeTarget "Example" */;
+			buildPhases = (
+				E155592C2E83BC4100F95173 /* Sources */,
+				E155592D2E83BC4100F95173 /* Frameworks */,
+				E155592E2E83BC4100F95173 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				E15559322E83BC4100F95173 /* Example */,
+			);
+			name = Example;
+			packageProductDependencies = (
+				E15559402E83BC9700F95173 /* SwiftDate */,
+				E15559432E83BCAB00F95173 /* CoreList */,
+				E155594C2E83BD2400F95173 /* Toaster */,
+				E1555B822E83BF7200F95173 /* CombineCocoa */,
+				E1555B842E83BF7200F95173 /* CoreAPNS */,
+				E1555B862E83BF7200F95173 /* CoreBase */,
+				E1555B8A2E83BF7300F95173 /* CoreMacros */,
+				E1555B8C2E83BF7300F95173 /* CoreMacrosClient */,
+				E1555B902E83BF7300F95173 /* CoreRedux */,
+				E1555B922E83BF7300F95173 /* CoreReduxList */,
+				E1555B942E83BF7300F95173 /* CoreRepository */,
+				E1555B962E83BF7300F95173 /* CoreRepositoryDataStore */,
+				E1555B982E83BF7300F95173 /* CoreRepositoryLocal */,
+				E1555B9A2E83BF7300F95173 /* CoreRepositoryRemote */,
+				E1555B9C2E83BF7300F95173 /* CoreRepositoryRequest */,
+			);
+			productName = Example;
+			productReference = E15559302E83BC4100F95173 /* Example.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E1555AF62E83BE5000F95173 /* Example-CoreData */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1555B0E2E83BE5100F95173 /* Build configuration list for PBXNativeTarget "Example-CoreData" */;
+			buildPhases = (
+				E1555AF32E83BE5000F95173 /* Sources */,
+				E1555AF42E83BE5000F95173 /* Frameworks */,
+				E1555AF52E83BE5000F95173 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Example-CoreData";
+			packageProductDependencies = (
+				E1555B9E2E83BFB200F95173 /* CombineCocoa */,
+				E1555BA02E83BFB200F95173 /* SwiftDate */,
+				E1555BA22E83BFB200F95173 /* CoreList */,
+				E1555BA42E83BFB200F95173 /* Toaster */,
+				E1555BA62E83BFB200F95173 /* CoreAPNS */,
+				E1555BA82E83BFB200F95173 /* CoreBase */,
+				E1555BAA2E83BFB200F95173 /* CoreDataStore */,
+				E1555BAC2E83BFB200F95173 /* CoreMacros */,
+				E1555BAE2E83BFB200F95173 /* CoreMacrosClient */,
+				E1555BB02E83BFB200F95173 /* CoreRedux */,
+				E1555BB22E83BFB200F95173 /* CoreReduxList */,
+				E1555BB42E83BFB200F95173 /* CoreRepository */,
+				E1555BB62E83BFB200F95173 /* CoreRepositoryDataStore */,
+				E1555BB82E83BFB200F95173 /* CoreRepositoryLocal */,
+				E1555BBA2E83BFB200F95173 /* CoreRepositoryRemote */,
+				E1555BBC2E83BFB200F95173 /* CoreRepositoryRequest */,
+			);
+			productName = "Example-CoreData";
+			productReference = E1555AF72E83BE5000F95173 /* Example-CoreData.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E1555B122E83BE6400F95173 /* Example-Realm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1555B252E83BE6500F95173 /* Build configuration list for PBXNativeTarget "Example-Realm" */;
+			buildPhases = (
+				E1555B0F2E83BE6400F95173 /* Sources */,
+				E1555B102E83BE6400F95173 /* Frameworks */,
+				E1555B112E83BE6400F95173 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Example-Realm";
+			packageProductDependencies = (
+				E1555BBE2E83BFC000F95173 /* CombineCocoa */,
+				E1555BC02E83BFC000F95173 /* SwiftDate */,
+				E1555BC22E83BFC000F95173 /* CoreList */,
+				E1555BC42E83BFC000F95173 /* Toaster */,
+				E1555BC62E83BFC000F95173 /* CoreAPNS */,
+				E1555BC82E83BFC000F95173 /* CoreBase */,
+				E1555BCA2E83BFC000F95173 /* CoreMacros */,
+				E1555BCC2E83BFC000F95173 /* CoreMacrosClient */,
+				E1555BCE2E83BFC000F95173 /* CoreRealmDataStore */,
+				E1555BD02E83BFC000F95173 /* CoreRedux */,
+				E1555BD22E83BFC000F95173 /* CoreReduxList */,
+				E1555BD42E83BFC000F95173 /* CoreRepository */,
+				E1555BD62E83BFC000F95173 /* CoreRepositoryDataStore */,
+				E1555BD82E83BFC000F95173 /* CoreRepositoryLocal */,
+				E1555BDA2E83BFC000F95173 /* CoreRepositoryRemote */,
+				E1555BDC2E83BFC000F95173 /* CoreRepositoryRequest */,
+			);
+			productName = "Example-Realm";
+			productReference = E1555B132E83BE6400F95173 /* Example-Realm.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E15559282E83BC4100F95173 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					E155592F2E83BC4100F95173 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					E1555AF62E83BE5000F95173 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					E1555B122E83BE6400F95173 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+				};
+			};
+			buildConfigurationList = E155592B2E83BC4100F95173 /* Build configuration list for PBXProject "Example" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E15559272E83BC4100F95173;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E155593E2E83BC7D00F95173 /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+				E155593F2E83BC9700F95173 /* XCRemoteSwiftPackageReference "SwiftDate" */,
+				E15559422E83BCAB00F95173 /* XCRemoteSwiftPackageReference "CoreList" */,
+				E155594B2E83BD2400F95173 /* XCRemoteSwiftPackageReference "Toaster" */,
+				E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = E15559312E83BC4100F95173 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E155592F2E83BC4100F95173 /* Example */,
+				E1555AF62E83BE5000F95173 /* Example-CoreData */,
+				E1555B122E83BE6400F95173 /* Example-Realm */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E155592E2E83BC4100F95173 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1555AF52E83BE5000F95173 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1555B112E83BE6400F95173 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E155592C2E83BC4100F95173 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1555AF32E83BE5000F95173 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1555B0F2E83BE6400F95173 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E15559392E83BC4200F95173 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 739QU3SC96;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E155593A2E83BC4200F95173 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 739QU3SC96;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		E155593C2E83BC4200F95173 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 739QU3SC96;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dungntm58.Example;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		E155593D2E83BC4200F95173 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 739QU3SC96;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dungntm58.Example;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		E1555B0B2E83BE5100F95173 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 739QU3SC96;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Example-CoreData/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dungntm58.Example-CoreData";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E1555B0C2E83BE5100F95173 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 739QU3SC96;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Example-CoreData/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dungntm58.Example-CoreData";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E1555B262E83BE6500F95173 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 739QU3SC96;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Example-Realm/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dungntm58.Example-Realm";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E1555B272E83BE6500F95173 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 739QU3SC96;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Example-Realm/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dungntm58.Example-Realm";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E155592B2E83BC4100F95173 /* Build configuration list for PBXProject "Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E15559392E83BC4200F95173 /* Debug */,
+				E155593A2E83BC4200F95173 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E155593B2E83BC4200F95173 /* Build configuration list for PBXNativeTarget "Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E155593C2E83BC4200F95173 /* Debug */,
+				E155593D2E83BC4200F95173 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E1555B0E2E83BE5100F95173 /* Build configuration list for PBXNativeTarget "Example-CoreData" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1555B0B2E83BE5100F95173 /* Debug */,
+				E1555B0C2E83BE5100F95173 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E1555B252E83BE6500F95173 /* Build configuration list for PBXNativeTarget "Example-Realm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1555B262E83BE6500F95173 /* Debug */,
+				E1555B272E83BE6500F95173 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../iOSCore;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E155593E2E83BC7D00F95173 /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.1;
+			};
+		};
+		E155593F2E83BC9700F95173 /* XCRemoteSwiftPackageReference "SwiftDate" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/malcommac/SwiftDate";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		E15559422E83BCAB00F95173 /* XCRemoteSwiftPackageReference "CoreList" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dungntm58/CoreList";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.5;
+			};
+		};
+		E155594B2E83BD2400F95173 /* XCRemoteSwiftPackageReference "Toaster" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Toaster";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E15559402E83BC9700F95173 /* SwiftDate */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E155593F2E83BC9700F95173 /* XCRemoteSwiftPackageReference "SwiftDate" */;
+			productName = SwiftDate;
+		};
+		E15559432E83BCAB00F95173 /* CoreList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E15559422E83BCAB00F95173 /* XCRemoteSwiftPackageReference "CoreList" */;
+			productName = CoreList;
+		};
+		E155594C2E83BD2400F95173 /* Toaster */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E155594B2E83BD2400F95173 /* XCRemoteSwiftPackageReference "Toaster" */;
+			productName = Toaster;
+		};
+		E1555B822E83BF7200F95173 /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E155593E2E83BC7D00F95173 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
+		E1555B842E83BF7200F95173 /* CoreAPNS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreAPNS;
+		};
+		E1555B862E83BF7200F95173 /* CoreBase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreBase;
+		};
+		E1555B8A2E83BF7300F95173 /* CoreMacros */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreMacros;
+		};
+		E1555B8C2E83BF7300F95173 /* CoreMacrosClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreMacrosClient;
+		};
+		E1555B902E83BF7300F95173 /* CoreRedux */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRedux;
+		};
+		E1555B922E83BF7300F95173 /* CoreReduxList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreReduxList;
+		};
+		E1555B942E83BF7300F95173 /* CoreRepository */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepository;
+		};
+		E1555B962E83BF7300F95173 /* CoreRepositoryDataStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepositoryDataStore;
+		};
+		E1555B982E83BF7300F95173 /* CoreRepositoryLocal */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepositoryLocal;
+		};
+		E1555B9A2E83BF7300F95173 /* CoreRepositoryRemote */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepositoryRemote;
+		};
+		E1555B9C2E83BF7300F95173 /* CoreRepositoryRequest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepositoryRequest;
+		};
+		E1555B9E2E83BFB200F95173 /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E155593E2E83BC7D00F95173 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
+		E1555BA02E83BFB200F95173 /* SwiftDate */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E155593F2E83BC9700F95173 /* XCRemoteSwiftPackageReference "SwiftDate" */;
+			productName = SwiftDate;
+		};
+		E1555BA22E83BFB200F95173 /* CoreList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E15559422E83BCAB00F95173 /* XCRemoteSwiftPackageReference "CoreList" */;
+			productName = CoreList;
+		};
+		E1555BA42E83BFB200F95173 /* Toaster */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E155594B2E83BD2400F95173 /* XCRemoteSwiftPackageReference "Toaster" */;
+			productName = Toaster;
+		};
+		E1555BA62E83BFB200F95173 /* CoreAPNS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreAPNS;
+		};
+		E1555BA82E83BFB200F95173 /* CoreBase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreBase;
+		};
+		E1555BAA2E83BFB200F95173 /* CoreDataStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreDataStore;
+		};
+		E1555BAC2E83BFB200F95173 /* CoreMacros */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreMacros;
+		};
+		E1555BAE2E83BFB200F95173 /* CoreMacrosClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreMacrosClient;
+		};
+		E1555BB02E83BFB200F95173 /* CoreRedux */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRedux;
+		};
+		E1555BB22E83BFB200F95173 /* CoreReduxList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreReduxList;
+		};
+		E1555BB42E83BFB200F95173 /* CoreRepository */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepository;
+		};
+		E1555BB62E83BFB200F95173 /* CoreRepositoryDataStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepositoryDataStore;
+		};
+		E1555BB82E83BFB200F95173 /* CoreRepositoryLocal */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepositoryLocal;
+		};
+		E1555BBA2E83BFB200F95173 /* CoreRepositoryRemote */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepositoryRemote;
+		};
+		E1555BBC2E83BFB200F95173 /* CoreRepositoryRequest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepositoryRequest;
+		};
+		E1555BBE2E83BFC000F95173 /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E155593E2E83BC7D00F95173 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
+		E1555BC02E83BFC000F95173 /* SwiftDate */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E155593F2E83BC9700F95173 /* XCRemoteSwiftPackageReference "SwiftDate" */;
+			productName = SwiftDate;
+		};
+		E1555BC22E83BFC000F95173 /* CoreList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E15559422E83BCAB00F95173 /* XCRemoteSwiftPackageReference "CoreList" */;
+			productName = CoreList;
+		};
+		E1555BC42E83BFC000F95173 /* Toaster */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E155594B2E83BD2400F95173 /* XCRemoteSwiftPackageReference "Toaster" */;
+			productName = Toaster;
+		};
+		E1555BC62E83BFC000F95173 /* CoreAPNS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreAPNS;
+		};
+		E1555BC82E83BFC000F95173 /* CoreBase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreBase;
+		};
+		E1555BCA2E83BFC000F95173 /* CoreMacros */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreMacros;
+		};
+		E1555BCC2E83BFC000F95173 /* CoreMacrosClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreMacrosClient;
+		};
+		E1555BCE2E83BFC000F95173 /* CoreRealmDataStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRealmDataStore;
+		};
+		E1555BD02E83BFC000F95173 /* CoreRedux */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRedux;
+		};
+		E1555BD22E83BFC000F95173 /* CoreReduxList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreReduxList;
+		};
+		E1555BD42E83BFC000F95173 /* CoreRepository */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepository;
+		};
+		E1555BD62E83BFC000F95173 /* CoreRepositoryDataStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepositoryDataStore;
+		};
+		E1555BD82E83BFC000F95173 /* CoreRepositoryLocal */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepositoryLocal;
+		};
+		E1555BDA2E83BFC000F95173 /* CoreRepositoryRemote */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepositoryRemote;
+		};
+		E1555BDC2E83BFC000F95173 /* CoreRepositoryRequest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1555A642E83BE1500F95173 /* XCLocalSwiftPackageReference "../../iOSCore" */;
+			productName = CoreRepositoryRequest;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = E15559282E83BC4100F95173 /* Project object */;
+}

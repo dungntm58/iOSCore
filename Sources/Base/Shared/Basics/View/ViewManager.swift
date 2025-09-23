@@ -6,31 +6,28 @@
 //
 
 import UIKit
+import SwiftUI
+import CoreMacrosClient
 
-open class ViewManager: SceneAssociated {
+open class ViewManager: ViewManagable, SceneReferencing {
     private(set) public var currentViewController: UIViewController?
     private(set) public var rootViewController: UIViewController
 
-    fileprivate(set) public weak var scene: Scened?
+    public var scene: CoreMacroProtocols.Scene? {
+        SceneAssociationRegistry.shared.scene(for: self)
+    }
 
     public init(viewController: UIViewController) {
-        _ = UIViewController.swizzle
         self.rootViewController = viewController
         if let navigationController = viewController as? UINavigationController {
             self.currentViewController = navigationController.topViewController
             navigationController.viewControllers.forEach {
                 addHook($0)
-                if let scene = scene {
-                    $0.associate(with: scene)
-                }
             }
         } else if let tabBarController = viewController as? UITabBarController {
             self.currentViewController = tabBarController.selectedViewController
             tabBarController.viewControllers?.forEach {
                 addHook($0)
-                if let scene = scene {
-                    $0.associate(with: scene)
-                }
             }
         } else {
             self.currentViewController = viewController
@@ -38,37 +35,38 @@ open class ViewManager: SceneAssociated {
         if let currentViewController {
             addHook(currentViewController)
         }
-        if let scene = scene {
-            viewController.associate(with: scene)
-        }
+
+        // Register this ViewManager with the registry
+        ViewManagerRegistry.shared.registerContainer(rootViewController, with: self)
     }
 
-    func associate(with scene: Scened) {
-        self.scene = scene
-        rootViewController.associate(with: scene)
-        currentViewController?.associate(with: scene)
-        if let navigationController = rootViewController as? UINavigationController {
-            navigationController.viewControllers.forEach {
-                $0.associate(with: scene)
-            }
-        } else if let tabBarController = rootViewController as? UITabBarController {
-            tabBarController.viewControllers?.forEach {
-                $0.associate(with: scene)
-            }
+    /// Convenience initializer for any ViewRepresentable content
+    public convenience init<V: ViewRepresentable>(view: V) {
+        let viewController = view.asViewController()
+        self.init(viewController: viewController)
+    }
+
+    /// Create ViewManager with view wrapped in navigation controller
+    public convenience init<V: ViewRepresentable>(view: V, withNavigation: Bool) {
+        let viewController = view.asViewController()
+        if withNavigation {
+            let navigationController = UINavigationController(rootViewController: viewController)
+            self.init(viewController: navigationController)
+        } else {
+            self.init(viewController: viewController)
         }
     }
 }
 
-extension ViewManager: ViewManagable {
+extension ViewManager {
     @inlinable
     public func present(_ viewController: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
 #if !RELEASE && !PRODUCTION
         Swift.print("Present view controller", type(of: viewController))
 #endif
         addHook(viewController)
-        if let scene = scene {
-            viewController.associate(with: scene)
-        }
+        // Register new view controller with this ViewManager
+        ViewManagerRegistry.shared.register(viewController, with: self)
         currentViewController?.present(viewController, animated: true, completion: completion)
     }
 
@@ -78,9 +76,8 @@ extension ViewManager: ViewManagable {
         Swift.print("Push view controller", type(of: viewController))
 #endif
         addHook(viewController)
-        if let scene = scene {
-            viewController.associate(with: scene)
-        }
+        // Register new view controller with this ViewManager
+        ViewManagerRegistry.shared.register(viewController, with: self)
         (currentViewController as? UINavigationController ?? currentViewController?.navigationController)?.pushViewController(viewController, animated: true)
     }
 
@@ -90,9 +87,8 @@ extension ViewManager: ViewManagable {
         Swift.print("Show view controller", type(of: viewController))
 #endif
         addHook(viewController)
-        if let scene = scene {
-            viewController.associate(with: scene)
-        }
+        // Register new view controller with this ViewManager
+        ViewManagerRegistry.shared.register(viewController, with: self)
         currentViewController?.show(viewController, sender: sender)
     }
 
@@ -101,7 +97,6 @@ extension ViewManager: ViewManagable {
         Swift.print("Dismiss root view controller")
 #endif
         rootViewController.internalDismiss(animated: flag, completion: completion)
-        scene?.detach()
     }
 
     public func goBack(animated flag: Bool = true, completion: (() -> Void)? = nil) {
@@ -112,18 +107,15 @@ extension ViewManager: ViewManagable {
             return
         }
         currentViewController.internalDismiss(animated: flag, completion: completion)
-        if currentViewController == rootViewController {
-            scene?.detach()
-        }
     }
 }
 
 extension ViewManager {
     @usableFromInline
     func addHook(_ viewController: UIViewController) {
-        viewController.whenWillAppear { [weak self] value in
-            self?.currentViewController = value
-        }
+        LifecycleStorage.shared.addHandler({ [weak self] in
+            self?.currentViewController = viewController
+        }, for: .viewWillAppear, target: viewController)
 
         switch viewController.modalPresentationStyle {
         case .fullScreen, .currentContext:
@@ -144,10 +136,10 @@ extension ViewManager {
     }
 
     private func addHookViewWillDisappear(_ viewController: UIViewController) {
-        viewController.whenWillDisappear { [weak self] value in
-            guard let presentingViewController = value.presentingViewController else { return }
+        LifecycleStorage.shared.addHandler({ [weak self] in
+            guard let presentingViewController = viewController.presentingViewController else { return }
             self?.currentViewController = presentingViewController
-        }
+        }, for: .viewWillDisappear, target: viewController)
     }
 }
 
