@@ -67,7 +67,7 @@ Dependencies are automatically resolved and associated with their owning scene:
 
 ```swift
 @SceneDependency
-class AuthService: SceneDependency {
+class AuthService {
     func authenticate(username: String, password: String) async -> Bool {
         // Can access the owning scene through `scene` property
         return true
