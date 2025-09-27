@@ -166,7 +166,6 @@ let package = Package(
             name: "CoreRepository",
             path: "Sources/Repository",
             exclude: [
-                "Shared/Basics/Identifiable.swift",
                 "Shared/DataStore",
                 "Shared/Local",
                 "Shared/Remote",

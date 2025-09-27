@@ -10,11 +10,9 @@ import CoreBase
 import CoreRepository
 
 struct UserEntity: Identifiable, Codable, Equatable {
-    typealias IDType = String
-    
     var _id: String = ""
     var email: String = ""
     var name: String = ""
     
-    var id: IDType { _id }
+    var id: String { _id }
 }

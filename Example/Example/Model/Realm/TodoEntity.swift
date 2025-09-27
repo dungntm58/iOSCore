@@ -8,6 +8,7 @@
 
 import Foundation
 import DifferenceKit
+import Realm
 import RealmSwift
 import CoreRepository
 import CoreRealmDataStore

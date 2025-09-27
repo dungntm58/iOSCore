@@ -49,7 +49,17 @@ class UserEntity: Identifiable, Decodable, ManagedObjectWrapper {
 }
 
 extension UserEntity: CoreDataIdentifiable {
-    typealias IDType = String
+    typealias ID = String
     
     static func keyPathForID() -> String { "id" }
+}
+
+extension UserEntity {
+    convenience init(_id: String, email: String, name: String) {
+        let coreEntity = UserCoreEntity()
+        coreEntity.id = _id
+        coreEntity.email = email
+        coreEntity.name = name
+        self.init(object: coreEntity)
+    }
 }

@@ -10,10 +10,13 @@ import RealmSwift
 import CoreRealmDataStore
 import CoreBase
 import CoreRepository
+import CoreRepositoryDataStore
+import Foundation
 
 class TodoDataStore: RealmIdentifiableDataStore {
     let realm: Realm
     let updatePolicy: Realm.UpdatePolicy
+    let ttl: TimeInterval = 60
     
     init() {
         self.realm = try! Realm()

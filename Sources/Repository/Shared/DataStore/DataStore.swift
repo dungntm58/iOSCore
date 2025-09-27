@@ -33,3 +33,10 @@ public protocol IdentifiableDataStore<T>: DataStore where T: Identifiable {
 
     func lastID() async throws -> T.ID
 }
+
+public extension IdentifiableDataStore {
+    func delete(_ id: T.ID, options: DataStoreFetchOption?) async throws {
+        let value = try await get(id, options: options)
+        try await delete(value)
+    }
+}

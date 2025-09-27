@@ -59,4 +59,8 @@ class UserDataStore: IdentifiableDataStore {
             userDefaults.setValue(nil, forKey: $0.id)
         }
     }
+    
+    func delete(_ id: String, options: CoreRepository.DataStoreFetchOption?) async throws {
+        
+    }
 }

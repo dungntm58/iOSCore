@@ -12,8 +12,6 @@ import CoreRepository
 import CoreBase
 
 struct TodoEntity: Identifiable, Decodable, Equatable {
-    typealias IDType = String
-    
     var _id: String = ""
     var title: String = ""
     var completed: Bool = false

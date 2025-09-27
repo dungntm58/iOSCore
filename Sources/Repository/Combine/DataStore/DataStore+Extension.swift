@@ -118,12 +118,6 @@ extension DataStore {
 
 extension IdentifiableDataStore {
     @inlinable
-    public func delete(_ id: T.ID, options: DataStoreFetchOption?) async throws {
-        let value = try await get(id, options: options)
-        try await delete(value)
-    }
-
-    @inlinable
     public func get(_ id: T.ID, options: DataStoreFetchOption?) -> AnyPublisher<T, Error> {
         Future { promise in
             Task {

@@ -88,6 +88,7 @@
 				"/Localized: Main.storyboard",
 				AppPreferences.swift,
 				Assets.xcassets,
+				Component/Storyboard.swift,
 				Compulsory/AppDelegate.swift,
 				Compulsory/Constant.swift,
 				"Compulsory/CoreData/Constant+Extension.swift",
@@ -140,6 +141,7 @@
 				"/Localized: Main.storyboard",
 				AppPreferences.swift,
 				Assets.xcassets,
+				Component/Storyboard.swift,
 				Compulsory/AppDelegate.swift,
 				Compulsory/Constant.swift,
 				"Compulsory/Realm/Constant+Extension.swift",
@@ -719,7 +721,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 739QU3SC96;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Example-CoreData/Info.plist";
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -757,7 +759,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 739QU3SC96;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Example-CoreData/Info.plist";
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -796,7 +798,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 739QU3SC96;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Example-Realm/Info.plist";
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -834,7 +836,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 739QU3SC96;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Example-Realm/Info.plist";
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
